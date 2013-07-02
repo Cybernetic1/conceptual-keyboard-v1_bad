@@ -22,7 +22,7 @@ Currently the Chinese dictionary (同義詞詞林) is automatically loaded.
 
 To Run:
 
-Grab the jar file from /dist/conkey.jar and run:
+"git clone" the project to your directory.  Then run the jar file:
 
     java -jar dist/conkey.jar
 
