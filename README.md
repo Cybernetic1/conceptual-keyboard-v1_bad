@@ -5,6 +5,7 @@ The idea is to use "concepts" to type words.  For example, to type "brassiere"
 you may go to the categories "physical matter" --> "clothing" --> "women" ...
 
 Dictionaries that are organized thematically include:
+
 1. Roget's Thesaurus (1922 version is free on Gutenberg)
 2. Roget's International Thesaurus
 3. Longman Lexicon of Contemporary English
@@ -12,6 +13,7 @@ Dictionaries that are organized thematically include:
 5. (Chinese) 同義詞詞林
 
 We can also make use of various ontologies such as:
+
 6. WordNet
 
 Right now I'm experimenting with various categorization schemes.
@@ -71,4 +73,5 @@ interested to help develop this or have suggestions!
 My e-mail = generic.intelligence at Gmail
 
 TO-DO:
+
 1. Extract categories from Roget's Thesaurus (1922 version)
