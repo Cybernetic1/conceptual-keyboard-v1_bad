@@ -17,19 +17,25 @@ We can also make use of various ontologies such as:
 6. WordNet
 
 Right now I'm experimenting with various categorization schemes.
+
 Currently the Chinese dictionary (同義詞詞林) is automatically loaded.
 
 To Run:
 
 Grab the jar file from /dist/conkey.jar and run:
+
     java -jar dist/conkey.jar
+
 then open this URL in your browser:
+
     http://localhost:9090/
 
 To Install Project:
 
 Open in NetBeans IDE (I'm using 7.3.1).
+
 For Chinese texts, be careful to use UTF-8 encoding, or you'll see garbage.
+
 I used java Spark as the web server, and jQuery.
 
 Explanation of the GUI:
