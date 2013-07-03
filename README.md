@@ -2,7 +2,7 @@ conceptual-keyboard
 ===================
 
 The idea is to use "concepts" to type words.  For example, to type "brassiere"
-you may go to the categories "physical matter" --> "clothing" --> "women" ...
+you may go through the categories "physical matter" --> "clothing" --> "women" ...
 
 Dictionaries that are organized thematically include:
 
@@ -22,7 +22,11 @@ Currently the Chinese dictionary (同義詞詞林) is automatically loaded.
 
 To Run:
 
-"git clone" the project to your directory.  Then run the jar file:
+Clone the project to your directory:
+
+    git clone https://github.com/Cybernetic1/conceptual-keyboard.git
+
+Then run the jar file:
 
     java -jar dist/conkey.jar
 
