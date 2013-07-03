@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+// Code for storing the database in a tree, and for handling the user interface
 
-// This holds the tree data structure.
+// // This holds the tree data structure.
 // The format is an array of arrays of arrays...
 // For example, the top-level nodes are: database[1], database[2], database[3], etc...
 // All node indexes start at 1.
