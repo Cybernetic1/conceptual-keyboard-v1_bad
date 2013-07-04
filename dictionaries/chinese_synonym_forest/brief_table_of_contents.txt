@@ -1,0 +1,106 @@
+A 人
+Aa 泛称
+Ab 男女老少
+Ac 体态
+Ad 籍属
+Ae 职业
+Af 身份
+Ag 状况
+Ah 亲人 眷属
+Ai 辈次
+Aj 关系
+Ak 品性
+Al 才识
+Am 信仰
+An 丑类
+B 物
+Ba 统称
+Bb 拟状物
+Bc 物体的部分
+Bd 天体
+Be 地貌
+Bf 气象
+Bg 自然物
+Bh 植物
+Bi 动物
+Bj 微生物
+Bk 全身
+Bl 排泄物 分泌物
+Bm 材料
+Bn 建筑物
+Bo 机具
+Bp 用品
+Bq 衣物
+Br 食品 药品 毒品
+C 时间与空间
+Ca 时间
+Cb 空间
+D 抽象事物
+Da 事情 情况
+Db 事理
+Dc 外貌
+Dd 性能
+De 性格 才能
+Df 意识
+Dg 比喻物
+Dh 臆想物
+Di 社会 政法
+Dj 经济
+Dk 文教
+Dl 疾病
+Dm 机构
+Dn 数量 单位
+E 特徵
+Ea 外形
+Eb 表象
+Ec 颜色 味道
+Ed 性质
+Ee 德才
+Ef 境况
+F 动作
+Fa 上肢动作
+Fb 下肢动作
+Fc 头部动作
+Fd 全身动作
+G 心理活动
+Ga 心理状态
+Gb 心理活动
+Gc 能愿
+H 活动
+Ha 政治活动
+Hb 军事活动
+Hc 行政管理
+Hd 生产
+He 经济活动
+Hf 交通运输
+Hg 教卫科研
+Hh 文体活动
+Hi 社交
+Hj 生活
+Hk 宗教活动
+Hl 迷信活动
+Hm 公安 司法
+Hn 恶行
+I 现象与状态
+Ia 自然现象
+Ib 生理现象
+Ic 表情
+Id 物体状态
+Ie 事态
+If 境遇
+Ig 始末
+Ih 变化
+J 关联
+Ja 联系
+Jb 异同
+Jc 配合
+Jd 存在
+Je 影响
+K 助语
+Ka 疏状
+Kb 中介
+Kc 联接
+Kd 辅助
+Ke 呼叹
+Kf 拟声
+L 敬语

@@ -1,0 +1,1178 @@
+
+	Class I. WORDS EXPRESSING ABSTRACT RELATIONS
+	Section I. EXISTENCE
+	Sub-section 1. BEING, IN THE ABSTRACT
+#1. Existence
+#2. Inexistence
+	Sub-section 2. BEING, IN THE CONCRETE
+#3. Substantiality
+#4. Unsubstantiality
+	Sub-section 3. FORMAL EXISTENCE
+#5. Intrinsicality
+#6. Extrinsicality
+	Sub-section 4. MODAL EXISTENCE
+#7. State
+#8. Circumstance
+	Section II. RELATION
+	Sub-section 1. ABSOLUTE RELATION
+#9. Relation
+#10. Irrelation
+#11. Consanguinity
+#12. Correlation
+#13. Identity
+#14. Contrariety
+#15. Difference
+	Sub-section 2. CONTINUOUS RELATION
+#16. Uniformity
+#16a. Nonuniformity
+	Sub-section 3. PARTIAL RELATION
+#17. Similarity
+#18. Dissimilarity
+#19. Imitation
+#20. Nonimitation
+#20a. Variation
+#21. Copy
+#22. Prototype
+	Sub-section 4. GENERAL RELATION
+#23. Agreement
+#24. Disagreement
+	Section III. QUANTITY
+	Sub-section 1. SIMPLE QUANTITY
+#25. Quantity
+#26. Degree
+	Sub-section 2. COMPARATIVE QUANTITY
+#27. Equality
+#28. Inequality
+#29. Mean
+#30. Compensation
+#31. Greatness
+#32. Smallness
+#33. Superiority
+#34. Inferiority
+#35. Increase
+#36. Nonincrease, Decrease
+	Sub-section 3. CONJUNCTIVE QUANTITY
+#37. Addition
+#38. Nonaddition. Subtraction
+#39. Adjunct
+#40. Remainder
+#40a. Decrement
+#41. Mixture
+#42. Simpleness
+#43. Junction
+#44. Disjunction
+#45. Connection
+#46. Coherence
+#47. Incoherence
+#48. Combination
+#49. Decomposition
+	Sub-section 4. CONCRETE QUANTITY
+#50. Whole
+#51. Part
+#52. Completeness
+#53. Incompleteness
+#54. Composition
+#55. Exclusion
+#56. Component
+#57. Extraneousness
+	Section IV. ORDER
+	Sub-section 1. ORDER IN GENERAL
+#58. Order
+#59. Disorder
+#59a. Complexity
+#60. Arrangement
+#61. Derangement
+	Sub-section 2. CONSECUTIVE ORDER
+#62. Precedence
+#63. Sequence
+#64. Precursor
+#65. Sequel
+#66. Beginning
+#67. End
+#68. Middle
+#69. Continuity
+#70. Discontinuity
+#71. Term
+	Sub-section 3. COLLECTIVE ORDER
+#72. Assemblage
+#73. Nonassemblage. Dispersion
+#74. Focus
+	Sub-section 4. DISTRIBUTIVE ORDER
+#75. Class
+#76. Inclusion
+#77. Exclusion
+#78. Generality
+#79. Speciality
+	Sub-section 5. ORDER AS REGARDS CATEGORIES
+#80. Normality
+#81. Multiformity
+#82. Conformity
+#83. Unconformity
+	Section V. NUMBER
+	Sub-section 1. NUMBER, IN THE ABSTRACT
+#84. Number
+#85. Numeration
+#86. List
+	Sub-section 2. DETERMINATE NUMBER
+#87. Unity
+#88. Accompaniment
+#89. Duality
+#90. Duplication
+#91. bisection
+#92. Triality
+#93. Triplication
+#94. Trisection
+#95. Four
+#96. Quadruplication
+#97. Quadrisection
+#98. Five
+#99. Quinquesection
+#100. Plurality
+	Sub-section 3. INDETERMINATE NUMBER
+#100a. Fraction
+#101. Zero
+#102. Multitude
+#103. Fewness
+#104. Repetition
+#105. Infinity
+	Section VI. TIME
+	Sub-section 1. ABSOLUTE TIME
+#106. Time
+#107. Neverness
+#108. Period
+#108a. Contingent Duration
+#109. Course
+#110. Diuturnity
+#111. Transientness
+#112. Perpetuity
+#113. Instantaneity
+#114. Chronometry
+#115. Anachronism
+	Sub-section 2. RELATIVE TIME
+#116. Priority
+#117. Posteriority
+#118. The Present Time
+#119. Different time
+#120. Synchronism
+#121. Futurity
+#122. The Past
+#123. Newness
+#124. Oldness
+#125. Morning
+#126. Evening
+#127. Youth
+#128. Age
+#129. Infant
+#130. Veteran
+#131. Adolescence
+#132. Earliness
+#132a. Punctuality
+#133. Lateness
+#134. Occasion
+#135. Untimeliness
+	Sub-section 3. RECURRENT TIME
+#136. Frequency
+#137. Infrequency
+#138. Periodicity
+#139. Irregularity of recurrence
+	Section VII. CHANGE
+	Sub-section 1. SIMPLE CHANGE
+#140. Change
+#141. Permanence
+#142. Cessation
+#143. Continuance in action
+#144. Conversion
+#145. Reversion
+#146. Revolution
+#147. Substitution
+#148. Interchange
+	Sub-section 2. COMPLEX CHANGE
+#149. Changeableness
+#150. Stability
+#151. Eventuality
+#152. Destiny
+	Section VIII. CAUSATION
+	Sub-section 1. CONSTANCY OF SEQUENCE IN EVENTS
+#153. Cause
+#154. Effect
+#155. Attribution
+#156. Chance
+	Sub-section 2. CONNECTION BETWEEN CAUSE AND EFFECT
+#157. Power
+#158. Impotence
+#159. Strength
+#160. Weakness
+	Sub-section 3. POWER IN OPERATION
+#161. Production
+#162. Destruction
+#163. Reproduction
+#164. Producer
+#165. Destroyer
+#166. Paternity
+#167. Posterity
+#168. Productiveness
+#169. Unproductiveness
+#170. Agency
+#171. Physical Energy
+#172. Physical Inertness
+#173. Violence
+#174. Moderation
+	Sub-section 4. INDIRECT POWER
+#175. Influence
+#175a. Absence of Influence
+#176. Tendency
+#177. Liability
+	Sub-section 5. COMBINATIONS OF CAUSES
+#178. Concurrence
+#179. Counteraction
+	Class II. WORDS RELATING TO SPACE
+	Section I. SPACE IN GENERAL
+	Sub-section 1. ABSTRACT SPACE
+#180. Space
+#180a. Inextension
+#181. Region
+#182. Place
+	Sub-section 2. RELATIVE SPACE
+#183. Situation
+#184. Location
+#185. Displacement
+	Sub-section 3. EXISTENCE IN SPACE
+#186. Presence
+#187. Absence
+#188. Inhabitant
+#189. Abode
+#190. Contents
+#191. Receptacle
+	Section II. DIMENSIONS
+	Sub-section 1. GENERAL DIMENSIONS
+#192. Size
+#193. Littleness
+#194. Expansion
+#195. Contraction
+#196. Distance
+#197. Nearness
+#198. Interval
+#199. Contiguity
+	Sub-section 2. LINEAR DIMENSIONS
+#200. Length
+#201. Shortness
+#202. Breadth, Thickness,
+#203. Narrowness. Thinness
+#204. Layer
+#205. Filament
+#206. Height
+#207. Lowness
+#208. Depth
+#209. Shallowness
+#210. Summit
+#211. Base
+#212. Verticality
+#213. Horizontality
+#214. Pendency
+#215. Support
+#216. Parallelism
+#216a. Perpendicularity
+#217. Obliquity
+#218. Inversion
+#219. Crossing
+	Sub-section 3. CENTRICAL DIMENSIONS
+#220. Exteriority
+#221. Interiority
+#222. Centrality
+#223. Covering
+#224. Lining
+#225. Clothing
+#226. Divestment
+#227. Circumjacence
+#228. Interposition
+#229. Circumscription
+#230. Outline
+#231. Edge
+#232. Inclosure
+#233. Limit
+#234. Front
+#235. Rear
+#236. Laterality
+#237. Contraposition
+#238. Dextrality
+#239. Sinistrality
+	Section III. FORM
+	Sub-section 1. GENERAL FORM
+#240. Form
+#241. Amorphism
+#242. Symmetry
+#243. Distortion
+	Sub-section 2. SPECIAL FORM
+#244. Angularity
+#245. Curvature
+#246. Straightness
+#247. Circularity
+#248. Convolution
+#249. Rotundity
+	Sub-section 3. SUPERFICIAL FORM
+#250. Convexity
+#251. Flatness
+#252. Concavity
+#253. Sharpness
+#254. Bluntness
+#255. Smoothness
+#256. Roughness
+#257. Notch
+#258. Fold
+#259. Furrow
+#260. Opening
+#261. Closure
+#262. Perforator
+#263. Stopper
+	Section IV. MOTION
+	Sub-section 1. MOTION IN GENERAL
+#264. Motion
+#265. Quiescence
+#266. Journey
+#267. Navigation
+#268. Traveler
+#269. Mariner
+#270. Transference
+#271. Carrier
+#272. Vehicle
+#273. Ship
+	Sub-section 2. DEGREES OF MOTION
+#274. Velocity
+#275. Slowness
+	Sub-section 3. MOTION CONJOINED WITH FORCE
+#276. Impulse
+#277. Recoil
+	Sub-section 4. MOTION WITH REFERENCE TO DIRECTION
+#278. Direction
+#279. Deviation
+#280. Precession
+#281. Sequence
+#282. Progression
+#283. Regression
+#284. Propulsion
+#285. Traction
+#286. Approach
+#287. Recession
+#288. Attraction
+#289. Repulsion
+#290. Convergence
+#291. Divergence
+#292. Arrival
+#293. Departure
+#294. Ingress
+#295. Egress
+#296. Reception
+#297. Ejection
+#298. Food
+#299. Excretion
+#300. Insertion
+#301. Extraction
+#302. Passage
+#303. Transcursion
+#304. Shortcoming
+#305. Ascent
+#306. Descent
+#307. Elevation
+#308. Depression
+#309. Leap
+#310. Plunge
+#311. Circuition
+#312. Rotation
+#313. Evolution
+#314. Oscillation
+#315. Agitation
+	Class III. WORDS RELATING TO MATTER
+	Section I. MATTER IN GENERAL
+#316. Materiality
+#317. Immateriality
+#318. World
+#319. Gravity
+#320. Levity
+	Section II. INORGANIC MATTER
+	Sub-section 1. SOLID MATTER
+#321. Density
+#322. Rarity
+#323. Hardness
+#324. Softness
+#325. Elasticity
+#326. Inelasticity
+#327. Tenacity
+#328. Brittleness
+#329. Texture
+#330. Pulverulence
+#331. Friction
+#332. Lubrication
+	Sub-section 2. FLUID MATTER
+#333. Fluidity
+#334. Gaseity
+#335. Liquefaction
+#336. Vaporization
+#337. Water
+#338. Air
+#339. Moisture
+#340. Dryness
+#341. Ocean
+#342. Land
+#343. Gulf. Lake
+#344. Plain
+#345. Marsh
+#346. Island
+#347. Stream
+#348. River
+#349. Wind
+#350. Conduit
+#351. Airpipe
+	Sub-section 3. IMPERFECT FLUIDS
+#352. Semiliquidity
+#353. Bubble
+#354. Pulpiness
+#355. Unctuousness
+#356. Oil
+#356a. Resin
+	Section III. ORGANIC MATTER
+	Sub-section 1. VITALITY
+#357. Organization
+#358. Inorganization
+#359. Life
+#360. Death
+#361. Killing
+#362. Corpse
+#363. Interment
+#364. Animality
+#365. Vegetability
+#366. Animal
+#367. Vegetable
+#368. Zoology
+#369. Botany
+#370. Husbandry
+#371. Agriculture
+#372. Mankind
+#373. Man
+#374. Woman
+#374a. Sexuality
+	Sub-section 2. SENSATION
+#375. Physical Sensibility
+#376. Physical Insensibility
+#377. Physical Pleasure
+#378. Physical Pain
+#379. Touch
+#380. Sensations of Touch
+#381. Numbness
+#382. Heat
+#383. Cold
+#384. Calefaction
+#385. Refrigeration
+#386. Furnace
+#387. Refrigerator
+#388. Fuel
+#388a. Insulation
+#389. Thermometer
+#390. Taste
+#391. Insipidity
+#392. Pungency
+#392a. Saltiness
+#392b. Bitterness
+#393. Condiment
+#394. Savoriness
+#395. Unsavoriness
+#396. Sweetness
+#397. Sourness
+#398. Odor
+#399. Inodorousness
+#400. Fragrance
+#401. Fetor
+#401a. Acridity
+#402. Sound
+#403. Silence
+#404. Loudness
+#405. Faintness
+#406. Snap
+#407. Roll
+#408. Resonance
+#408a. Nonresonance
+#409. Sibilation
+#410. Stridor
+#411. Cry
+#412. Ululation
+#413. Melody. Concord
+#414. Discord
+#415. Music
+#416. Musician
+#417. Musical Instruments
+#418. Hearing
+#419. Deafness
+#420. Light
+#421. Darkness
+#422. Dimness
+#423. Luminary
+#424. Shade
+#425. Transparency
+#426. Opacity
+#426a. Turbidity
+#427. Semitransparency
+#428. Color
+#429. Achromatism
+#430. Whiteness
+#431. Blackness
+#432. Gray
+#433. Brown
+#434. Redness
+#435. Greenness
+#436. Yellowness
+#437. Purple
+#438. Blueness
+#439. Orange
+#440. Variegation
+#441. Vision
+#442. Blindness
+#443. Dimsightedness
+#444. Spectator
+#445. Optical Instruments
+#446. Visibility
+#447. Invisibility
+#448. Appearance
+#449. Disappearance
+	Class IV. WORDS RELATING TO THE INTELLECTUAL FACULTIES
+	Division I. FORMATION OF IDEAS
+	Section I. OPERATIONS OF INTELLECT IN GENERAL
+#450. Intellect
+#450a. Absence or want of Intellect
+#451. Thought
+#452. Incogitancy
+#453. Idea
+#454. Topic
+	Section II. PRECURSORY CONDITIONS AND OPERATIONS
+#455. Curiosity
+#456. Incuriosity
+#457. Attention
+#458. Inattention
+#459. Care
+#460. Neglect
+#461. Inquiry
+#462. Answer
+#463. Experiment
+#464. Comparison
+#464a. Incomparability
+#465. Discrimination
+#465a. Indiscrimination
+#465b. Identification
+#466. Measurement
+	Section III. MATERIALS FOR REASONING
+#467. Evidence
+#468. Counter Evidence
+#469. Qualification
+#470. Possibility
+#471. Impossibility
+#472. Probability
+#473. Improbability
+#474. Certainty
+#475. Uncertainty
+	Section IV. REASONING PROCESSES
+#476. Reasoning,
+#477. Intuition. &amp; Sophistry
+#478. Demonstration
+#479. Confutation
+	Section V. RESULTS OF REASONING
+#480. Judgment
+#480a. Discovery
+#481. Misjudgment
+#482. Overestimation
+#483. Underestimation
+#484. Belief
+#485. Unbelief. Doubt
+#486. Credulity
+#487. Incredulity
+#488. Assent
+#489. Dissent
+#490. Knowledge
+#491. Ignorance
+#492. Scholar
+#493. Ignoramus
+#494. Truth
+#495. Error
+#496. Maxim
+#497. Absurdity
+#498. Intelligence, Wisdom
+#499. Imbecility. Folly
+#500. Sage
+#501. Fool
+#502. Sanity
+#503. Insanity
+#504. Madman
+	Section VI. EXTENSION OF THOUGHT
+	Sub-section 1. To the Past
+#505. Memory
+#506. Oblivion
+	Sub-section 2. To the Future
+#507. Expectation
+#508. Inexpectation
+#509. Disappointment
+#510. Foresight
+#511. Prediction
+#512. Omen
+#513. Oracle
+	Section VII. CREATIVE THOUGHT
+#514. Supposition
+#514a. Analogy
+#515. Imagination
+	Division II. COMMUNICATION OF IDEAS
+	Section I. NATURE OF IDEAS COMMUNICATED
+#516. Meaning
+#517. Unmeaningness
+#518. Intelligibility
+#519. Unintelligibility
+#520. Equivocalness
+#521. Metaphor
+#522. Interpretation
+#523. Misinterpretation
+#524. Interpreter
+	Section II. MODES OF COMMUNICATION
+#525. Manifestation
+#526. Latency. Implication
+#527. Information
+#527a. Correction
+#528. Concealment
+#529. Disclosure
+#530. Ambush
+#531. Publication
+#532. News
+#533. Secret
+#534. Messenger
+#535. Affirmation
+#536. Negation
+#537. Teaching
+#538. Misteaching
+#539. Learning
+#540. Teacher
+#541. Learner
+#542. School
+#543. Veracity
+#544. Falsehood
+#545. Deception
+#546. Untruth
+#547. Dupe
+#548. Deceiver
+#549. Exaggeration
+	Section III. MEANS OF COMMUNICATING IDEAS
+	Sub-section 1. NATURAL MEANS
+#550. Indication
+#551. Record
+#552. Obliteration
+#553. Recorder
+#554. Representation
+#555. Misrepresentation
+#556. Painting
+#557. Sculpture
+#558. Engraving
+#559. Artist
+	Sub-section 2. CONVENTIONAL MEANS
+#560. Language
+#561. Letter
+#562. Word
+#563. Neologism
+#564. Nomenclature
+#565. Misnomer
+#566. Phrase
+#567. Grammar
+#568. Solecism
+#569. Style
+#570. Perspicuity
+#571. Obscurity
+#572. Conciseness
+#573. Diffuseness
+#574. Vigor
+#575. Feebleness
+#576. Plainness
+#577. Ornament
+#578. Elegance
+#579. Inelegance
+#580. Voice
+#581. Aphony
+#582. Speech
+#583. Stammering
+#584. Loquacity
+#585. Taciturnity
+#586. Allocution
+#587. Response
+#588. Conversation
+#589. Soliloquy
+#590. Writing
+#591. Printing
+#592. Correspondence
+#593. Book
+#594. Description
+#595. Dissertation
+#596. Compendium
+#597. Poetry
+#598. Prose
+#599. The Drama
+	Class V. WORDS RELATING TO THE VOLUNTARY POWERS
+	Division I. INDIVIDUAL VOLITION
+	Section I. VOLITION IN GENERAL
+	Sub-section 1. Acts of Volition
+#600. Will
+#601. Necessity
+#602. Willingness
+#603. Unwillingness
+#604. Resolution
+#604a. Perseverance
+#605. Irresolution
+#606. Obstinacy
+#607. Tergiversation
+#608. Caprice
+#609. Choice
+#609a. Absence of Choice
+#610. Rejection
+#611. Predetermination
+#612. Impulse
+#613. Habit
+#614. Desuetude
+	Sub-section 2. Causes of Volition
+#615. Motive
+#615a. Absence of Motive
+#616. Dissuasion
+#617. Pretext
+	Sub-section 3. Objects of Volition
+#618. Good
+#619. Evil
+	Section II. PROSPECTIVE VOLITION
+	Sub-section 1. CONCEPTIONAL VOLITION
+#620. Intention
+#621. Chance
+#622. Pursuit
+#623. Avoidance
+#624. Relinquishment
+#625. Business
+#626. Plan
+#627. Method
+#628. Mid-course
+#629. Circuit
+#630. Requirement
+	Sub-section 2. SUBSERVIENCE TO ENDS
+#631. Instrumentality
+#632. Means
+#633. Instrument
+#634. Substitute
+#635. Materials
+#636. Store
+#637. Provision
+#638. Waste
+#639. Sufficiency
+#640. Insufficiency
+#641. Redundancy
+#642. Importance
+#643. Unimportance
+#644. Utility
+#645. Inutility
+#646. Expedience
+#647. Inexpedience
+#648. Goodness
+#649. Badness
+#650. Perfection
+#651. Imperfection
+#652. Cleanness
+#653. Uncleanness
+#654. Health
+#655. Disease
+#656. Salubrity
+#657. Insalubrity
+#658. Improvement
+#659. Deterioration
+#660. Restoration
+#661. Relapse
+#662. Remedy
+#663. Bane
+#664. Safety
+#665. Danger
+#666. Refuge
+#667. Pitfall
+#668. Warning
+#669. Alarm
+#670. Preservation
+#671. Escape
+#672. Deliverance
+	Sub-section 3. PRECURSORY MEASURES
+#673. Preparation
+#674. Nonpreparation
+#675. Essay
+#676. Undertaking
+#677. Use
+#678. Disuse
+#679. Misuse
+	Section III. VOLUNTARY ACTION
+	Sub-section 1. Simple voluntary Action
+#680. Action
+#681. Inaction
+#682. Activity
+#683. Inactivity
+#684. Haste
+#685. Leisure
+#686. Exertion
+#687. Repose
+#688. Fatigue
+#689. Refreshment
+#690. Agent
+#691. Workshop
+	Sub-section 2. Complex Voluntary Action
+#692. Conduct
+#693. Direction
+#694. Director
+#695. Advice
+#696. Council
+#697. Precept
+#698. Skill
+#699. Unskillfulness
+#700. Proficient
+#701. Bungler
+#702. Cunning
+#703. Artlessness
+	Section IV. ANTAGONISM
+	Sub-section 1. Conditional Antagonism
+#704. Difficulty
+#705. Facility
+	Sub-section 2. Active Antagonism
+#706. Hindrance
+#707. Aid
+#708. Opposition
+#709. Cooperation
+#710. Opponent
+#711. Auxiliary
+#712. Party
+#713. Discord
+#714. Concord
+#715. Defiance
+#716. Attack
+#717. Defense
+#718. Retaliation
+#719. Resistance
+#720. Contention
+#721. Peace
+#722. Warfare
+#723. Pacification
+#724. Mediation
+#725. Submission
+#726. Combatant
+#727. Arms
+#728. Arena
+	Section V. RESULTS OF VOLUNTARY ACTION
+#729. Completion
+#730. Noncompletion
+#731. Success
+#732. Failure
+#733. Trophy
+#734. Prosperity
+#735. Adversity
+#736. Mediocrity
+	Division II. INTERSOCIAL VOLITION
+	Section I. GENERAL INTERSOCIAL VOLITION
+#737. Authority
+#737a. Government
+#737b. Politics
+#738. Laxity
+#739. Severity
+#740. Lenity
+#741. Command
+#742. Disobedience
+#743. Obedience
+#744. Compulsion
+#745. Master
+#746. Servant
+#747. Scepter
+#748. Freedom
+#749. Subjection
+#750. Liberation
+#751. Restraint
+#752. Prison
+#753. Keeper
+#754. Prisoner
+#755. Commission
+#756. Abrogation
+#757. Resignation
+#758. Consignee
+#759. Deputy
+	Section II. SPECIAL INTERSOCIAL VOLITION
+#760. Permission
+#761. Prohibition
+#762. Consent
+#763. Offer
+#764. Refusal
+#765. Request
+#766. Deprecation
+#767. Petitioner
+	Section III. CONDITIONAL INTERSOCIAL VOLITION
+#768. Promise
+#768a. Release from engagement
+#769. Compact
+#770. Conditions
+#771. Security
+#772. Observance
+#773. Nonobservance
+#774. Compromise
+	Section IV. POSSESSIVE RELATIONS
+	Sub-section 1. Property in general
+#775. Acquisition
+#776. Loss
+#777. Possession
+#777a. Exemption
+#778. Participation
+#779. Possessor
+#780. Property
+#781. Retention
+#782. Relinquishment
+	Sub-section 2. Transfer of Property
+#783. Transfer
+#784. Giving
+#785. Receiving
+#786. Apportionment
+#787. Lending
+#788. Borrowing
+#789. Taking
+#790. Restitution
+#791. Stealing
+#792. Thief
+#793. Booty
+	Sub-section 3. Interchange of Property
+#794. Barter
+#795. Purchase
+#796. Sale
+#797. Merchant
+#798. Merchandise
+#799. Mart
+#799a. Stock Market
+#799b. Securities
+	Sub-section 4. Monetary Relations
+#800. Money
+#801. Treasurer
+#802. Treasury
+#803. Wealth
+#804. Poverty
+#805. Credit
+#806. Debt
+#807. Payment
+#808. Nonpayment
+#809. Expenditure
+#810. Receipt
+#811. Accounts
+#812. Price
+#812a. Value
+#812b. Worthlessness
+#813. Discount
+#814. Dearness
+#815. Cheapness
+#816. Liberality
+#817. Economy
+#817a. Greed
+#818. Prodigality
+#819. Parsimony
+	Class VI. WORDS RELATING TO THE SENTIENT AND MORAL POWERS
+	Section I. AFFECTIONS IN GENERAL
+#820. Affections
+#821. Feeling
+#822. Sensibility
+#823. Insensibility
+#824. Excitation
+#825. Excitability
+#826. Inexcitability
+	Section II. PERSONAL AFFECTIONS
+	Sub-section 1. PASSIVE AFFECTIONS
+#827. Pleasure
+#828. Pain
+#829. Pleasurableness
+#830. Painfulness
+#831. Content
+#832. Discontent
+#833. Regret
+#834. Relief
+#835. Aggravation
+#836. Cheerfulness
+#837. Dejection
+#838. Rejoicing
+#839. Lamentation
+#840. Amusement
+#841. Weariness
+#842. Wit
+#843. Dullness
+#844. Humorist
+	Sub-section 2. DISCRIMINATIVE AFFECTIONS
+#845. Beauty
+#846. Ugliness
+#847. Ornament
+#847a. Jewelry
+#848. Blemish
+#849. Simplicity
+#850. Taste
+#851. Vulgarity
+#852. Fashion
+#853. Ridiculousness
+#854. Fop
+#855. Affectation
+#856. Ridicule
+#857. Laughingstock
+	Sub-section 3. PROSPECTIVE AFFECTIONS
+#858. Hope
+#859. Hopelessness
+#860. Fear
+#861. Courage
+#862. Cowardice
+#863. Rashness
+#864. Caution
+#865. Desire
+#866. Indifference
+#867. Dislike
+#868. Fastidiousness
+#869. Satiety
+	Sub-section 4. CONTEMPLATIVE AFFECTIONS
+#870. Wonder
+#871. Expectance
+#872. Prodigy
+	Sub-section 5. EXTRINSIC AFFECTIONS
+#873. Repute
+#874. Disrepute
+#875. Nobility
+#876. Commonalty
+#877. Title
+#878. Pride
+#879. Humility
+#880. Vanity
+#881. Modesty
+#882. Ostentation
+#883. Celebration
+#884. Boasting
+#885. Insolence
+#886. Servility
+#887. Blusterer
+	Section III. SYMPATHETIC AFFECTIONS
+	Sub-section 1. SOCIAL AFFECTIONS
+#888. Friendship
+#889. Enmity
+#890. Friend
+#891. Enemy
+#892. Sociality
+#893. Seclusion. Exclusion
+#894. Courtesy
+#895. Discourtesy
+#896. Congratulation
+#897. Love
+#898. Hate
+#899. Favorite
+#900. Resentment
+#901. Irascibility
+#901a. Sullenness
+#902. Endearment
+#903. Marriage
+#904. Celibacy
+#905. Divorce
+	Sub-section 2. DIFFUSIVE SYMPATHETIC AFFECTIONS
+#906. Benevolence
+#907. Malevolence
+#908. Malediction
+#909. Threat
+#910. Philanthropy
+#911. Misanthropy
+#912. Benefactor
+#913. Evil doer
+	Sub-section 3. SPECIAL SYMPATHETIC AFFECTIONS
+#914. Pity
+#914a. Pitilessness
+#915. Condolence
+	Sub-section 4. RETROSPECTIVE SYMPATHETIC AFFECTIONS
+#916. Gratitude
+#917. Ingratitude
+#918. Forgiveness
+#919. Revenge
+#920. Jealousy
+#921. Envy
+	Section IV. MORAL AFFECTIONS
+	Sub-section 1. MORAL OBLIGATIONS
+#922. Right
+#923. Wrong
+#924. Dueness
+#925. Undueness
+#926. Duty
+#927. Dereliction of Duty
+#927a. Exemption
+	Sub-section 2. MORAL SENTIMENTS
+#928. Respect
+#929. Disrespect
+#930. Contempt
+#931. Approbation
+#932. Disapprobation
+#933. Flattery
+#934. Detraction
+#935. Flatterer
+#936. Detractor
+#937. Vindication
+#938. Accusation
+	Sub-section 3. MORAL CONDITIONS
+#939. Probity
+#940. Improbity
+#941. Knave
+#942. Disinterestedness
+#943. Selfishness
+#944. Virtue
+#945. Vice
+#946. Innocence
+#947. Guilt
+#948. Good Man
+#949. Bad Man
+#950. Penitence
+#951. Impenitence
+#952. Atonement
+	Sub-section 4. MORAL PRACTICE
+#953. Temperance
+#954. Intemperance
+#954a. Sensualist
+#955. Asceticism
+#956. Fasting
+#957. Gluttony
+#958. Sobriety
+#959. Drunkenness
+#960. Purity
+#961. Impurity
+#962. Libertine
+	Sub-section 5. MORAL INSTITUTIONS
+#963. Legality
+#964. Illegality
+#965. Jurisdiction
+#966. Tribunal
+#967. Judge
+#968. Lawyer
+#969. Lawsuit
+#970. Acquittal
+#971. Condemnation
+#972. Punishment
+#973. Reward
+#974. Penalty
+#975. Scourge
+	Section V. RELIGIOUS AFFECTIONS
+	Sub-section 1. SUPERHUMAN BEINGS AND REGIONS
+#976. Deity
+#977. Angel
+#978. Satan
+#979. Jupiter
+#980. Demon
+#981. Heaven
+#982. Hell
+	Sub-section 2. RELIGIOUS DOCTRINES
+#983. Theology
+#983a. Orthodoxy
+#984. Heterodoxy
+#985. Judeo-Christian Revelation
+#986. Pseudo-Revelation
+	Sub-section 3. RELIGIOUS SENTIMENTS
+#987. Piety
+#988. Impiety
+#989. Irreligion
+	Sub-section 4. ACTS OF RELIGION
+#990. Worship
+#991. Idolatry
+#992. Sorcery
+#993. Spell
+#994. Sorcerer
+	Sub-section 5. RELIGIOUS INSTITUTIONS
+#995. Churchdom
+#996. Clergy
+#997. Laity
+#998. Rite
+#999. Canonicals
+#1000. Temple

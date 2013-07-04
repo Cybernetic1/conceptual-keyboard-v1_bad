@@ -1,0 +1,106 @@
+A human
+Aa people in general
+Ab man woman young old
+Ac body types
+Ad ethnicity
+Ae occupation
+Af social class
+Ag personal states
+Ah family relatives
+Ai ancestry
+Aj social relations
+Ak personalities
+Al expertise
+Am religious affiliations
+An negative types
+B matter
+Ba matter in general
+Bb shapes of matter
+Bc parts of objects
+Bd celestrial bodies
+Be landscape
+Bf climate weather
+Bg natural matter
+Bh plants
+Bi animals
+Bj micro-organisms
+Bk the body
+Bl excretions secretions
+Bm materials
+Bn buildings
+Bo machinery
+Bp accessories
+Bq clothes
+Br food medicine poison
+C space and time
+Ca time
+Cb space
+D abstract matter
+Da things situations
+Db reason
+Dc appearance
+Dd qualities
+De personalities talents
+Df consciousness
+Dg metaphors
+Dh imaginary
+Di society and law
+Dj economy
+Dk culture
+Dl disease
+Dm institutions
+Dn quantities units
+E characteristics
+Ea form
+Eb appearance
+Ec color taste
+Ed quality
+Ee character traits
+Ef situations
+F actions
+Fa upper body actions
+Fb lower body actions
+Fc head action
+Fd whole body actions
+G psychology
+Ga psychological states
+Gb psychological activities
+Gc volition
+H human activities
+Ha politics
+Hb military activities
+Hc administrative
+Hd production
+He economics
+Hf transport
+Hg education and research
+Hh cultural and sports
+Hi social
+Hj living in general
+Hk religious
+Hl superstition
+Hm law and order
+Hn criminal acts
+I states and phenomena
+Ia natural phenomena
+Ib physiological phenomena
+Ic facial expressions
+Id states of matter
+Ie states of events
+If human circumstance
+Ig beginning and end
+Ih change
+J relations
+Ja general relations
+Jb same and different
+Jc correspondence
+Jd existence
+Je influence
+K auxiliary words
+Ka descriptive
+Kb prepositional
+Kc connectives
+Kd auxiliary
+Ke interjections
+Kf sounds
+L formuliac expressions
