@@ -87,6 +87,7 @@ for line in f:
 		fo.write(line[3:-6])					# remove <P> </P> wraps
 		sectionName = False
 		subsecNum = 0
+		subsubsecNum2 = 0
 		continue
 
 	# try to recognize: <P>CLASS I</P>
@@ -207,6 +208,6 @@ for line in f:
 			if q[1].strip() != "":
 				fo2.write("\n" + q[1])
 
-fo.close()
 fo2.write("\n")
+fo.close()
 fo2.close()

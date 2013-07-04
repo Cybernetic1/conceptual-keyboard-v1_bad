@@ -40428,7 +40428,7 @@ on the docket
 on the tapis
 relative to  
 	4.2. PRECURSORY CONDITIONS AND OPERATIONS
-	4.2.7. Curiosity
+	4.2.1. Curiosity
 interest
 thirst for knowledge
 thirst for truth
@@ -40478,7 +40478,7 @@ consumed with curiosity
 curiosity killed the cat
 satisfaction brought it back
 curiouser and curiouser 
-	4.2.8. Incuriosity
+	4.2.2. Incuriosity
 incuriosity
 incuriousness  
 insouciance  
@@ -40502,7 +40502,7 @@ impassive
 uninterested
 detached
 aloof
-	4.2.9. Attention
+	4.2.3. Attention
 (care)
 attention
 mindfulness
@@ -40811,7 +40811,7 @@ finem respice
 Achtung
 vnimanie
 chui
-	4.2.10. Inattention
+	4.2.4. Inattention
 inattention
 inconsideration
 inconsiderateness  
@@ -40964,7 +40964,7 @@ it never entered into one's head
 the mind running on other things
 one's thoughts being elsewhere
 had it been a bear it would have bitten you
-	4.2.11. Care
+	4.2.5. Care
 (conscientiousness)
 care
 solicitude
@@ -41079,7 +41079,7 @@ gingerly
 care will kill a cat 
 ni bebas agua que no veas
 the incessant care and labor of his mind 
-	4.2.12. Neglect
+	4.2.6. Neglect
 (inactivity)
 (insensibility)
 (disorder)
@@ -41252,7 +41252,7 @@ no matter
 let it pass
 out of sight
 out of mind
-	4.2.13. Inquiry
+	4.2.7. Inquiry
 inquiry
 request  
 search
@@ -41519,7 +41519,7 @@ sub judice
 moot
 proposed
 doubtful   
-	4.2.14. Answer
+	4.2.8. Answer
 answer
 response
 reply
@@ -41579,7 +41579,7 @@ conclusive
 because   
 on the scent
 on the right scent
-	4.2.15. Experiment
+	4.2.9. Experiment
 (attempt)
 (investigation)
 experiment
@@ -41744,7 +41744,7 @@ on approval
 check it out
 give it a try
 see how it goes
-	4.2.16. Comparison
+	4.2.10. Comparison
 comparison
 collation
 contrast
@@ -41792,7 +41792,7 @@ judged by comparison
 relatively   
 comparisons are odious
 comparisons are odorous 
-	4.2.17. Incomparability
+	4.2.11. Incomparability
 incomparability
 incommensurability
 indistinguishablility  
@@ -41803,7 +41803,7 @@ different
 like apples and oranges
 no basis for comparison
 no standard for comparison
-	4.2.18. Discrimination
+	4.2.12. Discrimination
 (intelligence)
 discrimination
 distinction
@@ -41862,7 +41862,7 @@ rem acu tetigisti
 la critique est aisee et l'art est difficile
 miles apart
 a distinction without a difference
-	4.2.19. Indiscrimination
+	4.2.13. Indiscrimination
 (doubt)
 indiscrimination
 indistinguishability
@@ -41883,7 +41883,7 @@ unmeasured
 promiscuous
 undiscriminating
 valeat quantum valere potest
-	4.2.20. Identification
+	4.2.14. Identification
 (knowledge)
 identification
 recognition
@@ -41910,7 +41910,7 @@ find similarity
 put in its proper place
 put in its proper niche
 place in order  
-	4.2.21. Measurement
+	4.2.15. Measurement
 (numeration)
 measurement
 admeasurement
@@ -42073,7 +42073,7 @@ cartographical
 	4.3. MATERIALS FOR REASONING
 for
 against
-	4.3.22. Evidence
+	4.3.1. Evidence
 evidence
 facts
 premises
@@ -42255,7 +42255,7 @@ under seal
 under one's hand and seal
 dictum de dicto
 mise en evidence
-	4.3.23. Counter Evidence
+	4.3.2. Counter Evidence
 counter evidence
 evidence on the other side
 evidence on the other hand
@@ -42300,7 +42300,7 @@ unsupported by evidence
 supposititious
 on the contrary
 per contra
-	4.3.24. Qualification
+	4.3.3. Qualification
 qualification
 limitation
 modification
@@ -42409,7 +42409,7 @@ subject to
 conditioned upon
 if the good lord is willing and the creeks don't rise
 catch- 
-	4.3.25. Possibility
+	4.3.4. Possibility
 (agreement)
 possibility
 potentiality
@@ -42476,7 +42476,7 @@ Taylor]
 anything is possible
 in theory possible
 but in practise unlikely
-	4.3.26. Impossibility
+	4.3.5. Impossibility
 impossibility  
 what cannot
 what can never be
@@ -42555,7 +42555,7 @@ non nostrum tantas componere lites
 look for a needle in a haystack
 chercher une aiguille dans une botte de foin
 boire
-	4.3.27. Probability
+	4.3.6. Probability
 probability
 likelihood
 credibleness
@@ -42640,7 +42640,7 @@ there is reason to think
 there is reason to expect
 I dare say
 all Lombard Street to a China orange
-	4.3.28. Improbability
+	4.3.7. Improbability
 improbability
 unlikelihood
 unfavorable chance
@@ -42677,7 +42677,7 @@ bizarre
 the chances are against
 aquila non capit muscas
 pedir peras pal olmo
-	4.3.29. Certainty
+	4.3.8. Certainty
 certainty
 necessity  
 certitude
@@ -42829,7 +42829,7 @@ not a shadow of doubt
 there is not a shadow of doubt
 the die is cast   
 facts are stubborn things 
-	4.3.30. Uncertainty
+	4.3.9. Uncertainty
 uncertainty
 incertitude
 doubt
@@ -42996,7 +42996,7 @@ sub spe rati
 Heaven knows
 ambiguas in vulgum spargere voces
 	4.4. REASONING PROCESSES
-	4.4.31. Reasoning,
+	4.4.1. Reasoning,
 reasoning ratiocination rationalism
 dialectics
 induction
@@ -43175,7 +43175,7 @@ taking one thing with another
 ab actu ad posse valet consecutio
 per troppo dibatter la verita si perde
 troppo disputare la verita fa errare
-	4.4.32. Intuition. &amp; Sophistry
+	4.4.2. Intuition. &amp; Sophistry
 (supposition)
 intuition
 instinct
@@ -43353,7 +43353,7 @@ intuitively
 by intuition
 non constat
 that goes for nothing
-	4.4.33. Demonstration
+	4.4.3. Demonstration
 demonstration
 proof
 rigorous proof
@@ -43446,7 +43446,7 @@ quod est demonstrandum
 Q
 it must follow
 exitus acta probat
-	4.4.34. Confutation
+	4.4.4. Confutation
 confutation
 refutation
 answer
@@ -43518,7 +43518,7 @@ it does not hold water
 suo sibi gladio hunc jugulo 
 his argument was demolished by new evidence
 	4.5. RESULTS OF REASONING
-	4.5.35. Judgment
+	4.5.1. Judgment
 result
 conclusion
 upshot
@@ -43663,7 +43663,7 @@ it is much easier to be critical than to be correct
 la critique est aisee et l'art est difficile
 nothing if not critical 
 O most lame and impotent conclusion 
-	4.5.36. Discovery
+	4.5.2. Discovery
 discovery
 detection
 disenchantment
@@ -43758,7 +43758,7 @@ realize
 verify
 make certain of
 identify
-	4.5.37. Misjudgment
+	4.5.3. Misjudgment
 (error)
 misjudgment
 obliquity of judgment
@@ -43926,7 +43926,7 @@ the wish the father to the thought
 wishful thinking
 unshakable conviction
 my mind is made up - don't bother me with the facts
-	4.5.38. Overestimation
+	4.5.4. Overestimation
 overestimation  
 exaggeration  
 vanity  
@@ -43974,7 +43974,7 @@ overestimated
 oversensitive   
 all his geese are swans
 parturiunt montes
-	4.5.39. Underestimation
+	4.5.5. Underestimation
 (detraction)
 underestimation
 depreciation   
@@ -44011,7 +44011,7 @@ depreciating
 depreciated  
 unvalued
 unprized
-	4.5.40. Belief
+	4.5.6. Belief
 (hope)
 belief
 credence
@@ -44297,7 +44297,7 @@ live to explain thy doctrine by thy life
 stands not within the prospect of belief 
 tarde quae credita laedunt credimus 
 vide et crede
-	4.5.41. Unbelief. Doubt
+	4.5.7. Unbelief. Doubt
 (irreligion)
 unbelief
 disbelief
@@ -44427,7 +44427,7 @@ beware of Greeks bearing gifts
 credat Judaeus Apella 
 let those believe who may
 ad tristem partem stenua est suspicio 
-	4.5.42. Credulity
+	4.5.8. Credulity
 (obstinacy)
 credulity
 credulousness  
@@ -44485,7 +44485,7 @@ credo quia impossibile
 all is not gold that glitters
 no es oro todo lo que reluce
 omne ignotum pro magnifico
-	4.5.43. Incredulity
+	4.5.9. Incredulity
 (irreligion)
 incredulousness
 incredulity
@@ -44527,7 +44527,7 @@ suspicious
 scrupulous
 distrustful
 cynical
-	4.5.44. Assent
+	4.5.10. Assent
 assent
 assentment
 acquiescence
@@ -44725,7 +44725,7 @@ the public mind is the creation of the Master-Writers
 you bet your sweet ass it is
 whenever you're ready
 anytime you're ready
-	4.5.45. Dissent
+	4.5.11. Dissent
 (disagreement)
 dissent
 discordance   
@@ -44823,7 +44823,7 @@ il s'en faut bien
 no way
 by no means
 count me out
-	4.5.46. Knowledge
+	4.5.12. Knowledge
 (judgment)
 knowledge
 cognizance
@@ -45054,7 +45054,7 @@ les affaires font les hommes
 nec scire fas est omnia 
 the amassed thought and experience of innumerable minds 
 was ich nicht weiss macht mich nicht heiss
-	4.5.47. Ignorance
+	4.5.13. Ignorance
 ignorance
 nescience
 tabula rasa
@@ -45192,7 +45192,7 @@ small Latin and less Greek [B
 Jonson]
 that unlettered small-knowing soul 
 there is no darkness but ignorance 
-	4.5.48. Scholar
+	4.5.14. Scholar
 scholar
 connoisseur
 savant
@@ -45272,7 +45272,7 @@ learned
 brought up at the feet of Gamaliel
 he was a scholar and a ripe and good one 
 the manifold linguist 
-	4.5.49. Ignoramus
+	4.5.15. Ignoramus
 ignoramus
 dunce
 wooden spoon
@@ -45308,7 +45308,7 @@ bookless
 shallow
 ignorant  
 a wit with dunces and a dunce with wits 
-	4.5.50. Truth
+	4.5.16. Truth
 (existence)
 (principle)
 fact
@@ -45518,7 +45518,7 @@ and nothing but the truth
 just the facts
 ma'am
 just the facts 
-	4.5.51. Error
+	4.5.17. Error
 (misinterpretation)
 (misjudgment)
 error
@@ -45700,7 +45700,7 @@ on the dubious waves of error tost
 to err is human
 to forgive divine 
 you lie -- under a mistake 
-	4.5.52. Maxim
+	4.5.18. Maxim
 maxim
 aphorism
 apothegm
@@ -45759,7 +45759,7 @@ gnomic
 as the saying goes
 as the saying is
 as they say
-	4.5.53. Absurdity
+	4.5.19. Absurdity
 absurdity
 absurdness  
 imbecility  
@@ -45837,7 +45837,7 @@ without rhyme or reason
 fantastic
 credat Judaeus Apella 
 tell it to the marines
-	4.5.54. Intelligence, Wisdom
+	4.5.20. Intelligence, Wisdom
 (taste)
 intelligence
 capacity
@@ -46048,7 +46048,7 @@ gnothi seauton
 nullum magnum ingenium sine mixtura dementiae fuit 
 sapere aude 
 victrix fortunae sapientia 
-	4.5.55. Imbecility. Folly
+	4.5.21. Imbecility. Folly
 (unskillfulness)
 want of intelligence  
 want of intellect  
@@ -46269,7 +46269,7 @@ il n' a ni bouche ni eperon
 the bookful blockhead
 ignorantly read 
 to varnish nonsense with the charms of sound 
-	4.5.56. Sage
+	4.5.22. Sage
 sage
 wise man
 genius
@@ -46301,7 +46301,7 @@ venerable
 reverenced
 emeritus
 barba tenus sapientes
-	4.5.57. Fool
+	4.5.23. Fool
 fool
 idiot
 tomfool
@@ -46427,7 +46427,7 @@ fortuna favet fatuis
 les fous font les festinas et les sages les mangent
 nomina stultorum parietibus harrent
 stultorum plena sunt omnia 
-	4.5.58. Sanity
+	4.5.24. Sanity
 sanity
 soundness  
 rationality
@@ -46462,7 +46462,7 @@ sober-minded
 in one's sober senses
 in one's right mind
 in possession of one's faculties
-	4.5.59. Insanity
+	4.5.25. Insanity
 disordered reason
 disordered intellect
 diseased mind
@@ -46665,7 +46665,7 @@ tet exaltee
 tet montee
 ira furor brevis est
 omnes stultos insanire 
-	4.5.60. Madman
+	4.5.26. Madman
 (low spirits);;
 madman
 lunatic
@@ -47658,7 +47658,7 @@ weatherman
 a prophet is without honor in his own country
 you don't need a weatherman to know which way the wind blows 
 	4.7. CREATIVE THOUGHT
-	4.7.8. Supposition
+	4.7.1. Supposition
 (plan)
 (belief)
 supposition
@@ -47793,7 +47793,7 @@ as if
 provided
 perhaps   
 for aught one knows
-	4.7.9. Analogy
+	4.7.2. Analogy
 analogy
 association
 association of ideas
@@ -47802,7 +47802,7 @@ analogical thinking
 free association
 train of thought
 analogical
-	4.7.10. Imagination
+	4.7.3. Imagination
 imagination
 originality
 invention
@@ -48016,7 +48016,7 @@ musaeo contingens cuncta lepore
 tous songes sont mensonges
 Wahrheil und Dichtung
 	4.8. NATURE OF IDEAS COMMUNICATED
-	4.8.11. Meaning
+	4.8.1. Meaning
 meaning
 signification
 significance
@@ -48113,7 +48113,7 @@ explicit
 (being interpreted)
 to that effect
 that is to say   
-	4.8.12. Unmeaningness
+	4.8.2. Unmeaningness
 meaninglessness
 unmeaningness  
 scrabble
@@ -48196,7 +48196,7 @@ tacit
 inexpressible
 undefinable
 incommunicable
-	4.8.13. Intelligibility
+	4.8.3. Intelligibility
 (manifestation)
 intelligibility
 clearness
@@ -48273,7 +48273,7 @@ in plain words
 in plain English
 (manifest)
 he that runs may read   
-	4.8.14. Unintelligibility
+	4.8.4. Unintelligibility
 (confusion)
 (concealment)
 unintelligibility
@@ -48409,7 +48409,7 @@ incommunicable
 unpredictable
 unforeseeable
 it's Greek to me
-	4.8.15. Equivocalness
+	4.8.5. Equivocalness
 (riddle)
 (wit)
 equivocalness  
@@ -48454,7 +48454,7 @@ enigmatical
 indeterminate
 on the one hand
 on the other hand
-	4.8.16. Metaphor
+	4.8.6. Metaphor
 figure of speech
 facon de parler
 way of speaking
@@ -48514,7 +48514,7 @@ so to say
 so to express oneself
 as it were
 mutato nomine de te fabula narratur 
-	4.8.17. Interpretation
+	4.8.7. Interpretation
 interpretation
 definition
 explanation
@@ -48657,7 +48657,7 @@ in plainer terms
 in plainer words
 in plainer English
 more simply
-	4.8.18. Misinterpretation
+	4.8.8. Misinterpretation
 misinterpretation
 misapprehension
 misunderstanding
@@ -48713,7 +48713,7 @@ play at cross purposes
 misinterpreted  
 untranslated
 untranslatable
-	4.8.19. Interpreter
+	4.8.9. Interpreter
 interpreter
 expositor
 expounder
@@ -48738,7 +48738,7 @@ cicerone
 showman
 oneirocritic
 	4.9. MODES OF COMMUNICATION
-	4.9.20. Manifestation
+	4.9.1. Manifestation
 manifestation
 plainness  
 plain speaking
@@ -48923,7 +48923,7 @@ clothing the palpable and familiar
 fari quae sentiat
 volto sciolto i pensieri stretti
 you don't need a weatherman to know which way the wind blows 
-	4.9.21. Latency. Implication
+	4.9.2. Latency. Implication
 (taciturnity)
 latency
 inexpression
@@ -49044,7 +49044,7 @@ thereby hangs a tale
 tacitum vivit sub pectore vulnus 
 where there's smoke
 there's fire
-	4.9.22. Information
+	4.9.3. Information
 information
 enlightenment
 acquaintance
@@ -49276,7 +49276,7 @@ communicatory
 from information received
 a little bird told me
 I heard it through the grapevine
-	4.9.23. Correction
+	4.9.4. Correction
 correction
 disillusionment  
 correct
@@ -49296,7 +49296,7 @@ confutation
 reasoning  
 corrective
 I stand corrected
-	4.9.24. Concealment
+	4.9.5. Concealment
 concealment
 hiding  
 occultation
@@ -49582,7 +49582,7 @@ deep background information
 deep background
 background session
 backgrounder
-	4.9.25. Disclosure
+	4.9.6. Disclosure
 (news)
 disclosure
 retection
@@ -49737,7 +49737,7 @@ the murder is out
 a light breaks in upon one
 the scales fall from one's eyes
 the eyes are opened
-	4.9.26. Ambush
+	4.9.7. Ambush
 camouflage
 mimicry
 hiding place
@@ -49794,7 +49794,7 @@ camouflaged
 hidden
 concealed
 aux aguets
-	4.9.27. Publication
+	4.9.8. Publication
 publication
 public announcement  
 promulgation
@@ -49945,7 +49945,7 @@ this is to give
 these are to give notice
 nomina stultorum parietibus haerent
 semel emissum volat irrevocabile verbum
-	4.9.28. News
+	4.9.9. News
 news
 information  
 piece of news
@@ -50077,7 +50077,7 @@ it is said
 by telegraph
 by wireless
 airy tongues that syllable men's names 
-	4.9.29. Secret
+	4.9.10. Secret
 secret
 dead secret
 profound secret
@@ -50121,7 +50121,7 @@ labyrinthian
 mazy
 confidential
 top secret
-	4.9.30. Messenger
+	4.9.11. Messenger
 (diplomatist)
 messenger
 envoy
@@ -50176,7 +50176,7 @@ own correspondent
 spy
 scout
 informer  
-	4.9.31. Affirmation
+	4.9.12. Affirmation
 affirmance
 affirmation
 statement
@@ -50377,7 +50377,7 @@ so help me God
 not to mince the matter
 quoth he
 dixi
-	4.9.32. Negation
+	4.9.13. Negation
 (dissent)
 negation
 abnegation
@@ -50482,7 +50482,7 @@ there never was a greater mistake
 I know better
 non haec in faedera
 a thousand times no
-	4.9.33. Teaching
+	4.9.14. Teaching
 teaching  
 instruction
 edification
@@ -50689,7 +50689,7 @@ docendo discimus
 quaenocent docent
 qui docet discit
 sermons in stones and good in everything 
-	4.9.34. Misteaching
+	4.9.15. Misteaching
 misteaching
 misinformaton
 misintelligence
@@ -50737,7 +50737,7 @@ misteaching
 unedifying
 piscem natare doces
 the blind leading the blind
-	4.9.35. Learning
+	4.9.16. Learning
 learning
 acquisition of knowledge  
 acquisition of skill  
@@ -50839,7 +50839,7 @@ in statu pupillari
 a lumber-house of books in every head 
 hold high converse with the mighty dead 
 lash'd into Latin by the tingling rod 
-	4.9.36. Teacher
+	4.9.17. Teacher
 teacher
 trainer
 instructor
@@ -50896,7 +50896,7 @@ professorship
 tutelage   
 professorial
 qui doet discet
-	4.9.37. Learner
+	4.9.18. Learner
 learner
 scholar
 student
@@ -50967,7 +50967,7 @@ practise
 in statu pupillari
 in leading strings
 practise makes perfect
-	4.9.38. School
+	4.9.19. School
 school
 academy
 university
@@ -51062,7 +51062,7 @@ academic
 collegiate
 educational
 ex cathedra
-	4.9.39. Veracity
+	4.9.20. Veracity
 (artlessness)
 veracity
 truthfulness
@@ -51161,7 +51161,7 @@ that golden key that opes the palace of eternity
 veritas odium parit
 veritatis simplex oratio est
 verite sans peur
-	4.9.40. Falsehood
+	4.9.21. Falsehood
 falsehood
 falseness
 falsity
@@ -51402,7 +51402,7 @@ falsus in uno falsus in omnibus
 I give him joy that's awkward at a lie 
 la mentira tiene las piernas cortas
 O what a goodly outside falsehood hath 
-	4.9.41. Deception
+	4.9.22. Deception
 (cunning)
 (falsehood)
 deception
@@ -51773,7 +51773,7 @@ fraus est celare fraudem
 lupus in fabula
 so smooth
 he daubed his vice with show of virtue 
-	4.9.42. Untruth
+	4.9.23. Untruth
 untruth
 falsehood
 lie
@@ -51877,7 +51877,7 @@ ironical
 soi-disant   
 se non e vero e ben trovato
 where none is meant that meets the ear 
-	4.9.43. Dupe
+	4.9.24. Dupe
 dupe
 gull
 gudgeon
@@ -51907,7 +51907,7 @@ catch a Tartar
 (error)
 credulous  
 mistaken   
-	4.9.44. Deceiver
+	4.9.25. Deceiver
 (deceive)
 deceiver    
 dissembler
@@ -51982,7 +51982,7 @@ cheat
 swindler   
 jobber
 saint abroad and a devil at home 
-	4.9.45. Exaggeration
+	4.9.26. Exaggeration
 (nonsense)
 exaggeration
 expansion  
@@ -72840,7 +72840,7 @@ camp
 the enemy's camp
 trusting place   
 	5.5. RESULTS OF VOLUNTARY ACTION
-	5.5.24. Completion
+	5.5.1. Completion
 (end)
 (arrival)
 completion
@@ -72996,7 +72996,7 @@ the game is played out
 the bubble has burst
 aussitot dit aussitot fait
 aut non tentaris aut perfice 
-	5.5.25. Noncompletion
+	5.5.2. Noncompletion
 noncompletion
 nonfulfillment
 shortcoming  
@@ -73046,7 +73046,7 @@ in the oven
 parboiled
 half-baked
 re infecta
-	5.5.26. Success
+	5.5.3. Success
 (progress)
 success
 successfulness
@@ -73337,7 +73337,7 @@ vincit qui se vincit
 The race is not always to the swift
 nor the battle to the strong
 but that's the way to bet 
-	5.5.27. Failure
+	5.5.4. Failure
 (inutility)
 (disappointment)
 failure
@@ -73640,7 +73640,7 @@ the devil to pay
 parturiunt montes   
 dies infaustus
 tout est perdu hors l'honneur
-	5.5.28. Trophy
+	5.5.5. Trophy
 (honor)
 trophy
 medal
@@ -73666,7 +73666,7 @@ Iron Cross
 triumph   
 flying colors   
 monumentum aere perennius 
-	5.5.29. Prosperity
+	5.5.6. Prosperity
 (wealth)
 prosperity
 welfare
@@ -73798,7 +73798,7 @@ felicitas multos habet amicos
 felix se nescit amari 
 good luck go with thee 
 nulli est homini perpetuum bonum 
-	5.5.30. Adversity
+	5.5.7. Adversity
 adversity
 evil  
 failure  
@@ -73942,7 +73942,7 @@ calamitous
 ruinous
 dire
 deplorable
-	5.5.31. Mediocrity
+	5.5.8. Mediocrity
 (mid-course)
 (moderation)
 moderate circumstances
@@ -73963,7 +73963,7 @@ get on peaceably
 get on tolerably
 get on respectably
 	5.6. GENERAL INTERSOCIAL VOLITION
-	5.6.32. Authority
+	5.6.1. Authority
 (title)
 authority
 influence
@@ -74084,7 +74084,7 @@ ex cathedra
 from the chair
 the gray mare the better horse
 every inch a king 
-	5.6.33. Government
+	5.6.2. Government
 government
 legal authority
 soveriegn
@@ -74382,7 +74382,7 @@ regnant populi
 the demigod Authority 
 the right divine of kings to govern wrong 
 uneasy lies the head that wears a crown 
-	5.6.34. Politics
+	5.6.3. Politics
 politics
 political science
 candidacy
@@ -74504,7 +74504,7 @@ announce one's candidacy
 political
 partisan
 Money is the mother's milk of politics 
-	5.6.35. Laxity
+	5.6.4. Laxity
 (lenity)
 laxity
 laxness
@@ -74567,7 +74567,7 @@ unbridled
 anarchical
 unauthorized   
 adespotic
-	5.6.36. Severity
+	5.6.5. Severity
 (pitilessness)
 severity
 strictness
@@ -74721,7 +74721,7 @@ at the point of the bayonet
 Delirant reges plectuntur Achivi
 manu forti
 ogni debole ha sempre il suo tiranno
-	5.6.37. Lenity
+	5.6.6. Lenity
 lenity
 lenience
 leniency
@@ -74758,7 +74758,7 @@ easy-going
 clement   
 forbearing
 long-suffering
-	5.6.38. Command
+	5.6.7. Command
 command
 order
 ordinance
@@ -74913,7 +74913,7 @@ the decree is gone forth
 sic volo sic jubeo
 le Roi le veut
 boutez en avant
-	5.6.39. Disobedience
+	5.6.8. Disobedience
 disobedience
 insubordination
 contumacy
@@ -75024,7 +75024,7 @@ unobeyed
 unbidden
 seditiosissimus quisque ignavus 
 unthread the rude eye of rebellion 
-	5.6.40. Obedience
+	5.6.9. Obedience
 obedience
 observance  
 compliance
@@ -75092,7 +75092,7 @@ if you please
 your wish is my command
 as you wish
 no sooner said than done
-	5.6.41. Compulsion
+	5.6.10. Compulsion
 compulsion
 coercion
 coaction
@@ -75188,7 +75188,7 @@ under press of
 de rigueur
 with a gun to one's head
 I'll make him an offer he can't refuse
-	5.6.42. Master
+	5.6.11. Master
 (director)
 master
 padrone
@@ -75422,7 +75422,7 @@ da locum melioribus
 der Furst ist der erste Diener seines Staats
 the prince is the first servant of his state
 lord of thy presence and no land beside 
-	5.6.43. Servant
+	5.6.12. Servant
 subject
 liegeman
 servant
@@ -75588,7 +75588,7 @@ in one's pay
 in one's employ
 at one's call   
 in bonds
-	5.6.44. Scepter
+	5.6.13. Scepter
 (insignia)
 scepter
 regalia
@@ -75636,7 +75636,7 @@ seals
 talisman
 helm
 reins   
-	5.6.45. Freedom
+	5.6.14. Freedom
 (permission)
 freedom
 liberty
@@ -75796,7 +75796,7 @@ freely
 ad libitum   
 ubi libertas ibi patria
 free white and twenty-one
-	5.6.46. Subjection
+	5.6.15. Subjection
 subjection
 dependence
 dependency
@@ -75911,7 +75911,7 @@ parasitical
 stipendiary
 under
 slaves - in a land of light and law 
-	5.6.47. Liberation
+	5.6.16. Liberation
 liberation
 disengagement
 release
@@ -75995,7 +75995,7 @@ escape
 (free)
 liberated  
 out of harness   
-	5.6.48. Restraint
+	5.6.17. Restraint
 (compulsion)
 restraint
 hindrance  
@@ -76188,7 +76188,7 @@ weather bound
 cabined cribbed confined 
 in Lob's pound
 laid by the heels
-	5.6.49. Prison
+	5.6.18. Prison
 (exclusion)
 prison
 prison house
@@ -76310,7 +76310,7 @@ barrier
 barricade
 (hindrance)
 drag   
-	5.6.50. Keeper
+	5.6.19. Keeper
 keeper
 custodian
 custos
@@ -76349,7 +76349,7 @@ catsitter
 dogsitter
 bonne
 ayah
-	5.6.51. Prisoner
+	5.6.20. Prisoner
 prisoner
 prisoner of war
 POW
@@ -76380,7 +76380,7 @@ in chains
 under lock and key
 under hatches
 on parole
-	5.6.52. Commission
+	5.6.21. Commission
 commission
 delegation
 consignment
@@ -76468,7 +76468,7 @@ stand in the stead of
 stand in the place of
 stand in the shoes of
 per procurationem
-	5.6.53. Abrogation
+	5.6.22. Abrogation
 abrogation
 annulment
 nullification
@@ -76585,7 +76585,7 @@ receive its quietus
 walk the plank
 abrogated  
 functus officio
-	5.6.54. Resignation
+	5.6.23. Resignation
 resignation
 retirement
 abdication
@@ -76617,7 +76617,7 @@ retire
 tender one's resignation
 abdicant
 Othello's occupation's gone 
-	5.6.55. Consignee
+	5.6.24. Consignee
 consignee
 trustee
 nominee
@@ -76691,7 +76691,7 @@ traveling man
 newspaper correspondent
 own correspondent
 special correspondent
-	5.6.56. Deputy
+	5.6.25. Deputy
 deputy
 substitute
 vice
@@ -76746,7 +76746,7 @@ vice regal
 accredited to
 in behalf of
 	5.7. SPECIAL INTERSOCIAL VOLITION
-	5.7.57. Permission
+	5.7.1. Permission
 (lenity)
 permission
 leave
@@ -76875,7 +76875,7 @@ by all means
 yes   
 avec permissin
 brevet d'invention
-	5.7.58. Prohibition
+	5.7.2. Prohibition
 (restraint)
 prohibition
 inhibition
@@ -76959,7 +76959,7 @@ forget it
 don't even think about doing it
 go ahead
 make my day 
-	5.7.59. Consent
+	5.7.3. Consent
 consent
 assent  
 acquiescence
@@ -77035,7 +77035,7 @@ of course
 please do
 don't hesitate
 chi tace accousente
-	5.7.60. Offer
+	5.7.4. Offer
 (gift)
 offer
 proffer
@@ -77087,7 +77087,7 @@ for sale
 to let
 disengaged
 on hire
-	5.7.61. Refusal
+	5.7.5. Refusal
 refusal
 rejection
 noncompliance
@@ -77184,7 +77184,7 @@ bien oblige
 not on your life
 no way
 not even if you beg on your knees
-	5.7.62. Request
+	5.7.6. Request
 (demand)
 request
 requisition
@@ -77340,7 +77340,7 @@ if you please
 Dieu vous garde
 dirigenos Domine
 would you be so kind as to
-	5.7.63. Deprecation
+	5.7.7. Deprecation
 deprecation
 expostulation
 intercession
@@ -77366,7 +77366,7 @@ unasked
 (prohibition)
 Heaven forefend
 please don't
-	5.7.64. Petitioner
+	5.7.8. Petitioner
 petitioner
 solicitor
 applicant
@@ -77415,7 +77415,7 @@ canvasser
 bagman  
 salesman
 	5.8. CONDITIONAL INTERSOCIAL VOLITION
-	5.8.65. Promise
+	5.8.1. Promise
 (affirmation)
 promise
 undertaking
@@ -77510,13 +77510,13 @@ as one's head shall answer for
 in for a penny in for a pound
 ex voto
 gage d'amour
-	5.8.66. Release from engagement
+	5.8.2. Release from engagement
 (liberation)
 release   
 (free)
 absolute
 unconditional   
-	5.8.67. Compact
+	5.8.3. Compact
 compact
 contract
 agreement
@@ -77599,7 +77599,7 @@ agreed
 conventional
 under hand and seal
 caveat emptor
-	5.8.68. Conditions
+	5.8.4. Conditions
 conditions
 terms
 articles
@@ -77635,7 +77635,7 @@ provisionally
 pro re nata
 on condition
 with a string to it
-	5.8.69. Security
+	5.8.5. Security
 security
 guaranty
 guarantee
@@ -77757,7 +77757,7 @@ hold in pledge
 lend on security  
 bonis avibus
 gone where the woodbine twineth
-	5.8.70. Observance
+	5.8.6. Observance
 observance
 performance
 compliance
@@ -77823,7 +77823,7 @@ tempori parendum
 to God
 thy country
 and thy friend be true 
-	5.8.71. Nonobservance
+	5.8.7. Nonobservance
 nonobservance  
 evasion
 inobservance
@@ -77889,7 +77889,7 @@ elusive
 evasive
 (fulfill)
 unfulfilled    
-	5.8.72. Compromise
+	5.8.8. Compromise
 compromise
 commutation
 composition

@@ -516,6 +516,5 @@ function drop(ev)
 
 // *********************** Initialize by loading database **********************
 
-// loadDB("synonym_forest_YKY_database.txt");
-loadDB("database_sexy.txt");
+loadDB("synonym_forest_YKY_database.txt");
 console.log("so far so good");

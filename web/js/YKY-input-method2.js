@@ -148,6 +148,7 @@ function fillSuggestions()
 
 	// node[0] contains its data.
 	// For each data item inside this node:
+	var line_len = 0;
 	for (i = 1; i < node[0].length; ++i) {
 		s = node[0][i];
 
@@ -155,6 +156,11 @@ function fillSuggestions()
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(s));
 		div.appendChild(textNode);
+		line_len += s.length;
+		if (line_len > 90) {
+			div.appendChild(document.createElement("br"));
+			line_len = 0;
+			}
 	}
 
 	// On click: send to Green box
@@ -258,7 +264,7 @@ function loadDB(pathname)
 				// Get the section sequence, such as "2.1.3" ==> [2, 1, 3]
 				var section = line.slice(1, line.indexOf(' ') - 1);
 				var sequence = section.split('.').map(function(s) {return parseInt(s);});
-				// console.log(sequence);
+				console.log(sequence);
 
 				// Traverse the tree and add a new node (or nodes)
 				node = database;									// starting at the root
