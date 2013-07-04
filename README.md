@@ -15,10 +15,14 @@ Dictionaries that are organized thematically include:
 We can also make use of various ontologies such as:
 
 6. WordNet
+7. YAGO
+8. SUMO
 
 Right now I'm experimenting with various categorization schemes.
 
-Currently the Chinese dictionary (同義詞詞林) is automatically loaded.
+Currently the Chinese dictionary (同義詞詞林) is automatically loaded.  You can
+use index2.html to open Roget's Thesaurus.  The sources of dictionaries and my
+scripts for working with them are included in the "dictionaries" directory.
 
 To Run:
 
@@ -30,9 +34,10 @@ Then run the jar file:
 
     java -jar dist/conkey.jar
 
-then open this URL in your browser:
+then open either URL in your browser:
 
-    http://localhost:9090/
+    http://localhost:9090/index.html    (for Chinese)
+	 http://localhost:9090/index2.html   (for English)
 
 To Install Project:
 
@@ -84,4 +89,8 @@ My e-mail = generic.intelligence at Gmail
 
 TO-DO:
 
-1. Extract categories from Roget's Thesaurus (1922 version)
+1. Abandon the use of Red, Green and White boxes, use drag-and-drop exclusively.
+2. Make user-interface prettier.
+3. Allow app to talk to server, collect frequent words/phrases from users.
+4. Intelligent sentence generation?
+5. Your suggestions?
