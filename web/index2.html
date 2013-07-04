@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Conceptual Keyboard</title>
+
+		<style type="text/css">
+			#green-box {width:100%;height:30px;padding:2px;border:3px solid #33ff33;}
+			#red-box {width:100%;height:60px;padding:2px;border:3px solid #ff3333;}
+
+			body {
+				font-size: 65%;
+				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
+				padding-top: 0px;
+				background-color: #000000;
+				color: #ccffff;
+			}
+
+			label { display: block; margin-top: 10px; color: #0066cc; }
+
+			input[type=button] {
+				background-color: #555555;
+				color: #ffffff;
+				padding: 2px 2px;
+				font: 15px sans-serif;
+				font-weight: bold;
+				text-decoration: none;
+				border: 3px solid #000;
+				border-color: #aaa #333 #333 #aaa;
+			}
+
+			input[type=text] {
+				font-size: 120%;
+				background-color: #000000;
+				color: #ffffff;
+				/* font-weight: bold; */
+			}
+
+			a { color: #0066CC; text-decoration: none; border-bottom: 1px dotted #0066cc; }
+
+			#submit_butt { margin-top: 15px; }
+
+			h3 { margin-top: 0; }
+
+			#column1 {
+				overflow: hidden;
+				float:left;
+				width:25%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+			#column2 {
+				overflow: hidden;
+				float:left;
+				width:24%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+			#column3 {
+				overflow: hidden;
+				float: left;
+				width:25%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+			#column4 {
+				overflow: hidden;
+				float: right;
+				width:25%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+			#suggestions {
+				/* background-color: #003300; */
+				height: 240px;
+				line-height: 180%;
+				margin: 5px 5px;
+				overflow: auto;
+			}
+
+			#suggestions span, #red-box span, #green-box span {
+				background: #003333;
+				padding: 1px;
+				border: 1px solid #00bb00;
+				margin: 3px;
+			}
+
+			.selected td {
+				background: #003333;
+				border: 1px solid #00bb00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
+		<div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
+
+		<input type="text" id="white-box" style="width:100%; height:120%;" value=""><br>
+		<input type="button" value="send" id="send-white">
+		<input type="button" value="send" id="send-green" style="color: #33ff33;">
+		<input type="button" value="up" id="send-up">
+		<input type="button" value="down" id="send-down">
+		<input type="button" value="X" id="clear-white">
+		<input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;">
+		<input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;">
+		<input type="button" value="X" id="clear-green" style="color: #33ff33;">
+		<input type="button" value="X" id="clear-red" style="color: #ff3333;">
+		<input type="button" value=":)" id="smile">
+		<input type="button" value="「」" id="quotes">
+
+		<input type="checkbox" id="delete" style="width:20px; height:20px;">del
+		<input type="checkbox" id="change" style="width:20px; height:20px;">ch
+		<input type="button" value="+" id="insert" style="color: #000000;">
+		<input type="button" value="+node" id="add-child" style="color: #000000;">
+		&nbsp;voov <input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;">
+		<input type="radio" name="group1" id="adult" style="width:25px; height:25px;"> VIP
+
+		<div id="suggestions">
+		</div>
+
+		<div id="mid-levels">
+
+			<div id="column1">
+				<table id="level1">
+				</table>
+			</div>
+
+			<div id="column2">
+				<table id="level2">
+				</table>
+			</div>
+
+			<div id="column3">
+				<table id="level3">
+				</table>
+			</div>
+
+			<div id="column4">
+				<table id="level4">
+				</table>
+			</div>
+
+			<br style="clear:both;"/>
+		</div>
+
+		<div style="position:absolute;bottom:20px;left:0;">
+			<a href="javascript:loadDB('rogets_YKY_database.txt')">(Load Roget's Thesaurus)</a>
+			<a href="javascript:saveDB()">(Save DB) </a>
+		</div>
+
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="js/YKY-input-method2.js"></script>
+
+	</body>
+</html>

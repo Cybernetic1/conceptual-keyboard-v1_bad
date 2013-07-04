@@ -14,6 +14,7 @@ var database = new Array();
 var level1 = 1;
 var level2 = 1;
 var level3 = 1;
+var level4 = 1;
 var currentNode = null;
 
 // Indexes for creating new words
@@ -44,6 +45,7 @@ function fillColumn1()
 		level1 = this.rowIndex + 1;
 		level2 = null;
 		level3 = null;
+		level4 = null;
 		fillColumn2();
 		fillSuggestions();
 	});
@@ -68,6 +70,7 @@ function fillColumn2()
 
 		level2 = this.rowIndex + 1;
 		level3 = null;
+		level4 = null;
 		fillColumn3();
 		fillSuggestions();
 	});
@@ -91,6 +94,30 @@ function fillColumn3()
 		$(this).addClass('selected');
 
 		level3 = this.rowIndex + 1;
+		level4 = null;
+		fillColumn4();
+		fillSuggestions();
+	});
+}
+
+// Similar to fillColumn1
+function fillColumn4()
+{
+	var table = document.getElementById("level4");
+	table.innerHTML = "";
+	for (i = database[level1][level2][level3].length - 1; i > 0; --i) {
+		node = database[level1][level2][level3][i];
+		var row = table.insertRow(0);
+		var cell = row.insertCell(0);
+		cell.innerHTML = node[0][0];
+	}
+
+	// On click: highlight selection and display suggestions
+	$('#level4 tr').click(function() {
+		$("#level4 tr.selected").removeClass("selected");
+		$(this).addClass('selected');
+
+		level4 = this.rowIndex + 1;
 		fillSuggestions();
 	});
 }
@@ -108,7 +135,9 @@ function fillSuggestions()
 	div.innerHTML = "";			// clear contents first
 
 	// Traverse the tree:
-	if (level3 != null)
+	if (level4 != null)
+		node = database[level1][level2][level3][level4];
+	else if (level3 != null)
 		node = database[level1][level2][level3];
 	else if (level2 != null)
 		node = database[level1][level2];
@@ -122,15 +151,10 @@ function fillSuggestions()
 	for (i = 1; i < node[0].length; ++i) {
 		s = node[0][i];
 
-		// Each data item could still contain multiple words separated by " ".
 		// We add every word to the Suggestions panel as HTML <span> elements:
-		s.split(" ").forEach(function(s1) {
-			textNode = document.createElement('span');
-			textNode.appendChild(document.createTextNode(s1));
-			div.appendChild(textNode);
-		});
-		// after each line, add a <br> for clarity
-		div.appendChild(document.createElement("br"));
+		textNode = document.createElement('span');
+		textNode.appendChild(document.createTextNode(s));
+		div.appendChild(textNode);
 	}
 
 	// On click: send to Green box
@@ -260,6 +284,7 @@ function loadDB(pathname)
 		fillColumn1();			// update web-page panels according to new database
 		fillColumn2();
 		fillColumn3();
+		fillColumn3();
 	});
 }
 
@@ -270,6 +295,8 @@ function saveDB()
 	var s0 = "";
 
 	// Traverse the tree:
+	// Note: this part is badly written, as the for-loops are explicit.
+	// Tree traversal should be automatic as in the loadDB() code.
 	for (i = 1; i < database.length; ++i) {				// Level 1:
 		s0 += ("\t" + i + ". ");								// print section number
 		s0 += (database[i][0][0] + "\n");					// print heading
@@ -290,6 +317,14 @@ function saveDB()
 
 				for (h = 1; h < database[i][j][k][0].length; ++h) // print contents
 					s0 += (database[i][j][k][0][h] + "\n");
+
+				for (l = 1; i < database[i][j][k].length; ++l) {	// Level 4:
+					s0 += ("\t" + i + "." + j + "." + k + "." + l + ". "); // print section number
+					s0 += (database[i][j][k][l][0][0] + "\n");	 	// print heading
+
+					for (h = 1; h < database[i][j][k][l][0].length; ++h) // print contents
+						s0 += (database[i][j][k][l][0][h] + "\n");
+				}
 			}
 		}
 	}
@@ -402,7 +437,7 @@ document.getElementById("smile").addEventListener("click", function() {
 
 document.getElementById("quotes").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = "「" + str + "」";
+	document.getElementById("white-box").value = "``" + str + "''";
 }, false);
 
 // *********** Functions for manipulating tree categories ***********
@@ -517,5 +552,5 @@ function drop(ev)
 // *********************** Initialize by loading database **********************
 
 // loadDB("synonym_forest_YKY_database.txt");
-loadDB("database_sexy.txt");
+loadDB("rogets_YKY_database.txt");
 console.log("so far so good");
