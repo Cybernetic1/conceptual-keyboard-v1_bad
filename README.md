@@ -1,6 +1,8 @@
 conceptual-keyboard
 ===================
 
+<img src="https://sites.google.com/site/cyberneticorganism01/downloads/Cartoon_octopus.png?attredirects=0" alt="logo" title="Conkey"/>
+
 The idea is to use "concepts" to type words.  For example, to type "brassiere"
 you may go through the categories "physical matter" --> "clothing" --> "women" ...
 
@@ -37,7 +39,7 @@ Then run the jar file:
 then open either URL in your browser:
 
     http://localhost:9090/index.html    (for Chinese)
-	 http://localhost:9090/index2.html   (for English)
+    http://localhost:9090/index2.html   (for English)
 
 To Install Project:
 
