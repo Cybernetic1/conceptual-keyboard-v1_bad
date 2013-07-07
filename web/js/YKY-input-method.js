@@ -206,8 +206,8 @@ function word_SingleClick(item) {
 // Action: send the text directly to output
 function word_DoubleClick(str) {
 	// Play a sound
-	var audio_dicq = new Audio("dicq.ogg");
-	audio_dicq.play();
+	var audio = new Audio("sending.ogg");
+	audio.play();
 	// Send output via message to Google Chrome extension script:
 	window.postMessage({type: "FROM_PAGE", text: clicked_str}, "*");
 }
@@ -315,6 +315,27 @@ function saveDB()
 
 // ******************************* Menu buttons ********************************
 
+document.getElementById("send-clipboard").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+
+	// Copy to clipboard, by sending to Chrome Extension Content Script first
+	window.postMessage({type: "CLIPBOARD", text: str}, "*");
+
+	// var sandbox = $("#white-box").val(str).select();
+   // document.execCommand('copy');
+   // sandbox.val('');
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+function quicksend() {
+	str = document.getElementById("white-box").value;
+	window.postMessage({type: "FROM_PAGE", text: str}, "*");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}
+
 // Enter pressed on White-Box
 document.getElementById("white-box").onkeypress = function(e) {
 	if (!e)
@@ -326,11 +347,6 @@ document.getElementById("white-box").onkeypress = function(e) {
 	}
 };
 
-function quicksend() {
-	str = document.getElementById("white-box").value;
-	window.postMessage({type: "FROM_PAGE", text: str}, "*");
-}
-
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
 document.getElementById("send-green").addEventListener("click", function() {
@@ -339,6 +355,8 @@ document.getElementById("send-green").addEventListener("click", function() {
 
 	window.postMessage({type: "FROM_PAGE", text: str}, "*");
 	// console.log("I'm sending something");
+	var audio = new Audio("sending.ogg");
+	audio.play();
 }, false);
 
 document.getElementById("send-up").addEventListener("click", function() {
@@ -516,5 +534,5 @@ function drop(ev)
 
 // *********************** Initialize by loading database **********************
 
-loadDB("synonym_forest_YKY_database.txt");
+loadDB("database_default.txt");
 console.log("so far so good");

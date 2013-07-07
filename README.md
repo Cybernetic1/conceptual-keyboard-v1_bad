@@ -22,9 +22,9 @@ We can also make use of various ontologies such as:
 
 Right now I'm experimenting with various categorization schemes.
 
-Currently the Chinese dictionary (同義詞詞林) is automatically loaded.  You can
-use index2.html to open Roget's Thesaurus.  The sources of dictionaries and my
-scripts for working with them are included in the "dictionaries" directory.
+Currently the Chinese dictionary (同義詞詞林) and Roget's Thesaurus are available.
+The sources of dictionaries and my scripts for working with them are included in
+the "dictionaries" directory.
 
 To Run:
 
@@ -91,8 +91,10 @@ My e-mail = generic.intelligence at Gmail
 
 TO-DO:
 
-1. Abandon the use of Red, Green and White boxes, use drag-and-drop exclusively.
-2. Make user-interface prettier.
+1. Make user-interface prettier.
+2. Abandon the use of Red, Green and White boxes, use drag-and-drop exclusively.
 3. Allow app to talk to server, collect frequent words/phrases from users.
-4. Intelligent sentence generation?
-5. Your suggestions?
+4. Intelligent sentence generation?  Perhaps one key feature is to be able to
+   change the word class (or part-of-speech) of a word.
+5. Use pictures or virtual reality to select words, as in a visual dictionary.
+6. Your ideas / suggestions?

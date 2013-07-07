@@ -1,0 +1,44 @@
+{
+	"manifest_version": 2,
+
+	"name": "Conceptual Keyboard extension script",
+	"description": "allow communication between keyboard page and chatroom pages",
+	"version": "1.0",
+
+	"background": {
+		"page": "background.html",
+		// "scripts": ["background.js"],
+		"persistent": true
+	},
+
+	"content_scripts": [
+		{
+		// This is the script associated with the "Conceptual Keyboard" page,
+		//    which is currently run by localhost
+		"matches": ["*://localhost/index.html"],
+		"js": ["contentscript.js"],
+		"run_at": "document_end"
+		},
+		{
+		// This is the script associated with various "Chatroom" pages
+		// For example:  http://www.uvoov.com/voovchat/index.php
+		//               http://60.199.209.71/VIP5D/index.phtml
+		"matches": ["*://60.199.209.72/VIP*/index.phtml*", "*://60.199.209.71/VIP*/index.phtml*", "*://www.uvoov.com/voovchat/index.php"],
+		"js": ["contentscript2.js"],
+		"run_at": "document_end"
+		}
+	],
+
+	"permissions": [
+		"clipboardRead",
+		"clipboardWrite"
+	],
+	
+	"icons": {
+		"default_icon": "icon.png"
+	},
+
+	"browser_action": {
+		"default_icon": "icon.png"
+	}
+}

@@ -236,8 +236,8 @@ function word_SingleClick(item) {
 // Action: send the text directly to output
 function word_DoubleClick(str) {
 	// Play a sound
-	var audio_dicq = new Audio("dicq.ogg");
-	audio_dicq.play();
+	var audio = new Audio("sending.ogg");
+	audio.play();
 	// Send output via message to Google Chrome extension script:
 	window.postMessage({type: "FROM_PAGE", text: clicked_str}, "*");
 }
