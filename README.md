@@ -22,7 +22,7 @@ We can also make use of various ontologies such as:
 
 Right now I'm experimenting with various categorization schemes.
 
-Currently the Chinese dictionary (同義詞詞林) and Roget's Thesaurus are available.
+Currently the Chinese dictionary "同義詞詞林" and Roget's Thesaurus are available.
 The sources of dictionaries and my scripts for working with them are included in
 the "dictionaries" directory.
 
@@ -43,11 +43,26 @@ then open either URL in your browser:
 
 To Install Project:
 
-Open in NetBeans IDE (I'm using 7.3.1).
+Open project in NetBeans IDE (I'm using 7.3.1).
 
 For Chinese texts, be careful to use UTF-8 encoding, or you'll see garbage.
 
 I used java Spark as the web server, and jQuery.
+
+Notice that the program is not "usable" at this stage, as you may find it
+incapable of inputting complete sentences.  That is because the thesauri do not
+have entries for all word forms.
+
+According to simple grammar theory, words are divided into 4 main classes:
+nouns, verbs, adjectives, adverbs.  For example:
+"肅靜" quietnesss, "靜下來" quiet down, "很靜" very quiet, "靜靜地" quietly.
+These are the "main class" words.  And then there are a limited number (perhaps
+hundreds) of "functional" words, such as pronouns, prepositions, conjunctions,
+determiners, exclamations, etc.  Whereas there are many thousands of main class
+words.  So, my future plan is, add a function that can automatically convert
+between the 4 main classes (nouns, verbs, adjectives, adverbs), and then add a
+a small sub-category of all functional words.  This way, we can ensure that all
+word forms are available to the user.
 
 Explanation of the GUI:
 
