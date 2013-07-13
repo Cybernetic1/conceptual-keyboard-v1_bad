@@ -5,7 +5,7 @@
 var adultId = null;
 var voovId = null;
 
-chrome.tabs.query({url: "http://www.uvoov.com/voovchat/index.php"}, function(result) {
+chrome.tabs.query({url: "http://www.uvoov.com/voovchat/index.php*"}, function(result) {
 	if (result.length != 0)
 		voovId = result[0].id;
 	else

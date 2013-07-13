@@ -9,6 +9,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import spark.Spark;
+import org.apache.log4j.BasicConfigurator;
 
 public class Conkey extends Spark {
 
@@ -58,6 +59,8 @@ public class Conkey extends Spark {
 	}
 
 	public static void main(String[] args) {
+
+		BasicConfigurator.configure();	// configures log4j logger
 
 		setPort(9090); // Spark will run on port 9090
 

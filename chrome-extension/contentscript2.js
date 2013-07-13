@@ -2,7 +2,7 @@
 
 // Which chatroom output is selected by user?
 // The selection is done on the Conceptual Keyboard page with radio buttons
-var voovChat = false;
+var voovChat = true;
 var adultChat = false;
 
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
