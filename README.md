@@ -81,7 +81,7 @@ Explanation of the GUI
    -and-drop.
 
 Here's a screen shot:
-<img src="https://github.com/Cybernetic1/conceptual-keyboard/blob/master/Screenshot_Chinese_synonym.png" alt="(screen shot)" title="Screen shot"/>
+<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Screenshot_Chinese_synonym.png" alt="(screen shot)" title="Screen shot"/>
 
 Explanation of buttons
 ==========================
