@@ -26,7 +26,8 @@ Currently the Chinese dictionary "同義詞詞林" and Roget's Thesaurus are ava
 The sources of dictionaries and my scripts for working with them are included in
 the "dictionaries" directory.
 
-To Run:
+To Run
+=======
 
 Clone the project to your directory:
 
@@ -41,13 +42,18 @@ then open either URL in your browser:
     http://localhost:9090/index.html    (for Chinese)
     http://localhost:9090/index2.html   (for English)
 
-To Install Project:
+For NetBeans IDE
+=================
 
 Open project in NetBeans IDE (I'm using 7.3.1).
 
 For Chinese texts, be careful to use UTF-8 encoding, or you'll see garbage.
 
 I used java Spark as the web server, and jQuery.
+
+
+A Little Grammar Theory
+=========================
 
 Notice that the program is not "usable" at this stage, as you may find it
 incapable of inputting complete sentences.  That is because the thesauri do not
@@ -64,7 +70,8 @@ between the 4 main classes (nouns, verbs, adjectives, adverbs), and then add a
 a small sub-category of all functional words.  This way, we can ensure that all
 word forms are available to the user.
 
-Explanation of the GUI:
+Explanation of the GUI
+========================
 
 1. The 3 columns represent levels 1,2,3 from left to right.  Click on each
    category to see its sub-categories.
@@ -73,7 +80,8 @@ Explanation of the GUI:
 3. The Green and Red boxes are for constructing sentences.  You can use drag-
    -and-drop.
 
-Explanation of buttons:
+Explanation of buttons
+==========================
 
 (They are mainly for my personal use.  You probably just want to browse the
 categories at this stage.)
@@ -99,6 +107,9 @@ categories at this stage.)
 16. "voov" and "VIP":  send messages to certain Chinese chat rooms (requires
     my own Google Chrome plugin -- not included yet)
 
+To-Do
+=======
+
 So, this is just to give a general idea.  Feel free to contact me if you're
 interested to help develop this or have suggestions!
 
@@ -114,8 +125,8 @@ TO-DO:
 5. Use pictures or virtual reality to select words, as in a visual dictionary.
 6. Your ideas / suggestions?
 
-An Argument for the Conceptual Input Method
-===========================================
+Philosophical Argument for the Conceptual Input Method
+========================================================
 
 For western people, they have been using phonetic spelling since Phoenician times (around 3000 years ago).  We Chinese due to our geographic isolation missed out on that development, so we're still using something akin to Egyptians' hieroglyphics.  To westerners, using phonetic spelling is second nature, so they may not want to seek alternatives to it, because the existing solution is already good enough.
 
