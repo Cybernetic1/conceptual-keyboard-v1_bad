@@ -1,4 +1,4 @@
-conceptual-keyboard
+Conceptual Keyboard
 ===================
 
 <img src="https://sites.google.com/site/cyberneticorganism01/downloads/octopus.png?attredirects=0" alt="logo" title="Conkey"/>
@@ -79,6 +79,9 @@ Explanation of the GUI
    the horizontal space.  Click on each word to send it to the Green Box.
 3. The Green and Red boxes are for constructing sentences.  You can use drag-
    -and-drop.
+
+Here's a screen shot:
+<img src="https://github.com/Cybernetic1/conceptual-keyboard/blob/master/Screenshot_Chinese_synonym.png" alt="(screen shot)" title="Screen shot"/>
 
 Explanation of buttons
 ==========================
