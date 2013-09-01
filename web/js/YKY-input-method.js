@@ -1,6 +1,11 @@
 // Code for storing the database in a tree, and for handling the user interface
 
-// // This holds the tree data structure.
+// To do:
+// * left and right click in Green Box
+// * drag-and-drop to white box
+// * create an area like a clipboard, that can be saved
+
+// ******* This holds the tree data structure.
 // The format is an array of arrays of arrays...
 // For example, the top-level nodes are: database[1], database[2], database[3], etc...
 // All node indexes start at 1.
@@ -19,6 +24,11 @@ var currentNode = null;
 // Indexes for creating new words
 var word_index = 0;
 var node_index = 0;
+
+// History of input box
+var history = new Array();
+var history_index = 0;				// current position of history, which should be empty
+var history_view_index = 0;		// current viewing position of history
 
 // Fill the 1st column (= leftmost column) with nodes from the tree
 function fillColumn1()
@@ -124,10 +134,14 @@ function fillSuggestions()
 
 		// Each data item could still contain multiple words separated by " ".
 		// We add every word to the Suggestions panel as HTML <span> elements:
-		s.split(" ").forEach(function(s1) {
+		s.split("|").forEach(function(s1) {
 			textNode = document.createElement('span');
 			textNode.appendChild(document.createTextNode(s1));
 			div.appendChild(textNode);
+			
+			// Here we've created a "span" element
+			// may want to attach click events to it?
+			// 
 		});
 		// after each line, add a <br> for clarity
 		div.appendChild(document.createElement("br"));
@@ -135,24 +149,47 @@ function fillSuggestions()
 
 	// On click: send to Green box
 	// On double-click: send to output directly
+	// may be depend on where (in which Box) the span element is located
+	// the location can be given by [DOMelement].parentNode or .parentElement
 	$("#suggestions span").on('click', function(ev)
 		{
 		clicked_str = this.textContent;
 		e_click = ev;
 		id_click = this.id;
+		// we need to use timer to distinguish single and double-click
 		clicktimer = window.setTimeout(function () {
 			if(e_click) {
 				word_SingleClick();
 				clearTimeout(clicktimer);
 				clicktimer = null;
-			}}, 500);
+			}}, 900);
+
 		}).dblclick(function(ev)
+			{
+			window.clearTimeout(clicktimer);
+			e_click = null;
+			id_click = null;
+			word_DoubleClick();
+			});
+
+	// On right click: send to White Box
+	$("#suggestions span").on('contextmenu', function(ev)
 		{
-		window.clearTimeout(clicktimer);
-		e_click = null;
-		id_click = null;
-		word_DoubleClick();
+		clicked_str = this.textContent;
+		document.getElementById("white-box").value += clicked_str;
+		return false;		// suppress context-menu popping up
 		});
+}
+
+// Find index of a string inside currentNode[0] (which is the current list of
+// suggestions).
+// Used in SingleClick()
+function find_index(str) {
+	// currentNode[0] is an array of strings
+	currentNode[0].forEach(function (line, index) {
+		if (line.indexOf(str) != -1)		// we just need to find the line it occurs
+			return index;
+	});
 }
 
 // Event handler for single-click of a suggested word
@@ -160,16 +197,23 @@ function word_SingleClick(item) {
 	var selection = clicked_str;			// the clicked word (string)
 
 	// There can be 3 operations:
-	// 1. delete word
-	// 2. change word
-	// 3. send word to Green box
+	// 1. delete clicked word in suggestions
+	// 2. change word in suggestions to WhiteBox word
+	// 3. append (WhiteBox) word to suggestions
+	// 4. send clicked word to Green box / Output
 	if ($("#delete").prop("checked") === true) {
 		// remove from tree data structure
-		pos = currentNode[0].indexOf(selection);
-		currentNode[0].splice(pos, 1);
+		var j = 0;
+		for (i = 0; i < currentNode[0].length; ++i) {
+			if (currentNode[0][i].indexOf(selection) > -1) {
+				j = i;
+				break;
+			}
+		}
+		currentNode[0].splice(j, 1);
 
 		// remove from HTML page
-		$("#suggestions span")[pos - 1].remove();
+		$("#suggestions span:contains('" + selection + "')").remove();
 
 		$("#delete").prop("checked", false);	// reset button state
 	}
@@ -178,13 +222,43 @@ function word_SingleClick(item) {
 		new_s = document.getElementById("white-box").value;
 
 		// change item in tree data structure
-		pos = currentNode[0].indexOf(selection);
-		currentNode[0][pos] = new_s;
+		// currentNode[0] contains the list of suggestions
+		// find the line in which selection occurs
+		var j = 0;
+		for (i = 0; i < currentNode[0].length; ++i) {
+			if (currentNode[0][i].indexOf(selection) > -1) {
+				j = i;
+				break;
+			}
+		}
+		currentNode[0][j] = currentNode[0][j].replace(selection, new_s);
 
 		// change HTML in page
-		$("#suggestions span")[pos - 1].innerText = new_s;
+		$("#suggestions span:contains('" + selection + "')").text(new_s);
 
 		$("#change").prop("checked", false);	// reset button state
+	}
+	else if ($("#append").prop("checked") === true) {
+		// get value of input box (white box)
+		new_s = "|" + document.getElementById("white-box").value;
+
+		// change item in tree data structure
+		// currentNode[0] contains the list of suggestions
+		// find the line in which selection occurs
+		var j = 0;
+		for (i = 0; i < currentNode[0].length; ++i) {
+			if (currentNode[0][i].indexOf(selection) > -1) {
+				j = i;
+				break;
+			}
+		}
+		// currentNode[0][j] += "|";
+		currentNode[0][j] += new_s;
+
+		// change HTML in page
+		$("#suggestions span:contains('" + selection + "')").text(new_s);
+
+		$("#append").prop("checked", false);	// reset button state
 	}
 	else {
 		// create a new <span> element
@@ -217,7 +291,8 @@ function loadDB(pathname)
 {
 	// Read lexicon (plain text file) into memory, store as tree data structure
 	// The tree structure is stored as nested arrays.
-	$.get(pathname, function(data) {
+	// The current time is appended to pathname to avoid getting the cached data
+	$.get(pathname + "?" + Date.now().toString(), function(data) {
 
 		var lines = data.split("\n");
 
@@ -258,47 +333,47 @@ function loadDB(pathname)
 		});
 
 		fillColumn1();			// update web-page panels according to new database
-		fillColumn2();
-		fillColumn3();
 	});
 }
 
 // Save database
 function saveDB()
 {
-	// Plain text buffer containing all headings and suggested words
-	var s0 = "";
+	// Traverse database and convert contents to string
+	function db_2_str(node, section) {
+		var s0 = "";
+		// console.log("length= " + node.length);
 
-	// Traverse the tree:
-	for (i = 1; i < database.length; ++i) {				// Level 1:
-		s0 += ("\t" + i + ". ");								// print section number
-		s0 += (database[i][0][0] + "\n");					// print heading
+		// for each element node[i]
+		var i = 0;		// Don't know why but this is needed to make i a local var!
+		for (i = 1; i < node.length; ++i) {
+			// console.log("section=" + section + "." + i);
+			// debugger;
 
-		for (h = 1; h < database[i][0].length; ++h)		// print contents
-			s0 += (database[i][0][h] + "\n");
+			// print section number and heading
+			s0 += ("\t" + section + i + ". ");			// print section number
+			s0 += (node[i][0][0] + "\n");					// print heading
 
-		for (j = 1; j < database[i].length; ++j) {		// Level 2:
-			s0 += ("\t" + i + "." + j + ". ");				// print section number
-			s0 += (database[i][j][0][0] + "\n");			// print heading
+			//	loop to print every data element in node[i][0]
+			for (h = 1; h < node[i][0].length; ++h)
+				s0 += (node[i][0][h] + "\n");
 
-			for (h = 1; h < database[i][j][0].length; ++h) 	// print contents
-				s0 += (database[i][j][0][h] + "\n");
-
-			for (k = 1; i < database[i][j].length; ++k) {	// Level 3:
-				s0 += ("\t" + i + "." + j + "." + k + ". "); // print section number
-				s0 += (database[i][j][k][0][0] + "\n");	 	// print heading
-
-				for (h = 1; h < database[i][j][k][0].length; ++h) // print contents
-					s0 += (database[i][j][k][0][h] + "\n");
-			}
+			// for each element in node[i][j],
+			//	ie, repeat * for each node[i], unless it is empty
+			if (node[i].length > 1)
+				s0 += db_2_str(node[i], section + i + ".");
 		}
+		return s0;
 	}
 
+	var s = db_2_str(database, "");
+
 	// Save the file via a HTTP request to server
+	// Server side could save to a specific directory
 	$.ajax({
 		method: "POST",
 		url: "/saveDatabase",
-		data: {data: s0},
+		data: {data: s},
 		success: function(resp) {
 			console.log("file saved");
 		}
@@ -325,13 +400,40 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
    // document.execCommand('copy');
    // sandbox.val('');
 
+	// record in history
+	history[history_index] = str;
+	++history_index;
+	if (history_index == 100) history_index = 0;
+	history_view_index = -1;
+
+	// clear input box
+	document.getElementById("white-box").value = "";
+
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
 
+var to_skype = false;		// whether to send texts to Skype
+
 function quicksend() {
 	str = document.getElementById("white-box").value;
+
+//	if (to_skype) {			// Try to send text to Skype chat dialog
+//		Skype.ui({				// don't know how to do it yet...
+//			name: "",
+//			element: "",
+//			participants: [""]
+//		});
+//	}
+
 	window.postMessage({type: "FROM_PAGE", text: str}, "*");
+
+	// record in history, but don't clear input box
+	history[history_index] = str;
+	++history_index;
+	if (history_index == 100) history_index = 0;
+	history_view_index = -1;
+
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }
@@ -349,9 +451,40 @@ document.getElementById("white-box").onkeypress = function(e) {
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
+// Browsing history with up and down arrows
+document.onkeydown = checkKey;
+
+function checkKey(e) {
+	e = e || window.event;
+
+	if (e.keyCode == 38) {							// up arrow key
+		// console.log("up arrow detected");
+		if (history_view_index == -1)
+			history_view_index = history_index - 1;
+		else
+			--history_view_index;
+		document.getElementById("white-box").value = history[history_view_index];
+	}
+	if (e.keyCode == 40) {							// down arrow key
+		// console.log("down arrow detected");
+		if (history_view_index != -1)				// -1 = no history to view
+			{
+			++history_view_index;
+			if (history_view_index == history_index)	// reached end of history?
+				{
+				history_view_index = -1;
+				document.getElementById("white-box").value = "";
+				}
+			else
+				document.getElementById("white-box").value = history[history_view_index];
+			}
+	}
+	document.getElementById("white-box").focus();
+};
+
 document.getElementById("send-green").addEventListener("click", function() {
 	str = document.getElementById("green-box").textContent;
-	str = str.replace(/[()]/g, "");
+	// str = str.replace(/[()]/g, "");  // remove ()'s
 
 	window.postMessage({type: "FROM_PAGE", text: str}, "*");
 	// console.log("I'm sending something");
@@ -360,6 +493,16 @@ document.getElementById("send-green").addEventListener("click", function() {
 }, false);
 
 document.getElementById("send-up").addEventListener("click", function() {
+	green_str = document.getElementById("green-box").textContent;
+	// str = str.replace(/[()]/g, "");		// remove ()'s
+
+	white_str = document.getElementById("white-box").value;
+	document.getElementById("white-box").value = white_str + green_str;
+
+	history_view_index = -1;		// No longer in history mode
+}, false);
+
+document.getElementById("send-down").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	words = str.split(" ");
 	words.forEach(function(word, i, array) {
@@ -378,16 +521,11 @@ document.getElementById("send-up").addEventListener("click", function() {
 	});
 }, false);
 
-document.getElementById("send-down").addEventListener("click", function() {
-	green_str = document.getElementById("green-box").textContent;
-	// str = str.replace(/[()]/g, "");		// remove ()'s
-
-	white_str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = white_str + green_str;
-}, false);
-
 document.getElementById("clear-white").addEventListener("click", function() {
-	document.getElementById("white-box").value = "";
+	var box = document.getElementById("white-box");
+	box.value = "";
+	box.focus();
+	history_view_index = -1;		// No longer in history mode
 }, false);
 
 document.getElementById("clear-green1-L").addEventListener("click", function() {
@@ -425,7 +563,7 @@ document.getElementById("quotes").addEventListener("click", function() {
 
 // *********** Functions for manipulating tree categories ***********
 
-// insert White-Box item to currently selected menu node
+// insert White-Box item below currently selected menu node
 document.getElementById("insert").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 
@@ -459,8 +597,6 @@ document.getElementById("add-child").addEventListener("click", function() {
 
 	// redraw tree menu
 	fillColumn1();
-	fillColumn2();
-	fillColumn3();
 
 }, false);
 
@@ -468,11 +604,29 @@ document.getElementById("add-child").addEventListener("click", function() {
 // **************** Choosing which web page to feed output to *****************
 
 document.getElementById("voov").addEventListener("click", function() {
+	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "voov"}, "*");
 }, false);
 
 document.getElementById("adult").addEventListener("click", function() {
+	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "adult"}, "*");
+}, false);
+
+// document.getElementById("skype").addEventListener("click", function() {
+//	to_skype = true;
+// }, false);
+
+document.getElementById("loadDB").addEventListener("click", function() {
+	loadDB("database_default.txt");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("saveDB").addEventListener("click", function() {
+	saveDB();
+	var audio = new Audio("sending.ogg");
+	audio.play();
 }, false);
 
 window.addEventListener('DOMContentLoaded', splitWords, false);
@@ -535,4 +689,6 @@ function drop(ev)
 // *********************** Initialize by loading database **********************
 
 loadDB("database_default.txt");
+// initial chat room is "voov"
+window.postMessage({type: "CHAT_ROOM", text: "voov"}, "*");
 console.log("so far so good");

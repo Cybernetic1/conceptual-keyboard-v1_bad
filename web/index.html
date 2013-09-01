@@ -1,15 +1,20 @@
 <!DOCTYPE html>
+<!-- To Do:
+1. save chat history somewhere (perhaps via Chrome script)
+2. utilize chat history
+3. 
+-->
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 		<title>Conceptual Keyboard</title>
 
 		<style type="text/css">
-			#green-box {width:100%;height:30px;padding:2px;border:3px solid #33ff33;}
-			#red-box {width:100%;height:60px;padding:2px;border:3px solid #ff3333;}
+			#green-box {width:98%;height:30px;padding:2px;border:3px solid #33ff33;}
+			#red-box {width:98%;height:30px;padding:2px;border:3px solid #ff3333;}
 
 			body {
-				font-size: 65%;
+				font-size: 50%;
 				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
 				padding-top: 0px;
 				background-color: #000000;
@@ -22,7 +27,7 @@
 				background-color: #555555;
 				color: #ffffff;
 				padding: 2px 2px;
-				font: 15px sans-serif;
+				font: 9px;
 				font-weight: bold;
 				text-decoration: none;
 				border: 3px solid #000;
@@ -30,7 +35,7 @@
 			}
 
 			input[type=text] {
-				font-size: 120%;
+				font-size: 100%;
 				background-color: #000000;
 				color: #ffffff;
 				/* font-weight: bold; */
@@ -85,29 +90,34 @@
 	</head>
 
 	<body>
+		<input type="text" id="white-box" style="width:100%; height:120%;" value=""><br>
 		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
 		<div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
 
-		<input type="text" id="white-box" style="width:100%; height:120%;" value=""><br>
-		<input type="button" value="clip" id="send-clipboard">
-		<input type="button" value="send" id="send-white">
-		<input type="button" value="send" id="send-green" style="color: #33ff33;">
-		<input type="button" value="up" id="send-up">
-		<input type="button" value="down" id="send-down">
+		<input type="button" value="cut" id="send-clipboard">
+		<input type="button" value="↲" id="send-white">
+		<input type="button" value="↲" id="send-green" style="color: #33ff33;">
+		<input type="button" value="▲" id="send-up">
+		<input type="button" value="▼" id="send-down">
 		<input type="button" value="X" id="clear-white">
+		<input type="button" value="X" id="clear-green" style="color: #33ff33;">
 		<input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;">
 		<input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;">
-		<input type="button" value="X" id="clear-green" style="color: #33ff33;">
 		<input type="button" value="X" id="clear-red" style="color: #ff3333;">
-		<input type="button" value=":)" id="smile">
+		<input type="button" value="=)" id="smile">
 		<input type="button" value="「」" id="quotes">
 
 		<input type="checkbox" id="delete" style="width:20px; height:20px;">del
 		<input type="checkbox" id="change" style="width:20px; height:20px;">ch
-		<input type="button" value="+" id="insert" style="color: #000000;">
-		<input type="button" value="+node" id="add-child" style="color: #000000;">
+		<input type="checkbox" id="append" style="width:20px; height:20px;">add
+		<input type="button" value="+" id="insert" style="color: #aaffaa;">
+		<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
 		&nbsp;voov <input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;">
-		<input type="radio" name="group1" id="adult" style="width:25px; height:25px;"> VIP
+		&nbsp;VIP <input type="radio" name="group1" id="adult" style="width:25px; height:25px;">
+		<input type="button" value="load" id="loadDB">
+		<input type="button" value="save" id="saveDB">
+
+		<!-- &nbsp;Skype <input type="radio" name="group1" id="skype" style="width:25px; height:25px;" -->
 
 		<div id="suggestions">
 		</div>
@@ -132,12 +142,13 @@
 			<br style="clear:both;"/>
 		</div>
 
-		<div style="position:absolute;bottom:20px;left:0;">
+		<!-- div style="position:absolute;bottom:-20px;right:0;">
 			<a href="javascript:loadDB('synonym_forest_YKY_database.txt')">(Load 同義詞詞林) </a>
 			<a href="javascript:saveDB()">(Save DB) </a>
-		</div>
+		</div -->
 
 		<script src="js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="http://cdn.dev.skype.com/uri/skype-uri.js"></script>
 		<script type="text/javascript" src="js/YKY-input-method.js"></script>
 
 	</body>

@@ -60,7 +60,7 @@ public class Conkey extends Spark {
 
 	public static void main(String[] args) {
 
-		BasicConfigurator.configure();  // this line may fix the log4j warning
+		BasicConfigurator.configure();	// configures log4j logger
 
 		setPort(9090); // Spark will run on port 9090
 
@@ -76,7 +76,7 @@ public class Conkey extends Spark {
 				String data = rqst.queryParams("data").toString();
 				// System.out.println("data is: " + data.substring(0, 100));
 				try {
-					PrintWriter out = new PrintWriter("web/database-out.txt");
+					PrintWriter out = new PrintWriter("web/database_default.txt");
 					out.print(data);
 					out.close();
 				} catch (FileNotFoundException ex) {

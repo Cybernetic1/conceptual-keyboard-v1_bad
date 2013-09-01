@@ -80,7 +80,7 @@ Explanation of the GUI
 3. The Green and Red boxes are for constructing sentences.  You can use drag-
    -and-drop.
 
-Here's a screen shot:
+Here's a screen shot: (English version is in the top directory)
 <img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Screenshot_Chinese_synonym.png" alt="(screen shot)" title="Screen shot"/>
 
 Explanation of buttons
@@ -155,3 +155,5 @@ Less than 20 binary questions can get us down to any word in use.  The organizat
 3-4 個 decisions 便可找出一字／詞）。
 
 可能是 使用者 不熟悉 這些分類法， 所以覺得不方便？
+
+<img src="https://sites.google.com/site/cyberneticorganism01/downloads/octopus.png?attredirects=0" alt="logo" title="Conkey"/>

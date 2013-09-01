@@ -1,4 +1,7 @@
 ﻿// This script is loaded by the pages "Voov Chat" and "Adult Chat"
+// The script has to be reloaded whenever the Chrome Extension is reloaded,
+// Seems that only content scripts from the *same* Extension can message
+// each other.
 
 // Which chatroom output is selected by user?
 // The selection is done on the Conceptual Keyboard page with radio buttons
@@ -16,6 +19,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			{ voovChat = true; adultChat = false; }
 		else if (request.chatroom == "adult")
 			{ voovChat = false; adultChat = true; }
+		// else if (request.chatroom == "skype")
+		//	{ voovChat = false; adultChat = false; }
 
 		// console.log("2: selected chatroom:" + request.chatroom);
 		console.log((voovChat ? "voov ON" : "voov OFF") + ", " +
@@ -93,15 +98,13 @@ setInterval( function() {
 		// this is the <p> element containing the rows:
 		chatWin = html.children[1].children[1];
 		// number of lines in chat win:
-		if (chatWin != null) {
-			lastIndex = chatWin.childElementCount - 1;
-			if (lastIndex > lastAdultIndex) {
-				for (i = lastIndex; i > lastAdultIndex; i--) {
-					if (chatWin.children[i].innerText.indexOf("給 [半機械人一號] 的密語") > -1) {
-						// sound alert
-						chrome.runtime.sendMessage({alert: "adult"});
-						// console.log("Alert: someone messaged 半機械人一號 on AdultChat");
-					}
+		lastIndex = chatWin.childElementCount - 1;
+		if ((chatWin != null) && (lastIndex > lastAdultIndex)) {
+			for (i = lastIndex; i > lastAdultIndex; i--) {
+				if (chatWin.children[i].innerText.indexOf("給 [半機械人一號] 的密語") > -1) {
+					// sound alert
+					chrome.runtime.sendMessage({alert: "adult"});
+					// console.log("Alert: someone messaged 半機械人一號 on AdultChat");
 				}
 			}
 		}
@@ -110,7 +113,7 @@ setInterval( function() {
 },
 1000);
 
-// This seems to be run only once, as the "Adult Chatroom" page is loaded.
+// This seems to be run only once, as each "Chatroom" page is loaded.
 console.log("Content script 2 loaded....");
 
 // *******************************************************************

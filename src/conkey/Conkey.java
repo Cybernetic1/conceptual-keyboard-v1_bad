@@ -76,7 +76,7 @@ public class Conkey extends Spark {
 				String data = rqst.queryParams("data").toString();
 				// System.out.println("data is: " + data.substring(0, 100));
 				try {
-					PrintWriter out = new PrintWriter("web/database-out.txt");
+					PrintWriter out = new PrintWriter("web/database_default.txt");
 					out.print(data);
 					out.close();
 				} catch (FileNotFoundException ex) {

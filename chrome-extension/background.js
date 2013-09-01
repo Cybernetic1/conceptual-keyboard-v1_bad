@@ -1,6 +1,11 @@
 // Background script
 // Read from Conceptual Keyboard tab and feed into input box of another tab.
 
+// To-do:
+// * log chat messages to file, perhaps using chrome.fileSystem
+//			-- save all chat messages directed to me / by me to an array
+//			-- on "save key", save array to file (with date/time), clear array
+
 // Identify chatroom pages (if they exist), id's are used for message passing
 var adultId = null;
 var voovId = null;
@@ -29,10 +34,32 @@ chrome.extension.onMessage.addListener(
 
 	// Request to change target chatroom
 	if (request.chatroom != null) {
-		if (adultId)
-			chrome.tabs.sendMessage(adultId, {chatroom: request.chatroom});
-		if (voovId)
-			chrome.tabs.sendMessage(voovId, {chatroom: request.chatroom});
+		// We should send messages to both chatroom's content scripts
+		// Let them decide whether to speak or not
+
+		chrome.tabs.query({url: "http://www.uvoov.com/voovchat/index.php*"}, function(result) {
+			if (result.length != 0) {
+				voovId = result[0].id;
+				chrome.tabs.sendMessage(voovId, {chatroom: request.chatroom});
+				}
+			else
+				voovId = null;
+			});
+
+		chrome.tabs.query({url: "http://60.199.209.71/VIP*/index.phtml"}, function(result) {
+			if (result.length != 0) {
+				adultId = result[0].id;
+				chrome.tabs.sendMessage(adultId, {chatroom: request.chatroom});
+				}
+			});
+
+		chrome.tabs.query({url: "http://60.199.209.72/VIP*/index.phtml"}, function(result) {
+			if (result.length != 0) {
+				adultId = result[0].id;
+				chrome.tabs.sendMessage(adultId, {chatroom: request.chatroom});
+				}
+			});
+
 		}
 
 	// Request to send text to target chatroom
@@ -67,7 +94,7 @@ chrome.extension.onMessage.addListener(
 
 		if (request.alert == "adult") {
 			// console.log("adult alert")
-			var audio = new Audio("msg_alert.ogg");
+			var audio = new Audio("msg_alert2.ogg");
 			audio.play();
 		}
 	}
@@ -77,7 +104,12 @@ chrome.extension.onMessage.addListener(
 console.log("background.js is loaded....");
 
 // *******************************************************************
+// *******************************************************************
+// *******************************************************************
 // Following is some old code, I don't even remember what they're for.
+// *******************************************************************
+// *******************************************************************
+// *******************************************************************
 
 /*
 chrome.tabs.query(title("YKY input form"), function(tabs) {
