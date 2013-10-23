@@ -1,11 +1,6 @@
 // Background script
 // Read from Conceptual Keyboard tab and feed into input box of another tab.
 
-// To-do:
-// * log chat messages to file, perhaps using chrome.fileSystem
-//			-- save all chat messages directed to me / by me to an array
-//			-- on "save key", save array to file (with date/time), clear array
-
 // Identify chatroom pages (if they exist), id's are used for message passing
 var adultId = null;
 var voovId = null;
@@ -67,6 +62,7 @@ chrome.extension.onMessage.addListener(
 		// sendResponse({farewell: "script 1's msg recieved"});
 
 		// send message to content script 2
+		// script 2 will decide which page to actually output
 		if (adultId)
 			chrome.tabs.sendMessage(adultId, {sendtext: request.sendtext});
 		if (voovId)
