@@ -156,4 +156,4 @@ Less than 20 binary questions can get us down to any word in use.  The organizat
 
 可能是 使用者 不熟悉 這些分類法， 所以覺得不方便？
 
-<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/cartoon_octopus.png" alt="logo 2" title="Conkey"/>
+<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Cartoon_octopus.png" alt="logo 2" title="Conkey"/>
