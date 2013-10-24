@@ -553,7 +553,7 @@ document.getElementById("clear-red").addEventListener("click", function() {
 }, false);
 
 document.getElementById("smile").addEventListener("click", function() {
-	document.getElementById("white-box").value += ":)";
+	document.getElementById("white-box").value += "=)";
 }, false);
 
 document.getElementById("quotes").addEventListener("click", function() {
@@ -619,6 +619,12 @@ document.getElementById("adult").addEventListener("click", function() {
 
 document.getElementById("loadDB").addEventListener("click", function() {
 	loadDB("database_default.txt");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("loadDB2").addEventListener("click", function() {
+	loadDB("synonym_forest_YKY_database.txt");
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);

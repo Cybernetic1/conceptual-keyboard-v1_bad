@@ -3,7 +3,7 @@
 
 	"name": "Conceptual Keyboard extension script",
 	"description": "allow communication between keyboard page and chatroom pages",
-	"version": "1.0",
+	"version": "1.2",
 
 	"background": {
 		"page": "background.html",

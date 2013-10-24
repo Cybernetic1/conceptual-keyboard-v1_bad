@@ -8,6 +8,64 @@
 var voovChat = true;
 var adultChat = false;
 
+var logName = "log.txt";					// Name of the log file, to be filled
+
+var history = new Array();					// log of chat messages
+
+// For writing to fileSystem
+function onInitFs(fs) {
+   fs.root.getFile(logName, {create: true}, function(fileEntry) {
+
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function(fileWriter) {
+
+      fileWriter.onwriteend = function(e) {
+        console.log('Log saved.');
+      };
+
+      fileWriter.onerror = function(e) {
+        console.log('Save log failed: ' + e.toString());
+      };
+
+      // Create a new Blob and write it to log.txt.
+      var blob = new Blob(history, { type: 'text/plain' });
+      fileWriter.write(blob);
+
+      history = new Array();		// Clear history
+
+    }, errorHandler);
+
+  }, errorHandler);
+
+}
+
+function errorHandler(e) {
+  var msg = '';
+
+  switch (e.code) {
+    case FileError.QUOTA_EXCEEDED_ERR:
+      msg = 'QUOTA_EXCEEDED_ERR';
+      break;
+    case FileError.NOT_FOUND_ERR:
+      msg = 'NOT_FOUND_ERR';
+      break;
+    case FileError.SECURITY_ERR:
+      msg = 'SECURITY_ERR';
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      msg = 'INVALID_MODIFICATION_ERR';
+      break;
+    case FileError.INVALID_STATE_ERR:
+      msg = 'INVALID_STATE_ERR';
+      break;
+    default:
+      msg = 'Unknown Error';
+      break;
+  };
+
+  console.log('Error: ' + msg);
+}
+
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	// console.log(sender.tab ?
 	//	"from a content script:" + sender.tab.url :
@@ -35,7 +93,23 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		str = request.sendtext;
 		// sendResponse({farewell: "2: got msg..."});
 
-		if (voovChat && document.URL.indexOf("voov") >= 0) {
+		// check for save-log command:
+		if (str.indexOf("!log") > -1) {
+			// get the data-time and make it into filename
+			var datetime = new Date();
+			var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
+					+ "_" +   datetime.getHours() + "-" + datetime.getMinutes();
+			// the string following by "!log " is the Nickname
+			logName = str.slice(5) + "." + timeStamp + ".txt";
+			console.log("trying to log file: " + logName);
+			// save log array to file
+			window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+		}
+		else if (str.indexOf("!clear") > -1) {
+			history = new Array();
+			console.log("history cleared");
+		}
+		else if (voovChat && document.URL.indexOf("voov") >= 0) {
 			// **************** VoovChat ***************
 			//var inputBoxes = document.getElementsByClassName("poptionsBar");
 			//if (inputBoxes.length != 0) {
@@ -59,6 +133,10 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			// and then perhaps click "enter"?
 			var sendButton = document.getElementsByName("c")[0].contentWindow.document.getElementsByClassName("Off2")[0];
 			sendButton.click();
+			
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			history[history.length] = str + "\n";
 			}
 		}
 	});
@@ -70,7 +148,7 @@ var lastAdultIndex = 1;
 // Check activity every second
 // If there's activity, message Background Script to play a sound
 setInterval( function() {
-	if (document.URL.indexOf("voov") >= 0) {
+	if (document.URL.indexOf("voovchat\/index.php") >= 0) {
 		chatWin = document.getElementById("chatContainer");
 		// line number of last line in chat window
 		lineNum = parseInt( chatWin.lastChild.getAttribute("id") );
@@ -81,14 +159,21 @@ setInterval( function() {
 			lastIndex = chatWin.children.length - 1;
 			numberToTest = lineNum - lastVoovLine;
 			// Check the last N lines
+			var alert = false;
 			for (i = lastIndex; i > lastIndex - numberToTest; i--) {
 				if (i >= 0 && chatWin.children[i].innerText.indexOf("» Cybernetic1") > -1) {
 					// Cannot sound alert on this web page because browser will not enable sounds
 					//    when the page is off-focus.  So we have to message background script.
-					chrome.runtime.sendMessage({alert: "voov"});
+					alert = true;
 					// console.log("Alert: someone messaged Cybernetic1 on VoovChat");
+					history[history.length] = chatWin.children[i].innerText + "\n";
+				}
+				else if (i >= 0 && chatWin.children[i].innerText.indexOf("Cybernetic1") > -1) {
+					history[history.length] = chatWin.children[i].innerText + "\n";
 				}
 			}
+			if (alert == true)
+				chrome.runtime.sendMessage({alert: "voov"});
 		}
 		lastVoovLine = lineNum;
 	}
@@ -100,13 +185,18 @@ setInterval( function() {
 		// number of lines in chat win:
 		lastIndex = chatWin.childElementCount - 1;
 		if ((chatWin != null) && (lastIndex > lastAdultIndex)) {
+			var alert = false;
 			for (i = lastIndex; i > lastAdultIndex; i--) {
 				if (chatWin.children[i].innerText.indexOf("給 [半機械人一號] 的密語") > -1) {
 					// sound alert
-					chrome.runtime.sendMessage({alert: "adult"});
+					alert = true;
 					// console.log("Alert: someone messaged 半機械人一號 on AdultChat");
+					history[history.length] = chatWin.children[i].innerText + "\n";
 				}
+				// To-do:  On Adult page, own messages appear as broken pieces
 			}
+			if (alert == true)
+				chrome.runtime.sendMessage({alert: "adult"});
 		}
 		lastAdultIndex = lastIndex;
 	}
