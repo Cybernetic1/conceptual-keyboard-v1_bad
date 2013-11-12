@@ -22,7 +22,7 @@ We can also make use of various ontologies such as:
 
 In the future we would add pictorial dictionary entries such as:
 
-<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/pictorial_dictionary-demo.png" alt="(pictorial dictionary)" title="Pictorial dictionary"/>
+<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/pictorial-dictionary-demo.png" alt="(pictorial dictionary)" title="Pictorial dictionary"/>
 
 Currently the Chinese dictionary "同義詞詞林" and Roget's Thesaurus are available.
 The sources of dictionaries and my scripts for working with them are included in
