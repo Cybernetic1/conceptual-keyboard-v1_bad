@@ -66,17 +66,19 @@ public class Conkey extends Spark {
 
 		Route saveDatabase;
 
-		post(new Route("/saveDatabase") {
+		post(new Route("/saveDatabase/:fname") {
 			@Override
 			public Object handle(Request rqst, Response rspns) {
 				// System.out.println("saving database....");
 				rspns.header("Content-type", "text/html");
 				// String list = rqst.queryParams().toString();
+				String fname = rqst.params(":fname").toString();
 				// System.out.println("params are: " + list);
 				String data = rqst.queryParams("data").toString();
 				// System.out.println("data is: " + data.substring(0, 100));
 				try {
-					PrintWriter out = new PrintWriter("web/database_default.txt");
+					// Save in web/ directory
+					PrintWriter out = new PrintWriter("web/" + fname);
 					out.print(data);
 					out.close();
 				} catch (FileNotFoundException ex) {

@@ -5,7 +5,7 @@
 var adultId = null;
 var voovId = null;
 
-chrome.tabs.query({url: "http://www.uvoov.com/voovchat/index.php*"}, function(result) {
+chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 	if (result.length != 0)
 		voovId = result[0].id;
 	else
@@ -32,7 +32,7 @@ chrome.extension.onMessage.addListener(
 		// We should send messages to both chatroom's content scripts
 		// Let them decide whether to speak or not
 
-		chrome.tabs.query({url: "http://www.uvoov.com/voovchat/index.php*"}, function(result) {
+		chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 			if (result.length != 0) {
 				voovId = result[0].id;
 				chrome.tabs.sendMessage(voovId, {chatroom: request.chatroom});
@@ -96,6 +96,59 @@ chrome.extension.onMessage.addListener(
 	}
 
 });
+
+function onClickContext(info, tab) {
+	console.log("item " + info.menuItemId + " was clicked");
+    console.log("info: " + JSON.stringify(info));
+    console.log("tab: " + JSON.stringify(tab));
+
+	var fname = prompt("Enter log file name", "no-name");
+
+	//Add all you functional Logic here
+    chrome.tabs.query({
+        "active": true,
+        "currentWindow": true
+    }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + fname });
+    });
+}
+
+function onClickContext2(info, tab) {
+	//console.log("item " + info.menuItemId + " was clicked");
+    //console.log("info: " + JSON.stringify(info));
+    //console.log("tab: " + JSON.stringify(tab));
+
+	//var fname = prompt("Enter log file name", "no-name");
+
+	//Add all you functional Logic here
+    chrome.tabs.query({
+        "active": true,
+        "currentWindow": true
+    }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { sendtext: "!clear" });
+    });
+}
+
+// Create one test item for each context type.
+var contexts = ["page" //, "selection", "link", "editable", "image", "video", "audio"
+	];
+
+for (var i = 0; i < contexts.length; i++) {
+    var context = contexts[i];
+    var title = "Save log";
+    var id = chrome.contextMenus.create({
+        "title": title,
+        "contexts": [context],
+        "onclick": onClickContext
+    });
+    // console.log("'" + context + "' item:" + id);
+    title = "Clear history";
+    id = chrome.contextMenus.create({
+        "title": title,
+        "contexts": [context],
+        "onclick": onClickContext2
+    });
+}
 
 console.log("background.js is loaded....");
 

@@ -12,9 +12,6 @@ var logName = "log.txt";					// Name of the log file, to be filled
 
 var history = new Array();					// log of chat messages
 
-var last_str = "";							// for Voov because it doesn't allow
-											// to send duplicate messages
-
 // For writing to fileSystem
 function onInitFs(fs) {
    fs.root.getFile(logName, {create: true}, function(fileEntry) {
@@ -69,18 +66,6 @@ function errorHandler(e) {
   console.log('Error: ' + msg);
 }
 
-function saveLog(name) {
-	// get the data-time and make it into filename
-	var datetime = new Date();
-	var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
-			+ "_" +   datetime.getHours() + "-" + datetime.getMinutes();
-	// the string following by "!log " is the Nickname
-	logName = name + "." + timeStamp + ".txt";
-	console.log("trying to log file: " + logName);
-	// save log array to file
-	window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
-	}
-
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	// console.log(sender.tab ?
 	//	"from a content script:" + sender.tab.url :
@@ -134,11 +119,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 				//sendButton.click();
 				//}
 			//else {
-				if (last_str == str)		// Voov does not allow to send duplicate messages
-					str = " " + str;
 				var inputBox = document.getElementById("optionsBar");
 				inputBox.value = str;
-				last_str = str;
 				var sendButton = document.getElementById("optionsSend");
 				sendButton.click();
 			//	}
@@ -167,10 +149,8 @@ var lastAdultIndex = 1;
 // If there's activity, message Background Script to play a sound
 setInterval( function() {
 	timeStamp = Date().slice(16,24);
-	if (document.URL.indexOf("voovchat\/") >= 0) {
+	if (document.URL.indexOf("voovchat\/index.php") >= 0) {
 		chatWin = document.getElementById("chatContainer2");
-		if (chatWin == null)
-			chatWin = document.getElementById("chatContainer");
 		// line number of last line in chat window
 		lineNum = chatWin.children.length;
 		// console.log("we are checking voovChat");
@@ -219,7 +199,7 @@ setInterval( function() {
 		if ((chatWin != null) && (lastIndex > lastAdultIndex)) {
 			var alert = false;
 			for (i = lastIndex; i > lastAdultIndex; i--) {
-				if (chatWin.children[i].innerText.indexOf("[半機械人一號]") > -1) {
+				if (chatWin.children[i].innerText.indexOf("給 [半機械人一號] 的密語") > -1) {
 					// sound alert
 					alert = true;
 					stuff = chatWin.children[i].innerText;

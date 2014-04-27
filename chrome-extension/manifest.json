@@ -23,7 +23,7 @@
 		// This is the script associated with various "Chatroom" pages
 		// For example:  http://www.uvoov.com/voovchat/index.php
 		//               http://60.199.209.71/VIP5D/index.phtml
-		"matches": ["*://60.199.209.72/VIP*/index.phtml*", "*://60.199.209.71/VIP*/index.phtml*", "*://www.uvoov.com/voovchat/index.php*"],
+		"matches": ["*://60.199.209.72/VIP*/index.phtml*", "*://60.199.209.71/VIP*/index.phtml*", "*://www.uvoov.com/voovchat/*"],
 		"js": ["contentscript2.js"],
 		"run_at": "document_end"
 		}
@@ -31,7 +31,8 @@
 
 	"permissions": [
 		"clipboardRead",
-		"clipboardWrite"
+		"clipboardWrite",
+		"contextMenus"
 	],
 	
 	"icons": {
