@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!-- To Do:
-1. save chat history somewhere (perhaps via Chrome script)
-2. utilize chat history
-3. 
+* use pictures
+* save chat history somewhere (perhaps via Chrome script)
+* utilize chat history
 -->
 <html>
 	<head>
@@ -92,7 +92,7 @@
 	<body>
 		<input type="text" id="white-box" style="width:100%; height:120%;" value=""><br>
 		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
-		<div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
+		<!-- div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div -->
 
 		<input type="button" value="cut" id="send-clipboard">
 		<input type="button" value="↲" id="send-white">
@@ -103,20 +103,11 @@
 		<input type="button" value="X" id="clear-green" style="color: #33ff33;">
 		<input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;">
 		<input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;">
-		<input type="button" value="X" id="clear-red" style="color: #ff3333;">
+		<!-- input type="button" value="X" id="clear-red" style="color: #ff3333;" -->
 		<input type="button" value="=)" id="smile">
 		<input type="button" value="「」" id="quotes">
 
 		<input type="checkbox" id="simplify" style="width:20px; height:20px;">简
-		<input type="checkbox" id="delete" style="width:20px; height:20px;">del
-		<input type="checkbox" id="change" style="width:20px; height:20px;">ch
-		<input type="checkbox" id="append" style="width:20px; height:20px;">add
-		<input type="button" value="+" id="insert" style="color: #aaffaa;">
-		<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
-		&nbsp;voov <input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;">
-		&nbsp;VIP  <input type="radio" name="group1" id="adult"        style="width:25px; height:25px;">
-		<input type="button" value="load"  id="loadDB">
-		<input type="button" value="save"  id="saveDB">
 
 		<!-- &nbsp;Skype <input type="radio" name="group1" id="skype" style="width:25px; height:25px;" -->
 
@@ -141,6 +132,20 @@
 			</div>
 
 			<br style="clear:both;"/>
+		</div>
+
+		<div id="bottom">
+			<input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;"> 夢
+			&nbsp;<input type="radio" name="group1" id="adult" style="width:25px; height:25px;"> VIP
+			<br>
+			<input type="checkbox" id="delete" style="width:20px; height:20px;">delete
+			<input type="checkbox" id="change" style="width:20px; height:20px;">change
+			<input type="checkbox" id="append" style="width:20px; height:20px;">add
+			<input type="button" value="+" id="insert" style="color: #aaffaa;">
+			<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
+			<br>
+			<input type="button" value="load"  id="loadDB">
+			<input type="button" value="save"  id="saveDB">
 		</div>
 
 		<!-- div style="position:absolute;bottom:-20px;right:0;">

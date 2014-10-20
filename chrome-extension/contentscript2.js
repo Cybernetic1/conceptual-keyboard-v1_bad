@@ -134,13 +134,13 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 				//sendButton.click();
 				//}
 			//else {
-				if (last_str == str)		// Voov does not allow to send duplicate messages
-					str = " " + str;
-				var inputBox = document.getElementById("optionsBar");
-				inputBox.value = str;
-				last_str = str;
-				var sendButton = document.getElementById("optionsSend");
-				sendButton.click();
+			if (last_str == str)		// Voov does not allow to send duplicate messages
+				str = " " + str;
+			var inputBox = document.getElementById("optionsBar");
+			inputBox.value = str;
+			last_str = str;
+			var sendButton = document.getElementById("optionsSend");
+			sendButton.click();
 			//	}
 			}
 		else if (adultChat && document.URL.indexOf("VIP") >= 0) {
@@ -151,7 +151,25 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			// and then perhaps click "enter"?
 			var sendButton = document.getElementsByName("c")[0].contentWindow.document.getElementsByClassName("Off2")[0];
 			sendButton.click();
-			
+
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			history[history.length] = str + "\n";
+			}
+		// This one is the new Dream Chat:
+		else if (voovChat && document.URL.indexOf("ip131") >= 0) {
+			// *********** Find Dream Garden Chatroom ***************
+			if (last_str == str)		// DreamLand does not allow to send duplicate messages
+				str = " " + str;
+
+			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
+			// console.log("DOM element: " + inputBox);
+			inputBox.value = str;
+			last_str = str;
+			// and then perhaps click "enter"?
+			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
+			sendButton.click();
+
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
 			history[history.length] = str + "\n";
@@ -193,14 +211,14 @@ setInterval( function() {
 						stuff = stuff2.replace("半機械人一號", "");
 						stuff2 = stuff.replace("秘密的說", "");
 						history[history.length] = stuff2 + "\n";
-						console.log(timeStamp + stuff2);
+						// console.log(timeStamp + stuff2);
 					}
 					else if (stuff.indexOf("cybernetic1") > -1) {
 						stuff2 = stuff.replace("cybernetic1", "*ME*");
 						stuff = stuff2.replace("半機械人一號", "*ME*");
 						stuff2 = stuff.replace("秘密的說", "");
 						history[history.length] = stuff2 + "\n";
-						console.log(timeStamp + stuff2);
+						// console.log(timeStamp + stuff2);
 					}
 				}
 			}
@@ -224,7 +242,32 @@ setInterval( function() {
 					alert = true;
 					stuff = chatWin.children[i].innerText;
 					history[history.length] = stuff + "\n";
-					console.log(timeStamp + stuff);
+					// console.log(timeStamp + stuff);
+				}
+				// To-do:  On Adult page, own messages appear as broken pieces
+			}
+			if (alert == true)
+				chrome.runtime.sendMessage({alert: "adult"});
+		}
+		lastAdultIndex = lastIndex;
+	}
+	else if (document.URL.indexOf("ip131") >= 0) {
+		// this gives us an HTML element of the public chat area:
+		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
+		// this is the <div> element containing the rows:
+		chatWin = html.children[1].children[6];
+		// number of lines in chat win:
+		lastIndex = chatWin.childElementCount - 1;
+		if ((chatWin != null) && (lastIndex > lastAdultIndex)) {
+			var alert = false;
+			for (i = lastIndex; i > lastAdultIndex; i--) {
+				stuff = chatWin.children[i].innerText;
+				if (stuff.indexOf("只對 訪客_半機械人一號") > -1 ||
+					stuff.indexOf("只對 訪客_Cybernetic1") > -1) {
+					// sound alert
+					alert = true;
+					history[history.length] = stuff + "\n";
+					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces
 			}
@@ -244,7 +287,7 @@ console.log("Content script 2 loaded....");
 // last chatroom tab that was open.  For some unknown reason it didn't work.
 
 /*
- 
+
 if (window.document.URL.indexOf("VIP") >= 0) {
 	var frame = window.frames["c"];
 

@@ -9,6 +9,7 @@ done < conkey_PID.txt
 cp web/database_default.txt web/database_default.bak
 ##### close terminal window
 wmctrl -r :ACTIVE: -b add,hidden
+sleep 1
 ##### run conkey server
 java -jar dist/conkey.jar &
 ##### remember process ID
@@ -25,6 +26,6 @@ wmctrl -r Conceptual -e 1,50,200,420,400
 wmctrl -r Conceptual -b add,above
 ##### wait for termination
 echo "to terminate type: kill $Conkey_PID"
-echo Conkey_PID > conkey_PID.txt
+echo $Conkey_PID > conkey_PID.txt
 # read abc
 # kill $Conkey_PID

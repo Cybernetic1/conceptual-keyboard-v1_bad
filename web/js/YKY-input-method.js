@@ -1,6 +1,9 @@
 // Code for storing the database in a tree, and for handling the user interface
 
 // To do:
+// * pictures
+// 		* read mouse position and change word
+//		*
 // * left and right click in Green Box
 // * drag-and-drop to white box
 // * create an area like a clipboard, that can be saved
@@ -27,7 +30,7 @@ var node_index = 0;
 
 // History of input box
 var history = new Array();
-var history_index = 0;				// current position of history, which should be empty
+var history_index = 0;			// current position of history, which should be empty
 var history_view_index = 0;		// current viewing position of history
 
 // Fill the 1st column (= leftmost column) with nodes from the tree
@@ -111,6 +114,15 @@ var e_click;
 var id_click;
 var clicked_str;
 
+var imgWord;	// word displayed for image at mouse position
+
+var mouse = {x: 0, y: 0};	// mouse position
+
+document.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX || e.pageX;
+    mouse.y = e.clientY || e.pageY;
+}, false);
+
 // Fill the horizontal panel with suggested words
 function fillSuggestions()
 {
@@ -127,6 +139,25 @@ function fillSuggestions()
 
 	currentNode = node;				// remember this node in global variable for later use
 
+	// For pictures
+	if (node[0][0] == 'Clothes') {
+		img = document.createElement('img');
+		img.setAttribute('src', 'https://c2.staticflickr.com/8/7028/6832594505_1ea65b545a_z.jpg');
+		// 'height', '1px'
+		imgWord = document.createTextNode(node[0][0]);
+		div.appendChild(imgWord);
+		div.appendChild(document.createElement("br"));
+		div.appendChild(img);
+		$("img").on('mousemove', function(ev)
+			{
+			// read mouse position
+
+			// change word accordingly
+			imgWord.textContent = "changed" + mouse.x + "," + mouse.y;
+			});
+		return;
+	}
+
 	// node[0] contains its data.
 	// For each data item inside this node:
 	for (i = 1; i < node[0].length; ++i) {
@@ -138,10 +169,10 @@ function fillSuggestions()
 			textNode = document.createElement('span');
 			textNode.appendChild(document.createTextNode(s1));
 			div.appendChild(textNode);
-			
+
 			// Here we've created a "span" element
 			// may want to attach click events to it?
-			// 
+			//
 		});
 		// after each line, add a <br> for clarity
 		div.appendChild(document.createElement("br"));
@@ -423,10 +454,10 @@ var to_skype = false;		// whether to send texts to Skype
 // ********** convert traditional Chinese chars to simplified
 function simplify(str) {
 	var c = c2 = '', str2 = "";
-	
+
 	if ($("#simplify").prop("checked") === false)
 		return str;
-	
+
 	for (i = 0; i < str.length; ++i) {
 		c = str[i];
 		c2 = h[c];
@@ -441,7 +472,7 @@ function simplify(str) {
 function quicksend() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
-	
+
 //	if (to_skype) {			// Try to send text to Skype chat dialog
 //		Skype.ui({				// don't know how to do it yet...
 //			name: "",
@@ -469,7 +500,7 @@ document.getElementById("white-box").onkeypress = function(e) {
 	var keyCode = e.keyCode || e.which;
 	if (keyCode === 13) {						// enter key = 13
 		quicksend();
-		
+
 		// clear input box
 		document.getElementById("white-box").value = "";
 		return false;
@@ -573,12 +604,14 @@ document.getElementById("clear-green").addEventListener("click", function() {
 	}
 }, false);
 
+/*
 document.getElementById("clear-red").addEventListener("click", function() {
 	var node = document.getElementById("red-box");
 	while (node.hasChildNodes()) {
 		node.removeChild(node.lastChild);
 	}
 }, false);
+*/
 
 document.getElementById("smile").addEventListener("click", function() {
 	document.getElementById("white-box").value += " :)";
@@ -4672,7 +4705,7 @@ h['阻']='阻';
 h['組']='组';
 h['鑽']='钻';
 h['纂']='纂';
-h['嘴']='嘴';
+h['嘴']='咀';
 h['醉']='醉';
 h['最']='最';
 h['罪']='罪';

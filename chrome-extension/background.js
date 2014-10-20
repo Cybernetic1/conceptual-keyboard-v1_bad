@@ -22,6 +22,11 @@ chrome.tabs.query({url: "http://60.199.209.72/VIP*/index.phtml"}, function(resul
 		adultId = result[0].id;
 	});
 
+chrome.tabs.query({url: "http://ip131.ek21.com/*"}, function(result) {
+	if (result.length != 0)
+		voovId = result[0].id;
+	});
+
 // Set up message listener
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
@@ -55,6 +60,12 @@ chrome.extension.onMessage.addListener(
 				}
 			});
 
+		chrome.tabs.query({url: "http://ip131.ek21.com/*"}, function(result) {
+			if (result.length != 0) {
+				voovId = result[0].id;
+				chrome.tabs.sendMessage(voovId, {chatroom: request.chatroom});
+				}
+			});
 		}
 
 	// Request to send text to target chatroom
@@ -170,7 +181,7 @@ chrome.tabs.query(title("YKY input form"), function(tabs) {
 			// and that the tab is done loading.
 			if (tabId != ykyId || changedProps.status != "complete")
 				return;
-	
+
 			// Passing the above test means this is the event we were waiting for.
 			// There is nothing we need to do for future onUpdated events, so we
 			// use removeListner to stop geting called when onUpdated events fire.
