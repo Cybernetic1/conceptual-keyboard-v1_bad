@@ -12,7 +12,6 @@
 // * left and right click in Green Box
 // * drag-and-drop to white box
 // * create an area like a clipboard, that can be saved
-// * Cantonese converter
 
 /*
 point p1(x1, y1);
@@ -42,7 +41,11 @@ If all of alpha, beta, and gamma are greater than 0, then the point p lies withi
 // In other words, the name of node 4.2.3.7 is database[4][2][3][7][0][0].
 var database = new Array();
 
-var currentNode = null;		// node (within database) currently selected by user
+// Variables holding which row is currently selected by the user on each level:
+var level1 = 1;
+var level2 = 1;
+var level3 = 1;
+var currentNode = null;
 
 // Indexes for creating new words
 var word_index = 0;
@@ -53,56 +56,78 @@ var history = new Array();
 var history_index = 0;			// current position of history, which should be empty
 var history_view_index = 0;		// current viewing position of history
 
-// Fill the 1st column (= leftmost column) with sub-dirs of current dir
-function fillDirs()
+// Fill the 1st column (= leftmost column) with nodes from the tree
+function fillColumn1()
 {
-	var table = document.getElementById("sub-dirs");
+	var table = document.getElementById("level1");
 	table.innerHTML = "";			// clear the contents first
-
-	// Display sub-dirs of current dir
-	for (i = currentNode.length - 1; i > 0; --i) {
+	// For each node at the tree on level 1:
+	for (i = database.length - 1; i > 0; --i) {
+		node = database[i];
 		var row = table.insertRow(0);
 		var cell = row.insertCell(0);
-		cell.innerHTML = currentNode[i][0][0];
+		cell.innerHTML = node[0][0];
 	}
-
-	if (currentNode.length <= 1) {
-		document.getElementById("column1").style.width = "0%";
-		document.getElementById("column2").style.width = "100%";
-	} else {
-		document.getElementById("column1").style.width = "25%";
-		document.getElementById("column2").style.width = "74%";
-	}
-
-	fillSuggestions();
 
 	// On click: highlight the selection and display next-level menu
 	// On double-click: ? (no action yet)
-	$('#sub-dirs tr').click(function() {
+	$('#level1 tr').click(function() {
 		// remove old highlight and set new highlight
 		$("#level1 tr.selected").removeClass("selected");
 		$(this).addClass('selected');
 
 		// display next-level menu
-		textNode = document.createElement('span');
-		textNode.appendChild(document.createTextNode(this.cells[0].innerText));
-		document.getElementById("header-bar").insertAdjacentText("beforeEnd", ">");
-		document.getElementById("header-bar").appendChild(textNode);
-		currentNode = currentNode[this.rowIndex + 1];
-		textNode.target = currentNode;
+		level1 = this.rowIndex + 1;
+		level2 = null;
+		level3 = null;
+		fillColumn2();
+		fillSuggestions();
+	});
+}
 
-		$(textNode).on('click', function(ev)
-			{
-			// remove sub-dirs lower than the one clicked
-			header = $("#header-bar")[0].childNodes;
-			while (header[header.length - 1] != this) {
-				header[header.length - 1].remove();
-				}
-			currentNode = this.target;
-			fillDirs();
-			});
+// Similar to fillColumn1
+function fillColumn2()
+{
+	var table = document.getElementById("level2");
+	table.innerHTML = "";
+	for (i = database[level1].length - 1; i > 0; --i) {
+		node = database[level1][i];
+		var row = table.insertRow(0);
+		var cell = row.insertCell(0);
+		cell.innerHTML = node[0][0];
+	}
 
-		fillDirs();
+	// On click: highlight selection and display next-level menu
+	$('#level2 tr').click(function() {
+		$("#level2 tr.selected").removeClass("selected");
+		$(this).addClass('selected');
+
+		level2 = this.rowIndex + 1;
+		level3 = null;
+		fillColumn3();
+		fillSuggestions();
+	});
+}
+
+// Similar to fillColumn1
+function fillColumn3()
+{
+	var table = document.getElementById("level3");
+	table.innerHTML = "";
+	for (i = database[level1][level2].length - 1; i > 0; --i) {
+		node = database[level1][level2][i];
+		var row = table.insertRow(0);
+		var cell = row.insertCell(0);
+		cell.innerHTML = node[0][0];
+	}
+
+	// On click: highlight selection and display suggestions
+	$('#level3 tr').click(function() {
+		$("#level3 tr.selected").removeClass("selected");
+		$(this).addClass('selected');
+
+		level3 = this.rowIndex + 1;
+		fillSuggestions();
 	});
 }
 
@@ -122,12 +147,20 @@ function fillSuggestions()
 	var div = document.getElementById("suggestions");
 	div.innerHTML = "";			// clear contents first
 
-	node = currentNode;
+	// Traverse the tree:
+	if (level3 != null)
+		node = database[level1][level2][level3];
+	else if (level2 != null)
+		node = database[level1][level2];
+	else
+		node = database[level1];
+
+	currentNode = node;				// remember this node in global variable for later use
+
 	// For pictures
-	if (node[0][0] == 'Clothing') {
+	if (node[0][0] == '!Clothes') {
 		img = document.createElement('img');
-		img.setAttribute('src', 'images/lingerie.jpg');
-		// 'https://raw.githubusercontent.com/Cybernetic1/conceptual-keyboard/master/web/images/lingerie.jpg');
+		img.setAttribute('src', 'https://raw.githubusercontent.com/Cybernetic1/conceptual-keyboard/master/web/images/lingerie.jpg');
 		// 'height', '1px'
 		imgWord = document.createTextNode(node[0][0]);
 		div.appendChild(imgWord);
@@ -356,29 +389,7 @@ function loadDB(pathname)
 			}
 		});
 
-		// **** Initialize
-		database[0] = ["root"];
-		currentNode = database;
-
-		// Create "root" button in header bar
-		textNode = document.createElement('span');
-		textNode.innerText = "⬤";
-		document.getElementById("header-bar").innerHTML = "";
-		document.getElementById("header-bar").appendChild(textNode);
-		textNode.style.border = "0px";
-		textNode.target = database;
-		$(textNode).on('click', function(ev)
-			{
-			// remove sub-dirs lower than the one clicked
-			header = $("#header-bar")[0].childNodes;
-			while (header[header.length - 1] != this) {
-				header[header.length - 1].remove();
-				}
-			currentNode = database;
-			fillDirs();
-			});
-
-		fillDirs();			// update web-page panels according to new database
+		fillColumn1();			// update web-page panels according to new database
 	});
 }
 
@@ -630,7 +641,7 @@ document.getElementById("smile").addEventListener("click", function() {
 
 $("#smile").on("contextmenu", function(ev) {
 //	document.getElementById("white-box").value += " :)";
-	window.postMessage({type: "FROM_PAGE", text: " :)"}, "*");
+	window.postMessage({type: "FROM_PAGE", text: ":)"}, "*");
 	// console.log("I'm sending something");
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -695,11 +706,6 @@ document.getElementById("adult").addEventListener("click", function() {
 }, false);
 */
 
-document.getElementById("hklove").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
-}, false);
-
 document.getElementById("ip131").addEventListener("click", function() {
 	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "ip131"}, "*");
@@ -708,6 +714,11 @@ document.getElementById("ip131").addEventListener("click", function() {
 document.getElementById("ip203").addEventListener("click", function() {
 	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "ip203"}, "*");
+}, false);
+
+document.getElementById("hklove").addEventListener("click", function() {
+	to_skype = false;
+	window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
 }, false);
 
 // document.getElementById("skype").addEventListener("click", function() {
@@ -789,7 +800,7 @@ function drop(ev)
 
 loadDB("database_default.txt");
 // initial chat room is "voov"
-window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
+window.postMessage({type: "CHAT_ROOM", text: "voov"}, "*");
 
 // read hcutf8.txt into buffer
 var h = new Object(); // or just {}

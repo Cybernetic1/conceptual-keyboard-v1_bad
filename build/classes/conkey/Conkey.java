@@ -107,6 +107,7 @@ public class Conkey extends Spark {
 				try {
 					if        (page.endsWith(".jpg")) {
 						rspns.header("Content-type", "image/jpg");
+						rspns.header("Cache-Control", "no-cache");
 						getStaticBinaryFile(page, rspns.raw().getOutputStream());
 						return null;
 					} else if (page.endsWith(".png")) {

@@ -22,7 +22,7 @@ chromium-browser localhost:9090/index.html --new-window
 sleep 1
 ##### set size and flags of conkey broswer window
 wmctrl -r Conceptual -b remove,maximized_horz,maximized_vert
-wmctrl -r Conceptual -e 1,50,200,420,400
+wmctrl -r Conceptual -e 1,50,200,520,500
 wmctrl -r Conceptual -b add,above
 ##### wait for termination
 echo "to terminate type: kill $Conkey_PID"

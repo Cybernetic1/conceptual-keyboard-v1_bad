@@ -4,6 +4,9 @@
 // Identify chatroom pages (if they exist), id's are used for message passing
 var adultId = null;
 var voovId = null;
+var ip131Id = null;
+var ip203Id = null;
+var hkloveId = null
 
 chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 	if (result.length != 0)
@@ -24,7 +27,17 @@ chrome.tabs.query({url: "http://60.199.209.72/VIP*/index.phtml"}, function(resul
 
 chrome.tabs.query({url: "http://ip131.ek21.com/*"}, function(result) {
 	if (result.length != 0)
-		voovId = result[0].id;
+		ip131Id = result[0].id;
+	});
+
+chrome.tabs.query({url: "http://ip203.ek21.com/*"}, function(result) {
+	if (result.length != 0)
+		ip203Id = result[0].id;
+	});
+
+chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
+	if (result.length != 0)
+		hkloveId = result[0].id;
 	});
 
 // Set up message listener
@@ -51,6 +64,8 @@ chrome.extension.onMessage.addListener(
 				adultId = result[0].id;
 				chrome.tabs.sendMessage(adultId, {chatroom: request.chatroom});
 				}
+			else
+				adultId = null;
 			});
 
 		chrome.tabs.query({url: "http://60.199.209.72/VIP*/index.phtml"}, function(result) {
@@ -58,14 +73,38 @@ chrome.extension.onMessage.addListener(
 				adultId = result[0].id;
 				chrome.tabs.sendMessage(adultId, {chatroom: request.chatroom});
 				}
+			else
+				adultId = null;
 			});
 
 		chrome.tabs.query({url: "http://ip131.ek21.com/*"}, function(result) {
 			if (result.length != 0) {
-				voovId = result[0].id;
-				chrome.tabs.sendMessage(voovId, {chatroom: request.chatroom});
+				ip131Id = result[0].id;
+				chrome.tabs.sendMessage(ip131Id, {chatroom: request.chatroom});
 				}
+			else
+				ip131Id = null;
 			});
+
+		chrome.tabs.query({url: "http://ip203.ek21.com/*"}, function(result) {
+			if (result.length != 0) {
+				ip203Id = result[0].id;
+				chrome.tabs.sendMessage(ip203Id, {chatroom: request.chatroom});
+				}
+			else
+				ip203Id = null;
+			});
+
+		chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
+			if (result.length != 0) {
+				hkloveId = result[0].id;
+				chrome.tabs.sendMessage(hkloveId, {chatroom: request.chatroom});
+				}
+			else
+				hkloveId = null;
+			});
+
+		console.log("trying to switch to: ", request.chatroom)
 		}
 
 	// Request to send text to target chatroom
@@ -78,6 +117,12 @@ chrome.extension.onMessage.addListener(
 			chrome.tabs.sendMessage(adultId, {sendtext: request.sendtext});
 		if (voovId)
 			chrome.tabs.sendMessage(voovId, {sendtext: request.sendtext});
+		if (ip131Id)
+			chrome.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
+		if (ip203Id)
+			chrome.tabs.sendMessage(ip203Id, {sendtext: request.sendtext});
+		if (hkloveId)
+			chrome.tabs.sendMessage(hkloveId, {sendtext: request.sendtext});
 		}
 
 	// Request to copy to clipboard, this must be done via background page
@@ -95,15 +140,34 @@ chrome.extension.onMessage.addListener(
 	if (request.alert != null) {
 		if (request.alert == "voov") {
 			// console.log("voov alert")
-			var audio = new Audio("msg_alert.ogg");
+			var audio = new Audio("voov_alert.ogg");
+			audio.play();
+		}
+
+		if (request.alert == "ip131") {
+			// console.log("ip131 alert")
+			var audio = new Audio("ip131_alert.ogg");
+			audio.play();
+		}
+
+		if (request.alert == "ip203") {
+			// console.log("ip203 alert")
+			var audio = new Audio("ip203_alert.ogg");
 			audio.play();
 		}
 
 		if (request.alert == "adult") {
 			// console.log("adult alert")
-			var audio = new Audio("msg_alert2.ogg");
+			var audio = new Audio("adult_alert.ogg");
 			audio.play();
 		}
+
+		if (request.alert == "hklove") {
+			// console.log("hklove alert")
+			var audio = new Audio("hklove_alert.ogg");
+			audio.play();
+		}
+
 	}
 
 });

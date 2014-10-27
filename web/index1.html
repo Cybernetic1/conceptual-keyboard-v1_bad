@@ -16,6 +16,9 @@
 		<title>Conceptual Keyboard</title>
 
 		<style type="text/css">
+			#green-box {width:98%;height:30px;padding:2px;border:3px solid #33ff33;}
+			#red-box {width:98%;height:30px;padding:2px;border:3px solid #ff3333;}
+
 			body {
 				font-size: 50%;
 				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
@@ -29,7 +32,7 @@
 			input[type=button] {
 				background-color: #555555;
 				color: #ffffff;
-				padding: 2px;
+				padding: 2px 2px;
 				font: 9px;
 				font-weight: bold;
 				text-decoration: none;
@@ -44,41 +47,38 @@
 				/* font-weight: bold; */
 			}
 
-			a {
-				color: #aaaaFF;
-				text-decoration: none;
-				border-bottom: 1px dotted #0066cc;
-			}
+			a { color: #0066CC; text-decoration: none; border-bottom: 1px dotted #0066cc; }
 
-			#green-box {
-				height: 26px;
-				width: 100%;
-				padding: 2px -4px 2px 2px;
-				border: 3px solid #00ff00;
-			}
+			#submit_butt { margin-top: 15px; }
+
+			h3 { margin-top: 0; }
 
 			#column1 {
-				overflow: auto;
+				overflow: hidden;
 				float:left;
-				width:25%;
+				width:33%;
 				padding:0px;
 				border:1px solid #ccffff;
 			}
 			#column2 {
-				overflow: auto;
+				overflow: hidden;
 				float:left;
-				width:74%;
+				width:33%;
 				padding:0px;
-				line-height: 170%;
-				// margin: 5px 5px;
 				border:1px solid #ccffff;
 			}
-
-			#header-bar {
-				height: 30px;
-				color: #ffffff;
-				padding: 6px 0px 0px 0px;	// top right bottom left
-				// margin: 5px 5px;
+			#column3 {
+				float: right;
+				width:33%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+			#suggestions {
+				/* background-color: #003300; */
+				height: 20%;
+				line-height: 180%;
+				margin: 5px 5px;
+				overflow: auto;
 			}
 
 			#suggestions span, #red-box span, #green-box span {
@@ -86,14 +86,6 @@
 				padding: 1px;
 				border: 1px solid #00bb00;
 				margin: 3px;
-			}
-
-			#header-bar span {
-				background: #000000;
-				padding: 1px;
-				border: 1px solid #ff0000;
-				margin: 1px;
-				color: #ff0000;
 			}
 
 			.selected td {
@@ -118,25 +110,30 @@
 		<input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;">
 		<input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;">
 		<!-- input type="button" value="X" id="clear-red" style="color: #ff3333;" -->
-		<input type="button" value=":)" id="smile">
+		<input type="button" value="=)" id="smile">
 		<input type="button" value="「」" id="quotes">
 
 		<input type="checkbox" id="simplify" style="width:20px; height:20px;">简
 
 		<!-- &nbsp;Skype <input type="radio" name="group1" id="skype" style="width:25px; height:25px;" -->
 
-		<div id="header-bar">
+		<div id="suggestions">
 		</div>
 
 		<div id="mid-levels">
 
 			<div id="column1">
-				<table id="sub-dirs">
+				<table id="level1">
 				</table>
 			</div>
 
 			<div id="column2">
-				<table id="suggestions">
+				<table id="level2">
+				</table>
+			</div>
+
+			<div id="column3">
+				<table id="level3">
 				</table>
 			</div>
 
@@ -146,9 +143,9 @@
 		<div id="bottom">
 			<!-- input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;"> 夢 &nbsp;
 			<input type="radio" name="group1" id="adult" style="width:25px; height:25px;"> VIP &nbsp; -->
-			<input type="radio" name="group1" id="hklove" style="width:25px; height:25px;"> HKlove &nbsp;
 			<input type="radio" name="group1" id="ip131" style="width:25px; height:25px;"> ip131 &nbsp;
 			<input type="radio" name="group1" id="ip203" style="width:25px; height:25px;"> ip203 &nbsp;
+			<input type="radio" name="group1" id="hklove" style="width:25px; height:25px;"> HKlove &nbsp;
 			<br>
 			<input type="checkbox" id="delete" style="width:20px; height:20px;">delete
 			<input type="checkbox" id="change" style="width:20px; height:20px;">change
@@ -156,11 +153,8 @@
 			<input type="button" value="+" id="insert" style="color: #aaffaa;">
 			<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
 			<br>
-			<input type="button" value="load" id="loadDB">
-			<input type="button" value="save" id="saveDB">
-			&nbsp; <a href="javascript:loadDB('synonym_forest.txt')">同義詞詞林</a>
-			&nbsp; <a href="javascript:loadDB('rogets_thesaurus.txt')">Roget's</a>
-
+			<input type="button" value="load"  id="loadDB">
+			<input type="button" value="save"  id="saveDB">
 		</div>
 
 		<!-- div style="position:absolute;bottom:-20px;right:0;">
