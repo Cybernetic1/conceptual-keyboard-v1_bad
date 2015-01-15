@@ -84,6 +84,25 @@ function saveLog(name) {
 	window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
 	}
 
+// Not only set the flags, but we need to broadcast to other content scripts 
+document.addEventListener("mouseover", function(){
+	if (document.URL.indexOf("hk2love") >= 0) {
+		console.log("switch to hk2love");
+		chrome.extension.sendMessage({chatroom: "hk2love"});
+		ip131Chat = false; ip203Chat = false; hkloveChat = true;
+	}
+	if (document.URL.indexOf("ip131") >= 0) {
+		console.log("switch to ip131");
+		chrome.extension.sendMessage({chatroom: "ip131"});
+		ip131Chat = true; ip203Chat = false; hkloveChat = false;
+	}
+	if (document.URL.indexOf("ip203") >= 0) {
+		console.log("switch to ip203");
+		chrome.extension.sendMessage({chatroom: "ip203"});
+		ip131Chat = false; ip203Chat = true; hkloveChat = false;
+	}
+});
+
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	// console.log(sender.tab ?
 	//	"from a content script:" + sender.tab.url :
