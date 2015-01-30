@@ -30,6 +30,7 @@
 			"*://www.uvoov.com/voovchat/*",
 			"*://ip131.ek21.com/*",
 			"*://ip203.ek21.com/*",
+			"*://ip4.ek21.com/*",
 			"*://www.hk2love.com/cgi-bin/*"
 			],
 		"js": ["contentscript2.js"],

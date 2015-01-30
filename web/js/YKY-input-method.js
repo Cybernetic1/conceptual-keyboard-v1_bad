@@ -444,8 +444,8 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
 	window.postMessage({type: "CLIPBOARD", text: str}, "*");
 
 	// var sandbox = $("#white-box").val(str).select();
-   // document.execCommand('copy');
-   // sandbox.val('');
+    // document.execCommand('copy');
+    // sandbox.val('');
 
 	// record in history
 	history[history_index] = str;
@@ -480,9 +480,17 @@ function simplify(str) {
 	return str2;
 }
 
+// ************* replace with YKY shorthands
+function replaceYKY(str) {
+	str2 = str.replace(/。。。/g, "……");
+	str = str2.replace(/。。/g, "…");
+	return str;
+}
+
 function quicksend() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
+	str = replaceYKY(str);
 
 //	if (to_skype) {			// Try to send text to Skype chat dialog
 //		Skype.ui({				// don't know how to do it yet...
@@ -492,13 +500,28 @@ function quicksend() {
 //		});
 //	}
 
-	window.postMessage({type: "FROM_PAGE", text: str}, "*");
-
 	// record in history, but don't clear input box
 	history[history_index] = str;
 	++history_index;
 	if (history_index == 100) history_index = 0;
 	history_view_index = -1;
+
+	// Send to Pidgin
+	if ($("#to-pidgin").prop("checked") === true) {
+		var userName = document.getElementsByName("pidgin-who")[0].value;
+
+		$.ajax({
+			method: "POST",
+			url: "/sendPidginMessage/" + userName,
+			data: {data: str},
+			success: function(resp) {
+				console.log("Pidgin<" + userName + "> " + str);
+			}
+		});
+		return;
+	}
+
+	window.postMessage({type: "FROM_PAGE", text: str}, "*");
 
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -519,6 +542,33 @@ document.getElementById("white-box").onkeypress = function(e) {
 };
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
+
+// Send message to Pidgin
+document.getElementById("send-pidgin").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	str = simplify(str);
+	str = replaceYKY(str);
+
+	var userName = document.getElementsByName("pidgin-who")[0].value;
+	
+	$.ajax({
+		method: "POST",
+		url: "/sendPidginMessage/" + userName,
+		data: {data: str},
+		success: function(resp) {
+			console.log("Pidgin<" + userName + "> " + str);
+		}
+	});
+
+	// record in history, but don't clear input box
+	history[history_index] = str;
+	++history_index;
+	if (history_index == 100) history_index = 0;
+	history_view_index = -1;
+
+	// clear input box
+	document.getElementById("white-box").value = "";
+}, false);
 
 // Browsing history with up and down arrows
 document.onkeydown = checkKey;
@@ -554,6 +604,7 @@ function checkKey(e) {
 document.getElementById("send-green").addEventListener("click", function() {
 	str = document.getElementById("green-box").textContent;
 	str = simplify(str);
+	str = replaceYKY(str);
 	// str = str.replace(/[()]/g, "");  // remove ()'s
 
 	window.postMessage({type: "FROM_PAGE", text: str}, "*");
@@ -695,6 +746,7 @@ document.getElementById("adult").addEventListener("click", function() {
 }, false);
 */
 
+/*
 document.getElementById("hklove").addEventListener("click", function() {
 	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
@@ -709,6 +761,7 @@ document.getElementById("ip203").addEventListener("click", function() {
 	to_skype = false;
 	window.postMessage({type: "CHAT_ROOM", text: "ip203"}, "*");
 }, false);
+*/
 
 // document.getElementById("skype").addEventListener("click", function() {
 //	to_skype = true;

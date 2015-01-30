@@ -64,6 +64,9 @@ public class Conkey extends Spark {
 
 		setPort(9090); // Spark will run on port 9090
 
+		System.out.println("YKY set port to 9090\n");
+
+		// This route seems to be old
 		Route saveDatabase;
 
 		post(new Route("/saveDatabase/:fname") {
@@ -88,6 +91,29 @@ public class Conkey extends Spark {
 			}
 		});
 
+		Route sendPidginMessage;
+
+		post(new Route("/sendPidginMessage/:name") {
+			@Override
+			public Object handle(Request rqst, Response rspns) {
+				// System.out.println("saving database....");
+				rspns.header("Content-type", "text/html");
+				// String list = rqst.queryParams().toString();
+				String name = rqst.params(":name").toString();
+				System.out.println("param is: " + name);
+				String data = rqst.queryParams("data").toString();
+				System.out.println("data is: " + data);
+				try {
+					// Send to Pidgin
+					Process p = Runtime.getRuntime().exec("/home/yky/pidgin-message.py " + name + " " + data);
+				} catch (IOException ex) {
+					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				return "Pidgin message sent\n";
+			}
+		});
+
+		
 		get(new Route("/*") {
 			@Override
 			public Object handle(Request rqst, Response rspns) {

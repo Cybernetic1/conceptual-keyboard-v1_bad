@@ -9,11 +9,12 @@ var voovChat = true;
 var adultChat = false;
 var ip131Chat = false;
 var ip203Chat = false;
+var ip4Chat = false;
 var hkloveChat = false;
 
 var logName = "log.txt";					// Name of the log file, to be filled
 
-var history = new Array();					// log of chat messages
+var chat_history = new Array();				// log of chat messages
 
 var last_str = "";							// for Voov because it doesn't allow
 											// to send duplicate messages
@@ -34,10 +35,10 @@ function onInitFs(fs) {
       };
 
       // Create a new Blob and write it to log.txt.
-      var blob = new Blob(history, { type: 'text/plain' });
+      var blob = new Blob(chat_history, { type: 'text/plain' });
       fileWriter.write(blob);
 
-      history = new Array();		// Clear history
+      chat_history = new Array();		// Clear history
 
     }, errorHandler);
 
@@ -87,19 +88,24 @@ function saveLog(name) {
 // Not only set the flags, but we need to broadcast to other content scripts 
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("hk2love") >= 0) {
-		console.log("switch to hk2love");
-		chrome.extension.sendMessage({chatroom: "hk2love"});
-		ip131Chat = false; ip203Chat = false; hkloveChat = true;
+		// console.log("switch to hk2love");
+		chrome.extension.sendMessage({chatroom: "hklove"});
+		ip131Chat = false; ip203Chat = false; hkloveChat = true; ip4Chat = false;
 	}
 	if (document.URL.indexOf("ip131") >= 0) {
-		console.log("switch to ip131");
+		// console.log("switch to ip131");
 		chrome.extension.sendMessage({chatroom: "ip131"});
-		ip131Chat = true; ip203Chat = false; hkloveChat = false;
+		ip131Chat = true; ip203Chat = false; hkloveChat = false; ip4Chat = false;
 	}
 	if (document.URL.indexOf("ip203") >= 0) {
-		console.log("switch to ip203");
+		// console.log("switch to ip203");
 		chrome.extension.sendMessage({chatroom: "ip203"});
-		ip131Chat = false; ip203Chat = true; hkloveChat = false;
+		ip131Chat = false; ip203Chat = true; hkloveChat = false; ip4Chat = false;
+	}
+	if (document.URL.indexOf("ip4") >= 0) {
+		// console.log("switch to ip4");
+		chrome.extension.sendMessage({chatroom: "ip4"});
+		ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = true;
 	}
 });
 
@@ -111,16 +117,20 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 	// A radio button selection has been made, update which chatroom is selected:
 	if (request.chatroom != null) {
+		/*
 		if      (request.chatroom == "voov")
 			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hkloveChat = false}
 		else if (request.chatroom == "adult")
 			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hkloveChat = false}
-		else if (request.chatroom == "ip131")
-			{ voovChat = false; adultChat = false; ip131Chat = true; ip203Chat = false; hkloveChat = false}
+		*/
+		if (request.chatroom == "ip131")
+			{ ip131Chat = true; ip203Chat = false; hkloveChat = false; ip4Chat = false;}
 		else if (request.chatroom == "ip203")
-			{ voovChat = false; adultChat = false; ip131Chat = false; ip203Chat = true; hkloveChat = false}
+			{ ip131Chat = false; ip203Chat = true; hkloveChat = false; ip4Chat = false;}
+		else if (request.chatroom == "ip4")
+			{ ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = true;}
 		else if (request.chatroom == "hklove")
-			{ voovChat = false; adultChat = false; ip131Chat = false; ip203Chat = false; hkloveChat = true}
+			{ ip131Chat = false; ip203Chat = false; hkloveChat = true; ip4Chat = false;}
 
 		// else if (request.chatroom == "skype")
 		//	{ voovChat = false; adultChat = false; }
@@ -152,16 +162,18 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		}
 
 		if (str.indexOf("!clear") > -1) {
-			history = new Array();
+			chat_history = new Array();
 			console.log("history cleared");
 			return;
 		}
 
 		if (str.indexOf("!his") > -1) {
-			for (i = 0; i < history.length; ++i)
-				console.log(history[i]);
+			for (i = 0; i < chat_history.length; ++i)
+				console.log(chat_history[i]);
+			return;
 		}
 
+		/*
 		if (voovChat && document.URL.indexOf("voov") >= 0) {
 			// **************** VoovChat ***************
 			//var inputBoxes = document.getElementsByClassName("poptionsBar");
@@ -193,8 +205,9 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			history[history.length] = str + "\n";
+			chat_history[chat_history.length] = str + "\n";
 			}
+		*/
 
 		// This one is the new Dream Chat:
 		if (ip131Chat && document.URL.indexOf("ip131") >= 0) {
@@ -212,7 +225,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			history[history.length] = str + "\n";
+			chat_history[chat_history.length] = str + "\n";
 			}
 
 		// This one is the new Dream Chat:
@@ -231,7 +244,26 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			history[history.length] = str + "\n";
+			chat_history[chat_history.length] = str + "\n";
+			}
+
+		// This one is the new Dream Chat:
+		if (ip4Chat && document.URL.indexOf("ip4") >= 0) {
+			// *********** Find Dream Garden Chatroom ***************
+			if (last_str == str)		// DreamLand does not allow to send duplicate messages
+				str = " " + str;
+
+			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
+			// console.log("DOM element: " + inputBox);
+			inputBox.value = str;
+			last_str = str;
+			// and then perhaps click "enter"?
+			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
+			sendButton.click();
+
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			chat_history[chat_history.length] = str + "\n";
 			}
 
 		// For HK Love chatroom:
@@ -250,7 +282,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			history[history.length] = str + "\n";
+			chat_history[chat_history.length] = str + "\n";
 			}
 		}
 	});
@@ -261,6 +293,7 @@ var lastAdultIndex = 1;
 var lastIp131Index = 1;
 var lastIp203Index = 1;
 var lastHkloveIndex = 1;
+var lastIp4Index = 1;
 
 // Check activity every second
 // If there's activity, message Background Script to play a sound
@@ -291,14 +324,14 @@ setInterval( function() {
 						stuff2 = stuff.replace("cybernetic1", "");
 						stuff = stuff2.replace("半機械人一號", "");
 						stuff2 = stuff.replace("秘密的說", "");
-						history[history.length] = stuff2 + "\n";
+						chat_history[chat_history.length] = stuff2 + "\n";
 						// console.log(timeStamp + stuff2);
 					}
 					else if (stuff.indexOf("cybernetic1") > -1) {
 						stuff2 = stuff.replace("cybernetic1", "*ME*");
 						stuff = stuff2.replace("半機械人一號", "*ME*");
 						stuff2 = stuff.replace("秘密的說", "");
-						history[history.length] = stuff2 + "\n";
+						chat_history[chat_history.length] = stuff2 + "\n";
 						// console.log(timeStamp + stuff2);
 					}
 				}
@@ -323,7 +356,7 @@ setInterval( function() {
 					// sound alert
 					alert = true;
 					stuff = chatWin.children[i].innerText;
-					history[history.length] = stuff + "\n";
+					chat_history[chat_history.length] = stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces
@@ -349,7 +382,7 @@ setInterval( function() {
 					stuff.indexOf("只對 訪客_Cybernetic1") > -1) {
 					// sound alert
 					alert = true;
-					history[history.length] = stuff + "\n";
+					chat_history[chat_history.length] = stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces
@@ -375,7 +408,7 @@ setInterval( function() {
 					stuff.indexOf("只對 訪客_Cybernetic1") > -1) {
 					// sound alert
 					alert = true;
-					history[history.length] = stuff + "\n";
+					chat_history[chat_history.length] = stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces
@@ -384,6 +417,32 @@ setInterval( function() {
 				chrome.runtime.sendMessage({alert: "ip203"});
 		}
 		lastIp203Index = lastIndex;
+	}
+
+	if (document.URL.indexOf("ip4") >= 0) {
+		// this gives us an HTML element of the public chat area:
+		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
+		// this is the <div> element containing the rows:
+		chatWin = html.children[1].children[6];
+		// number of lines in chat win:
+		lastIndex = chatWin.childElementCount - 1;
+		if ((chatWin != null) && (lastIndex > lastIp4Index)) {
+			var alert = false;
+			for (i = lastIndex; i > lastIp4Index; i--) {
+				stuff = chatWin.children[i].innerText;
+				if (stuff.indexOf("只對 訪客_半機械人一號") > -1 ||
+					stuff.indexOf("只對 訪客_Cybernetic1") > -1) {
+					// sound alert
+					alert = true;
+					chat_history[chat_history.length] = stuff + "\n";
+					// console.log(timeStamp + stuff);
+				}
+				// To-do:  On Adult page, own messages appear as broken pieces
+			}
+			if (alert == true)
+				chrome.runtime.sendMessage({alert: "ip4"});
+		}
+		lastIp4Index = lastIndex;
 	}
 
 	if (document.URL.indexOf("hk2love.com") >= 0) {
@@ -403,7 +462,7 @@ setInterval( function() {
 					stuff.indexOf("只對『Cybernetic1』") > -1) {
 					// sound alert
 					alert = true;
-					history[history.length] = stuff + "\n";
+					chat_history[chat_history.length] = stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces

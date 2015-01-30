@@ -7,6 +7,7 @@ var voovId = null;
 var ip131Id = null;
 var ip203Id = null;
 var hkloveId = null
+var ip4Id = null;
 
 chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 	if (result.length != 0)
@@ -33,6 +34,11 @@ chrome.tabs.query({url: "http://ip131.ek21.com/*"}, function(result) {
 chrome.tabs.query({url: "http://ip203.ek21.com/*"}, function(result) {
 	if (result.length != 0)
 		ip203Id = result[0].id;
+	});
+
+chrome.tabs.query({url: "http://ip4.ek21.com/*"}, function(result) {
+	if (result.length != 0)
+		ip4Id = result[0].id;
 	});
 
 chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
@@ -95,6 +101,15 @@ chrome.extension.onMessage.addListener(
 				ip203Id = null;
 			});
 
+		chrome.tabs.query({url: "http://ip4.ek21.com/*"}, function(result) {
+			if (result.length != 0) {
+				ip4Id = result[0].id;
+				chrome.tabs.sendMessage(ip4Id, {chatroom: request.chatroom});
+				}
+			else
+				ip4Id = null;
+			});
+
 		chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
 			if (result.length != 0) {
 				hkloveId = result[0].id;
@@ -121,6 +136,8 @@ chrome.extension.onMessage.addListener(
 			chrome.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
 		if (ip203Id)
 			chrome.tabs.sendMessage(ip203Id, {sendtext: request.sendtext});
+		if (ip4Id)
+			chrome.tabs.sendMessage(ip4Id, {sendtext: request.sendtext});
 		if (hkloveId)
 			chrome.tabs.sendMessage(hkloveId, {sendtext: request.sendtext});
 		}
@@ -153,6 +170,12 @@ chrome.extension.onMessage.addListener(
 		if (request.alert == "ip203") {
 			// console.log("ip203 alert")
 			var audio = new Audio("ip203_alert.ogg");
+			audio.play();
+		}
+
+		if (request.alert == "ip4") {
+			// console.log("ip203 alert")
+			var audio = new Audio("ip4_alert.ogg");
 			audio.play();
 		}
 
