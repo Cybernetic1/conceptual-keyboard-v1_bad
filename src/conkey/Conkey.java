@@ -105,7 +105,7 @@ public class Conkey extends Spark {
 				System.out.println("data is: " + data);
 				try {
 					// Send to Pidgin
-					Process p = Runtime.getRuntime().exec("/home/yky/pidgin-message.py " + name + " " + data);
+					Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-message.py " + name + " " + data);
 				} catch (IOException ex) {
 					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
 				}
