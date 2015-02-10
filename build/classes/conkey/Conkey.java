@@ -1,6 +1,19 @@
 package conkey;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -62,9 +75,10 @@ public class Conkey extends Spark {
 
 		BasicConfigurator.configure();	// configures log4j logger
 
-		setPort(9090); // Spark will run on port 9090
+		Integer portNumber = 9090;			// Spark will run on port 9090
+		setPort(portNumber);
 
-		System.out.println("YKY set port to 9090\n");
+		System.out.println("YKY set port to: " + portNumber.toString() + "\n");
 
 		// This route seems to be old
 		Route saveDatabase;
@@ -91,7 +105,7 @@ public class Conkey extends Spark {
 			}
 		});
 
-		Route sendPidginMessage;
+		// Route sendPidginMessage;
 
 		post(new Route("/sendPidginMessage/:name") {
 			@Override
@@ -113,6 +127,61 @@ public class Conkey extends Spark {
 			}
 		});
 
+		// Route saveChatLog;
+
+		post(new Route("/saveChatLog/:name") {
+			@Override
+			public Object handle(Request rqst, Response rspns) {
+				// System.out.println("saving database....");
+				rspns.header("Content-type", "text/html");
+				// String list = rqst.queryParams().toString();
+				String fname = rqst.params(":name").toString();
+				System.out.println("param is: " + fname);
+				String data = rqst.queryParams("data").toString();
+				// System.out.println("data is: " + data);
+				System.out.println("data obtained.");
+				
+				// Save file to local directory
+				File file = new File("/home/yky/logs/" + fname);
+				try{
+					Writer output = new BufferedWriter(new FileWriter(file));
+
+					output.write(data);
+
+					output.close();
+					System.out.println("Chat history written.\n");
+
+					} catch(Exception e){
+						 System.out.println("Cannot create file.\n");
+					}
+				return "Chat history saved";
+			}
+		});
+
+		get(new Route("/getPidginNames/*") {
+			@Override
+			public Object handle(Request rqst, Response rspns) {
+				rspns.header("Content-type", "text/html; charset=utf-8");
+				try {
+					Process p = Runtime.getRuntime().exec("/home/yky/pidgin-names.py");
+				} catch (IOException ex) {
+					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				System.out.println("Executed shell script pidgin-names.py.\n");
+
+				String pidginNames = "";
+				try {
+					pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/pidgin-names.txt")));
+				} catch (IOException ex) {
+					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				System.out.println("Read file pidgin-names.txt.\n");
+    			return pidginNames;
+			}
+		});
+		
+
+		
 		
 		get(new Route("/*") {
 			@Override
@@ -168,5 +237,8 @@ public class Conkey extends Spark {
 				return null;
 			}
 		});
+		
+
+		
 	}
 }

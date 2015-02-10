@@ -19,72 +19,31 @@ var chat_history = new Array();				// log of chat messages
 var last_str = "";							// for Voov because it doesn't allow
 											// to send duplicate messages
 
-// For writing to fileSystem
-function onInitFs(fs) {
-   fs.root.getFile(logName, {create: true}, function(fileEntry) {
-
-    // Create a FileWriter object for our FileEntry (log.txt).
-    fileEntry.createWriter(function(fileWriter) {
-
-      fileWriter.onwriteend = function(e) {
-        console.log('Log saved.');
-      };
-
-      fileWriter.onerror = function(e) {
-        console.log('Save log failed: ' + e.toString());
-      };
-
-      // Create a new Blob and write it to log.txt.
-      var blob = new Blob(chat_history, { type: 'text/plain' });
-      fileWriter.write(blob);
-
-      chat_history = new Array();		// Clear history
-
-    }, errorHandler);
-
-  }, errorHandler);
-
-}
-
-function errorHandler(e) {
-  var msg = '';
-
-  switch (e.code) {
-    case FileError.QUOTA_EXCEEDED_ERR:
-      msg = 'QUOTA_EXCEEDED_ERR';
-      break;
-    case FileError.NOT_FOUND_ERR:
-      msg = 'NOT_FOUND_ERR';
-      break;
-    case FileError.SECURITY_ERR:
-      msg = 'SECURITY_ERR';
-      break;
-    case FileError.INVALID_MODIFICATION_ERR:
-      msg = 'INVALID_MODIFICATION_ERR';
-      break;
-    case FileError.INVALID_STATE_ERR:
-      msg = 'INVALID_STATE_ERR';
-      break;
-    default:
-      msg = 'Unknown Error';
-      break;
-  };
-
-  console.log('Error: ' + msg);
-}
-
+// Write chat history to localhost server via AJAX
 function saveLog(name) {
 	// get the data-time and make it into filename
 	var datetime = new Date();
 	var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
-			+ "_" +   datetime.getHours() + "-" + datetime.getMinutes();
+			+ "(" +   datetime.getHours() + "-" + datetime.getMinutes() + ")";
 	// the string following by "!log " is the Nickname
-	logName = name + "." + timeStamp + ".txt";
-	console.log("trying to log file: " + logName);
-	// save log array to file
-	window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
-	}
+	logName = name.replace(/ /g, "_") + "." + timeStamp + ".txt";
+	console.log("log file name = " + logName);
 
+	var str = chat_history.join();
+
+	$.ajax({
+		method: "POST",
+		url: "http://localhost:9090/saveChatLog/" + logName,
+		data: {data: str},
+		// dataType: "String",
+		// processData: false,
+		success: function(resp) {
+			console.log("Successfully saved: " + logName);
+		}
+	});
+}
+
+// ******** Detect mouse-over on ChatRoom page
 // Not only set the flags, but we need to broadcast to other content scripts 
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("hk2love") >= 0) {
@@ -149,15 +108,11 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 		// check for save-log command:
 		if (str.indexOf("!log") > -1) {
-			// get the data-time and make it into filename
-			var datetime = new Date();
-			var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
-					+ "_" +   datetime.getHours() + "-" + datetime.getMinutes();
-			// the string following by "!log " is the Nickname
-			logName = str.slice(5) + "." + timeStamp + ".txt";
-			console.log("trying to log file: " + logName);
+			// the string following by "!log " is the Nickname, hence 5 chars
+			console.log("log person = " + str.slice(5));
 			// save log array to file
-			window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+			// window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+			saveLog(str.slice(5));
 			return;
 		}
 
@@ -477,6 +432,79 @@ setInterval( function() {
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
 console.log("Content script 2 loaded....");
+
+/*
+
+// Older function (deprecated)
+function saveLog2(name) {
+	// get the data-time and make it into filename
+	var datetime = new Date();
+	var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
+			+ "(" +   datetime.getHours() + "-" + datetime.getMinutes() + ")";
+	// the string following by "!log " is the Nickname
+	logName = name + "." + timeStamp + ".txt";
+	console.log("trying to log file: " + logName);
+	// save log array to file
+	window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+	}
+
+// **** For writing to fileSystem (Chrome extension's temporary file system)
+// This is replaced with server-side saving
+// Just keep for old sake
+function onInitFs(fs) {
+   fs.root.getFile(logName, {create: true}, function(fileEntry) {
+
+    // Create a FileWriter object for our FileEntry (log.txt).
+    fileEntry.createWriter(function(fileWriter) {
+
+      fileWriter.onwriteend = function(e) {
+        console.log('Log saved.');
+      };
+
+      fileWriter.onerror = function(e) {
+        console.log('Save log failed: ' + e.toString());
+      };
+
+      // Create a new Blob and write it to log.txt.
+      var blob = new Blob(chat_history, { type: 'text/plain' });
+      fileWriter.write(blob);
+
+      chat_history = new Array();		// Clear history
+
+    }, errorHandler);
+
+  }, errorHandler);
+
+}
+
+function errorHandler(e) {
+  var msg = '';
+
+  switch (e.code) {
+    case FileError.QUOTA_EXCEEDED_ERR:
+      msg = 'QUOTA_EXCEEDED_ERR';
+      break;
+    case FileError.NOT_FOUND_ERR:
+      msg = 'NOT_FOUND_ERR';
+      break;
+    case FileError.SECURITY_ERR:
+      msg = 'SECURITY_ERR';
+      break;
+    case FileError.INVALID_MODIFICATION_ERR:
+      msg = 'INVALID_MODIFICATION_ERR';
+      break;
+    case FileError.INVALID_STATE_ERR:
+      msg = 'INVALID_STATE_ERR';
+      break;
+    default:
+      msg = 'Unknown Error';
+      break;
+  };
+
+  console.log('Error: ' + msg);
+}
+
+*/
 
 // *******************************************************************
 // Following is some old code that tried to determine which was the

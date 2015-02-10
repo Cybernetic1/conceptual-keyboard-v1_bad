@@ -439,19 +439,12 @@ function saveDB(fname)
 document.getElementById("send-clipboard").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
+	str = replaceYKY(str);
 
 	// Copy to clipboard, by sending to Chrome Extension Content Script first
 	window.postMessage({type: "CLIPBOARD", text: str}, "*");
 
-	// var sandbox = $("#white-box").val(str).select();
-    // document.execCommand('copy');
-    // sandbox.val('');
-
-	// record in history
-	history[history_index] = str;
-	++history_index;
-	if (history_index == 100) history_index = 0;
-	history_view_index = -1;
+	recordHistory(str);
 
 	// clear input box
 	document.getElementById("white-box").value = "";
@@ -460,7 +453,13 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
 	audio.play();
 }, false);
 
-var to_skype = false;		// whether to send texts to Skype
+// **** record in history
+function recordHistory(str) {
+	history[history_index] = str;
+	++history_index;
+	if (history_index == 500) history_index = 0;
+	history_view_index = -1;
+}
 
 // ********** convert traditional Chinese chars to simplified
 function simplify(str) {
@@ -482,8 +481,8 @@ function simplify(str) {
 
 // ************* replace with YKY shorthands
 function replaceYKY(str) {
-	str2 = str.replace(/。。。/g, "……");
-	str = str2.replace(/。。/g, "…");
+	str2 = str.replace(/。。/g, "……");
+	str = str2.replace(/…。/g, "……");
 	return str;
 }
 
@@ -500,24 +499,19 @@ function quicksend() {
 //		});
 //	}
 
-	// record in history, but don't clear input box
-	history[history_index] = str;
-	++history_index;
-	if (history_index == 100) history_index = 0;
-	history_view_index = -1;
+	recordHistory(str);
 
-	// Send to Pidgin
-	if ($("#to-pidgin").prop("checked") === true) {
-		var userName = document.getElementsByName("pidgin-who")[0].value;
+	// Send to Pidgin #0?
+	if ($("#to-pidgin0").prop("checked") === true) {
+		var userName = document.getElementsByName("pidgin-who0")[0].value;
+		sendPidgin(userName, str);
+		return;
+	}
 
-		$.ajax({
-			method: "POST",
-			url: "/sendPidginMessage/" + userName,
-			data: {data: str},
-			success: function(resp) {
-				console.log("Pidgin<" + userName + "> " + str);
-			}
-		});
+	// Send to Pidgin #1?
+	if ($("#to-pidgin1").prop("checked") === true) {
+		var userName = document.getElementsByName("pidgin-who1")[0].value;
+		sendPidgin(userName, str);
 		return;
 	}
 
@@ -531,6 +525,7 @@ function quicksend() {
 document.getElementById("white-box").onkeypress = function(e) {
 	if (!e)
 		e = window.event;
+
 	var keyCode = e.keyCode || e.which;
 	if (keyCode === 13) {						// enter key = 13
 		quicksend();
@@ -543,14 +538,7 @@ document.getElementById("white-box").onkeypress = function(e) {
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
-// Send message to Pidgin
-document.getElementById("send-pidgin").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-
-	var userName = document.getElementsByName("pidgin-who")[0].value;
-	
+function sendPidgin(userName, str) {
 	$.ajax({
 		method: "POST",
 		url: "/sendPidginMessage/" + userName,
@@ -559,12 +547,59 @@ document.getElementById("send-pidgin").addEventListener("click", function() {
 			console.log("Pidgin<" + userName + "> " + str);
 		}
 	});
+}
 
-	// record in history, but don't clear input box
-	history[history_index] = str;
-	++history_index;
-	if (history_index == 100) history_index = 0;
-	history_view_index = -1;
+// Get list of Pidgin window names
+document.getElementById("pidgin-names").addEventListener("click", function() {
+	var str = "";
+
+	$.ajax({
+		method: "GET",
+		url: "/getPidginNames/",
+		data: str,
+		cache: false,
+		success: function(data) {
+			console.log("Got names:\n" + data);
+
+			pidginNames0 = document.getElementsByName("pidgin-who0")[0];
+			pidginNames1 = document.getElementsByName("pidgin-who1")[0];
+
+			var lines = data.split('\n');
+			for (var i = 0; i < lines.length - 1; i += 2) {
+				pidginNames0.innerHTML += "<option value=\"" + lines[i] + "\">"
+					+ lines[i+1] + "</option>";
+				pidginNames1.innerHTML += "<option value=\"" + lines[i] + "\">"
+					+ lines[i+1] + "</option>";
+				}
+		}
+	});
+
+}, false);
+
+
+// Send message to Pidgin #0
+document.getElementById("send-pidgin0").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	str = simplify(str);
+	str = replaceYKY(str);
+
+	var userName = document.getElementsByName("pidgin-who0")[0].value;
+	sendPidgin(userName, str);
+
+	// clear input box
+	document.getElementById("white-box").value = "";
+}, false);
+
+// Send message to Pidgin #1
+document.getElementById("send-pidgin1").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	str = simplify(str);
+	str = replaceYKY(str);
+
+	var userName = document.getElementsByName("pidgin-who1")[0].value;
+	sendPidgin(userName, str);
+
+	recordHistory(str);
 
 	// clear input box
 	document.getElementById("white-box").value = "";
@@ -598,7 +633,7 @@ function checkKey(e) {
 				document.getElementById("white-box").value = history[history_view_index];
 			}
 	}
-	document.getElementById("white-box").focus();
+	// document.getElementById("white-box").focus();
 };
 
 document.getElementById("send-green").addEventListener("click", function() {

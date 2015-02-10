@@ -23,12 +23,25 @@ purple = dbus.Interface(obj, "im.pidgin.purple.PurpleInterface")
 
 ims = purple.PurpleGetIms()
 
+if len(sys.argv) == 1:
+	print "Usage: pidgin-message user message (no quotes needed)\n"
+	print "number of open chats:", len(ims)
+	print
+	for conv in ims:
+		print purple.PurpleConversationGetName(conv) + " (" + \
+			purple.PurpleConversationGetTitle(conv) + ")"
+		# print "Focus: ", purple.PurpleConversationHasFocus(conv)
+		# print "IM data: ", purple.PurpleConversationGetImData(conv)
+		# print "data: ", purple.PurpleConversationGetChatData(conv)
+		# print
+	exit()
+
 user = sys.argv[1]				# first argument = user name
 msg = ' '.join(sys.argv[2:])	# the rest is message
 # msg = sys.argv[1][1:-1]		# remove quotes
+
 if msg == "":
-	print "Please enter something to message"
-	print "number of open chats:", len(ims)
+	print "Usage: pidgin-message user message (no quotes needed)\n"
 	exit()
 
 # if len(ims) == 1, always send to that person
