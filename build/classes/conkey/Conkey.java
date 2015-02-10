@@ -163,7 +163,7 @@ public class Conkey extends Spark {
 			public Object handle(Request rqst, Response rspns) {
 				rspns.header("Content-type", "text/html; charset=utf-8");
 				try {
-					Process p = Runtime.getRuntime().exec("/home/yky/pidgin-names.py");
+					Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-names.py");
 				} catch (IOException ex) {
 					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
 				}
@@ -171,7 +171,7 @@ public class Conkey extends Spark {
 
 				String pidginNames = "";
 				try {
-					pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/pidgin-names.txt")));
+					pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-names.txt")));
 				} catch (IOException ex) {
 					Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
 				}
