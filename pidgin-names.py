@@ -3,6 +3,7 @@
 
 from subprocess import call
 import dbus, gobject
+# import time
 
 bus = dbus.SessionBus()
 obj = bus.get_object("im.pidgin.purple.PurpleService", "/im/pidgin/purple/PurpleObject")
@@ -10,7 +11,7 @@ purple = dbus.Interface(obj, "im.pidgin.purple.PurpleInterface")
 
 ims = purple.PurpleGetIms()
 
-f = open('/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-names.txt', 'w')
+f = open('/home/yky/NetbeansProjects/conkey/pidgin-names.txt', 'w')
 
 # f.write(str(len(ims)) + '\n')		# first line is the number of chat windows
 
@@ -22,5 +23,8 @@ for conv in ims:
 	# print "data: ", purple.PurpleConversationGetChatData(conv)
 	# print
 
+# no need to sleep here -- the fault is in the process caller
+# 		... because he reads the file too early
+# time.sleep(1)
 call(["beep", "-f", "100"])
 exit()

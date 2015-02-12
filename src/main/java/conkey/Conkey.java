@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
 import spark.Response;
+import spark.Route;
 import static spark.Spark.*;
 // import org.apache.log4j.BasicConfigurator;
 
@@ -110,7 +111,7 @@ public class Conkey {
                     System.out.println("data is: " + data);
                     try {
                         // Send to Pidgin
-                        Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-message.py " + name + " " + data);
+                        Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-message.py " + name + " " + data);
                     } catch (IOException ex) {
                         Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -143,24 +144,34 @@ public class Conkey {
                     return "Chat history saved";
                 });
 
-		get("/getPidginNames/*", (request, response) -> {
-                    response.header("Content-type", "text/html; charset=utf-8");
-                    try {
-                            Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-names.py");
-                    } catch (IOException ex) {
-                            Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    System.out.println("Executed shell script pidgin-names.py.\n");
+		get("/getPidginNames/*", new Route() {
 
-                    String pidginNames = "";
-                    try {
-                            pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conceptual-keyboard/pidgin-names.txt")));
-                    } catch (IOException ex) {
+                    public Object handle(Request request, Response response) {
+                        response.header("Content-type", "text/html; charset=utf-8");
+                        try {
+                            Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-names.py");
+                        } catch (IOException ex) {
                             Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("Executed shell script pidgin-names.py.\n");
+                        
+                        // at this point we need to wait about 1 second...
+                        try {
+                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                        } catch(InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                        
+                        String pidginNames = "";
+                        try {
+                            pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conkey/pidgin-names.txt")));
+                        } catch (IOException ex) {
+                            Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        System.out.println("Read file pidgin-names.txt.\n");
+                        return pidginNames;
                     }
-                    System.out.println("Read file pidgin-names.txt.\n");
-                return pidginNames;
-		});
+                });
 		
 		
 		get("/*", (request, response) -> {

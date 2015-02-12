@@ -563,6 +563,8 @@ document.getElementById("pidgin-names").addEventListener("click", function() {
 
 			pidginNames0 = document.getElementsByName("pidgin-who0")[0];
 			pidginNames1 = document.getElementsByName("pidgin-who1")[0];
+			pidginNames0.innerHTML = "";
+			pidginNames1.innerHTML = "";
 
 			var lines = data.split('\n');
 			for (var i = 0; i < lines.length - 1; i += 2) {
