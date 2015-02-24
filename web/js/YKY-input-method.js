@@ -461,6 +461,18 @@ function recordHistory(str) {
 	history_view_index = -1;
 }
 
+// ********** convert Chinese to Cantonese
+function cantonize(str) {
+	$.get("/askGenifer/cantonize/" , str, function(data) {
+		document.getElementById("white-box").value = data;
+	});
+}
+
+document.getElementById("cantonize").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	cantonize(str);
+}, false);
+
 // ********** convert traditional Chinese chars to simplified
 function simplify(str) {
 	var c = c2 = '', str2 = "";
@@ -470,6 +482,7 @@ function simplify(str) {
 
 	for (i = 0; i < str.length; ++i) {
 		c = str[i];
+		// convert character to Simplified
 		c2 = h[c];
 		if (c2 != undefined)
 			str2 += c2;
@@ -584,6 +597,7 @@ document.getElementById("send-pidgin0").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
 	str = replaceYKY(str);
+	recordHistory(str);
 
 	var userName = document.getElementsByName("pidgin-who0")[0].value;
 	sendPidgin(userName, str);
@@ -597,11 +611,10 @@ document.getElementById("send-pidgin1").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
 	str = replaceYKY(str);
+	recordHistory(str);
 
 	var userName = document.getElementsByName("pidgin-who1")[0].value;
 	sendPidgin(userName, str);
-
-	recordHistory(str);
 
 	// clear input box
 	document.getElementById("white-box").value = "";

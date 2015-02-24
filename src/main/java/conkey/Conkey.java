@@ -70,6 +70,9 @@ public class Conkey {
 
 	public static void main(String[] args) {
 
+                System.out.println("Initializing Genifer3...");
+                genifer3.Genifer3.main(null);
+            
 		// BasicConfigurator.configure();	// configures log4j logger
 
 		Integer portNumber = 9090;			// Spark will run on port 9090
@@ -90,7 +93,7 @@ public class Conkey {
                     // System.out.println("data is: " + data.substring(0, 100));
                     try {
                         try ( // Save in web/ directory
-                                PrintWriter out = new PrintWriter("web/" + fname)) {
+                            PrintWriter out = new PrintWriter("web/" + fname)) {
                             out.print(data);
                         }
                     } catch (FileNotFoundException ex) {
@@ -99,10 +102,8 @@ public class Conkey {
                     return "Database saved";
                 });
 
-		// Route sendPidginMessage;
-
 		post("/sendPidginMessage/:name", (Request request, Response response) -> {
-                    // System.out.println("saving database....");
+                    // System.out.println("sending Pidgin Message....");
                     response.header("Content-type", "text/html");
                     // String list = rqst.queryParams().toString();
                     String name = request.params(":name");
@@ -144,36 +145,57 @@ public class Conkey {
                     return "Chat history saved";
                 });
 
-		get("/getPidginNames/*", new Route() {
+      		get("/askGenifer/cantonize/*", (Request request, Response response) -> {
+                    // System.out.println("asking Genifer....");
+                    response.header("Content-type", "text/html; charset=utf-8");
+                    // String list = rqst.queryParams().toString();
+                    // String action = request.params(":action");
+                    // System.out.println("param is: " + action);
+                    // String data = request.queryParams("data");
+                    // System.out.println("data is: " + data);
+                    // Ask Genifer
+                    String result = genifer3.Genifer3.cantonize("什么");
+                    // action + data;
+                    return "Canto:" + result;
+                });
 
-                    public Object handle(Request request, Response response) {
-                        response.header("Content-type", "text/html; charset=utf-8");
-                        try {
-                            Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-names.py");
-                        } catch (IOException ex) {
-                            Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("Executed shell script pidgin-names.py.\n");
-                        
-                        // at this point we need to wait about 1 second...
-                        try {
-                            Thread.sleep(1000);                 //1000 milliseconds is one second.
-                        } catch(InterruptedException ex) {
-                            Thread.currentThread().interrupt();
-                        }
-                        
-                        String pidginNames = "";
-                        try {
-                            pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conkey/pidgin-names.txt")));
-                        } catch (IOException ex) {
-                            Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        System.out.println("Read file pidgin-names.txt.\n");
-                        return pidginNames;
+		get("/getPidginNames/*", (Request request, Response response) -> {
+                    response.header("Content-type", "text/html; charset=utf-8");
+                    try {
+                        Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-names.py");
+                    } catch (IOException ex) {
+                        Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    System.out.println("Executed shell script pidgin-names.py.\n");
+                    
+                    // at this point we need to wait about 1 second...
+                    try {
+                        Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                    
+                    String pidginNames = "";
+                    try {
+                        pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conkey/pidgin-names.txt")));
+                    } catch (IOException ex) {
+                        Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    System.out.println("Read file pidgin-names.txt.\n");
+                    return pidginNames;
                 });
 		
-		
+/*
+                get("/*.ogg", (request, response) -> {
+                    String page = "index.html";
+                    System.out.println("Sending OGG file");
+                    response.header("Content-type", "audio/ogg");
+                    getStaticBinaryFile(page, response.raw().getOutputStream());
+                    return null;
+                });
+*/
+                
+                    
 		get("/*", (request, response) -> {
                     String url = request.pathInfo();
                     String page = "index.html";
@@ -184,7 +206,7 @@ public class Conkey {
                             }
                     }
 
-                    System.out.println(request.pathInfo());
+                    System.out.println("URL = " + url);
                     System.out.println(request.url() + " -> " + page);
 
                     try {

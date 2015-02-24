@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # kill any previous Java Conkey processes:
-ps -C "java -jar target/conkey-1.0-SNAPSHOT.jar" --no-heading --format pid > conkey_PID.txt
+# ps -C "java" --no-heading --format pid > conkey_PID.txt
 while read p; do
 	kill $p
 done < conkey_PID.txt
@@ -15,9 +15,9 @@ sleep 1
 # http-server /home/yky/NetbeansProjects/conceptual-keyboard/web -p 9090 -c-1
 java -jar target/conkey-1.0-SNAPSHOT.jar &
 mplayer chrome-extension/ip203_alert.ogg
-##### remember process ID
-# Conkey_PID=$!
-# echo "Process ID = " $Conkey_PID
+##### remember process ID, so as to delete it later
+Conkey_PID=$!
+echo $Conkey_PID > conkey_PID.txt
 ##### wait 2 seconds
 sleep 1
 ##### start chrome browser
