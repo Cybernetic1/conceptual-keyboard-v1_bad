@@ -6,7 +6,7 @@ while read p; do
 	kill $p
 done < conkey_PID.txt
 ##### backup conkey database
-cd /home/yky/NetbeansProjects/conkey
+cd ~/NetBeansProjects/conceptual-keyboard
 # cp database_default.txt database_default.bak
 ##### close terminal window
 # wmctrl -r :ACTIVE: -b add,hidden
@@ -21,7 +21,11 @@ echo $Conkey_PID > conkey_PID.txt
 ##### wait 2 seconds
 sleep 1
 ##### start chrome browser
-chromium-browser --new-window http://localhost:9090/index.html
+if google-chrome --version >/dev/null; then
+    google-chrome --new-window http://localhost:9090/index.html
+else
+    chromium-browser --new-window http://localhost:9090/index.html
+fi
 sleep 2
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
