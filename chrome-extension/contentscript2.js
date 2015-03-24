@@ -68,6 +68,11 @@ document.addEventListener("mouseover", function(){
 	}
 });
 
+function his() {
+	for (i = 0; i < chat_history.length; ++i)
+		console.log(chat_history[i]);
+}
+
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	// console.log(sender.tab ?
 	//	"from a content script:" + sender.tab.url :
@@ -123,8 +128,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		}
 
 		if (str.indexOf("!his") > -1) {
-			for (i = 0; i < chat_history.length; ++i)
-				console.log(chat_history[i]);
+			his();
 			return;
 		}
 
@@ -404,17 +408,18 @@ setInterval( function() {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementsByName("a2")[0].contentDocument;
 		// this is the element containing the rows:
-		chatWin = html.childNodes[0].childNodes[1];
+		chatWin1 = html.childNodes[0].childNodes[1];
 		// get down to the last page of messages:
-		chatWin = chatWin.childNodes[chatWin.childElementCount];
+		chatWin = chatWin1.childNodes[chatWin1.childElementCount];
 		// number of lines in chat win:
 		lastIndex = chatWin.childElementCount - 1;
 		if ((chatWin != null) && (lastIndex > lastHkloveIndex)) {
 			var alert = false;
 			for (i = lastIndex; i > lastHkloveIndex; i--) {
 				stuff = chatWin.children[i].innerText;
-				if (stuff.indexOf("只對『半機械人一號』") > -1 ||
-					stuff.indexOf("只對『Cybernetic1』") > -1) {
+				if (stuff.indexOf("只對『Cybernetic1』") > -1 ||
+					stuff.indexOf("只對『Metazoan』") > -1 ||
+					stuff.indexOf(">>『Metazoan』") > -1) {
 					// sound alert
 					alert = true;
 					chat_history[chat_history.length] = stuff + "\n";

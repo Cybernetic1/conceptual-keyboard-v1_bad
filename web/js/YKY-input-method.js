@@ -418,7 +418,7 @@ function saveDB(fname)
 	// Server side could save to a specific directory
 	$.ajax({
 		method: "POST",
-		url: "/saveDatabase/" + fname,
+		url: "/saveConkeyDatabase/" + fname,
 		data: {data: s},
 		success: function(resp) {
 			console.log("file saved");

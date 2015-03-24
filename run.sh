@@ -1,12 +1,12 @@
 #!/bin/sh
 #
+cd /home/yky/NetbeansProjects/conkey
 # kill any previous Java Conkey processes:
 # ps -C "java" --no-heading --format pid > conkey_PID.txt
 while read p; do
 	kill $p
 done < conkey_PID.txt
 ##### backup conkey database
-cd /home/yky/NetbeansProjects/conkey
 # cp database_default.txt database_default.bak
 ##### close terminal window
 # wmctrl -r :ACTIVE: -b add,hidden
@@ -14,7 +14,7 @@ sleep 1
 ##### run conkey server
 # http-server /home/yky/NetbeansProjects/conceptual-keyboard/web -p 9090 -c-1
 java -jar target/conkey-1.0-SNAPSHOT.jar &
-mplayer chrome-extension/ip203_alert.ogg
+mplayer --quiet chrome-extension/ip203_alert.ogg
 ##### remember process ID, so as to delete it later
 Conkey_PID=$!
 echo $Conkey_PID > conkey_PID.txt

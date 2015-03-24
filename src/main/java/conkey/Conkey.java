@@ -80,12 +80,11 @@ public class Conkey {
 
 		System.out.println("YKY set port to: " + portNumber.toString() + "\n");
 
-		// This route seems to be old
 		// Route saveDatabase;
 
-		post("/saveDatabase/:fname", (Request request, Response response) -> {
+		post("/saveConkeyDatabase/:fname", (Request request, Response response) -> {
                     // System.out.println("saving database....");
-                    response.header("Content-type", "text/html");
+                    response.header("Content-type", "text/html; charset=utf-8");
                     // String list = rqst.queryParams().toString();
                     String fname = request.params(":fname");
                     // System.out.println("params are: " + list);
@@ -104,7 +103,7 @@ public class Conkey {
 
 		post("/sendPidginMessage/:name", (Request request, Response response) -> {
                     // System.out.println("sending Pidgin Message....");
-                    response.header("Content-type", "text/html");
+                    response.header("Content-type", "text/html; charset=utf-8");
                     // String list = rqst.queryParams().toString();
                     String name = request.params(":name");
                     System.out.println("param is: " + name);
@@ -123,16 +122,17 @@ public class Conkey {
 
 		post("/saveChatLog/:name", (Request request, Response response) -> {
                     // System.out.println("saving database....");
-                    response.header("Content-type", "text/html");
+                    response.header("Content-type", "text/html; charset=utf-8");
                     // String list = rqst.queryParams().toString();
                     String fname = request.params(":name");
-                    System.out.println("param is: " + fname);
+                    String fname2 = java.net.URLDecoder.decode(fname, "UTF-8");
+                    System.out.println("param is: " + fname2);
                     String data = request.queryParams("data");
                     // System.out.println("data is: " + data);
                     System.out.println("data obtained.");
                     
                     // Save file to local directory
-                    File file = new File("/home/yky/logs/" + fname);
+                    File file = new File("/home/yky/logs/" + fname2);
                     try{
                         try (Writer output = new BufferedWriter(new FileWriter(file))) {
                             output.write(data);
