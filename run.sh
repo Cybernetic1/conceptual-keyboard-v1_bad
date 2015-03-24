@@ -1,6 +1,5 @@
 #!/bin/sh
-#
-cd /home/yky/NetbeansProjects/conkey
+cd ~/NetBeansProjects/conceptual-keyboard
 # kill any previous Java Conkey processes:
 # ps -C "java" --no-heading --format pid > conkey_PID.txt
 while read p; do
@@ -21,7 +20,11 @@ echo $Conkey_PID > conkey_PID.txt
 ##### wait 2 seconds
 sleep 1
 ##### start chrome browser
-chromium-browser --new-window http://localhost:9090/index.html
+if google-chrome --version >/dev/null; then
+    google-chrome --new-window http://localhost:9090/index.html
+else
+    chromium-browser --new-window http://localhost:9090/index.html
+fi
 sleep 2
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
