@@ -92,7 +92,7 @@ public class Conkey {
                     // System.out.println("data is: " + data.substring(0, 100));
                     try {
                         try ( // Save in web/ directory
-                            PrintWriter out = new PrintWriter("web/" + fname)) {
+                            PrintWriter out = new PrintWriter("./web/" + fname)) {
                             out.print(data);
                         }
                     } catch (FileNotFoundException ex) {
@@ -111,7 +111,7 @@ public class Conkey {
                     System.out.println("data is: " + data);
                     try {
                         // Send to Pidgin
-                        Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-message.py " + name + " " + data);
+                        Process p = Runtime.getRuntime().exec("./pidgin-message.py " + name + " " + data);
                     } catch (IOException ex) {
                         Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -132,7 +132,7 @@ public class Conkey {
                     System.out.println("data obtained.");
                     
                     // Save file to local directory
-                    File file = new File("/home/yky/logs/" + fname2);
+                    File file = new File("./logs/" + fname2);
                     try{
                         try (Writer output = new BufferedWriter(new FileWriter(file))) {
                             output.write(data);
@@ -161,8 +161,10 @@ public class Conkey {
 
 		get("/getPidginNames/*", (Request request, Response response) -> {
                     response.header("Content-type", "text/html; charset=utf-8");
+                    // System.out.println("Working dir = " + System.getProperty("user.dir"));
+                    
                     try {
-                        Process p = Runtime.getRuntime().exec("/home/yky/NetbeansProjects/conkey/pidgin-names.py");
+                        Process p = Runtime.getRuntime().exec("./pidgin-names.py");
                     } catch (IOException ex) {
                         Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -177,7 +179,7 @@ public class Conkey {
                     
                     String pidginNames = "";
                     try {
-                        pidginNames = new String(Files.readAllBytes(Paths.get("/home/yky/NetbeansProjects/conkey/pidgin-names.txt")));
+                        pidginNames = new String(Files.readAllBytes(Paths.get("./pidgin-names.txt")));
                     } catch (IOException ex) {
                         Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }

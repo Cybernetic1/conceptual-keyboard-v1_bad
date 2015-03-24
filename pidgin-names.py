@@ -11,7 +11,7 @@ purple = dbus.Interface(obj, "im.pidgin.purple.PurpleInterface")
 
 ims = purple.PurpleGetIms()
 
-f = open('/home/yky/NetbeansProjects/conkey/pidgin-names.txt', 'w')
+f = open('pidgin-names.txt', 'w')
 
 # f.write(str(len(ims)) + '\n')		# first line is the number of chat windows
 

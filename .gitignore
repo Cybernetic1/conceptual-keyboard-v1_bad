@@ -1,5 +1,6 @@
 /dist/
 /lib/
 /target/
+/logs/
 *.bak
 conkey_PID.txt
