@@ -761,23 +761,27 @@ document.getElementById("add-child").addEventListener("click", function() {
 
 	// Insert node at tree before currentNode
 	// We need to traverse the tree to the currentNode,
+	// The problem is to determine where are we.
+	
+	currentNode.splice(currentNode.length, 0, [[str]]);
+
 	// whose location is given by level1, level2, level3
-	var parentNode = null;
-	if (level3 != null) {
-		parentNode = database[level1][level2];		// find parent
-		parentNode.splice(level3, 0, [[str]]);		// add new array
-	}
-	else if (level2 != null) {
-		parentNode = database[level1];				// find parent
-		parentNode.splice(level2, 0, [[str]]);		// add new array
-	}
-	else {
-		parentNode = database;							// find parent
-		parentNode.splice(level1, 0, [[str]]);		// add new array
-	}
+	//var parentNode = null;
+	//if (level3 != null) {
+		//parentNode = database[level1][level2];		// find parent
+		//parentNode.splice(level3, 0, [[str]]);		// add new array
+	//}
+	//else if (level2 != null) {
+		//parentNode = database[level1];				// find parent
+		//parentNode.splice(level2, 0, [[str]]);		// add new array
+	//}
+	//else {
+		//parentNode = database;						// find parent
+		//parentNode.splice(level1, 0, [[str]]);		// add new array
+	//}
 
 	// redraw tree menu
-	fillColumn1();
+	fillDirs();
 
 }, false);
 
@@ -4748,7 +4752,6 @@ h['拄']='拄';
 h['矚']='瞩';
 h['囑']='嘱';
 h['主']='主';
-h['著']='著';
 h['柱']='柱';
 h['助']='助';
 h['蛀']='蛀';
@@ -4797,7 +4800,7 @@ h['琢']='琢';
 h['茁']='茁';
 h['酌']='酌';
 h['啄']='啄';
-h['著']='着';
+// h['著']='着';
 h['灼']='灼';
 h['濁']='浊';
 h['茲']='兹';

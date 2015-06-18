@@ -4,6 +4,7 @@
 // Identify chatroom pages (if they exist), id's are used for message passing
 var adultId = null;
 var voovId = null;
+var voovId2 = null;
 var ip131Id = null;
 var ip203Id = null;
 var hkloveId = null
@@ -14,6 +15,13 @@ chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 		voovId = result[0].id;
 	else
 		voovId = null;
+	});
+
+chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
+	if (result.length != 0)
+		voovId2 = result[0].id;
+	else
+		voovId2 = null;
 	});
 
 chrome.tabs.query({url: "http://60.199.209.71/VIP*/index.phtml"}, function(result) {
@@ -55,6 +63,15 @@ chrome.extension.onMessage.addListener(
 	if (request.chatroom != null) {
 		// We should send messages to both chatroom's content scripts
 		// Let them decide whether to speak or not
+
+		chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
+			if (result.length != 0) {
+				voovId2 = result[0].id;
+				chrome.tabs.sendMessage(voovId2, {chatroom: request.chatroom});
+				}
+			else
+				voovId2 = null;
+			});
 
 		chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 			if (result.length != 0) {
@@ -132,6 +149,8 @@ chrome.extension.onMessage.addListener(
 			chrome.tabs.sendMessage(adultId, {sendtext: request.sendtext});
 		if (voovId)
 			chrome.tabs.sendMessage(voovId, {sendtext: request.sendtext});
+		if (voovId2)
+			chrome.tabs.sendMessage(voovId2, {sendtext: request.sendtext});
 		if (ip131Id)
 			chrome.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
 		if (ip203Id)
@@ -156,6 +175,12 @@ chrome.extension.onMessage.addListener(
 	// Request to play an alert sound (must be done thru background page)
 	if (request.alert != null) {
 		if (request.alert == "voov") {
+			// console.log("voov alert")
+			var audio = new Audio("voov_alert.ogg");
+			audio.play();
+		}
+
+		if (request.alert == "voov2") {
 			// console.log("voov alert")
 			var audio = new Audio("voov_alert.ogg");
 			audio.play();
