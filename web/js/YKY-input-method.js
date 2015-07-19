@@ -66,7 +66,7 @@ function fillDirs()
 		cell.innerHTML = currentNode[i][0][0];
 	}
 
-	if (currentNode.length <= 1) {
+	if (currentNode.length <= 0) {	// use <= 1 for single-column view
 		document.getElementById("column1").style.width = "0%";
 		document.getElementById("column2").style.width = "100%";
 	} else {
@@ -357,7 +357,7 @@ function loadDB(pathname)
 		});
 
 		// **** Initialize
-		database[0] = ["root"];
+		database[0] = ["root", "root1", "root2"];
 		currentNode = database;
 
 		// Create "root" button in header bar
@@ -409,7 +409,7 @@ function saveDB(fname)
 			if (node[i].length > 1)
 				s0 += db_2_str(node[i], section + i + ".");
 		}
-		return s0;
+		return s0.trim();
 	}
 
 	var s = db_2_str(database, "");

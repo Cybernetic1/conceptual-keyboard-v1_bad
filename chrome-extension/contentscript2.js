@@ -49,15 +49,15 @@ function saveLog(name) {
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("hklovechat") >= 0) {
 		// console.log("switch to hk love chat (new voov)");
-		chrome.extension.sendMessage({chatroom: "voov2"});
-		ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = false;
-		voovChat2 = true;
-	}
-	if (document.URL.indexOf("hk2love") >= 0) {
-		// console.log("switch to hk2love");
 		chrome.extension.sendMessage({chatroom: "hklove"});
 		ip131Chat = false; ip203Chat = false; hkloveChat = true; ip4Chat = false;
 		voovChat2 = false;
+	}
+	if (document.URL.indexOf("hk2love") >= 0) {
+		// console.log("switch to hk2love");
+		chrome.extension.sendMessage({chatroom: "voov2"});
+		ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = false;
+		voovChat2 = true;
 	}
 	if (document.URL.indexOf("ip131") >= 0) {
 		// console.log("switch to ip131");
@@ -151,7 +151,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			return;
 		}
 
-		if (voovChat2 && document.URL.indexOf("hklovechat") >= 0) {
+		if (hkloveChat && document.URL.indexOf("hklovechat") >= 0) {
 			//**************** HK Love Chat ***************
 			var inputBox = document.getElementsByName("message")[0].contentDocument;
 			var inputBox2 = inputBox.getElementById("txtMessage");
@@ -161,6 +161,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			last_str = str;
 			var sendButton = inputBox.getElementById("Button1");
 			sendButton.click();
+			
+			//chat_history[chat_history.length] = str + "\n";
 			}
 
 		/*
@@ -237,7 +239,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			}
 
 		// For HK Love chatroom:
-		if (hkloveChat && document.URL.indexOf("hk2love") >= 0) {
+		if (voovChat2 && document.URL.indexOf("hk2love") >= 0) {
 			if (last_str == str)		// does not allow to send duplicate messages
 				str = " " + str;
 
