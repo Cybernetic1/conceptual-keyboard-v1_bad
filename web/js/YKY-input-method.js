@@ -398,7 +398,7 @@ function saveDB(fname)
 
 			// print section number and heading
 			s0 += ("\t" + section + i + ". ");			// print section number
-			s0 += (node[i][0][0] + "\n");					// print heading
+			s0 += (node[i][0][0] + "\n");				// print heading
 
 			//	loop to print every data element in node[i][0]
 			for (j = 1; j < node[i][0].length; ++j)
@@ -409,7 +409,7 @@ function saveDB(fname)
 			if (node[i].length > 1)
 				s0 += db_2_str(node[i], section + i + ".");
 		}
-		return s0.trim();
+		return s0.replace(/\s+$/g,'');
 	}
 
 	var s = db_2_str(database, "");

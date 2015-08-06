@@ -13,7 +13,7 @@
 我在家工作|電腦|我習慣夜睡|但還未賺到錢
 你的 skype 是...?|你有冇 skype ...?|你有沒有 skype 或 Whatsapp...?|你有没有 skype ...?
 我沒有 LINE|我沒有 WeChat
-想不想打電話給我？|在這裡玩也可以 |想不想傾電話？|我打比你？|打比我 :)
+想不想打電話給我？|在這裡玩也可以 |想不想傾電話？|我打比你？|打比我 :)|你打比我？
 有無 MSN or Yahoo？
 	3. Appearance
 身材怎樣？|你身材怎樣？|樣子漂亮嗎？|你的樣子怎樣？|你|靚唔靚？ :)
@@ -84,7 +84,7 @@
 為什麼心煩？|為什麼不開心？
 我很好 :)|很好 :)|很好的年齡 :)
 對不起 打錯
-	7.1. Books
+7.1. Books
 你鍾意睇咩書？|喜歡看什麼書？
 有咩好介紹？|你鍾意邊本書？
 	7.2. Truman
@@ -94,7 +94,8 @@
 故事結局是他終於走出戲外
 妳鍾意邊齣戲？|妳喜歡哪齣電影？
 	7.3. music
-妳鍾意聽乜歌？|妳鍾意邊首歌？ :)	8. Hotel
+妳鍾意聽乜歌？|妳鍾意邊首歌？ :)
+	8. Hotel
 你見到一個40多歲的男人，打開酒店的房門...
 他微笑，"我想你就是公司派來的..."
 但看見你很年輕...
@@ -107,7 +108,7 @@
 「可不可先拉起你的裙子，讓我們看看...」
 他們對你笑着說不用害羞
 「讓我們這樣看，你覺得怎樣？」
-	8. Legs
+	9. Legs
 「我們很喜歡看女孩子的美腿和絲襪...還有高跟鞋...」
 笑... 「很喜歡...」
 「還有你不怕羞... 那很好...」
@@ -132,7 +133,7 @@
 他把你的褲子拉下...
 「看你那兒...其實你還真是個小女孩...」
 他把你的吊帶也脫掉...
-	9. Double Penetration
+	10. Double Penetration
 他向上望你...笑說...「你還不知我們多壞...」
 「想不想我們前後都插你...？」
 「我們會很溫柔的...但會前後都插... 你說怎樣...？」
@@ -159,14 +160,14 @@
 「那你便要放鬆雙腿...我們很愛看你張開雙腳在沙發上...很性感的...」
 「要不要現在就讓另－個叔叔插你的後面...」
 叔叔抱起你的屁股－點...
-	10. Rape
+	11. Rape
 強姦在那里發生？
 家裡還是戶外？
 或者你在晚上回家的路上...派對之後...
 和朋友party 之後
 被3－4個人跟蹤
 或者是強姦
-	11. Phone
+	12. Phone
 是不是你和你的女朋友講電話？
 會和朋友談些什麼？
 或者沒有別人在周圍 :)
@@ -174,7 +175,7 @@
 你只可以和那個朋友聊天, yes
 不知道我會做什麼 :)
 由我控制 :)
-	12. Breasts
+	13. Breasts
 我開始從上面解你的钮扣... :)
 坐在你後面
 你的奶多大
@@ -194,7 +195,7 @@
 看看乳房漂亮不 :)
 怎麼樣 :)
 手指輕輕地摸你的乳...。
-	13. End: Thanks, kisses
+	14. End: Thanks, kisses
 （是不是高潮了？）
 還想玩嗎？
 我很喜歡你的溫順性格... :)
@@ -206,67 +207,68 @@
 下次再玩吧...你很棒 :)
 謝謝... *kisses*
 嘩....射咗好多精....
-	14. Vocabs
-	14.1. Body
+	15. Vocabs
+	15.1. Body
 腳 腿
 性器官
 閪 穴穴
 陰蒂 陰道 陰部 陰唇
-	14.2. Male
+	15.2. Male
 睾丸
 阴茎 賓州
-	14.3. Clothing
+	15.3. Clothing
 褲子 底褲
 短裙
 胸圍 奶罩
 蕾絲 絲襪 吊帶襪
 高跟鞋
-	14.4. People Family
+	15.4. People Family
 妓女 高級 應召女郎
 秘書
 叔叔 們
-	14.5. Building Houses
+	15.5. Building Houses
 酒店 大堂
-	14.6. Food Drink Farming
+	15.6. Food Drink Farming
 陪酒
-	14.7. Feelings Emotions
+	15.7. Feelings Emotions
 鍾意 喜歡
 想
 害羞 怕羞 尷尬
 妒忌 呷醋
 淫蕩
-	14.8. Thought Communication
+	15.8. Thought Communication
 輕聲 說
-	14.9. Substances Materials
+	15.9. Substances Materials
 春藥
-	14.10. Arts Crafts Science
+	15.10. Arts Crafts Science
 人工 智能
 技術 奇異點 (technological singularity)
 泛人類主義 (transhumanism)
-	14.11. Numbers Measurement
+	15.11. Numbers Measurement
 三圍 數字
 高度 體重
-	14.12. Entertainment Sports
+	15.12. Entertainment Sports
 游泳
 柔軟 體操
-	14.13. Space Time
+	15.13. Space Time
 深夜
-	14.14. Movement Location Travel
+	15.14. Movement Location Travel
 沙灘
 房車
 飛機 上
-	14.15. General Abstract
+	15.15. General Abstract
 好像
 似乎
-範疇論	15. 功能字
-	15.1. Pronoun
+範疇論
+	16. 功能字
+	16.1. Pronoun
 我
 妳
 他
 她
 他們
 她們
-	15.2. Common Verbs
+	16.2. Common Verbs
 是
 不是
 有
@@ -277,7 +279,7 @@
 鍾唔鍾意
 想
 想不想
-	15.3. 助語
+	16.3. 助語
 不
 的
 地

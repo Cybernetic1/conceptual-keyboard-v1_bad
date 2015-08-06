@@ -349,7 +349,7 @@ setInterval( function() {
 			}
 		}
 		if (alert == true)
-			chrome.runtime.sendMessage({alert: "voov2"});
+			chrome.runtime.sendMessage({alert: "hklove"});
 		// Find the last line that's non-empty
 		lastVoovLine2 = "top line";
 		for (i = lastIndex; i > 0; i--) {
@@ -488,7 +488,7 @@ setInterval( function() {
 				// To-do:  On Adult page, own messages appear as broken pieces
 			}
 			if (alert == true)
-				chrome.runtime.sendMessage({alert: "hklove"});
+				chrome.runtime.sendMessage({alert: "voov2"});
 		}
 		lastHkloveIndex = lastIndex;
 	}
