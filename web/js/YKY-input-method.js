@@ -2,19 +2,20 @@
 // *** and for handling the user interface
 
 // To do: (Misc)
-// * forget typing log data periodically
+// * log what she says
+// * forget Typing Log directory files periodically
 // * left and right click in Green Box
 // * drag-and-drop to white box
-// * log what she says
 // * create an area like a clipboard, that can be saved
 
 // To do: (Cantonese with Genifer 5)
-// * copy White Box content to Red Box
+// -- it's Genifer's job now
 
 // To do: (Pictures)
 // * determine word @ mouse position
 //		- need data structure:  list of { word, rectangle }
 // * use mouse to draw rectangle and record params
+// * display rectangle when mouse-over / mouse-off
 // * save params in a data file
 // * how to name and store image files?
 // * images may have its own navigation system
@@ -72,7 +73,7 @@ function fillDirs()
 		cell.innerHTML = currentNode[i][0][0];
 	}
 
-	if (currentNode.length <= 0) {	// use <= 1 for single-column view
+	if (currentNode.length <= 1) {	// use <= 1 for single-column view
 		document.getElementById("column1").style.width = "0%";
 		document.getElementById("column2").style.width = "100%";
 	} else {
@@ -333,7 +334,7 @@ function loadDB(dbname)
 
 		database = new Array();
 		var node = database;
-		node[0] = new Array();		// initialize first datum
+		node[0] = new Array();		// initialize data array for root
 
 		lines.forEach(function(line) {
 			if (line[0] === '\t') {
@@ -472,13 +473,16 @@ function recordHistory(str) {
 
 // ********** convert Chinese to Cantonese
 function cantonize(str) {
-	$.get("/askGenifer/cantonize/" , str, function(data) {
-		document.getElementById("white-box").value = data;
+	$.get("/askGenifer/cantonize/" , { data: str }, function(data) {
+		// document.getElementById("white-box").value = data;
+		document.getElementById("pink-box").value = data;
 	});
 }
 
 document.getElementById("cantonize").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
+	// Copy to Red Box
+	document.getElementById("red-box").value = str;
 	cantonize(str);
 }, false);
 
@@ -588,19 +592,19 @@ jQuery('#white-box').on('input', function() {
 	newWhite = newWhite.substring(i, k + 1);
 
 	// remove all punctuations and spaces
-	// var newWhite2 = newWhite.replace(punctRE, '').replace(spaceRE, ' ');
+	var newWhite2 = newWhite.replace(punctRE, '').replace(spaceRE, ' ');
 	// var lastWhite2 = lastWhite.replace(punctRE, '').replace(spaceRE, ' ');
 	// remove previous content from new content
 	// var delta = newWhite2.replace(new RegExp(lastWhite2, 'g'), '');
-	
+
 	// Record in database
-	if (newWhite.length != 0) {
+	if (newWhite2.length != 0) {
 		$.ajax({
 			method: "POST",
 			url: "/logTyping/",
-			data: {data: newWhite},
+			data: {data: newWhite2},
 			success: function(resp) {
-				console.log("Typing Log: " + newWhite);
+				console.log("Typing Log: " + newWhite2);
 			}
 		});
 	}

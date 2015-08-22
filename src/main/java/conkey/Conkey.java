@@ -262,10 +262,11 @@ public class Conkey {
                     // String list = rqst.queryParams().toString();
                     // String action = request.params(":action");
                     // System.out.println("param is: " + action);
-                    // String data = request.queryParams("data");
-                    // System.out.println("data is: " + data);
+                    String data = request.queryParams("data");
+                    System.out.println("data is: " + data);
                     // Ask Genifer
-                    String result = genifer3.Genifer3.cantonize("什么");
+                    // String result = genifer3.Genifer3.cantonize("什么");
+                    String result = "testing";
                     // action + data;
                     return "Canto:" + result;
                 });

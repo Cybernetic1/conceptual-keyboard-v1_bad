@@ -57,9 +57,18 @@
 				border: 3px solid #00ff00;
 			}
 
+			#pink-box {
+				width: 50%;
+				overflow: auto;
+				float: left;
+				padding: 2px -4px 2px 2px;
+				border: 3px solid #ff8888;
+			}
+
 			#red-box {
-				height: 26px;
-				width: 100%;
+				width: 48%;
+				overflow: auto;
+				float: right;
 				padding: 2px -4px 2px 2px;
 				border: 3px solid #ff0000;
 			}
@@ -111,9 +120,10 @@
 	</head>
 
 	<body>
-		<input type="text" id="white-box" style="width:100%; height:120%;" value=""><br>
-		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
-		<!-- div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div -->
+		<input type="text" id="white-box" style="width:100%; height:120%;" value="">
+		<br>
+		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)">
+		</div>
 
 		<input type="button" value="cut" id="send-clipboard">
 		<input type="button" value="↲" id="send-white">
@@ -195,10 +205,13 @@
 		</div>
 
 		<div id="genifer">
-			<input type="button" value="reward" id="reward-genifer">
-			<input type="button" value="punish" id="punish-genifer">
+			<input type="text" id="pink-box" style="height:26px;" value="">
+			<input type="text" id="red-box" style="height:26px;" value="">
 			<br>
-			<div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
+			<input type="button" value="teach" id="genifer-teach">
+			<input type="button" value="reward" id="genifer-reward">
+			<input type="button" value="punish" id="genifer-punish">
+			<br>
 		</div>
 
 		<!-- div style="position:absolute;bottom:-20px;right:0;">
