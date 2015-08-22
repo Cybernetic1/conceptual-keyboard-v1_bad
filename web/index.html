@@ -57,6 +57,13 @@
 				border: 3px solid #00ff00;
 			}
 
+			#red-box {
+				height: 26px;
+				width: 100%;
+				padding: 2px -4px 2px 2px;
+				border: 3px solid #ff0000;
+			}
+
 			#column1 {
 				overflow: auto;
 				float:left;
@@ -144,6 +151,8 @@
 
 		<input type="button" value="names" id="pidgin-names">
 
+		<input type="button" value="log" id="save-log">
+
 		<!-- &nbsp;Skype <input type="radio" name="group1" id="skype" style="width:25px; height:25px;" -->
 
 		<div id="header-bar">
@@ -182,7 +191,14 @@
 			<input type="button" value="save" id="saveDB">
 			&nbsp; <a href="javascript:loadDB('synonym_forest.txt')">同義詞詞林</a>
 			&nbsp; <a href="javascript:loadDB('rogets_thesaurus.txt')">Roget's</a>
+			&nbsp; <input type="button" value="typings" id="flush-typings">
+		</div>
 
+		<div id="genifer">
+			<input type="button" value="reward" id="reward-genifer">
+			<input type="button" value="punish" id="punish-genifer">
+			<br>
+			<div id="red-box" ondrop="drop(event);" ondragover="allowDrop(event)"></div>
 		</div>
 
 		<!-- div style="position:absolute;bottom:-20px;right:0;">

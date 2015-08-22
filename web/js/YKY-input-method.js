@@ -1,4 +1,9 @@
-// Code for storing the database in a tree, and for handling the user interface
+// *** Code for storing the database in a tree,
+// *** and for handling the user interface
+
+// To do:
+// 0. Display menu even at root position
+// 1. forget typing log data periodically
 
 // To do:
 // * pictures
@@ -14,7 +19,7 @@
 // * create an area like a clipboard, that can be saved
 // * Cantonese converter
 
-/*
+/* Notes on trianglulation geometry
 point p1(x1, y1);
 point p2(x2, y2);
 point p3(x3, y3);
@@ -32,7 +37,7 @@ float gamma = 1.0f - alpha - beta;
 If all of alpha, beta, and gamma are greater than 0, then the point p lies within the triangle made of points p1, p2, and p3.
 */
 
-// ******* This holds the tree data structure.
+// ************* Tree data structure *************
 // The format is an array of arrays of arrays...
 // For example, the top-level nodes are: database[1], database[2], database[3], etc...
 // All node indexes start at 1.
@@ -409,7 +414,7 @@ function saveDB(fname)
 			if (node[i].length > 1)
 				s0 += db_2_str(node[i], section + i + ".");
 		}
-		return s0.replace(/\s+$/g,'');
+		return s0.replace(/\s+$/g,'\n');		// remove tailing spaces
 	}
 
 	var s = db_2_str(database, "");
@@ -534,20 +539,95 @@ function quicksend() {
 	audio.play();
 }
 
-// Enter pressed on White-Box
+// Key pressed on White-Box
 document.getElementById("white-box").onkeypress = function(e) {
 	if (!e)
 		e = window.event;
 
 	var keyCode = e.keyCode || e.which;
+	
 	if (keyCode === 13) {						// enter key = 13
 		quicksend();
-
 		// clear input box
 		document.getElementById("white-box").value = "";
 		return false;
 	}
 };
+
+var punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
+var spaceRE = /\s+/g;
+var oldWhite = '';		// Previous white-box content
+
+// Text changed in White Box:
+jQuery('#white-box').on('input', function() {
+	// Detect change and record it in white-box content
+	// Algorithm:  detect head; cut head; detect tail; cut tail
+
+	var newWhite = document.getElementById("white-box").value;
+	
+	// detect head
+	var i = 0;
+	for ( ; i < oldWhite.length; ++i) {
+		if (oldWhite[i] != newWhite[i])
+			break;
+	}
+
+	// detect tail
+	var j = oldWhite.length - 1,
+        k = newWhite.length - 1;
+	for ( ; j >= 0 && k >= 0; --j, --k) {
+		if (oldWhite[j] != newWhite[k])
+			break;
+	}
+
+	// cut head and tail
+	newWhite = newWhite.substring(i, k + 1);
+
+	// remove all punctuations and spaces
+	// var newWhite2 = newWhite.replace(punctRE, '').replace(spaceRE, ' ');
+	// var lastWhite2 = lastWhite.replace(punctRE, '').replace(spaceRE, ' ');
+	// remove previous content from new content
+	// var delta = newWhite2.replace(new RegExp(lastWhite2, 'g'), '');
+	
+	// Record in database
+	if (newWhite != '') {
+		$.ajax({
+			method: "POST",
+			url: "/logTyping/",
+			data: {data: newWhite},
+			success: function(resp) {
+				console.log("Typing Log: " + newWhite);
+			}
+		});
+	}
+
+	// record for next time
+	oldWhite = document.getElementById("white-box").value;
+});
+
+// ON WINDOW CLOSE --- Save Typing Log data 
+window.onbeforeunload = flushTypings;
+
+function flushTypings() {
+	var datetime = new Date();
+	var timeStamp = datetime.toLocaleDateString().replace(/\//g, "-")
+			+ "(" +   datetime.getHours() + "-" + datetime.getMinutes() + ")";
+
+	$.ajax({
+		method: "POST",
+		url: "/flushTyping/",
+		data: {data: timeStamp + ".txt"},		// file name
+		success: function(resp) {
+			console.log("Typing Log flushed");
+		}
+	});
+	
+	var audio = new Audio("sending.ogg");
+	audio.play();
+	return null;
+}
+
+document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
@@ -618,6 +698,19 @@ document.getElementById("send-pidgin1").addEventListener("click", function() {
 
 	// clear input box
 	document.getElementById("white-box").value = "";
+}, false);
+
+// Save log quickly with 1-click
+document.getElementById("save-log").addEventListener("click", function() {
+	// No need to get date & time -- server will do that automatically
+	// Get date and time
+	// var date = new Date();
+	// var logName = date.toDateString().replace(/ /g,"-");
+	window.postMessage({type: "FROM_PAGE", text: "!log quick"}, "*");
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+
 }, false);
 
 // Browsing history with up and down arrows

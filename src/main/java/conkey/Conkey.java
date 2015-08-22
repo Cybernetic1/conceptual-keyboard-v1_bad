@@ -27,7 +27,7 @@ import static spark.Spark.*;
 public class Conkey {
 
 	public static Map<String, Object> staticpages = new HashMap();
-
+        
 	public static String getLocalTextFile(File file) throws IOException {
 		int len;
 		char[] chr = new char[4096];
@@ -69,6 +69,8 @@ public class Conkey {
 	}
 
 	public static void main(String[] args) {
+
+                StringBuffer typings = new StringBuffer("");
 
                 System.out.println("Initializing Genifer3...");
                 genifer3.Genifer3.main(null);
@@ -145,7 +147,50 @@ public class Conkey {
                     return "Chat history saved";
                 });
 
-      		get("/askGenifer/cantonize/*", (Request request, Response response) -> {
+		// Route logTyping;
+
+		post("/logTyping/", (Request request, Response response) -> {
+                    // System.out.println("logging Conkey typing....");
+                    response.header("Content-type", "text/html; charset=utf-8");
+                    String data = request.queryParams("data");
+                    System.out.println("Typing data is: " + data);
+
+                    // Save data to string buffer first
+                    typings.append(data + "\n");
+                    return "Typing saved";
+                });
+
+       		// Route flushTyping;
+
+		post("/flushTyping/", (Request request, Response response) -> {
+                    // System.out.println("logging Conkey typing....");
+                    response.header("Content-type", "text/html; charset=utf-8");
+                    
+                    if (typings.length() == 0)
+                        return "Typing Log saved (empty)";
+                    
+                    String fname = request.queryParams("data");
+                    System.out.println("Typing filename is: " + fname);
+                    // System.out.println("flush dummy data obtained.");
+
+                    // Save file to local directory
+                    File file = new File("./typings/" + fname);
+                    try{
+                        try (Writer output = new BufferedWriter(new FileWriter(file))) {
+                            output.write(typings.toString());
+                        }
+                        System.out.println("Typing Log written.\n");
+                        
+                    } catch(Exception e){
+                        System.out.println("Cannot create Typing Log.\n");
+                    }
+
+                    typings.setLength(0);       // Clear contents
+                    return "Typing Log saved";
+                });
+
+                
+                get("/askGenifer/cantonize/*", (Request request, Response response) -> {
                     // System.out.println("asking Genifer....");
                     response.header("Content-type", "text/html; charset=utf-8");
                     // String list = rqst.queryParams().toString();
