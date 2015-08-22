@@ -1,23 +1,24 @@
 // *** Code for storing the database in a tree,
 // *** and for handling the user interface
 
-// To do:
-// 0. Display menu even at root position
-// 1. forget typing log data periodically
-
-// To do:
-// * pictures
-// 		* determine word @ mouse position
-//			- need data structure:  list of { word, rectangle }
-//		* use mouse to draw rectangle and record params
-//		* save params in a data file
-//		* how to name and store image files?
-//		* images may have its own navigation system
-//			- how to build via machine learning?
+// To do: (Misc)
+// * forget typing log data periodically
 // * left and right click in Green Box
 // * drag-and-drop to white box
+// * log what she says
 // * create an area like a clipboard, that can be saved
-// * Cantonese converter
+
+// To do: (Cantonese with Genifer 5)
+// * copy White Box content to Red Box
+
+// To do: (Pictures)
+// * determine word @ mouse position
+//		- need data structure:  list of { word, rectangle }
+// * use mouse to draw rectangle and record params
+// * save params in a data file
+// * how to name and store image files?
+// * images may have its own navigation system
+//		- how to build via machine learning?
 
 /* Notes on trianglulation geometry
 point p1(x1, y1);
@@ -316,20 +317,25 @@ function word_DoubleClick(str) {
 }
 
 // Load database from server
-function loadDB(pathname)
+function loadDB(dbname)
 {
 	// Read lexicon (plain text file) into memory, store as tree data structure
 	// The tree structure is stored as nested arrays.
-	// The current time is appended to pathname to avoid getting the cached data
-	$.get(pathname + "?" + Date.now().toString(), function(data) {
 
+	// old code:  $.get(pathname, function(data) { ...
+
+	console.log($.ajax({
+	method: "GET",
+	url: "/loadDatabase/" + dbname,		// Note: name without extension
+	cache: false,
+	success: function(data) {
 		var lines = data.split("\n");
 
 		database = new Array();
-		var node = null;
+		var node = database;
+		node[0] = new Array();		// initialize first datum
 
 		lines.forEach(function(line) {
-
 			if (line[0] === '\t') {
 				// This is a heading line.
 				// After '\t' is the section number,
@@ -341,28 +347,27 @@ function loadDB(pathname)
 				// console.log(sequence);
 
 				// Traverse the tree and add a new node (or nodes)
-				node = database;									// starting at the root
+				node = database;								// starting at the root
 
 				sequence.forEach(function(number) {
 					if (node[number] != null)					// If node exists,
-						node = node[number];						// traverse down the tree
+						node = node[number];					// traverse down the tree
 					else
 						{
-						node[number] = new Array();			// else create new node
-						node = node[number];						// and go down that new node
+						node[number] = new Array();				// else create new node
+						node = node[number];					// and go down that new node
 						// store new node's title as first element of new array
 						nodeName = line.slice(line.indexOf(' ') + 1);
 						node[0] = [ nodeName ];					// a new array with 1 element
 						}
-				});
-			}
+					});
+				}
 			else {	// this is an non-heading line (ie, data)
-				node[0][node[0].length] = line;				// add item to end of array
-			}
-		});
+				node[0][node[0].length] = line;					// add item to end of array
+				}
+			});
 
 		// **** Initialize
-		database[0] = ["root", "root1", "root2"];
 		currentNode = database;
 
 		// Create "root" button in header bar
@@ -384,11 +389,12 @@ function loadDB(pathname)
 			});
 
 		fillDirs();			// update web-page panels according to new database
-	});
+		}
+	}));
 }
 
 // Save database
-function saveDB(fname)
+function saveDB(dbname)
 {
 	// Traverse database and convert contents to string
 	function db_2_str(node, section) {
@@ -421,14 +427,12 @@ function saveDB(fname)
 
 	// Save the file via a HTTP request to server
 	// Server side could save to a specific directory
-	$.ajax({
+	console.log($.ajax({
 		method: "POST",
-		url: "/saveConkeyDatabase/" + fname,
+		url: "/saveDatabase/" + dbname,
 		data: {data: s},
-		success: function(resp) {
-			console.log("file saved");
-		}
-	});
+		success: function(resp) {}
+	}));
 
 // **** Save to client side with this code:
 //	var textFileAsBlob = new Blob([s0], {type: 'text/plain'});
@@ -590,7 +594,7 @@ jQuery('#white-box').on('input', function() {
 	// var delta = newWhite2.replace(new RegExp(lastWhite2, 'g'), '');
 	
 	// Record in database
-	if (newWhite != '') {
+	if (newWhite.length != 0) {
 		$.ajax({
 			method: "POST",
 			url: "/logTyping/",
@@ -915,15 +919,15 @@ document.getElementById("ip203").addEventListener("click", function() {
 // }, false);
 
 document.getElementById("loadDB").addEventListener("click", function() {
-	var fname = prompt("Enter database file name","database_default.txt");
-	loadDB(fname);
+	var dbname = prompt("Enter database file name","database_default");
+	loadDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
 
 document.getElementById("saveDB").addEventListener("click", function() {
-	var fname = prompt("Enter database file name","database_default.txt");
-	saveDB(fname);
+	var dbname = prompt("Enter database file name","database_default");
+	saveDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
@@ -987,7 +991,7 @@ function drop(ev)
 
 // *********************** Initialize by loading database **********************
 
-loadDB("database_default.txt");
+loadDB("database_default");
 // initial chat room is "voov"
 window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
 

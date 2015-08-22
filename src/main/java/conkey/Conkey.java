@@ -6,16 +6,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import spark.Request;
@@ -84,23 +87,86 @@ public class Conkey {
 
 		// Route saveDatabase;
 
-		post("/saveConkeyDatabase/:fname", (Request request, Response response) -> {
-                    // System.out.println("saving database....");
+		post("/saveDatabase/:fname", (Request request, Response response) -> {
                     response.header("Content-type", "text/html; charset=utf-8");
-                    // String list = rqst.queryParams().toString();
                     String fname = request.params(":fname");
-                    // System.out.println("params are: " + list);
+
+                    File dir = new File("./web/");
+                    File [] files = dir.listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith(fname);
+                        }
+                    });
+                    
+                    if (files.length == 0) {
+                        System.out.println("Cannot find any DB files.\n");
+                        return null;
+                    }
+
+                    long max = files[0].lastModified();
+                    int max_index = 0;
+                    for (int i = 0; i < files.length; ++i)
+                        if (max < files[i].lastModified()) {
+                            max = files[i].lastModified();
+                            max_index = i;
+                        }
+                    int version_num = Integer.parseInt(files[max_index].getName().replace(
+                            fname + ".", "").replace(".txt", "")) + 1;
+                    String fname2 = fname + "." + Integer.toString(version_num) + ".txt";
+                    
                     String data = request.queryParams("data");
                     // System.out.println("data is: " + data.substring(0, 100));
                     try {
                         try ( // Save in web/ directory
-                            PrintWriter out = new PrintWriter("./web/" + fname)) {
+                            PrintWriter out = new PrintWriter("./web/" + fname2)) {
                             out.print(data);
                         }
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    return "Database saved";
+
+                    System.out.println("Saved DB: " + fname2 + ".\n");
+                    return "DB saved";
+                });
+
+                // Route loadDatabase
+
+                get("/loadDatabase/:fname", (Request request, Response response) -> {
+                    response.header("Content-type", "text/html; charset=utf-8");
+                    String fname = request.params(":fname");
+
+                    File dir = new File("./web/");
+                    File [] files = dir.listFiles(new FilenameFilter() {
+                        @Override
+                        public boolean accept(File dir, String name) {
+                            return name.startsWith(fname);
+                        }
+                    });
+                    
+                    if (files.length == 0) {
+                        System.out.println("Cannot find any DB files.\n");
+                        return null;
+                    }
+
+                    long max = files[0].lastModified();
+                    int max_index = 0;
+                    for (int i = 0; i < files.length; ++i)
+                        if (max < files[i].lastModified()) {
+                            max = files[i].lastModified();
+                            max_index = i;
+                        }
+                    String fname2 = files[max_index].getName();
+                    
+                    String data = "";
+                    try {
+                        data = new String(Files.readAllBytes(Paths.get("./web/" + fname2)));
+                    } catch (IOException ex) {
+                        Logger.getLogger(Conkey.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    System.out.println("Loaded latest DB: " + fname2 + ".\n");
+                    return data;
                 });
 
 		post("/sendPidginMessage/:name", (Request request, Response response) -> {

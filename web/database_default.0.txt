@@ -1,11 +1,10 @@
-	1. Greetings
 妳好 :)|嗨 :)|妳好嗎?|哈佬 :)|妳点呀？
 喜歡玩網愛嗎?|想不想玩網愛?|你愛玩roleplay嗎?|喜歡玩文字網愛嗎?
 你喜歡什麼樣的網愛？|喜歡什麼類型的網愛？|鍾唔鍾意玩網愛?
 喜歡在這裡做什麼？|平時喜歡做什麼？|想做什麼？|喜歡做什麼？|妳鍾意做乜？
 你幾歲？|網上性愛 :)|像角色扮演那樣 
 像性幻想那樣玩 :)|想玩嗎? :)|想不想玩？|想不想玩文字網愛？
-	2. Personal info
+	1. Personal info
 半機械人一號|Cybernetic1|my skype = CyberneticOrganism01|6181－4494|甄景贤
 我在香港|我是香港人|44歲|我香港來的,可以嗎?|我 44 :)|你喜歡年紀較大的男人嗎？|大嶼山
 170cm,77kg,44歲|5尺7,170磅,44歲|中等身材
@@ -15,14 +14,14 @@
 我沒有 LINE|我沒有 WeChat
 想不想打電話給我？|在這裡玩也可以 |想不想傾電話？|我打比你？|打比我 :)|你打比我？
 有無 MSN or Yahoo？
-	3. Appearance
+	2. Appearance
 身材怎樣？|你身材怎樣？|樣子漂亮嗎？|你的樣子怎樣？|你|靚唔靚？ :)
 你的照片?|你幾高？|有沒有相？|妳張相好靚：）
 我喜歡矮的女孩 :)|我喜歡小小胖的女孩 :)|我喜歡身材嬌小的女孩 :)
 很美 :)|很年輕... :)|你幾高？ 身材肥定瘦？ ：）|身材肥或瘦？  :)
 為什麼說醜？|噢，或許你cute但你不知 :)
 頭髮是什麼款式？
-	4. Seduce to RP
+	3. Seduce to RP
 想不想試？|說來聽聽:)
 我可以教你玩 :)
 說說你的幻想 :)|喜歡怎麼樣玩？ :)|你鍾意咩故事？
@@ -42,7 +41,7 @@
 今天想玩什麼網愛？ :)
 有玩過網愛嗎?
 好似角色扮演咁.... :)
-	5. RP Preferences
+	4. RP Preferences
 例如你是高級 援 交 女，在酒店接見3-4個客人....
 例如 有沒有想過... 一個女的被幾個男人分享？
 例如我有時想...一個女的被幾個男人分享|有沒有幻想過... 一個年輕女孩被幾個成年男人分享……？
@@ -62,7 +61,7 @@
 說會給很高的價錢
 是的,可能是第一次
 那很成熟和性感
-	6. Clothes
+	5. Clothes
 那你會穿著什麼？
 我很喜歡裙子....什麼樣式？
 裙子裏面穿什麼？
@@ -70,12 +69,12 @@
 什麼款式？
 描述給我聽 :)
 形容一下你的穿著和打扮....？|你會怎樣穿著和打扮？
-	7. Conversation
+	6. Conversation
 想傾啲乜？|想聊什麼？|sorry wrong window
 你讀書定做緊嘢？|你做乜工？
 記得我嗎？|你|在做什麼？|做緊乜呀？
-那再見了|還在嗎?|點解……？
-你呢?|哦....|唔....|吓……|yes|好的 :)
+那再見了|還在嗎?|點解...？
+你呢?|哦...|唔...|吓...|yes|no|好的 :)
 我們好像上次聊過...|睡著了
 你喜歡什麼？|我鍾意簡體字
 那有什麼好聊的？|你是男／女？
@@ -85,23 +84,24 @@
 我很好 :)|很好 :)|很好的年齡 :)
 對不起 打錯
 妳覺得男人喜歡幾個女人好不好？
-	7.1. Books
+	6.1. Books
 你鍾意睇咩書？|喜歡看什麼書？
 有咩好介紹？|你鍾意邊本書？
 你喜歡看書嗎？|妳鍾唔鍾意睇書？
 我最近写咗本書…… 係我嘅自传……|喜欢哪本书？
 我写了一本自传|妳有沒有興趣看看？
-	7.2. Truman
+https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
+	6.2. Truman
 有冇睇過電影《Truman Show》？
 你可以上 維基百科 看看個故事大綱
 故事講 Truman 活在一齣戲中，身邊的人都是演員
 故事結局是他終於識破真相，走出戲外
 妳鍾意邊齣戲？|妳喜歡哪齣電影？
-https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
-	7.3. music
+	6.3. music
 妳鍾意聽乜歌？|妳鍾意邊首歌？
 你锺意边个 composer?
-	8. Hotel
+	7. RPs
+	7.1. Hotel
 你見到一個40多歲的男人，打開酒店的房門...
 他微笑，"我想你就是公司派來的..."
 但看見你很年輕...
@@ -114,7 +114,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 「可不可先拉起你的裙子，讓我們看看...」
 他們對你笑着說不用害羞
 「讓我們這樣看，你覺得怎樣？」
-	9. Legs
+	7.2. Legs
 「我們很喜歡看女孩子的美腿和絲襪...還有高跟鞋...」
 笑... 「很喜歡...」
 「還有你不怕羞... 那很好...」
@@ -139,7 +139,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 他把你的褲子拉下...
 「看你那兒...其實你還真是個小女孩...」
 他把你的吊帶也脫掉...
-	10. Double Penetration
+	7.3. Double Penetration
 他向上望你...笑說...「你還不知我們多壞...」
 「想不想我們前後都插你...？」
 「我們會很溫柔的...但會前後都插... 你說怎樣...？」
@@ -166,14 +166,14 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 「那你便要放鬆雙腿...我們很愛看你張開雙腳在沙發上...很性感的...」
 「要不要現在就讓另－個叔叔插你的後面...」
 叔叔抱起你的屁股－點...
-	11. Rape
+	7.4. Rape
 強姦在那里發生？
 家裡還是戶外？
 或者你在晚上回家的路上...派對之後...
 和朋友party 之後
 被3－4個人跟蹤
 或者是強姦
-	12. Phone
+	7.5. Phone
 是不是你和你的女朋友講電話？
 會和朋友談些什麼？
 或者沒有別人在周圍 :)
@@ -181,7 +181,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 你只可以和那個朋友聊天, yes
 不知道我會做什麼 :)
 由我控制 :)
-	13. Breasts
+	7.6. Breasts
 我開始從上面解你的钮扣... :)
 坐在你後面
 你的奶多大
@@ -201,7 +201,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 看看乳房漂亮不 :)
 怎麼樣 :)
 手指輕輕地摸你的乳...。
-	14. End: Thanks, kisses
+	7.7. End: Thanks, kisses
 （是不是高潮了？）
 還想玩嗎？
 我很喜歡你的溫順性格... :)
@@ -213,68 +213,67 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 下次再玩吧...你很棒 :)
 謝謝... *kisses*
 嘩....射咗好多精....
-	15. Vocabs
-	15.1. Body
+	8. Body
 腳 腿
 性器官
 閪 穴穴
 陰蒂 陰道 陰部 陰唇
-	15.2. Male
+	8.1. Male
 睾丸
 阴茎 賓州
-	15.3. Clothing
+	9. Clothing
 褲子 底褲
 短裙
 胸圍 奶罩
 蕾絲 絲襪 吊帶襪
 高跟鞋
-	15.4. People Family
+	10. People Family
 妓女 高級 應召女郎
 秘書
 叔叔 們
-	15.5. Building Houses
+	11. Building Houses
 酒店 大堂
-	15.6. Food Drink Farming
+	12. Food Drink Farming
 陪酒
-	15.7. Feelings Emotions
+	13. Feelings Emotions
 鍾意 喜歡
 想
 害羞 怕羞 尷尬
 妒忌 呷醋
 淫蕩
-	15.8. Thought Communication
+	14. Thought Communication
 輕聲 說
-	15.9. Substances Materials
+	15. Substances Materials
 春藥
-	15.10. Arts Crafts Science
+	16. Arts Crafts Science
 人工 智能
 技術 奇異點 (technological singularity)
 泛人類主義 (transhumanism)
-	15.11. Numbers Measurement
+	17. Numbers Measurement
 三圍 數字
 高度 體重
-	15.12. Entertainment Sports
+	18. Entertainment Sports
 游泳
 柔軟 體操
-	15.13. Space Time
+	19. Space Time
 深夜
-	15.14. Movement Location Travel
+	20. Movement Location Travel
 沙灘
 房車
 飛機 上
-	15.15. General Abstract
+	21. General Abstract
 好像
 似乎
 範疇論
-	16. 功能字
-	16.1. Pronoun
+	22. 功能字
+	22.1. Pronoun
 我
 妳
 他
 她
 他們
 她們
-	16.2. Common Verbs
+	22.2. Common Verbs
 是
 不是
 有
@@ -285,7 +284,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 鍾唔鍾意
 想
 想不想
-	16.3. 助語
+	22.3. 助語
 不
 的
 地
