@@ -426,6 +426,12 @@ function saveDB(dbname)
 
 	var s = db_2_str(database, "");
 
+	// Add the special beginning section
+	// First section is stored in database[0]
+	// "root" is stored in database[0][0]
+	for (j = 0; j < database[0].length; ++j)
+		s = (database[0][j] + "\n") + s;
+
 	// Save the file via a HTTP request to server
 	// Server side could save to a specific directory
 	console.log($.ajax({
@@ -479,11 +485,33 @@ function cantonize(str) {
 	});
 }
 
-document.getElementById("cantonize").addEventListener("click", function() {
+document.getElementById("mandarin").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	// Copy to Red Box
 	document.getElementById("red-box").value = str;
-	cantonize(str);
+	// cantonize(str);
+}, false);
+
+document.getElementById("cantonize").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	// Copy to Pink Box
+	document.getElementById("pink-box").value = str;
+	// cantonize(str);
+}, false);
+
+// Genifer:  save input-output pair in ./training directory
+document.getElementById("genifer-teach").addEventListener("click", function() {
+	var in_str  = document.getElementById("red-box").value;
+	var out_str = document.getElementById("pink-box").value;
+
+	// send to server for saving
+	console.log($.ajax({
+		method: "POST",
+		url: "/saveTrainingPair/",
+		data: {input: in_str, output: out_str},
+		success: function(resp) {}
+	}));
+	
 }, false);
 
 // ********** convert traditional Chinese chars to simplified
@@ -562,7 +590,7 @@ document.getElementById("white-box").onkeypress = function(e) {
 	}
 };
 
-var punctRE = /[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
+var punctRE = /[\u2000-\u206F\u2E00-\u2E7F\u3000-\u303F\uFF00-\uFFFF\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
 var spaceRE = /\s+/g;
 var oldWhite = '';		// Previous white-box content
 
@@ -592,10 +620,16 @@ jQuery('#white-box').on('input', function() {
 	newWhite = newWhite.substring(i, k + 1);
 
 	// remove all punctuations and spaces
-	var newWhite2 = newWhite.replace(punctRE, '').replace(spaceRE, ' ');
-	// var lastWhite2 = lastWhite.replace(punctRE, '').replace(spaceRE, ' ');
+	var newWhite2 = newWhite.replace(punctRE, '').replace(spaceRE, '');
+	// var lastWhite2 = lastWhite.replace(punctRE, '').replace(spaceRE, '');
 	// remove previous content from new content
 	// var delta = newWhite2.replace(new RegExp(lastWhite2, 'g'), '');
+
+	// if it is just a single English letter or number
+	if (newWhite2.match(/[A-Za-z0-9]/))
+		// oldWhite is unchanged, so insertions will accumulate
+		// (at least when they occur at the same location)
+		return;
 
 	// Record in database
 	if (newWhite2.length != 0) {

@@ -15,6 +15,8 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -253,6 +255,27 @@ public class Conkey {
 
                     typings.setLength(0);       // Clear contents
                     return "Typing Log saved";
+                });
+
+                
+		post("/saveTrainingPair/", (Request request, Response response) -> {
+                    // System.out.println("saving Training Pair....");
+                    response.header("Content-type", "text/html; charset=utf-8");
+
+                    String inStr = request.queryParams("input") + "\n";
+                    String outStr = request.queryParams("output") + "\n";
+                    System.out.print("input is: " + inStr);
+                    System.out.print("output is: " + outStr);
+
+                    // Append
+                    try {
+                        Files.write(Paths.get("./training-set.txt"), (inStr + outStr).getBytes(),
+                                StandardOpenOption.APPEND);
+                        } catch (IOException e) {
+                            System.out.println("Cannot append to ./training-set.txt.\n");
+                        }
+                    
+                    return "Training pair saved";
                 });
 
                 

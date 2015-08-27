@@ -17,9 +17,9 @@ Root
 有無 MSN or Yahoo？
 	2. Appearance
 身材怎樣？|你身材怎樣？|樣子漂亮嗎？|你的樣子怎樣？|你|靚唔靚？ :)
-你的照片?|你幾高？|有沒有相？|妳張相好靚：）
+你的照片?|你幾高？|有沒有相？|妳張相好靚  :)
 我喜歡矮的女孩 :)|我喜歡小小胖的女孩 :)|我喜歡身材嬌小的女孩 :)
-很美 :)|很年輕... :)|你幾高？ 身材肥定瘦？ ：）|身材肥或瘦？  :)
+很美 :)|很年輕... :)|你幾高？ 身材肥定瘦？  :)|身材肥或瘦？  :)
 為什麼說醜？|噢，或許你cute但你不知 :)
 頭髮是什麼款式？
 	3. Seduce to RP
@@ -94,6 +94,7 @@ sorry wrong window|對不起 打錯
 我写了一本自传|妳有沒有興趣看看？
 可以 send PDF 给妳
 https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
+妳睇完可以畀啲意見我
 	6.3. Films
 有冇睇過電影《Truman Show》？
 你可以上 維基百科 看看個故事大綱
@@ -218,7 +219,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 嘩....射咗好多精....
 	8. Body
 𨳒|閪|𨶙|𨳊|𨳍
-阴茎|睾丸|賓周
+陰莖|睾丸|賓周
 腳|腿
 性器官|閪|穴穴|陰蒂|陰道|陰部|陰唇
 	9. Clothing

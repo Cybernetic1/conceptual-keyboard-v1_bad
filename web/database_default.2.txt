@@ -94,6 +94,7 @@ sorry wrong window|對不起 打錯
 我写了一本自传|妳有沒有興趣看看？
 可以 send PDF 给妳
 https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
+妳睇完可以畀啲意見我
 	6.3. Films
 有冇睇過電影《Truman Show》？
 你可以上 維基百科 看看個故事大綱
@@ -218,7 +219,7 @@ https://github.com/Cybernetic1/paranoia/raw/master/paranoia.pdf
 嘩....射咗好多精....
 	8. Body
 𨳒|閪|𨶙|𨳊|𨳍
-阴茎|睾丸|賓周
+陰莖|睾丸|賓周
 腳|腿
 性器官|閪|穴穴|陰蒂|陰道|陰部|陰唇
 	9. Clothing
