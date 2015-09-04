@@ -22,13 +22,13 @@ window.addEventListener("message", function(event) {
 
 		// relay message to background script
 		chrome.extension.sendMessage({sendtext: str});
-		console.log("#1: msg received and relayed to background script: " + str);
+		// console.log("#1: msg received and relayed to background script: " + str);
 	}
 
 	// This handles a user's copy-to-clipboard action:
 	if (event.data.type && (event.data.type == "CLIPBOARD")) {
 		var str = event.data.text;
-		console.log("#1: copy to clipboard: " + str);
+		// console.log("#1: copy to clipboard: " + str);
 
 		// relay message to background script
 		chrome.extension.sendMessage({clipboard: str});

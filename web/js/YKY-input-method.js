@@ -631,7 +631,7 @@ jQuery('#white-box').on('input', function() {
 		// (at least when they occur at the same location)
 		return;
 
-	// Record in database
+	// Record in database, and optionally speak Mandarin
 	if (newWhite2.length != 0) {
 		$.ajax({
 			method: "POST",
@@ -641,6 +641,16 @@ jQuery('#white-box').on('input', function() {
 				console.log("Typing Log: " + newWhite2);
 			}
 		});
+		
+		if ($("#speech").prop("checked") === true)
+			$.ajax({
+				method: "POST",
+				url: "/speakMandarin/",
+				data: {text: newWhite2},
+				success: function(resp) {
+					// nothing
+				}
+			});
 	}
 
 	// record for next time
@@ -1031,7 +1041,7 @@ function drop(ev)
 
 loadDB("database_default");
 // initial chat room is "voov"
-window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
+// window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
 
 // read hcutf8.txt into buffer
 var h = new Object(); // or just {}

@@ -4,24 +4,20 @@
 // Identify chatroom pages (if they exist), id's are used for message passing
 var adultId = null;
 var voovId = null;
-var voovId2 = null;
+var voov2Id = null;
 var ip131Id = null;
 var ip203Id = null;
-var hkloveId = null
+var hk2loveId = null
 var ip4Id = null;
 
 chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 	if (result.length != 0)
 		voovId = result[0].id;
-	else
-		voovId = null;
 	});
 
 chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
 	if (result.length != 0)
-		voovId2 = result[0].id;
-	else
-		voovId2 = null;
+		voov2Id = result[0].id;
 	});
 
 chrome.tabs.query({url: "http://60.199.209.71/VIP*/index.phtml"}, function(result) {
@@ -51,26 +47,27 @@ chrome.tabs.query({url: "http://ip4.ek21.com/*"}, function(result) {
 
 chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
 	if (result.length != 0)
-		hkloveId = result[0].id;
+		hk2loveId = result[0].id;
 	});
 
 // Set up message listener
 chrome.extension.onMessage.addListener(
 	function(request, sender, sendResponse) {
-		// console.log(sender.tab ?	"from a content script:" + sender.tab.url : 	"from the extension");
+	// console.log(sender.tab ?	"from a content script:" + sender.tab.url : 	"from the extension");
 
 	// Request to change target chatroom
+	// The request is sent from contentscript2:mouseover event
 	if (request.chatroom != null) {
 		// We should send messages to both chatroom's content scripts
 		// Let them decide whether to speak or not
 
 		chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
 			if (result.length != 0) {
-				voovId2 = result[0].id;
-				chrome.tabs.sendMessage(voovId2, {chatroom: request.chatroom});
+				voov2Id = result[0].id;
+				chrome.tabs.sendMessage(voov2Id, {chatroom: request.chatroom});
 				}
 			else
-				voovId2 = null;
+				voov2Id = null;
 			});
 
 		chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
@@ -129,11 +126,11 @@ chrome.extension.onMessage.addListener(
 
 		chrome.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"}, function(result) {
 			if (result.length != 0) {
-				hkloveId = result[0].id;
-				chrome.tabs.sendMessage(hkloveId, {chatroom: request.chatroom});
+				hk2loveId = result[0].id;
+				chrome.tabs.sendMessage(hk2loveId, {chatroom: request.chatroom});
 				}
 			else
-				hkloveId = null;
+				hk2loveId = null;
 			});
 
 		console.log("trying to switch to: ", request.chatroom)
@@ -149,16 +146,16 @@ chrome.extension.onMessage.addListener(
 			chrome.tabs.sendMessage(adultId, {sendtext: request.sendtext});
 		if (voovId)
 			chrome.tabs.sendMessage(voovId, {sendtext: request.sendtext});
-		if (voovId2)
-			chrome.tabs.sendMessage(voovId2, {sendtext: request.sendtext});
+		if (voov2Id)
+			chrome.tabs.sendMessage(voov2Id, {sendtext: request.sendtext});
 		if (ip131Id)
 			chrome.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
 		if (ip203Id)
 			chrome.tabs.sendMessage(ip203Id, {sendtext: request.sendtext});
 		if (ip4Id)
 			chrome.tabs.sendMessage(ip4Id, {sendtext: request.sendtext});
-		if (hkloveId)
-			chrome.tabs.sendMessage(hkloveId, {sendtext: request.sendtext});
+		if (hk2loveId)
+			chrome.tabs.sendMessage(hk2loveId, {sendtext: request.sendtext});
 		}
 
 	// Request to copy to clipboard, this must be done via background page
@@ -182,7 +179,7 @@ chrome.extension.onMessage.addListener(
 
 		if (request.alert == "voov2") {
 			// console.log("voov alert")
-			var audio = new Audio("voov_alert.ogg");
+			var audio = new Audio("voov2_alert.ogg");
 			audio.play();
 		}
 
@@ -210,9 +207,9 @@ chrome.extension.onMessage.addListener(
 			audio.play();
 		}
 
-		if (request.alert == "hklove") {
+		if (request.alert == "hk2love") {
 			// console.log("hklove alert")
-			var audio = new Audio("hklove_alert.ogg");
+			var audio = new Audio("hk2love_alert.ogg");
 			audio.play();
 		}
 

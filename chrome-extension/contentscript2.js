@@ -3,15 +3,18 @@
 // Seems that only content scripts from the *same* Extension can message
 // each other.
 
+// To-do:
+// * bug: hk2loveChat log displays dreamland chat log
+
 // Which chatroom output is selected by user?
 // The selection is done on the Conceptual Keyboard page with radio buttons
-var voovChat2 = true;
+var voov2Chat = true;		// default
 var voovChat = false;
 var adultChat = false;
 var ip131Chat = false;
 var ip203Chat = false;
 var ip4Chat = false;
-var hkloveChat = false;
+var hk2loveChat = false;
 
 var logName = "log.txt";					// Name of the log file, to be filled
 
@@ -46,36 +49,37 @@ function saveLog(name) {
 
 // ******** Detect mouse-over on ChatRoom page
 // Not only set the flags, but we need to broadcast to other content scripts 
+// These messages are processed by 
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("hklovechat") >= 0) {
-		// console.log("switch to hk love chat (new voov)");
-		chrome.extension.sendMessage({chatroom: "hklove"});
-		ip131Chat = false; ip203Chat = false; hkloveChat = true; ip4Chat = false;
-		voovChat2 = false;
+		console.log("switch to hk love chat (new voov)");
+		chrome.extension.sendMessage({chatroom: "voov2"});
+		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		voov2Chat = true;
 	}
 	if (document.URL.indexOf("hk2love") >= 0) {
-		// console.log("switch to hk2love");
-		chrome.extension.sendMessage({chatroom: "voov2"});
-		ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = false;
-		voovChat2 = true;
+		console.log("switch to hk2love (prude chat)");
+		chrome.extension.sendMessage({chatroom: "hk2love"});
+		ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
+		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip131") >= 0) {
 		// console.log("switch to ip131");
 		chrome.extension.sendMessage({chatroom: "ip131"});
-		ip131Chat = true; ip203Chat = false; hkloveChat = false; ip4Chat = false;
-		voovChat2 = false;
+		ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip203") >= 0) {
 		// console.log("switch to ip203");
 		chrome.extension.sendMessage({chatroom: "ip203"});
-		ip131Chat = false; ip203Chat = true; hkloveChat = false; ip4Chat = false;
-		voovChat2 = false;
+		ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
+		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip4") >= 0) {
 		// console.log("switch to ip4");
 		chrome.extension.sendMessage({chatroom: "ip4"});
-		ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = true;
-		voovChat2 = false;
+		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
+		voov2Chat = false;
 	}
 });
 
@@ -92,34 +96,34 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	//console.log("processing message");
 
 	// Mouseover event has occurred, update which chatroom is selected:
+	// This messages are sent by different instances of *this script* itself
 	if (request.chatroom != null) {
 		/*
 		if      (request.chatroom == "voov")
-			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hkloveChat = false}
+			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		else if (request.chatroom == "adult")
-			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hkloveChat = false}
+			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		*/
 		if (request.chatroom == "ip131")
-			{ ip131Chat = true; ip203Chat = false; hkloveChat = false; ip4Chat = false;
-				voovChat2 = false;}
+			{ ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+				voov2Chat = false;}
 		else if (request.chatroom == "ip203")
-			{ ip131Chat = false; ip203Chat = true; hkloveChat = false; ip4Chat = false;
-				voovChat2 = false;}
+			{ ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
+				voov2Chat = false;}
 		else if (request.chatroom == "ip4")
-			{ ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = true;
-				voovChat2 = false;}
-		else if (request.chatroom == "hklove")
-			{ ip131Chat = false; ip203Chat = false; hkloveChat = true; ip4Chat = false;
-				voovChat2 = false;}
+			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
+				voov2Chat = false;}
+		else if (request.chatroom == "hk2love")
+			{ ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
+				voov2Chat = false;}
 		else if (request.chatroom == "voov2")
-			{ ip131Chat = false; ip203Chat = false; hkloveChat = false; ip4Chat = false;
-				voovChat2 = true;}
+			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+				voov2Chat = true;}
 
 		// else if (request.chatroom == "skype")
 		//	{ voovChat = false; adultChat = false; }
 
-		// console.log("2: selected chatroom:" + request.chatroom);
-		// console.log("switched to: " + request.chatroom);
+		console.log("Script2: switched to: " + request.chatroom);
 		return;
 		}
 
@@ -151,11 +155,11 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			return;
 		}
 
-		if (hkloveChat && document.URL.indexOf("hklovechat") >= 0) {
-			//**************** HK Love Chat ***************
+		if (voov2Chat && document.URL.indexOf("hklovechat") >= 0) {
+			//**************** HK Love Chat (new Voov) ***************
 			var inputBox = document.getElementsByName("message")[0].contentDocument;
 			var inputBox2 = inputBox.getElementById("txtMessage");
-			if (last_str == str)		// Voov does not allow to send duplicate messages
+			if (last_str == str)		// does not allow to send duplicate messages
 				str = " " + str;
 			inputBox2.value = str;
 			last_str = str;
@@ -238,8 +242,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 
-		// For HK Love chatroom:
-		if (voovChat2 && document.URL.indexOf("hk2love") >= 0) {
+		// For HK2Love chatroom (prude chat):
+		if (hk2loveChat && document.URL.indexOf("hk2love") >= 0) {
 			if (last_str == str)		// does not allow to send duplicate messages
 				str = " " + str;
 
@@ -317,7 +321,7 @@ setInterval( function() {
 	}
 	*/
 
-	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
+	if (document.URL.indexOf("hkloveChat.com\/") >= 0) {
 		chatWin = document.getElementsByName("messages")[0].contentDocument.childNodes[1];
 		chatWin2 = chatWin.childNodes[2].childNodes[1].getElementsByClassName("divMessages").divMessages;
 		// line number of last line in chat window
@@ -488,7 +492,7 @@ setInterval( function() {
 				// To-do:  On Adult page, own messages appear as broken pieces
 			}
 			if (alert == true)
-				chrome.runtime.sendMessage({alert: "voov2"});
+				chrome.runtime.sendMessage({alert: "hk2love"});
 		}
 		lastHkloveIndex = lastIndex;
 	}
