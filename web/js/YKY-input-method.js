@@ -429,8 +429,10 @@ function saveDB(dbname)
 	// Add the special beginning section
 	// First section is stored in database[0]
 	// "root" is stored in database[0][0]
+	var s1 = ""
 	for (j = 0; j < database[0].length; ++j)
-		s = (database[0][j] + "\n") + s;
+		s1 += (database[0][j] + "\n");
+	s = s1 + s;
 
 	// Save the file via a HTTP request to server
 	// Server side could save to a specific directory
