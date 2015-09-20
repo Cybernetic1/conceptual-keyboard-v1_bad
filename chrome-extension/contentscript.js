@@ -36,4 +36,8 @@ window.addEventListener("message", function(event) {
 }, false);
 
 // This seems to be run only once, as the "Conceptual Keyboard" page is loaded.
+if (chrome.runtime.lastError)
+	console.log(chrome.runtime.lastError);
 console.log("Content script #1.01 loaded....");
+console.log(chrome.runtime.lastError);
+

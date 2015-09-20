@@ -28,7 +28,7 @@ fi
 sleep 2
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
-wmctrl -r "Conceptual Keyboard" -e 1,50,200,520,500
+wmctrl -r "Conceptual Keyboard" -e 1,50,200,580,500
 wmctrl -r "Conceptual Keyboard" -b add,above
 ##### wait for termination
 # echo "to terminate type: kill $Conkey_PID"

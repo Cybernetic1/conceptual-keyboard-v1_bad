@@ -4,7 +4,7 @@
 // each other.
 
 // To-do:
-// * bug: hk2loveChat log displays dreamland chat log
+// *
 
 // Which chatroom output is selected by user?
 // The selection is done on the Conceptual Keyboard page with radio buttons
@@ -321,7 +321,7 @@ setInterval( function() {
 	}
 	*/
 
-	if (document.URL.indexOf("hkloveChat.com\/") >= 0) {
+	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
 		chatWin = document.getElementsByName("messages")[0].contentDocument.childNodes[1];
 		chatWin2 = chatWin.childNodes[2].childNodes[1].getElementsByClassName("divMessages").divMessages;
 		// line number of last line in chat window
@@ -353,7 +353,7 @@ setInterval( function() {
 			}
 		}
 		if (alert == true)
-			chrome.runtime.sendMessage({alert: "hklove"});
+			chrome.runtime.sendMessage({alert: "voov2"});
 		// Find the last line that's non-empty
 		lastVoovLine2 = "top line";
 		for (i = lastIndex; i > 0; i--) {
@@ -401,8 +401,8 @@ setInterval( function() {
 			var alert = false;
 			for (i = lastIndex; i > lastIp131Index; i--) {
 				stuff = chatWin.children[i].innerText;
-				if (stuff.indexOf("只對 訪客_半機械人一號") > -1 ||
-					stuff.indexOf("只對 訪客_Cybernetic1") > -1) {
+				if (stuff.indexOf("對 訪客_半機械人一號") > -1 ||
+					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
 					// sound alert
 					alert = true;
 					chat_history[chat_history.length] = stuff + "\n";

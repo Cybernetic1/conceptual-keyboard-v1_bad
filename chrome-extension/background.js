@@ -217,6 +217,9 @@ chrome.extension.onMessage.addListener(
 
 });
 
+// var console2 = document.getElementById("console-msgs");
+// console2.value = "Background Script .js loaded";
+
 function onClickContext(info, tab) {
 	console.log("item " + info.menuItemId + " was clicked");
     console.log("info: " + JSON.stringify(info));
@@ -255,22 +258,26 @@ var contexts = ["page" //, "selection", "link", "editable", "image", "video", "a
 
 for (var i = 0; i < contexts.length; i++) {
     var context = contexts[i];
+
+    var title2 = "Clear history";
+    var id2 = chrome.contextMenus.create({
+        "title": title2,
+        "contexts": [context],
+        "onclick": onClickContext2
+		});
+
+	// console.log("'" + context + "' item:" + id);
+	
     var title = "Save log";
     var id = chrome.contextMenus.create({
         "title": title,
         "contexts": [context],
         "onclick": onClickContext
-    });
+		});
     // console.log("'" + context + "' item:" + id);
-    title = "Clear history";
-    id = chrome.contextMenus.create({
-        "title": title,
-        "contexts": [context],
-        "onclick": onClickContext2
-    });
-}
+    
+	}
 
-console.log("background.js is loaded....");
 
 // *******************************************************************
 // *******************************************************************
