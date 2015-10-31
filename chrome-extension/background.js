@@ -208,7 +208,7 @@ chrome.extension.onMessage.addListener(
 		}
 
 		if (request.alert == "hk2love") {
-			// console.log("hklove alert")
+			console.log("hk2love alert")
 			var audio = new Audio("hk2love_alert.ogg");
 			audio.play();
 		}

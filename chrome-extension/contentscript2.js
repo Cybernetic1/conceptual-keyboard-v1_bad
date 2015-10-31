@@ -136,12 +136,21 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
 		// check for save-log command:
 		if (str.indexOf("!log") > -1) {
-			// the string following by "!log " is the Nickname, hence 5 chars
-			console.log("log person = " + str.slice(5));
-			// save log array to file
-			// window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
-			saveLog(str.slice(5));
-			return;
+			// Determine this script instance is for the current active page...
+			// If not, no action should be taken
+			if ((voov2Chat && document.URL.indexOf("hklovechat") >= 0) ||
+				(ip131Chat && document.URL.indexOf("ip131") >= 0) ||
+				(ip203Chat && document.URL.indexOf("ip203") >= 0) ||
+				(ip4Chat && document.URL.indexOf("ip4") >= 0) ||
+				(hk2loveChat && document.URL.indexOf("hk2love") >= 0)) {
+				
+				// the string following by "!log " is the Nickname, hence 5 chars
+				console.log("log person = " + str.slice(5));
+				// save log array to file
+				// window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
+				saveLog(str.slice(5));
+				return;
+			}
 		}
 
 		if (str.indexOf("!clear") > -1) {
@@ -475,26 +484,28 @@ setInterval( function() {
 		chatWin1 = html.childNodes[0].childNodes[1];
 		// get down to the last page of messages:
 		chatWin = chatWin1.childNodes[chatWin1.childElementCount];
-		// number of lines in chat win:
-		lastIndex = chatWin.childElementCount - 1;
-		if ((chatWin != null) && (lastIndex > lastHkloveIndex)) {
-			var alert = false;
-			for (i = lastIndex; i > lastHkloveIndex; i--) {
-				stuff = chatWin.children[i].innerText;
-				if (stuff.indexOf("只對『Yohimbine』") > -1 ||
-					stuff.indexOf("只對『Metazoan』") > -1 ||
-					stuff.indexOf(">>『Yohimbine』") > -1) {
-					// sound alert
-					alert = true;
-					chat_history[chat_history.length] = stuff + "\n";
-					// console.log(timeStamp + stuff);
+		if (chatWin !== undefined) {
+			// number of lines in chat win:
+			lastIndex = chatWin.childElementCount - 1;
+			if ((chatWin != null) && (lastIndex > lastHkloveIndex)) {
+				var alert = false;
+				for (i = lastIndex; i > lastHkloveIndex; i--) {
+					stuff = chatWin.children[i].innerText;
+					if (stuff.indexOf("只對『Yohimbine』") > -1 ||
+						stuff.indexOf("只對『Metazoan』") > -1 ||
+						stuff.indexOf(">>『Yohimbine』") > -1) {
+						// sound alert
+						alert = true;
+						chat_history[chat_history.length] = stuff + "\n";
+						// console.log(timeStamp + stuff);
+					}
+					// To-do:  On Adult page, own messages appear as broken pieces
 				}
-				// To-do:  On Adult page, own messages appear as broken pieces
+				if (alert == true)
+					chrome.runtime.sendMessage({alert: "hk2love"});
 			}
-			if (alert == true)
-				chrome.runtime.sendMessage({alert: "hk2love"});
+			lastHkloveIndex = lastIndex;
 		}
-		lastHkloveIndex = lastIndex;
 	}
 },
 1000);

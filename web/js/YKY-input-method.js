@@ -2,6 +2,8 @@
 // *** and for handling the user interface
 
 // To do: (Misc)
+// * on page close save log
+// * determine automatic log name
 // * log what she says
 // * forget Typing Log directory files periodically
 // * left and right click in Green Box
@@ -183,15 +185,17 @@ function fillSuggestions()
 		clicked_str = this.textContent;
 		e_click = ev;
 		id_click = this.id;
+		var spanItem = this;
 		// we need to use timer to distinguish single and double-click
 		clicktimer = window.setTimeout(function () {
 			if(e_click) {
-				word_SingleClick();
+				word_SingleClick(spanItem);
 				clearTimeout(clicktimer);
 				clicktimer = null;
-			}}, 900);
-
-		}).dblclick(function(ev)
+				}
+			}, 900);
+		})
+		.dblclick(function(ev)
 			{
 			window.clearTimeout(clicktimer);
 			e_click = null;
@@ -226,68 +230,71 @@ function find_index(str) {
 function word_SingleClick(item) {
 	var selection = clicked_str;			// the clicked word (string)
 
+	// currentNode[0][j] contains a text list of items separated by '|'
+	// Find the location of selected string, has to make sure that:
+	// 1. its prefix is either beginning-of-line or '|'
+	// 2. its postfix is either EOL or '|'
+	var j = -1;
+	var index = -1;
+	var endIndex = -1;
+	var old_s = "";
+	for (i = 0; i < currentNode[0].length; ++i) {
+		old_s = currentNode[0][i];
+		index = old_s.indexOf(selection);
+		endIndex = index + selection.length;
+		if ((index > -1) &&
+				((index == 0) || (old_s[index - 1] == '|')) &&
+				((endIndex >= old_s.length) || (old_s[endIndex] == '|'))) {
+			j = i;
+			break;
+			}
+		}
+	// console.log("**** index is ", j);
+
 	// There can be 3 operations:
 	// 1. delete clicked word in suggestions
 	// 2. change word in suggestions to WhiteBox word
 	// 3. append (WhiteBox) word to suggestions
 	// 4. send clicked word to Green box / Output
 	if ($("#delete").prop("checked") === true) {
-		// remove from tree data structure
-		var j = 0;
-		for (i = 0; i < currentNode[0].length; ++i) {
-			if (currentNode[0][i].indexOf(selection) > -1) {
-				j = i;
-				break;
+		if (j > -1) {
+			// remove from tree data structure
+			if ((endIndex < old_s.length) && (old_s[endIndex] == '|'))
+				endIndex += 1;
+			var replaced_s = old_s.slice(0, index) + old_s.slice(endIndex);
+			currentNode[0][j] = replaced_s;
+
+			// remove from HTML page
+			$(item).remove();
 			}
-		}
-		currentNode[0].splice(j, 1);
-
-		// remove from HTML page
-		$("#suggestions span:contains('" + selection + "')").remove();
-
 		$("#delete").prop("checked", false);	// reset button state
 	}
 	else if ($("#change").prop("checked") === true) {
 		// get value of input box (white box)
 		new_s = document.getElementById("white-box").value;
 
-		// change item in tree data structure
-		// currentNode[0] contains the list of suggestions
-		// find the line in which selection occurs
-		var j = 0;
-		for (i = 0; i < currentNode[0].length; ++i) {
-			if (currentNode[0][i].indexOf(selection) > -1) {
-				j = i;
-				break;
+		if (j > -1) {
+			// change item in tree data structure
+			var replaced_s = old_s.replace(selection, new_s);
+			currentNode[0][j] = replaced_s;
+
+			// change HTML in page
+			item.textContent = new_s;
 			}
-		}
-		currentNode[0][j] = currentNode[0][j].replace(selection, new_s);
-
-		// change HTML in page
-		$("#suggestions span:contains('" + selection + "')").text(new_s);
-
 		$("#change").prop("checked", false);	// reset button state
 	}
 	else if ($("#append").prop("checked") === true) {
 		// get value of input box (white box)
 		new_s = "|" + document.getElementById("white-box").value;
 
-		// change item in tree data structure
-		// currentNode[0] contains the list of suggestions
-		// find the line in which selection occurs
-		var j = 0;
-		for (i = 0; i < currentNode[0].length; ++i) {
-			if (currentNode[0][i].indexOf(selection) > -1) {
-				j = i;
-				break;
+		if (j > -1) {
+			// change item in tree data structure
+			// '|' is added above
+			currentNode[0][j] += new_s;
+
+			// change HTML in page
+			item.textContent = new_s;
 			}
-		}
-		// currentNode[0][j] += "|";
-		currentNode[0][j] += new_s;
-
-		// change HTML in page
-		$("#suggestions span:contains('" + selection + "')").text(new_s);
-
 		$("#append").prop("checked", false);	// reset button state
 	}
 	else {
@@ -371,7 +378,7 @@ function loadDB(dbname)
 		// **** Initialize
 		currentNode = database;
 
-		// Create "root" button in header bar
+		// Create "root" button in first column
 		textNode = document.createElement('span');
 		textNode.innerText = "⬤";
 		document.getElementById("header-bar").innerHTML = "";
@@ -501,23 +508,62 @@ document.getElementById("cantonize").addEventListener("click", function() {
 	// cantonize(str);
 }, false);
 
+document.getElementById("paste1").addEventListener("click", function() {
+	window.postMessage({type: "FROM_PAGE", text: "妳好 :)"}, "*");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("paste2").addEventListener("click", function() {
+	window.postMessage({type: "FROM_PAGE", text: "喜欢玩网爱吗?"}, "*");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("paste3").addEventListener("click", function() {
+	window.postMessage({type: "FROM_PAGE", text: "喜欢做什么？"}, "*");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
 document.getElementById("pinyin-it").addEventListener("click", function() {
-	var str = document.getElementById("white-box").value;
+	str = document.getElementById("white-box").value;
+	display_pinyin(str);
+
+	// Pronunciate it
+	$.ajax({
+		method: "POST",
+		url: "/speakMandarin/",
+		data: {text: str},
+		success: function(resp) {
+			// nothing
+			}
+	});
+
+}, false);
+
+function display_pinyin(str) {
+	if (typeof str === 'undefined') 
+		str = document.getElementById("white-box").value;
 	var str2 = "";
-	
+
 	for (var i = 0, len = str.length; i < len; ++i) {
 		var c = str[i];
 		var simplified = h[c];
 		if (simplified === undefined)
 			simplified = c;
 		var pinyins = pin[simplified];
-		
-		if (pinyins != undefined) {
+
+		str2 += simplified;
+		if (pinyins == undefined) 
+			str2 += " ";
+		else
+			{
 			var consonant = pinyins[0];
 			var nucleus = pinyins[1];
 			var tone = pinyins[2];
 			var n0 = '!';
-			
+
 			if (tone == 1) {
 				if (nucleus[0] == 'a') n0 = 'ā';
 				if (nucleus[0] == 'e') n0 = 'ē';
@@ -555,18 +601,7 @@ document.getElementById("pinyin-it").addEventListener("click", function() {
 	}
 	// Copy to Pinyin Box
 	document.getElementById("pinyin-box").value = str2;
-	
-	// Pronunciate it
-	$.ajax({
-		method: "POST",
-		url: "/speakMandarin/",
-		data: {text: str},
-		success: function(resp) {
-			// nothing
-			}
-	});
-
-}, false);
+}
 
 // Genifer:  save input-output pair in ./training directory
 document.getElementById("genifer-teach").addEventListener("click", function() {
@@ -623,6 +658,7 @@ function quicksend() {
 //	}
 
 	recordHistory(str);
+	display_pinyin(str);
 
 	// Send to Pidgin #0?
 	if ($("#to-pidgin0").prop("checked") === true) {
@@ -720,6 +756,8 @@ jQuery('#white-box').on('input', function() {
 					// nothing
 				}
 			});
+
+		display_pinyin(newWhite2);
 	}
 
 	// record for next time
@@ -17709,4 +17747,4 @@ pin['鲖'] = ['t','ong',2];
 pin['鴒'] = ['l','ing',2];
 
 
-console.log("so far so good");
+console.log("so far so good 2");
