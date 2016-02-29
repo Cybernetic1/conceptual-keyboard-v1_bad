@@ -1,6 +1,6 @@
-!lib/genifer3.jar
 /dist/
 /lib/
+!lib/genifer3.jar
 /target/
 /logs/
 /typings/
