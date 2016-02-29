@@ -2,8 +2,9 @@
 // *** and for handling the user interface
 
 // To do: (Misc)
-// * on page close save log
 // * determine automatic log name
+// * enable using more self-nickname variants
+// * on page close save log
 // * log what she says
 // * forget Typing Log directory files periodically
 // * left and right click in Green Box
