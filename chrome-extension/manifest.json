@@ -46,8 +46,11 @@
 		"contextMenus"
 	],
 
+	"minimum_chrome_version": "23.0.0.0", 
+
 	"icons": {
-		"default_icon": "icon.png"
+		"19": "icon.png"
+		/* "default_icon": "icon.png" */
 	},
 
 	"browser_action": {
