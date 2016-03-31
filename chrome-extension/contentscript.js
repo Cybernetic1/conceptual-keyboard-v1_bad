@@ -7,13 +7,13 @@ window.addEventListener("message", function(event) {
 		return;
 
 	// This handles selection of which chatroom by the user:
-	// This seems to be abolished
+	// **************** This seems to be abolished *******************
 	if (event.data.type && (event.data.type == "CHAT_ROOM")) {
 		var str = event.data.text;
 		console.log("#1: chat room selected (seems abolished): " + str);
 
 		// relay message to background script
-		chrome.extension.sendMessage({chatroom: str});
+		chrome.runtime.sendMessage(null, {chatroom: str});
 	}
 
 	// This handles a user input:
@@ -21,7 +21,7 @@ window.addEventListener("message", function(event) {
 		var str = event.data.text;
 
 		// relay message to background script
-		chrome.extension.sendMessage({sendtext: str});
+		chrome.runtime.sendMessage(null, {sendtext: str});
 		// console.log("#1: msg received and relayed to background script: " + str);
 	}
 
@@ -31,13 +31,14 @@ window.addEventListener("message", function(event) {
 		// console.log("#1: copy to clipboard: " + str);
 
 		// relay message to background script
-		chrome.extension.sendMessage({clipboard: str});
+		chrome.runtime.sendMessage(null, {clipboard: str});
 	}
 }, false);
 
 // This seems to be run only once, as the "Conceptual Keyboard" page is loaded.
-if (chrome.runtime.lastError)
-	console.log(chrome.runtime.lastError);
-console.log("Content script #1.01 loaded....");
-console.log(chrome.runtime.lastError);
 
+// if (chrome.runtime.lastError)
+//	console.log(chrome.runtime.lastError);
+
+// For some reason, this creates an error in the extension settings page, but seems harmless
+console.log("Content script #1 (31-March-2016) loaded....");

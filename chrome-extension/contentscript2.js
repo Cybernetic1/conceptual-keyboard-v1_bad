@@ -31,7 +31,7 @@ function saveLog(name) {
 			+ "(" +   datetime.getHours() + "-" + datetime.getMinutes() + ")";
 	// the string following by "!log " is the Nickname
 	logName = name.replace(/ /g, "_") + "." + timeStamp + ".txt";
-	console.log("log file name = " + logName);
+	// console.log("log file name = " + logName);
 
 	var str = chat_history.join();
 
@@ -52,32 +52,32 @@ function saveLog(name) {
 // These messages are processed by 
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("hklovechat") >= 0) {
-		console.log("switch to hk love chat (new voov)");
-		chrome.extension.sendMessage({chatroom: "voov2"});
+		// console.log("switch to hk love chat (new voov)");
+		chrome.runtime.sendMessage(null, {chatroom: "voov2"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 		voov2Chat = true;
 	}
 	if (document.URL.indexOf("hk2love") >= 0) {
-		console.log("switch to hk2love (prude chat)");
-		chrome.extension.sendMessage({chatroom: "hk2love"});
+		// console.log("switch to hk2love (prude chat)");
+		chrome.runtime.sendMessage(null, {chatroom: "hk2love"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
 		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip131") >= 0) {
 		// console.log("switch to ip131");
-		chrome.extension.sendMessage({chatroom: "ip131"});
+		chrome.runtime.sendMessage(null, {chatroom: "ip131"});
 		ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip203") >= 0) {
 		// console.log("switch to ip203");
-		chrome.extension.sendMessage({chatroom: "ip203"});
+		chrome.runtime.sendMessage(null, {chatroom: "ip203"});
 		ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
 		voov2Chat = false;
 	}
 	if (document.URL.indexOf("ip4") >= 0) {
 		// console.log("switch to ip4");
-		chrome.extension.sendMessage({chatroom: "ip4"});
+		chrome.runtime.sendMessage(null, {chatroom: "ip4"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
 		voov2Chat = false;
 	}
@@ -89,42 +89,40 @@ function his() {
 		console.log(chat_history[i]);
 }
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-	// console.log(sender.tab ?
-	//	"from a content script:" + sender.tab.url :
-	//	"from the extension");
-	//console.log("processing message");
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+	// console.log("processing message...");
+	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
 
 	// Mouseover event has occurred, update which chatroom is selected:
 	// This messages are sent by different instances of *this script* itself
-	if (request.chatroom != null) {
+	if (request.chatroom2 != null) {
 		/*
 		if      (request.chatroom == "voov")
 			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		else if (request.chatroom == "adult")
 			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		*/
-		if (request.chatroom == "ip131")
+		if (request.chatroom2 == "ip131")
 			{ ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 				voov2Chat = false;}
-		else if (request.chatroom == "ip203")
+		else if (request.chatroom2 == "ip203")
 			{ ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
 				voov2Chat = false;}
-		else if (request.chatroom == "ip4")
+		else if (request.chatroom2 == "ip4")
 			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
 				voov2Chat = false;}
-		else if (request.chatroom == "hk2love")
+		else if (request.chatroom2 == "hk2love")
 			{ ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
 				voov2Chat = false;}
-		else if (request.chatroom == "voov2")
+		else if (request.chatroom2 == "voov2")
 			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 				voov2Chat = true;}
 
 		// else if (request.chatroom == "skype")
 		//	{ voovChat = false; adultChat = false; }
 
-		console.log("Script2: switched to: " + request.chatroom);
-		return;
+		console.log("Script2: switched to: " + request.chatroom2);
+		return true;
 		}
 
 	// Some text has been typed by the user on Conceptual Keyboard:
@@ -145,23 +143,23 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 				(hk2loveChat && document.URL.indexOf("hk2love") >= 0)) {
 				
 				// the string following by "!log " is the Nickname, hence 5 chars
-				console.log("log person = " + str.slice(5));
+				// console.log("log person = " + str.slice(5));
 				// save log array to file
 				// window.webkitRequestFileSystem(window.TEMPORARY, 1024*1024, onInitFs, errorHandler);
 				saveLog(str.slice(5));
-				return;
+				return true;
 			}
 		}
 
 		if (str.indexOf("!clear") > -1) {
 			chat_history = new Array();
 			console.log("history cleared");
-			return;
+			return true;
 		}
 
 		if (str.indexOf("!his") > -1) {
 			his();
-			return;
+			return true;
 		}
 
 		if (voov2Chat && document.URL.indexOf("hklovechat") >= 0) {
@@ -269,6 +267,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 		}
+	return true;
 	});
 
 // Indexes of bottom-most lines in the chat frames:
@@ -511,7 +510,7 @@ setInterval( function() {
 1000);
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
-console.log("Content script 2.01 loaded....");
+console.log("Content script #2 (31/March/2016) loaded....");
 
 /*
 

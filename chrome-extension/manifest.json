@@ -1,9 +1,9 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 
 	"name": "Conceptual Keyboard extension script",
 	"description": "allow communication between keyboard page and chatroom pages",
-	"version": "1.2",
+	"version": "3.0",
 
 	"background": {
 		"page": "background.html",
@@ -40,13 +40,14 @@
 	],
 
 	"permissions": [
+		"tabs",
 		"http://localhost/",
 		"clipboardRead",
 		"clipboardWrite",
 		"contextMenus"
 	],
 
-	"minimum_chrome_version": "23.0.0.0", 
+	// "minimum_chrome_version": "23.0.0.0", 
 
 	"icons": {
 		"19": "icon.png"
