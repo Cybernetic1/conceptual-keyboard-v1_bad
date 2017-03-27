@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -33,6 +32,15 @@ import spark.Response;
 import static spark.Spark.*;
 import org.apache.commons.io.IOUtils;
 // import org.apache.log4j.BasicConfigurator;
+
+// For simple socket server
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Conkey {
 
@@ -86,7 +94,12 @@ public class Conkey {
 		getLocalBinaryFile(new File("./web/" + path), os);
 	}
 
-	public static void main(String[] args) {
+	public static FFWebSocket echo;
+
+	// private static BufferedReader inSocket;
+	// private static BufferedWriter outSocket;
+	public static void main(String[] args)
+		{
 		StringBuffer typings = new StringBuffer("");
 
 		System.out.println("Calling Genifer3...");
@@ -95,8 +108,40 @@ public class Conkey {
 		// BasicConfigurator.configure();	// configures log4j logger
 		Integer portNumber = 9090;			// Spark will run on port 9090
 		setPort(portNumber);
-
 		System.out.println("YKY set port to: " + portNumber.toString() + "\n");
+
+		// secure("web/keystore.jks", "l0wsecurity", null, null);
+		/*** Traditional sockets don't work because a single instance cannot
+		 *** listen to multiple ports.
+		 try
+			{
+			// ServerSocket server_socket = new ServerSocket(9009);
+
+			// Socket client_socket = server_socket.accept();
+
+				// inSocket = new BufferedReader(new InputStreamReader(client_socket.getInputStream()));
+			//outSocket = new BufferedWriter(new OutputStreamWriter(client_socket.getOutputStream()));
+
+			// Receive:
+			//int ifirst_char;
+				//char first_char;
+
+			//if ((ifirst_char = in.read()) == -1)
+				//	{  // Client Closed
+				//	System.out.println("Client was closed on the other side.");
+				//	}
+
+			//first_char = (char) ifirst_char;
+				//String msg = msg = String.valueOf(first_char);
+
+			//msg += in.readLine();
+			//msg = "Server Received: " + msg;
+			} catch (Exception e)
+			{
+			e.printStackTrace();
+			}
+		 ***/
+		//	echo = new FFWebSocket();
 
 		// Route saveDatabase;
 		post("/saveDatabase/:fname", (Request request, Response response)
@@ -252,6 +297,20 @@ public class Conkey {
 			return "Chat history saved";
 		});
 
+		// Route fireFox
+		post("/fireFoxOut/", (Request request, Response response)
+				-> {
+			// System.out.println("Sending to Firefox....");
+			response.header("Content-type", "text/event-stream; charset=utf-8");
+			// response.header("Access-Control-Allow-Origin", "*");
+			String data = request.queryParams("data");
+			System.out.println("data: " + data + "\r\n");
+
+			// write to socket...?
+			FFWebSocket.ffSession.getBasicRemote().sendText(data);
+			return "Firefox outed";
+		});
+
 		// Route logTyping;
 		post("/logTyping/", (Request request, Response response)
 				-> {
@@ -262,7 +321,7 @@ public class Conkey {
 
 			// Save data to string buffer first
 			typings.append(data + "\n");
-			return "Typing saved";
+			return "Typing";
 		});
 
 		// Route flushTyping;
@@ -331,6 +390,23 @@ public class Conkey {
 			// action + data;
 			return "Canto:" + result;
 		});
+
+		get("/fireFoxIn/*", (Request request, Response response)
+				->
+					{
+					// System.out.println("asking Genifer....");
+					response.header("Content-type", "text/event-stream; charset=utf-8");
+			// String list = rqst.queryParams().toString();
+					// String action = request.params(":action");
+					// System.out.println("param is: " + action);
+					String data = request.queryParams("data");
+					System.out.println("data is: " + data);
+			// Ask Genifer
+					// String result = genifer3.Genifer3.cantonize("什么");
+					String result = "testing";
+					// action + data;
+					return "data: " + result + "\r\n";
+					});
 
 		get("/getPidginNames/*", (Request request, Response response)
 				-> {

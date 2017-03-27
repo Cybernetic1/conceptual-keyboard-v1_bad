@@ -4,5 +4,6 @@
 /target/
 /logs/
 /typings/
+/web/node_modules/
 *.bak
 conkey_PID.txt

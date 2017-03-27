@@ -121,7 +121,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		// else if (request.chatroom == "skype")
 		//	{ voovChat = false; adultChat = false; }
 
-		console.log("Script2: switched to: " + request.chatroom2);
+		// console.log("Script2: switched to: " + request.chatroom2);
 		return true;
 		}
 
@@ -192,7 +192,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			}
 		*/
 
-		// This one is the new Dream Chat:
+		// This one is the new Dream Chat: 寻梦园 情色聊天室
 		if (ip131Chat && document.URL.indexOf("ip131") >= 0) {
 			// *********** Find Dream Garden Chatroom ***************
 			if (last_str == str)		// DreamLand does not allow to send duplicate messages
@@ -208,7 +208,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			chat_history[chat_history.length] = str + "\n";
+			// chat_history[chat_history.length] = str + "\n";
 			}
 
 		// This one is the new Dream Chat:
@@ -282,7 +282,7 @@ var lastIp4Index = 1;
 // Check activity every second
 // If there's activity, message Background Script to play a sound
 setInterval( function() {
-	timeStamp = Date().slice(16,24);
+	// timeStamp = Date().slice(16,24);
 	
 	/*
 	if (document.URL.indexOf("voovchat\/") >= 0) {
@@ -398,6 +398,7 @@ setInterval( function() {
 		lastAdultIndex = lastIndex;
 	}
 
+	// 寻梦园 情色聊天室
 	if (document.URL.indexOf("ip131") >= 0) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
@@ -413,7 +414,7 @@ setInterval( function() {
 					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
 					// sound alert
 					alert = true;
-					chat_history[chat_history.length] = stuff + "\n";
+					// chat_history[chat_history.length] = stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces
@@ -476,7 +477,7 @@ setInterval( function() {
 		lastIp4Index = lastIndex;
 	}
 
-	if (document.URL.indexOf("hk2love.com") >= 0) {
+	if (document.URL.indexOf("hk2love.com\/cgi-bin") >= 0) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementsByName("a2")[0].contentDocument;
 		// this is the element containing the rows:
@@ -490,9 +491,10 @@ setInterval( function() {
 				var alert = false;
 				for (i = lastIndex; i > lastHkloveIndex; i--) {
 					stuff = chatWin.children[i].innerText;
-					if (stuff.indexOf("只對『Yohimbine』") > -1 ||
-						stuff.indexOf("只對『Metazoan』") > -1 ||
-						stuff.indexOf(">>『Yohimbine』") > -1) {
+					if (stuff.indexOf("只對『Metazoan1』") > -1 ||
+						stuff.indexOf("只對『半機器人1號』") > -1 ||
+						stuff.indexOf(">>『半機器人1號』") > -1 ||
+						stuff.indexOf(">>『Metazoan1』") > -1) {
 						// sound alert
 						alert = true;
 						chat_history[chat_history.length] = stuff + "\n";
@@ -507,7 +509,45 @@ setInterval( function() {
 		}
 	}
 },
-1000);
+20000);
+
+
+// Execute only once, to click 'private chat' automatically
+setTimeout(function() {
+	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
+		statusBar = document.getElementsByName("message")[0].contentDocument.childNodes[1];
+		button = statusBar.childNodes[2].childNodes[1].childNodes[22].childNodes[3].
+		childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[0].
+		childNodes[5].childNodes[1];
+		button.click();
+	}
+
+	if (document.URL.indexOf("hk2love.com\/index.php?location=chat") >= 0) {
+		document.getElementsByName("id")[0].value = "Metazoan1";
+		document.getElementsByName("pw")[0].value = "lowsecurity";
+		document.getElementsByName("auto_login")[0].checked = true;
+		// button.click();
+	}
+
+	if (document.URL.indexOf("hk2love.com\/cgi-bin") >= 0) {
+		var doc = document.getElementsByName("c")[0].contentDocument;
+		doc.getElementById("c4").checked = true;
+	}
+
+	if (document.URL.indexOf("ip131") >= 0) {
+		// Background selector
+		html = document.getElementsByName("ta")[0];
+		button = html.contentDocument.childNodes[0].childNodes[2].childNodes[1].
+			childNodes[1].childNodes[0].childNodes[3].childNodes[13].childNodes[21].
+			childNodes[4];
+
+		// Sort method
+		html = document.childNodes[0].childNodes[2].childNodes[3].childNodes[3].
+			childNodes[1].childNodes[1].contentDocument;
+		butt = html.childNodes[0].childNodes[2].childNodes[0].childNodes[3].childNodes[1];
+	}
+},
+3000);
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
 console.log("Content script #2 (31/March/2016) loaded....");

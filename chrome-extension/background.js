@@ -15,7 +15,7 @@ chrome.tabs.query({url: "http://www.uvoov.com/voovchat/*"}, function(result) {
 		voovId = result[0].id;
 	});
 
-chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
+chrome.tabs.query({url: "http://chat.hklovechat.com/frames*"}, function(result) {
 	if (result.length != 0)
 		voov2Id = result[0].id;
 	});
@@ -61,7 +61,7 @@ chrome.runtime.onMessage.addListener(
 		// We should send messages to both chatroom's content scripts
 		// Let them decide whether to speak or not
 
-		chrome.tabs.query({url: "http://www.hklovechat.com/frames*"}, function(result) {
+		chrome.tabs.query({url: "http://chat.hklovechat.com/frames*"}, function(result) {
 			if (result.length != 0) {
 				voov2Id = result[0].id;
 				chrome.tabs.sendMessage(voov2Id, {chatroom2: request.chatroom});

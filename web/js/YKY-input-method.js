@@ -500,6 +500,13 @@ document.getElementById("mandarin").addEventListener("click", function() {
 	// Copy to Red Box
 	document.getElementById("red-box").value = str;
 	// cantonize(str);
+	// This is just for testing:
+	console.log($.ajax({
+		method: "POST",
+		url: "./fireFox",
+		data: {data: str},
+		success: function(resp) {}
+	}));
 }, false);
 
 document.getElementById("cantonize").addEventListener("click", function() {
@@ -2303,7 +2310,7 @@ h['徽']='徽';
 h['恢']='恢';
 h['蛔']='蛔';
 h['回']='回';
-h['迴']='回';
+// h['迴']='回';
 h['毀']='毁';
 h['燬']='毁';
 h['譭']='毁';
@@ -4938,7 +4945,7 @@ h['址']='址';
 h['指']='指';
 h['止']='止';
 h['趾']='趾';
-h['隻']='只';
+// h['隻']='只';
 h['只']='只';
 h['祇']='只';
 h['旨']='旨';

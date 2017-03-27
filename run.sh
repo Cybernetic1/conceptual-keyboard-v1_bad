@@ -1,5 +1,5 @@
 #!/bin/sh
-cd ~/NetBeansProjects/conceptual-keyboard
+cd /home/yky/NetBeansProjects/conceptual-keyboard
 # kill any previous Java Conkey processes:
 # ps -C "java" --no-heading --format pid > conkey_PID.txt
 while read p; do
@@ -12,8 +12,9 @@ done < conkey_PID.txt
 sleep 1
 ##### run conkey server
 # http-server /home/yky/NetbeansProjects/conceptual-keyboard/web -p 9090 -c-1
-java -jar target/conkey-1.0-SNAPSHOT.jar &
-mplayer --quiet chrome-extension/ip203_alert.ogg
+# java -jar target/conkey-1.0-SNAPSHOT.jar &
+node sse-server.js &
+# mplayer --quiet chrome-extension/ip203_alert.ogg
 ##### remember process ID, so as to delete it later
 Conkey_PID=$!
 echo $Conkey_PID > conkey_PID.txt
@@ -21,9 +22,9 @@ echo $Conkey_PID > conkey_PID.txt
 sleep 1
 ##### start chrome browser
 if google-chrome --version >/dev/null; then
-    google-chrome --new-window http://localhost:9090/index.html
+    google-chrome --new-window http://localhost:8080/index.html
 else
-    chromium-browser --new-window http://localhost:9090/index.html
+    chromium-browser --new-window http://localhost:8080/index.html
 fi
 sleep 2
 ##### set size and flags of conkey broswer window
