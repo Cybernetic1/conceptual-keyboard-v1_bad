@@ -1,12 +1,17 @@
-// *** Code for storing the database in a tree,
-// *** and for handling the user interface
+// ***********************************************
+// *** Code for storing the database in a tree ***
+// *** and for handling the user interface     ***
+// ***********************************************
 
 // To do: (Misc)
-// * determine automatic log name
+// * up and down arrows for history
+// * determine automatic log name (seems to be solved by server?)
 // * enable using more self-nickname variants
 // * on page close save log
 // * log what she says
 // * forget Typing Log directory files periodically
+
+// To do: (abandoned)
 // * left and right click in Green Box
 // * drag-and-drop to white box
 // * create an area like a clipboard, that can be saved
@@ -322,7 +327,7 @@ function word_DoubleClick(str) {
 	audio.play();
 	// Send output via message to Google Chrome extension script:
 	clicked_str = simplify(clicked_str);
-	window.postMessage({type: "FROM_PAGE", text: clicked_str}, "*");
+	send2Chat(clicked_str);
 }
 
 // Load database from server
@@ -495,18 +500,36 @@ function cantonize(str) {
 	});
 }
 
+function send2Chat(str) {
+	// if ($("#firefox").prop("checked") === false) {
+	//	window.postMessage({type: "FROM_PAGE", text: str}, "*");
+	//	return;
+	// }
+
+	$.ajax({
+		method: "POST",
+		url: "./fireFox",
+		data: str,
+		success: function(resp) {
+			// console.log("Fire: " + str);
+		}
+	});
+}
+
 document.getElementById("mandarin").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	// Copy to Red Box
 	document.getElementById("red-box").value = str;
 	// cantonize(str);
 	// This is just for testing:
-	console.log($.ajax({
+	$.ajax({
 		method: "POST",
-		url: "./fireFox",
-		data: {data: str},
-		success: function(resp) {}
-	}));
+		url: "./speakMandarin",
+		data: str,
+		success: function(resp) {
+			console.log("Mandarin: " + str);
+		}
+	});
 }, false);
 
 document.getElementById("cantonize").addEventListener("click", function() {
@@ -516,20 +539,26 @@ document.getElementById("cantonize").addEventListener("click", function() {
 	// cantonize(str);
 }, false);
 
+document.getElementById("unescape").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	str2 = decodeURIComponent(str);
+	document.getElementById("white-box").value = str2;
+}, false);
+
 document.getElementById("paste1").addEventListener("click", function() {
-	window.postMessage({type: "FROM_PAGE", text: "妳好 :)"}, "*");
+	send2Chat("妳好 :)");
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
 
 document.getElementById("paste2").addEventListener("click", function() {
-	window.postMessage({type: "FROM_PAGE", text: "喜欢玩网爱吗?"}, "*");
+	send2Chat("喜欢玩网爱吗?");
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
 
 document.getElementById("paste3").addEventListener("click", function() {
-	window.postMessage({type: "FROM_PAGE", text: "喜欢做什么？"}, "*");
+	send2Chat("喜欢做什么？");
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
@@ -668,7 +697,7 @@ function quicksend() {
 	recordHistory(str);
 	display_pinyin(str);
 
-	// Send to Pidgin #0?
+	/***** Send to Pidgin #0?
 	if ($("#to-pidgin0").prop("checked") === true) {
 		var userName = document.getElementsByName("pidgin-who0")[0].value;
 		sendPidgin(userName, str);
@@ -681,8 +710,9 @@ function quicksend() {
 		sendPidgin(userName, str);
 		return;
 	}
+	*****/
 
-	window.postMessage({type: "FROM_PAGE", text: str}, "*");
+	send2Chat(str);
 
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -746,6 +776,7 @@ jQuery('#white-box').on('input', function() {
 
 	// Record in database, and optionally speak Mandarin
 	if (newWhite2.length != 0) {
+		/*
 		$.ajax({
 			method: "POST",
 			url: "/logTyping/",
@@ -754,6 +785,7 @@ jQuery('#white-box').on('input', function() {
 				console.log("Typing Log: " + newWhite2);
 			}
 		});
+		*/
 		
 		if ($("#speech").prop("checked") === true)
 			$.ajax({
@@ -773,7 +805,7 @@ jQuery('#white-box').on('input', function() {
 });
 
 // ON WINDOW CLOSE --- Save Typing Log data 
-window.onbeforeunload = flushTypings;
+// window.onbeforeunload = flushTypings;
 
 function flushTypings() {
 	var datetime = new Date();
@@ -798,6 +830,7 @@ document.getElementById("flush-typings").addEventListener("click", flushTypings,
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
+/******* 
 function sendPidgin(userName, str) {
 	$.ajax({
 		method: "POST",
@@ -866,6 +899,7 @@ document.getElementById("send-pidgin1").addEventListener("click", function() {
 	// clear input box
 	document.getElementById("white-box").value = "";
 }, false);
+*****/
 
 // Save log quickly with 1-click
 document.getElementById("save-log").addEventListener("click", function() {
@@ -873,7 +907,7 @@ document.getElementById("save-log").addEventListener("click", function() {
 	// Get date and time
 	// var date = new Date();
 	// var logName = date.toDateString().replace(/ /g,"-");
-	window.postMessage({type: "FROM_PAGE", text: "!log quick"}, "*");
+	send2Chat("!log quick");
 
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -911,13 +945,14 @@ function checkKey(e) {
 	// document.getElementById("white-box").focus();
 };
 
+/*
 document.getElementById("send-green").addEventListener("click", function() {
 	str = document.getElementById("green-box").textContent;
 	str = simplify(str);
 	str = replaceYKY(str);
 	// str = str.replace(/[()]/g, "");  // remove ()'s
 
-	window.postMessage({type: "FROM_PAGE", text: str}, "*");
+	send2Chat(str);
 	// console.log("I'm sending something");
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -951,6 +986,7 @@ document.getElementById("send-down").addEventListener("click", function() {
 		document.getElementById("green-box").appendChild(textNode);
 	});
 }, false);
+*/
 
 document.getElementById("clear-white").addEventListener("click", function() {
 	var box = document.getElementById("white-box");
@@ -959,6 +995,7 @@ document.getElementById("clear-white").addEventListener("click", function() {
 	history_view_index = -1;		// No longer in history mode
 }, false);
 
+/*
 document.getElementById("clear-green1-L").addEventListener("click", function() {
 	var node = document.getElementById("green-box");
 	node.removeChild(node.firstChild);
@@ -976,7 +1013,6 @@ document.getElementById("clear-green").addEventListener("click", function() {
 	}
 }, false);
 
-/*
 document.getElementById("clear-red").addEventListener("click", function() {
 	var node = document.getElementById("red-box");
 	while (node.hasChildNodes()) {
@@ -991,7 +1027,7 @@ document.getElementById("smile").addEventListener("click", function() {
 
 $("#smile").on("contextmenu", function(ev) {
 //	document.getElementById("white-box").value += " :)";
-	window.postMessage({type: "FROM_PAGE", text: " :)"}, "*");
+	send2Chat(" :)");
 	// console.log("I'm sending something");
 	var audio = new Audio("sending.ogg");
 	audio.play();

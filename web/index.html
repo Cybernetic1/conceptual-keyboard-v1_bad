@@ -50,12 +50,12 @@
 				border-bottom: 1px dotted #0066cc;
 			}
 
-			#green-box {
-				height: 26px;
-				width: 100%;
-				padding: 2px -4px 2px 2px;
-				border: 3px solid #00ff00;
-			}
+			// #green-box {
+			//	height: 26px;
+			//	width: 100%;
+			//	padding: 2px -4px 2px 2px;
+			//	border: 3px solid #00ff00;
+			// }
 
 			#pink-box {
 				width: 48%;
@@ -123,18 +123,18 @@
 		<input type="text" id="white-box" style="width:100%; height:120%;" 
 		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
 		<br>
-		<div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)">
+		<!-- div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)" -->
 		</div>
 
 		<input type="button" value="cut" id="send-clipboard">
 		<input type="button" value="↲" id="send-white">
-		<input type="button" value="↲" id="send-green" style="color: #33ff33;">
-		<input type="button" value="▲" id="send-up">
-		<input type="button" value="▼" id="send-down">
+		<!-- input type="button" value="↲" id="send-green" style="color: #33ff33;" -->
+		<!-- input type="button" value="▲" id="send-up" -->
+		<!-- input type="button" value="▼" id="send-down" -->
 		<input type="button" value="X" id="clear-white">
-		<input type="button" value="X" id="clear-green" style="color: #33ff33;">
-		<input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;">
-		<input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;">
+		<!-- input type="button" value="X" id="clear-green" style="color: #33ff33;" -->
+		<!-- input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;" -->
+		<!-- input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;" -->
 		<!-- input type="button" value="X" id="clear-red" style="color: #ff3333;" -->
 		<input type="button" value=":)" id="smile">
 		<input type="button" value="「」" id="quotes">
@@ -143,7 +143,9 @@
 		<input type="button" value="国" id="mandarin">
 		<input type="button" value="粤" id="cantonize">
 		<input type="button" value="拼" id="pinyin-it">
+		<input type="button" value="URL" id="unescape">
 
+		<!--
 		<input type="checkbox" id="to-pidgin0" style="width:20px; height:20px;">
 		<input type="button" value="0" id="send-pidgin0">
 		<select name="pidgin-who0" style="width:80px">
@@ -162,11 +164,14 @@
 		</select>
 
 		<input type="button" value="名" id="pidgin-names">
+		!-->
+
 		<input type="button" value="log" id="save-log">
 		<input type="button" value="1" id="paste1" title="妳好:)">
 		<input type="button" value="2" id="paste2" title="喜欢玩网爱吗?">
 		<input type="button" value="3" id="paste3" title="喜欢做什么？">
 		<input type="checkbox" id="speech" style="width:20px; height:20px;">声
+		<!-- input type="checkbox" id="firefox" style="width:20px; height:20px;" checked>Fire -->
 		
 		<br>
 		<input type="text" id="pinyin-box" style="width:100%; height:120%;" value="">
