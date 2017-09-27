@@ -4,7 +4,6 @@
 // ***********************************************
 
 // To do: (Misc)
-// * up and down arrows for history
 // * determine automatic log name (seems to be solved by server?)
 // * enable using more self-nickname variants
 // * on page close save log
@@ -182,7 +181,7 @@ function fillSuggestions()
 		div.appendChild(document.createElement("br"));
 	}
 
-	// On click: send to Green box
+	// On click: send to [previously Green] White box
 	// On double-click: send to output directly
 	// may be depend on where (in which Box) the span element is located
 	// the location can be given by [DOMelement].parentNode or .parentElement
@@ -209,14 +208,16 @@ function fillSuggestions()
 			word_DoubleClick();
 			});
 
-	// On right click: send to White Box
+	// On right click: add to front-of-text in White Box
 	$("#suggestions span").on('contextmenu', function(ev)
 		{
 		// Play a sound
 		var audio = new Audio("sending.ogg");
 		audio.play();
 		clicked_str = this.textContent;
-		document.getElementById("white-box").value += clicked_str;
+		// add to front-of-text:
+		old_str = document.getElementById("white-box").value;
+		document.getElementById("white-box").value = clicked_str + old_str;
 		return false;		// suppress context-menu popping up
 		});
 }
@@ -305,17 +306,23 @@ function word_SingleClick(item) {
 	}
 	else {
 		// create a new <span> element
-		textNode = document.createElement('span');
-		textNode.id = 'word_' + word_index;
-		++word_index;
+		// textNode = document.createElement('span');
+		// textNode.id = 'word_' + word_index;
+		// ++word_index;
 
 		// allow dragging of the word
-		textNode.draggable = true;
-		textNode.ondragstart = drag;
-		textNode.appendChild(document.createTextNode(selection));
+		// textNode.draggable = true;
+		// textNode.ondragstart = drag;
+		// textNode.appendChild(document.createTextNode(selection));
 
 		// insert it into <green-box>
-		document.getElementById("green-box").appendChild(textNode);
+		// document.getElementById("green-box").appendChild(textNode);
+
+		var audio = new Audio("sending.ogg");
+		audio.play();
+
+		// Add to end of text:
+		document.getElementById("white-box").value += selection;
 	}
 }
 
@@ -326,7 +333,7 @@ function word_DoubleClick(str) {
 	var audio = new Audio("sending.ogg");
 	audio.play();
 	// Send output via message to Google Chrome extension script:
-	clicked_str = simplify(clicked_str);
+	// clicked_str = simplify(clicked_str);
 	send2Chat(clicked_str);
 }
 
@@ -452,7 +459,7 @@ function saveDB(dbname)
 	console.log($.ajax({
 		method: "POST",
 		url: "/saveDatabase/" + dbname,
-		data: {data: s},
+		data: s,
 		success: function(resp) {}
 	}));
 
@@ -521,10 +528,11 @@ document.getElementById("mandarin").addEventListener("click", function() {
 	// Copy to Red Box
 	document.getElementById("red-box").value = str;
 	// cantonize(str);
-	// This is just for testing:
 	$.ajax({
 		method: "POST",
 		url: "./speakMandarin",
+		contentType: "application/json; charset=utf-8",
+		processData: false,
 		data: str,
 		success: function(resp) {
 			console.log("Mandarin: " + str);
@@ -552,7 +560,7 @@ document.getElementById("paste1").addEventListener("click", function() {
 }, false);
 
 document.getElementById("paste2").addEventListener("click", function() {
-	send2Chat("喜欢玩网爱吗?");
+	send2Chat("喜欢玩文字网爱吗?");
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
@@ -683,7 +691,7 @@ function replaceYKY(str) {
 
 function quicksend() {
 	str = document.getElementById("white-box").value;
-	str = simplify(str);
+	// str = simplify(str);
 	str = replaceYKY(str);
 
 //	if (to_skype) {			// Try to send text to Skype chat dialog
@@ -988,6 +996,28 @@ document.getElementById("send-down").addEventListener("click", function() {
 }, false);
 */
 
+document.getElementById("history-up").addEventListener("click", function() {
+	if (history_view_index == -1)
+		history_view_index = history_index - 1;
+	else
+		--history_view_index;
+	document.getElementById("white-box").value = history[history_view_index];
+}, false);
+
+document.getElementById("history-down").addEventListener("click", function() {
+	if (history_view_index != -1)				// -1 = no history to view
+		{
+		++history_view_index;
+		if (history_view_index == history_index)	// reached end of history?
+			{
+			history_view_index = -1;
+			document.getElementById("white-box").value = "";
+			}
+		else
+			document.getElementById("white-box").value = history[history_view_index];
+		}
+}, false);
+
 document.getElementById("clear-white").addEventListener("click", function() {
 	var box = document.getElementById("white-box");
 	box.value = "";
@@ -1118,14 +1148,14 @@ document.getElementById("ip203").addEventListener("click", function() {
 // }, false);
 
 document.getElementById("loadDB").addEventListener("click", function() {
-	var dbname = prompt("Enter database file name","database_default");
+	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
 	loadDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
 
 document.getElementById("saveDB").addEventListener("click", function() {
-	var dbname = prompt("Enter database file name","database_default");
+	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
 	saveDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -1913,7 +1943,7 @@ h['凡']='凡';
 h['煩']='烦';
 h['反']='反';
 h['返']='返';
-h['范']='范';
+h['範']='范';
 h['販']='贩';
 h['犯']='犯';
 h['飯']='饭';
@@ -14286,7 +14316,7 @@ pin['烀'] = ['h','u',1];
 pin['镔'] = ['b','in',1];
 pin['珉'] = ['m','in',2];
 pin['鞬'] = ['j','ian',1];
-pin['範'] = ['f','an',4];
+pin['范'] = ['f','an',4];
 pin['膠'] = ['j','iao',1];
 pin['眾'] = ['zh','ong',4];
 pin['鶇'] = ['d','ong',1];

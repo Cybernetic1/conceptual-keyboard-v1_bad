@@ -1,14 +1,14 @@
 // New server for Conkey, in Node.js
 
 // TO-DO:
-// * log file name = "quick" if name is in Chinese
-// * log data is not decoded, with extra "data="
 // * alert when new girls arrive
 // * ./loadDatabase/:name, Read the latest database_default.##.txt
 // * ./saveDatabase/:name
-// * ./speakMandarin/, extra "text=" at beginning of data
 
 // FIXED:
+// * ./speakMandarin/, extra "text=" at beginning of data (fixed in contentscript2, ajax POST)
+// * log data is not decoded, with extra "data=" (fixed in contentscript2, ajax POST)
+// * log file name = "quick" if name is in Chinese; (added decodeURIComponent)
 // * ./saveChatLog/
 // * contentscript2 doesn't seem to load for 寻梦园 (add-on is temporary)
 // * ./fireFox "data" has '+' instead of spaces (fixed)
@@ -78,7 +78,7 @@ http.createServer(function (req, res) {
 		return;	}
 
 	if (fileName.startsWith("/saveChatLog/")) {
-		var logname = path.basename(req.url);
+		var logname = decodeURIComponent(path.basename(req.url));
 
 		res.writeHead(200, {
 				'Content-Type': 'text/event-stream',
@@ -87,8 +87,9 @@ http.createServer(function (req, res) {
 		const buffer2 = [];
 		req.on('data', chunk => buffer2.push(chunk));
 		req.on('end', () => {
-			const data2 = unescape(Buffer.concat(buffer2));
-			
+			// const data2 = unescape(Buffer.concat(buffer2));
+			const data2 = decodeURIComponent(Buffer.concat(buffer2));
+
 			// Save to file
 			var fs = require('fs');
 			var stream = fs.createWriteStream("./logs/" + logname);
@@ -103,13 +104,17 @@ http.createServer(function (req, res) {
 		res.end();
 		return;	}
 
-	if (fileName == "/speakMandarin/") {
-		req.setEncoding("utf8");
+	if (fileName.startsWith("/speakMandarin")) {
+		res.writeHead(200, {
+				'Content-Type': 'text/event-stream',
+			});
+
+		// req.setEncoding("utf8");		// This causes an error, seems chunk cannot be string
 		const buffer3 = [];
 		req.on('data', chunk => buffer3.push(chunk));
 		req.on('end', () => {
-			const data3 = Buffer.concat(chunks);
-			const data3b = decodeURIComponent(text).toString('utf8');
+			const data3 = Buffer.concat(buffer3);
+			const data3b = decodeURIComponent(data3).toString('utf8');
 			var exec = require('child_process').exec;
 			exec("ekho " + data3b,
 				function (error, stdout, stderr)
@@ -118,6 +123,7 @@ http.createServer(function (req, res) {
 			// console.log("log data: " + data3b);
 			// console.log(unescape(encodeURIComponent(data3b)));
 		});
+		res.end();
 		return;	}
 
 	if (fileName.startsWith("/saveDatabase/")) {
@@ -148,13 +154,17 @@ http.createServer(function (req, res) {
 
 
 	if (fileName.startsWith("/loadDatabase/")) {
+		var dbName = path.basename(url.parse(req.url).pathname);
+		console.log("DB name = " + dbName);
+
 		res.writeHead(200, {
 			"Content-Type":"text/html",
 			"Cache-Control":"no-cache",
 			"Connection":"keep-alive"
 			});
+
 		fs = require('fs');
-		fs.readFile("./web/database_default.47.txt", "utf-8", function (err, data) {
+		fs.readFile("./web/" + dbName + ".txt", "utf-8", function (err, data) {
 			if (err) {
 				return console.log(err);
 			}

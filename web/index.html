@@ -131,6 +131,8 @@
 		<!-- input type="button" value="↲" id="send-green" style="color: #33ff33;" -->
 		<!-- input type="button" value="▲" id="send-up" -->
 		<!-- input type="button" value="▼" id="send-down" -->
+		<input type="button" value="▲" id="history-up">
+		<input type="button" value="▼" id="history-down">
 		<input type="button" value="X" id="clear-white">
 		<!-- input type="button" value="X" id="clear-green" style="color: #33ff33;" -->
 		<!-- input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;" -->
@@ -167,10 +169,11 @@
 		!-->
 
 		<input type="button" value="log" id="save-log">
+		<input type="checkbox" id="speech" style="width:20px; height:20px;">声
+
 		<input type="button" value="1" id="paste1" title="妳好:)">
 		<input type="button" value="2" id="paste2" title="喜欢玩网爱吗?">
 		<input type="button" value="3" id="paste3" title="喜欢做什么？">
-		<input type="checkbox" id="speech" style="width:20px; height:20px;">声
 		<!-- input type="checkbox" id="firefox" style="width:20px; height:20px;" checked>Fire -->
 		
 		<br>
@@ -212,8 +215,8 @@
 			<br>
 			<input type="button" value="load" id="loadDB">
 			<input type="button" value="save" id="saveDB">
-			&nbsp; <a href="javascript:loadDB('synonym_forest.txt')">同義詞詞林</a>
-			&nbsp; <a href="javascript:loadDB('rogets_thesaurus.txt')">Roget's</a>
+			&nbsp; <a href="javascript:loadDB('synonym_forest')">同義詞詞林</a>
+			&nbsp; <a href="javascript:loadDB('rogets_thesaurus')">Roget's</a>
 			&nbsp; <input type="button" value="typings" id="flush-typings">
 		</div>
 
