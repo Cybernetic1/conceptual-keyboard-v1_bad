@@ -722,6 +722,9 @@ function quicksend() {
 
 	send2Chat(str);
 
+	// clear input box
+	document.getElementById("white-box").value = "";
+
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }
@@ -735,8 +738,6 @@ document.getElementById("white-box").onkeypress = function(e) {
 	
 	if (keyCode === 13) {						// enter key = 13
 		quicksend();
-		// clear input box
-		document.getElementById("white-box").value = "";
 		return false;
 	}
 };
@@ -996,6 +997,7 @@ document.getElementById("send-down").addEventListener("click", function() {
 }, false);
 */
 
+/*
 document.getElementById("history-up").addEventListener("click", function() {
 	if (history_view_index == -1)
 		history_view_index = history_index - 1;
@@ -1017,6 +1019,7 @@ document.getElementById("history-down").addEventListener("click", function() {
 			document.getElementById("white-box").value = history[history_view_index];
 		}
 }, false);
+*/
 
 document.getElementById("clear-white").addEventListener("click", function() {
 	var box = document.getElementById("white-box");
@@ -1066,6 +1069,11 @@ $("#smile").on("contextmenu", function(ev) {
 document.getElementById("quotes").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	document.getElementById("white-box").value = "「" + str + "」";
+}, false);
+
+document.getElementById("parentheses").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	document.getElementById("white-box").value = "（" + str + "）";
 }, false);
 
 // *********** Functions for manipulating tree categories ***********
@@ -3075,7 +3083,7 @@ h['論']='论';
 h['蘿']='萝';
 h['螺']='螺';
 h['羅']='罗';
-// h['囉']='罗';
+h['囉']='啰';
 h['邏']='逻';
 h['鑼']='锣';
 h['籮']='箩';
