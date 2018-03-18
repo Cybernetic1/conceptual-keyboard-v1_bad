@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+  	<meta http-equiv="Content-Type" content="text/html"/>
+	<meta charset="utf-8">
+	<title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+
+      img {
+        margin: 5px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+
+	<!-- script src="feed-input.js"></script !-->
+  </head>
+  <body>
+	  Hello, welcome to ConKey...
+  	  <textarea id="logName">log-name</textarea>
+	  <input id="butt1" type="button" value="test beep"/>
+	  <input id="butt2" type="button" value="save log"/>
+	  <input id="butt3" type="button" value="clear history"/>
+	  <input id="butt4" type="button" value="reset event stream"/>
+	  <input id="butt5" type="button" value="???"/>
+
+    <!-- JavaScript and HTML must be in separate files !!!-->
+	<script type="text/javascript" src="popup.js"></script>
+
+  </body>
+
+</html>
+

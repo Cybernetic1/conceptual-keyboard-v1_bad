@@ -1,0 +1,58 @@
+{
+
+    "manifest_version": 2,
+    "name": "Conkey",
+    "version": "4.0",
+    "description": "allow communication between keyboard page and chatroom pages",
+
+    "icons": {
+        "48": "icons/icon.png"
+    },
+
+    "browser_action": {
+		"browser_style": true,
+		"default_icon": {
+			"32": "icons/icon.png"
+		},
+		"default_title": "Conkey",
+		"default_popup": "popup.html"
+	},
+
+	"background": {
+		"page": "background.html"
+	},
+
+	"content_scripts": [
+		{
+		"matches": ["https://localhost/*"],
+		"js": ["contentscript.js"],
+		"run_at": "document_end"
+		},
+		{
+		"matches": [
+			"*://60.199.209.72/VIP*/index.phtml*",
+			"*://60.199.209.71/VIP*/index.phtml*",
+			"*://www.uvoov.com/voovchat/*",
+			"*://chat.hklovechat.com/frames.aspx*",
+			"*://chatroom.hk/chatroom.php*",
+			"*://ip131.ek21.com/login*",
+			"*://ip203.ek21.com/*",
+			"*://ip4.ek21.com/*",
+			"*://ip69.ek21.com/*",
+			"*://www.hk2love.com/cgi-bin/*",
+			"*://www.hk2love.com/index.php?location=chat"
+			],
+		"js": ["jquery-1.11.2.min.js", "contentscript2.js" ],
+		"run_at": "document_end"
+		}
+	],
+
+	"permissions": [
+		"tabs",
+		"http://localhost/",
+		"clipboardRead",
+		"clipboardWrite",
+		"contextMenus"
+	]
+
+}

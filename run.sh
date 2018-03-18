@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /home/yky/NetBeansProjects/conceptual-keyboard
+cd /home/yky/misc-programs/conceptual-keyboard
 # kill any previous Java Conkey processes:
 # ps -C "java" --no-heading --format pid > conkey_PID.txt
 while read p; do
