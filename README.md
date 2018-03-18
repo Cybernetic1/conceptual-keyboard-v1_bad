@@ -1,3 +1,6 @@
+
+<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Cartoon_octopus.png" alt="logo 2" title="Conkey"/>
+
 Conceptual Keyboard
 ===================
 
@@ -35,23 +38,13 @@ Clone the project to your directory:
 
     git clone https://github.com/Cybernetic1/conceptual-keyboard.git
 
-Then run the jar file:
+Then run the server (you need to install nodejs first):
 
-    java -jar dist/conkey.jar
+    node sse-server.js
 
-then open either URL in your browser:
+then open this URL in your browser:
 
-    http://localhost:9090/index.html    (for Chinese)
-    http://localhost:9090/index2.html   (for English)
-
-For NetBeans IDE
-=================
-
-Open project in NetBeans IDE (I'm using 7.3.1).
-
-For Chinese texts, be careful to use UTF-8 encoding, or you'll see garbage.
-
-I used java Spark as the web server, and jQuery.
+    http://localhost:8080/index.html
 
 
 A Little Grammar Theory
@@ -75,12 +68,9 @@ word forms are available to the user.
 Explanation of the GUI
 ========================
 
-1. The 3 columns represent levels 1,2,3 from left to right.  Click on each
-   category to see its sub-categories.
-2. After choosing the levels, a list of suggested words will be displayed in
-   the horizontal space.  Click on each word to send it to the Green Box.
-3. The Green and Red boxes are for constructing sentences.  You can use drag-
-   -and-drop.
+1. The left column is the **Tree View** of categories and sub-categories.
+2. Choose the categories and a list of suggested words will be displayed in right column.
+3. Click on each word to send it to the Text Box (left-click will insert on the left and ditto for right-click).
 
 Here's a screen shot: (English version is in the top directory)
 <img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Screenshot_Chinese_synonym.png" alt="(screen shot 2)" title="Screen shot 2"/>
@@ -88,29 +78,19 @@ Here's a screen shot: (English version is in the top directory)
 Explanation of buttons
 ==========================
 
-(They are mainly for my personal use.  You probably just want to browse the
-categories at this stage.)
+(They are mainly for my personal use -- I automated some functions for use in chatrooms. You probably just want to browse the categories at this stage.)
 
-0. Green = words you want to keep;
-   Red = words to be discarded
-1. Send (white): sends the White box contents to output
-2. Send (green): sends the Green box contents to output
-3. Up: sends White box contents to Green box
-4. Down: sends Green box contents to White box
-5. X (white): clear White box
-6. <x : delete one Green box item from the left
-7. x> : delete one Green box item from the right
-8. X (green): clear Green box
-9. X (red): clear Red box
-10. :) : append a smiley face to the White box text
-11. quotes: wrap Chinese quotation marks around White box text
-12. del: if checked, the next category you click will be removed
-13. ch:  if checked, replace the next category you click with the text label
-         in White box
-14. +: add a word to the current list of suggested words
-15. +node: add a node before the currently selected category
-16. "voov" and "VIP":  send messages to certain Chinese chat rooms (requires
-    my own Google Chrome plugin -- not included yet)
+1. Return: sends Text Box contents to chatroom
+2. Up- and down-arrows: view history
+3. X: clear Text Box
+4. :) : append a smiley face to Text Box
+5. 「」: wrap Chinese quotation marks around text
+6. 国 : pronounce in Mandarin
+7. delete: if checked, the next [item] you click will be removed
+8. change:  if checked, replace the next [item] you click with Text Box content
+9. +: add an [item] to the current list of suggested words
+10. +node: add a node at the current category
+11. You can Load and Save databases such as 同义词词林 and Roget's Thesaurus.
 
 To-Do
 =======
@@ -123,12 +103,11 @@ My e-mail = generic.intelligence at Gmail
 TO-DO:
 
 1. Make user-interface prettier.
-2. Abandon the use of Red, Green and White boxes, use drag-and-drop exclusively.
-3. Allow app to talk to server, collect frequent words/phrases from users.
-4. Intelligent sentence generation?  Perhaps one key feature is to be able to
+2. Allow app to talk to server, collect frequent words/phrases from users.
+3. Intelligent sentence generation?  Perhaps one key feature is to be able to
    change the word class (or part-of-speech) of a word.
-5. Use pictures or virtual reality to select words, as in a visual dictionary.
-6. Your ideas / suggestions?
+4. Use pictures or virtual reality to select words, as in a visual dictionary.
+5. Your ideas / suggestions?
 
 Philosophical Argument for the Conceptual Input Method
 ========================================================
@@ -157,5 +136,3 @@ Less than 20 binary questions can get us down to any word in use.  The organizat
 3-4 個 decisions 便可找出一字／詞）。
 
 可能是 使用者 不熟悉 這些分類法， 所以覺得不方便？
-
-<img src="https://raw.github.com/Cybernetic1/conceptual-keyboard/master/Cartoon_octopus.png" alt="logo 2" title="Conkey"/>
