@@ -143,10 +143,24 @@
 		<input type="button" value="（）" id="parentheses">
 		
 		<input type="checkbox" id="simplify" style="width:20px; height:20px;" checked>简
+		<!--
 		<input type="button" value="国" id="mandarin">
 		<input type="button" value="粤" id="cantonize">
 		<input type="button" value="拼" id="pinyin-it">
 		<input type="button" value="URL" id="unescape">
+		<input type="button" value="log" id="save-log">
+		!-->
+
+		<select name="actions" style="width:80px">
+			<option value="log">log</option>
+			<option value="history">history</option>
+			<option value="URL">URL un-escape</option>
+			<option value="Google">Google</option>
+			<option value="Mandarin">国语</option>
+			<option value="Cantonize">广东话</option>
+			<option value="pin-yin">拼音</option>
+		</select>
+		<input type="button" value="▶" id="do-action">
 
 		<!--
 		<input type="checkbox" id="to-pidgin0" style="width:20px; height:20px;">
@@ -169,7 +183,6 @@
 		<input type="button" value="名" id="pidgin-names">
 		!-->
 
-		<input type="button" value="log" id="save-log">
 		<input type="checkbox" id="speech" style="width:20px; height:20px;">声
 
 		<input type="button" value="1" id="paste1" title="妳好:)">

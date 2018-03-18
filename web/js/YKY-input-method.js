@@ -536,34 +536,74 @@ function send2Chat(str) {
 	});
 }
 
-document.getElementById("mandarin").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	// Copy to Red Box
-	document.getElementById("red-box").value = str;
-	// cantonize(str);
-	$.ajax({
-		method: "POST",
-		url: "./speakMandarin",
-		contentType: "application/json; charset=utf-8",
-		processData: false,
-		data: str,
-		success: function(resp) {
-			console.log("Mandarin: " + str);
-		}
-	});
-}, false);
+document.getElementById("do-action").addEventListener("click", function() {
+	
+	var action = document.getElementsByName("actions")[0].value;
 
-document.getElementById("cantonize").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	// Copy to Pink Box
-	document.getElementById("pink-box").value = str;
-	// cantonize(str);
-}, false);
+	switch (action) {
+		case "log":
+		// No need to get date & time -- server will do that automatically
+		// Get date and time
+		// var date = new Date();
+		// var logName = date.toDateString().replace(/ /g,"-");
+		send2Chat("!log quick");
+		var audio = new Audio("sending.ogg");
+		audio.play();
+		break;
 
-document.getElementById("unescape").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str2 = decodeURIComponent(str);
-	document.getElementById("white-box").value = str2;
+		case "history":
+		break;
+
+		case "pin-yin":
+		str = document.getElementById("white-box").value;
+		display_pinyin(str);
+		// Pronunciate it
+		$.ajax({
+			method: "POST",
+			url: "/speakMandarin/",
+			data: {text: str},
+			success: function(resp) {
+				// nothing
+				}
+		});
+		break;
+
+		case "URL":
+		str = document.getElementById("white-box").value;
+		str2 = decodeURIComponent(str);
+		document.getElementById("white-box").value = str2;
+		break;
+
+		case "Google":
+		// Open browser and search Google
+		str = document.getElementById("white-box").value;
+		window.open("https://www.google.com/search?q=" + str);
+		break;
+
+		case "Mandarin":
+		str = document.getElementById("white-box").value;
+		// Copy to Red Box
+		document.getElementById("red-box").value = str;
+		$.ajax({
+			method: "POST",
+			url: "./speakMandarin",
+			contentType: "application/json; charset=utf-8",
+			processData: false,
+			data: str,
+			success: function(resp) {
+				console.log("Mandarin: " + str);
+			}
+		});
+		break;
+		
+		case "Cantonize":
+		str = document.getElementById("white-box").value;
+		// Copy to Pink Box
+		document.getElementById("pink-box").value = str;
+		// cantonize(str);
+		break;
+	}
+
 }, false);
 
 document.getElementById("paste1").addEventListener("click", function() {
@@ -582,22 +622,6 @@ document.getElementById("paste3").addEventListener("click", function() {
 	send2Chat("喜欢做什么？");
 	var audio = new Audio("sending.ogg");
 	audio.play();
-}, false);
-
-document.getElementById("pinyin-it").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	display_pinyin(str);
-
-	// Pronunciate it
-	$.ajax({
-		method: "POST",
-		url: "/speakMandarin/",
-		data: {text: str},
-		success: function(resp) {
-			// nothing
-			}
-	});
-
 }, false);
 
 function display_pinyin(str) {
@@ -922,19 +946,6 @@ document.getElementById("send-pidgin1").addEventListener("click", function() {
 	document.getElementById("white-box").value = "";
 }, false);
 *****/
-
-// Save log quickly with 1-click
-document.getElementById("save-log").addEventListener("click", function() {
-	// No need to get date & time -- server will do that automatically
-	// Get date and time
-	// var date = new Date();
-	// var logName = date.toDateString().replace(/ /g,"-");
-	send2Chat("!log quick");
-
-	var audio = new Audio("sending.ogg");
-	audio.play();
-
-}, false);
 
 // Browsing history with up and down arrows
 document.onkeydown = checkKey;
