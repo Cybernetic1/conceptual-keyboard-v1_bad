@@ -3,6 +3,9 @@
 // This script is loaded by the web page "Conceptual Keyboard"
 // Its purpose is to relay the user's input to the background script
 
+// Not sure why, but this message is not shown in debugger:
+console.log("Content script #1 (18-March-2018) loading....");
+
 window.addEventListener("message", function(event) {
 	// We only accept messages from browser windows
 	if (event.source != window)
@@ -28,13 +31,15 @@ window.addEventListener("message", function(event) {
 	}
 
 	// This handles a user's copy-to-clipboard action:
+	/* (No longer needed, handled in YKY-input-method.js, via document.execCommand('copy'))
 	if (event.data.type && (event.data.type == "CLIPBOARD")) {
 		var str = event.data.text;
 		console.log("#1: copy to clipboard: " + str);
 
 		// relay message to background script
 		browser.runtime.sendMessage({clipboard: str});
-	}
+	} */
+
 }, false);
 
 // This seems to be run only once, as the "Conceptual Keyboard" page is loaded.
@@ -43,7 +48,7 @@ window.addEventListener("message", function(event) {
 //	console.log(chrome.runtime.lastError);
 
 // For some reason, this creates an error in the extension settings page, but seems harmless
-console.log("Content script #1 (25-March-2017) loaded....");
+console.log("Content script #1 (18-March-2018) loaded....");
 
 // This does not work in background.js because of cross-origin problem.
 //var evtSource = new EventSource("fireFoxConn");

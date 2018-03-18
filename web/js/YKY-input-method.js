@@ -475,17 +475,30 @@ function saveDB(dbname)
 // ******************************* Menu buttons ********************************
 
 document.getElementById("send-clipboard").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
+	var whiteBox = document.getElementById("white-box");
+	str = whiteBox.value;
 	str = simplify(str);
 	str = replaceYKY(str);
+	whiteBox.value = str;
+
+	whiteBox.focus();
+	whiteBox.select();
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
 
 	// Copy to clipboard, by sending to Chrome Extension Content Script first
-	window.postMessage({type: "CLIPBOARD", text: str}, "*");
+	// The window.postMessage commmand seems obsolete:
+	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
 
 	recordHistory(str);
 
 	// clear input box
-	document.getElementById("white-box").value = "";
+	whiteBox.value = "";
 
 	var audio = new Audio("sending.ogg");
 	audio.play();

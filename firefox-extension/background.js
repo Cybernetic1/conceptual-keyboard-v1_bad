@@ -212,15 +212,16 @@ browser.runtime.onMessage.addListener(
 		}
 
 	// Request to copy to clipboard, this must be done via background page
+	/* (No longer needed, handled in YKY-input-method.js, via document.execCommand('copy'))
 	if (request.clipboard != null) {
 		// copy to clipboard
 		// bg = chrome.extension.getBackgroundPage();
+		console.log("copying to clipboard: " + request.clipboard);
 		clipboardholder = document.getElementById("clipboardholder");
 		clipboardholder.value = request.clipboard;
 		clipboardholder.select();
 		document.execCommand("Copy");
-		// console.log("copied to clipboard: " + request.clipboard);
-		}
+		} */
 
 	// Request to play an alert sound (must be done thru background page)
 	if (request.alert != null) {

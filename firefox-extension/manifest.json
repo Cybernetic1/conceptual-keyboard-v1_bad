@@ -1,9 +1,8 @@
 {
-
     "manifest_version": 2,
     "name": "Conkey",
-    "version": "4.0",
-    "description": "allow communication between keyboard page and chatroom pages",
+    "version": "5.0",
+    "description": "allow communication between Conkey and chatroom pages",
 
     "icons": {
         "48": "icons/icon.png"
@@ -26,7 +25,7 @@
 		{
 		"matches": ["https://localhost/*"],
 		"js": ["contentscript.js"],
-		"run_at": "document_end"
+		"run_at": "document_idle"
 		},
 		{
 		"matches": [
