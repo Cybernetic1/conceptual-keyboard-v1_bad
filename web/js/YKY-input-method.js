@@ -537,7 +537,7 @@ function send2Chat(str) {
 }
 
 document.getElementById("do-action").addEventListener("click", function() {
-	
+
 	var action = document.getElementsByName("actions")[0].value;
 
 	switch (action) {
@@ -552,6 +552,9 @@ document.getElementById("do-action").addEventListener("click", function() {
 		break;
 
 		case "history":
+		send2Chat("!his");
+		var audio = new Audio("sending.ogg");
+		audio.play();
 		break;
 
 		case "pin-yin":
@@ -595,7 +598,7 @@ document.getElementById("do-action").addEventListener("click", function() {
 			}
 		});
 		break;
-		
+
 		case "Cantonize":
 		str = document.getElementById("white-box").value;
 		// Copy to Pink Box
@@ -625,7 +628,7 @@ document.getElementById("paste3").addEventListener("click", function() {
 }, false);
 
 function display_pinyin(str) {
-	if (typeof str === 'undefined') 
+	if (typeof str === 'undefined')
 		str = document.getElementById("white-box").value;
 	var str2 = "";
 
@@ -637,7 +640,7 @@ function display_pinyin(str) {
 		var pinyins = pin[simplified];
 
 		str2 += simplified;
-		if (pinyins == undefined) 
+		if (pinyins == undefined)
 			str2 += " ";
 		else
 			{
@@ -697,7 +700,7 @@ document.getElementById("genifer-teach").addEventListener("click", function() {
 		data: {input: in_str, output: out_str},
 		success: function(resp) {}
 	}));
-	
+
 }, false);
 
 // ********** convert traditional Chinese chars to simplified
@@ -772,7 +775,7 @@ document.getElementById("white-box").onkeypress = function(e) {
 		e = window.event;
 
 	var keyCode = e.keyCode || e.which;
-	
+
 	if (keyCode === 13) {						// enter key = 13
 		quicksend();
 		return false;
@@ -789,7 +792,7 @@ jQuery('#white-box').on('input', function() {
 	// Algorithm:  detect head; cut head; detect tail; cut tail
 
 	var newWhite = document.getElementById("white-box").value;
-	
+
 	// detect head
 	var i = 0;
 	for ( ; i < oldWhite.length; ++i) {
@@ -832,7 +835,7 @@ jQuery('#white-box').on('input', function() {
 			}
 		});
 		*/
-		
+
 		if ($("#speech").prop("checked") === true)
 			$.ajax({
 				method: "POST",
@@ -850,7 +853,7 @@ jQuery('#white-box').on('input', function() {
 	oldWhite = document.getElementById("white-box").value;
 });
 
-// ON WINDOW CLOSE --- Save Typing Log data 
+// ON WINDOW CLOSE --- Save Typing Log data
 // window.onbeforeunload = flushTypings;
 
 function flushTypings() {
@@ -866,7 +869,7 @@ function flushTypings() {
 			console.log("Typing Log flushed");
 		}
 	});
-	
+
 	var audio = new Audio("sending.ogg");
 	audio.play();
 	return null;
@@ -876,7 +879,7 @@ document.getElementById("flush-typings").addEventListener("click", flushTypings,
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
-/******* 
+/*******
 function sendPidgin(userName, str) {
 	$.ajax({
 		method: "POST",
@@ -1120,7 +1123,7 @@ document.getElementById("add-child").addEventListener("click", function() {
 	// Insert node at tree before currentNode
 	// We need to traverse the tree to the currentNode,
 	// The problem is to determine where are we.
-	
+
 	currentNode.splice(currentNode.length, 0, [[str]]);
 
 	// whose location is given by level1, level2, level3

@@ -55,7 +55,7 @@ http.createServer(function (req, res) {
 		}
 		return;
 	}
-	
+
 	var fileName = "";
 	var interval;
 
@@ -104,6 +104,31 @@ http.createServer(function (req, res) {
 		res.end();
 		return;	}
 
+	// * from Javascript I get the pinyin sequence
+	// * do a shell escape to key in the sequence
+	// * return control to Javascript (which then extracts the HTML element from the Google input box)
+	if (fileName.startsWith("/keystrokes")) {
+		res.writeHead(200, {
+				'Content-Type': 'text/event-stream',
+			});
+
+		// req.setEncoding("utf8");		// This causes an error, seems chunk cannot be string
+		const buffer4 = [];
+		req.on('data', chunk => buffer4.push(chunk));
+		req.on('end', () => {
+			const data4 = Buffer.concat(buffer4);
+			const data4b = decodeURIComponent(data4).toString('utf8');
+			var exec = require('child_process').exec;
+			exec("./keystrokes-into-box.sh " + data4b,
+				function (error, stdout, stderr)
+					{ console.log(stdout); });
+			console.log("sent keystrokes: " + data4b);
+			// console.log("scraping data: " + data3b);
+			// console.log(unescape(encodeURIComponent(data3b)));
+		});
+		res.end();
+		return;	}
+
 	if (fileName.startsWith("/speakMandarin")) {
 		res.writeHead(200, {
 				'Content-Type': 'text/event-stream',
@@ -137,7 +162,7 @@ http.createServer(function (req, res) {
 		req.on('data', chunk => buffer4.push(chunk));
 		req.on('end', () => {
 			const data4 = Buffer.concat(buffer4);
-			
+
 			// Save to file
 			var fs = require('fs');
 			var stream = fs.createWriteStream("./web/database_default.txt");
@@ -172,7 +197,7 @@ http.createServer(function (req, res) {
 		res.end(data, "utf-8");
 		});
 		return; }
-	
+
 	fileName = "./web" + fileName;
 
 	if (fileName.endsWith(".html") || fileName.endsWith(".htm")
@@ -194,7 +219,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-		
+
 	if (fileName.endsWith(".ogg")) {
 		fs.exists(fileName, function(exists) {
 			if (exists) {
@@ -213,7 +238,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-		
+
 	if (fileName.endsWith(".ico")) {
 		fs.exists(fileName, function(exists) {
 			if (exists) {
@@ -232,7 +257,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-		
+
 	if (fileName.endsWith(".jpg")) {
 		fs.exists(fileName, function(exists) {
 			if (exists) {
@@ -251,7 +276,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-		
+
 	if (fileName.endsWith(".png")) {
 		fs.exists(fileName, function(exists) {
 			if (exists) {
@@ -270,7 +295,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-		
+
 	if (fileName.endsWith(".gif")) {
 		fs.exists(fileName, function(exists) {
 			if (exists) {
@@ -289,7 +314,7 @@ http.createServer(function (req, res) {
 			}
 		});
 		return; }
-	
+
 	// All failed:
 	res.writeHead(404);
 	res.end();

@@ -4,6 +4,7 @@
 // each other.
 
 // To-do:
+// * record whom I am speaking to
 // * 来客发声
 
 // Which chatroom output is selected by user?
@@ -51,8 +52,8 @@ function saveLog(name) {
 }
 
 // ******** Detect mouse-over on ChatRoom page
-// Not only set the flags, but we need to broadcast to other content scripts 
-// These messages are processed by 
+// Not only set the flags, but we need to broadcast to other content scripts
+// These messages are processed by
 document.addEventListener("mouseover", function(){
 	/*
 	if (document.URL.indexOf("hklovechat") >= 0) {
@@ -183,6 +184,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		}
 
 		if (str.indexOf("!his") > -1) {
+			console.log("history:");
 			his();
 			return true;
 		}
@@ -217,7 +219,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			last_str = str;
 			var sendButton = inputBox.getElementById("Button1");
 			sendButton.click();
-			
+
 			//chat_history[chat_history.length] = str + "\n";
 			}
 		*/
@@ -273,7 +275,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
-			chat_history[chat_history.length] = str + "\n";
+			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
 
 		// **** for chatroom.HK
@@ -290,7 +292,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			sendButton.click();
 
 			// record own messages
-			chat_history[chat_history.length] = str2 + "\n";
+			chat_history[chat_history.length] = "me: " + str2 + "\n";
 			}
 
 		/* For HK2Love chatroom (prude chat):
@@ -309,7 +311,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			// record own messages
 			chat_history[chat_history.length] = str + "\n";
 			}
-		*/ 
+		*/
 
 		/* This one is the new Dream Chat:
 		if (ip203Chat && document.URL.indexOf("ip203") >= 0) {
@@ -371,7 +373,7 @@ var lastIp69Index = 1;
 // If there's activity, message Background Script to play a sound
 setInterval( function() {
 	timeStamp = Date().slice(16,24);
-	
+
 	/*
 	if (document.URL.indexOf("voovchat\/") >= 0) {
 		chatWin = document.getElementById("chatContainer2");
@@ -707,7 +709,7 @@ setTimeout(function() {
 		document.getElementsByName("auto_login")[0].checked = true;
 		// button.click();
 	}
-	
+
 	// ****** click 'private chat' and 'auto scroll' automatically
 	if (document.URL.indexOf("chatroom.hk\/chatroom.php") >= 0) {
 		var secretBox = document.getElementsByTagName("frame")[2].contentWindow.document.getElementsByName("secret")[0];

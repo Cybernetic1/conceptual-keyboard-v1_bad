@@ -238,7 +238,7 @@ browser.runtime.onMessage.addListener(
 
 	// save log:
 	if (request.saveLog != null) {
-		
+
 		browser.tabs.query({
 			"active": true,
 			"currentWindow": true
@@ -252,7 +252,7 @@ browser.runtime.onMessage.addListener(
 
 	// clear history:
 	if (request.clearHistory != null) {
-		
+
 		browser.tabs.query({
 			"active": true,
 			"currentWindow": true
@@ -275,8 +275,8 @@ browser.runtime.onMessage.addListener(
 				browser.tabs.sendMessage(hk2loveId, {sendtext: e.data});
 			if (ip131Id)
 				browser.tabs.sendMessage(ip131Id, {sendtext: e.data});
-			// console.log("Event: " + e.data);
-		};		
+			console.log("Event: " + e.data);
+		};
 
 		var audio = new Audio("ip69.ogg");
 		audio.play();
@@ -389,7 +389,7 @@ for (var i = 0; i < contexts.length; i++) {
         "contexts": [context],
         "onclick": onClickContext3
 		});
-		
+
     var title4 = "Set ip69 ID";
     var id = chrome.contextMenus.create({
         "title": title4,

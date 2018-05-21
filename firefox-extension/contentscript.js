@@ -15,7 +15,7 @@ window.addEventListener("message", function(event) {
 	// **************** This seems to be abolished *******************
 	if (event.data.type && (event.data.type == "CHAT_ROOM")) {
 		var str = event.data.text;
-		console.log("#1: chat room selected (seems abolished): " + str);
+		// console.log("#1: chat room selected (seems abolished): " + str);
 
 		// relay message to background script
 		browser.runtime.sendMessage({chatroom: str});
@@ -27,7 +27,7 @@ window.addEventListener("message", function(event) {
 
 		// relay message to background script
 		browser.runtime.sendMessage({sendtext: str});
-		console.log("#1: msg received and relayed to background script: " + str);
+		// console.log("#1: msg received and relayed to background script: " + str);
 	}
 
 	// This handles a user's copy-to-clipboard action:

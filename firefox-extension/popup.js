@@ -18,7 +18,7 @@ function onClickButt4() {
 	}
 
 function onClickButt5() {
-	// unknown function
+	console.log("Say something")
 	}
 
 document.getElementById('butt1').addEventListener('click', onClickButt1);
