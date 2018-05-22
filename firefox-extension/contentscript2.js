@@ -569,7 +569,7 @@ setInterval( function() {
 					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
 					// sound alert
 					alert = true;
-					chat_history[chat_history.length] = timeStamp + ' ' + stuff + "\n";
+					chat_history[chat_history.length] = timeStamp + " > " + stuff + "\n";
 					// console.log(timeStamp + stuff);
 				}
 				// To-do:  On Adult page, own messages appear as broken pieces

@@ -3,48 +3,18 @@
 // *** and for handling the user interface     ***
 // ***********************************************
 
-// To do: (Misc)
-// * determine automatic log name (seems to be solved by server?)
-// * enable using more self-nickname variants
-// * on page close save log
-// * log what she says
-// * forget Typing Log directory files periodically
+// To do:
+// *
 
-// To do: (abandoned)
-// * left and right click in Green Box
-// * drag-and-drop to white box
-// * create an area like a clipboard, that can be saved
+// Done:
+// * intercept keys
 
-// To do: (Cantonese with Genifer 5)
-// -- it's Genifer's job now
-
-// To do: (Pictures)
-// * determine word @ mouse position
-//		- need data structure:  list of { word, rectangle }
-// * use mouse to draw rectangle and record params
-// * display rectangle when mouse-over / mouse-off
-// * save params in a data file
-// * how to name and store image files?
-// * images may have its own navigation system
-//		- how to build via machine learning?
-
-/* Notes on trianglulation geometry
-point p1(x1, y1);
-point p2(x2, y2);
-point p3(x3, y3);
-
-point p(x,y); // <-- You are checking if this point lies in the triangle.
-
-p = (alpha)*p1 + (beta)*p2 + (gamma)*p3
-
-float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /
-        ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
-float beta = ((p3.y - p1.y)*(p.x - p3.x) + (p1.x - p3.x)*(p.y - p3.y)) /
-       ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
-float gamma = 1.0f - alpha - beta;
-
-If all of alpha, beta, and gamma are greater than 0, then the point p lies within the triangle made of points p1, p2, and p3.
-*/
+$("#white-box").keydown(function (e) {
+    if (e.which > 64 || (e.which > 48 && e.which < 65)) {
+		console.log(e.which);
+        e.preventDefault();
+    }
+});
 
 // ************* Tree data structure *************
 // The format is an array of arrays of arrays...

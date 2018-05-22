@@ -177,7 +177,6 @@ http.createServer(function (req, res) {
 		res.end();
 		return;	}
 
-
 	if (fileName.startsWith("/loadDatabase/")) {
 		var dbName = path.basename(url.parse(req.url).pathname);
 		console.log("DB name = " + dbName);
@@ -197,6 +196,27 @@ http.createServer(function (req, res) {
 		res.end(data, "utf-8");
 		});
 		return; }
+
+	if (fileName.startsWith("/appendFile/")) {
+		res.writeHead(200, {
+				'Content-Type': 'text/event-stream',
+			});
+
+		const buffer5 = [];
+		req.on('data', chunk => buffer5.push(chunk));
+		req.on('end', () => {
+			const data5 = Buffer.concat(buffer5);
+
+			// Save to file
+			var fs = require('fs');
+			var stream = fs.appendFile("./web/scraped-Google.txt", data5, function (err) {
+				if (err)
+					throw err;
+				console.log("File appended!");
+			});
+		});
+		res.end();
+		return;	}
 
 	fileName = "./web" + fileName;
 
