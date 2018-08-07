@@ -564,7 +564,7 @@ document.getElementById("do-action").addEventListener("click", function() {
 		$.ajax({
 			method: "POST",
 			url: "/speakMandarin/",
-			data: {text: str},
+			data: str,
 			success: function(resp) {
 				// nothing
 				}
@@ -847,7 +847,7 @@ jQuery('#white-box').on('input', function() {
 			$.ajax({
 				method: "POST",
 				url: "/speakMandarin/",
-				data: {text: newWhite2},
+				data: newWhite2,
 				success: function(resp) {
 					// nothing
 				}

@@ -22,9 +22,9 @@ echo $Conkey_PID > conkey_PID.txt
 sleep 1
 ##### start chrome browser
 if google-chrome --version >/dev/null; then
-    google-chrome --new-window http://localhost:8080/index.html
+    google-chrome --new-window http://localhost:8484/index.html
 else
-    chromium-browser --new-window http://localhost:8080/index.html
+    chromium-browser --new-window http://localhost:8484/index.html
 fi
 sleep 2
 ##### set size and flags of conkey broswer window

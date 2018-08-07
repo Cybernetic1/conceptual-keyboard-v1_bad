@@ -1,32 +1,128 @@
-// ***********************************************
-// *** Code for storing the database in a tree ***
-// *** and for handling the user interface     ***
-// ***********************************************
+// **************************************************
+// *** Cantonese pinyin input similar to Google's ***
+// **************************************************
 
-// To do:
+// Flow-chart for preparing canto-pinyins.txt:
+// 1. yale-sort-by-freq.txt
+// 2.
+
+// To do
+// =====
+// * handle approx pinyins
+//   或者最简单的方法是： add another map for similar approx pinyins
+//   in other words, look up YKY's pinyin and match to standard pinyin
+// * allow choosing of chars by mouse
+// * perhaps send to Conkey main window
+
+// To do -- phrases
+// ================
+// * build repository of phrases
+//   - how / where to store?
+// * each phrase is addressed by 1 or more key?  It may be too slow to search from zero
+// * but it may be the job of an RNN -- output a few keys
+// * OR, cluster phrases, map chars --> semantic clusters
+// * OR, build semantically-organized tree structure
 // *
+
 
 // Done:
 // * intercept keys
+// * load pinyinMap
+// * accept key, display keys so far
+// * put list of chars in column
+// * allow choosing of chars by number
+
+// ************************** Read pinyins into buffer ************************
+var pin = new Object(); // or just {}
+var approx = new Object();
+
+console.log("Loading canto-pinyins.txt into pin[]:\n" +
+$.ajax({
+method: "GET",
+url: "/loadDatabase/canto-pinyins",		// Note: name without extension
+cache: false,
+success: function(data) {
+	var lines = data.split("\n");
+	lines.forEach(function(line) {
+		if (pin[line.substr(1)] == undefined)
+			pin[line.substr(1)] = line.substr(0,1);
+		else
+			pin[line.substr(1)] += line.substr(0,1);
+	});
+}}));
+
+var current_pinyin = "";
+var current_num = 0;
+var chars = "";
 
 $("#white-box").keydown(function (e) {
-    if (e.which > 64 || (e.which > 48 && e.which < 65)) {
-		console.log(e.which);
-        e.preventDefault();
+	if (e.which == 27) {						// Escape
+		current_pinyin = "";
+		current_num = 0;
+		e.preventDefault();
     }
+
+    if (e.which >= 65 && e.which <= 90) {		// A-Z
+		current_num = 0;
+		current_pinyin += String.fromCharCode(e.which + 32);
+
+		// display chars
+		chars = pin[current_pinyin];
+		if (chars != undefined)
+			showChars();
+
+		e.preventDefault();
+    }
+
+	if (e.which >= 48 && e.which <= 57) {		// 0-9
+		// choose chars
+		current_num = current_num * 10 + (e.which - 48);
+		sendChar(current_num);
+		current_pinyin += '●';
+		e.preventDefault();
+	}
+
+	document.getElementById("pinyin-bar").innerHTML = current_pinyin;
 });
 
-// ************* Tree data structure *************
-// The format is an array of arrays of arrays...
-// For example, the top-level nodes are: database[1], database[2], database[3], etc...
-// All node indexes start at 1.
-// Deeper nodes are such as database[3][1][4]... for node 3.1.4... etc
-// For each node, data[x][y]...[z][0] holds its data, which is also an array.
-// Within the "data" array, element 0 is the name of "that" node.
-// In other words, the name of node 4.2.3.7 is database[4][2][3][7][0][0].
-var database = new Array();
+function sendChar(i)
+{
+	if (i <= 9)
+		document.getElementById("white-box").value += chars.charAt(i);
+	else {
+		element = document.getElementById("white-box");
+		element.value = element.value.slice(0,-1) + chars.charAt(i);
+	}
+}
 
-var currentNode = null;		// node (within database) currently selected by user
+function showChars()
+{
+	var column1 = document.getElementById("column1");
+	column1.innerHTML = "";		// clear the contents first
+
+	for (var i = 0; i < chars.length; ++i)
+		{
+		var c = chars.charAt(i);
+		// column1.appendChild(document.createTextNode(nums[i] + '.'));
+		var num = i.toString();
+		if (i < 10)
+			num += " ";
+
+		textNode = document.createElement('span');
+		textNode.appendChild(document.createTextNode(num + c));
+		column1.appendChild(textNode);
+
+		// var row = column1.insertRow(-1)
+		// var cell = row.insertCell(0);
+		// cell.innerHTML = c;
+		}
+}
+
+var column2 = document.getElementById("column2");
+column2.innerHTML = "test";		// clear the contents first
+
+
+exit(0);
 
 // Indexes for creating new words
 var word_index = 0;
@@ -107,7 +203,7 @@ function fillSuggestions()
 	div.innerHTML = "";			// clear contents first
 
 	node = currentNode;
-	// For pictures
+	// ****** For pictures
 	if (node[0][0] == 'ClothingPic') {
 		img = document.createElement('img');
 		img.setAttribute('src', 'images/lingerie.jpg');
@@ -433,46 +529,9 @@ function saveDB(dbname)
 		success: function(resp) {}
 	}));
 
-// **** Save to client side with this code:
-//	var textFileAsBlob = new Blob([s0], {type: 'text/plain'});
-//	var fileNameToSaveAs = "database-out.txt";	//	must be "Downloads" directory
-//	var downloadLink = document.createElement("a");
-//	downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-//	downloadLink.download = fileNameToSaveAs;
-//	downloadLink.click();
 }
 
 // ******************************* Menu buttons ********************************
-
-document.getElementById("send-clipboard").addEventListener("click", function() {
-	var whiteBox = document.getElementById("white-box");
-	str = whiteBox.value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	whiteBox.value = str;
-
-	whiteBox.focus();
-	whiteBox.select();
-	try {
-		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Fallback: Copying text command was ' + msg);
-	} catch (err) {
-		console.error('Fallback: Oops, unable to copy', err);
-	}
-
-	// Copy to clipboard, by sending to Chrome Extension Content Script first
-	// The window.postMessage commmand seems obsolete:
-	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
-
-	recordHistory(str);
-
-	// clear input box
-	whiteBox.value = "";
-
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
 
 // **** record in history
 function recordHistory(str) {
@@ -505,103 +564,6 @@ function send2Chat(str) {
 		}
 	});
 }
-
-document.getElementById("do-action").addEventListener("click", function() {
-
-	var action = document.getElementsByName("actions")[0].value;
-
-	switch (action) {
-		case "log":
-		// No need to get date & time -- server will do that automatically
-		// Get date and time
-		// var date = new Date();
-		// var logName = date.toDateString().replace(/ /g,"-");
-		send2Chat("!log quick");
-		var audio = new Audio("sending.ogg");
-		audio.play();
-		break;
-
-		case "history":
-		send2Chat("!his");
-		var audio = new Audio("sending.ogg");
-		audio.play();
-		break;
-
-		case "pin-yin":
-		str = document.getElementById("white-box").value;
-		display_pinyin(str);
-		// Pronunciate it
-		$.ajax({
-			method: "POST",
-			url: "/speakMandarin/",
-			data: {text: str},
-			success: function(resp) {
-				// nothing
-				}
-		});
-		break;
-
-		case "URL":
-		str = document.getElementById("white-box").value;
-		str2 = decodeURIComponent(str);
-		document.getElementById("white-box").value = str2;
-		break;
-
-		case "Google":
-		// Open browser and search Google
-		str = document.getElementById("white-box").value;
-		window.open("https://www.google.com/search?q=" + str);
-		break;
-
-		case "Mandarin":
-		str = document.getElementById("white-box").value;
-		// Copy to Red Box
-		document.getElementById("red-box").value = str;
-		$.ajax({
-			method: "POST",
-			url: "./speakMandarin",
-			contentType: "application/json; charset=utf-8",
-			processData: false,
-			data: str,
-			success: function(resp) {
-				console.log("Mandarin: " + str);
-			}
-		});
-		break;
-
-		case "Cantonize":
-		str = document.getElementById("white-box").value;
-		// Copy to Pink Box
-		document.getElementById("pink-box").value = str;
-		// cantonize(str);
-		break;
-	}
-
-}, false);
-
-var butt1 = document.getElementById("paste1");
-butt1.title = "妳好 :)";
-butt1.addEventListener("click", function() {
-	send2Chat(butt1.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-var butt2 = document.getElementById("paste2");
-butt2.title = "喜欢玩文字网爱吗?";
-butt2.addEventListener("click", function() {
-	send2Chat(butt2.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-var butt3 = document.getElementById("paste3");
-butt3.title = "喜欢做什么？";
-butt3.addEventListener("click", function() {
-	send2Chat(butt3.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
 
 function display_pinyin(str) {
 	if (typeof str === 'undefined')
@@ -722,21 +684,6 @@ function quicksend() {
 	recordHistory(str);
 	display_pinyin(str);
 
-	/***** Send to Pidgin #0?
-	if ($("#to-pidgin0").prop("checked") === true) {
-		var userName = document.getElementsByName("pidgin-who0")[0].value;
-		sendPidgin(userName, str);
-		return;
-	}
-
-	// Send to Pidgin #1?
-	if ($("#to-pidgin1").prop("checked") === true) {
-		var userName = document.getElementsByName("pidgin-who1")[0].value;
-		sendPidgin(userName, str);
-		return;
-	}
-	*****/
-
 	send2Chat(str);
 
 	// clear input box
@@ -852,81 +799,6 @@ function flushTypings() {
 	return null;
 }
 
-document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
-
-document.getElementById("send-white").addEventListener("click", quicksend, false);
-
-/*******
-function sendPidgin(userName, str) {
-	$.ajax({
-		method: "POST",
-		url: "/sendPidginMessage/" + userName,
-		data: {data: str},
-		success: function(resp) {
-			console.log("Pidgin<" + userName + "> " + str);
-		}
-	});
-}
-
-// Get list of Pidgin window names
-document.getElementById("pidgin-names").addEventListener("click", function() {
-	var str = "";
-
-	$.ajax({
-		method: "GET",
-		url: "/getPidginNames/",
-		data: str,
-		cache: false,
-		success: function(data) {
-			console.log("Got names:\n" + data);
-
-			pidginNames0 = document.getElementsByName("pidgin-who0")[0];
-			pidginNames1 = document.getElementsByName("pidgin-who1")[0];
-			pidginNames0.innerHTML = "";
-			pidginNames1.innerHTML = "";
-
-			var lines = data.split('\n');
-			for (var i = 0; i < lines.length - 1; i += 2) {
-				pidginNames0.innerHTML += "<option value=\"" + lines[i] + "\">"
-					+ lines[i+1] + "</option>";
-				pidginNames1.innerHTML += "<option value=\"" + lines[i] + "\">"
-					+ lines[i+1] + "</option>";
-				}
-		}
-	});
-
-}, false);
-
-
-// Send message to Pidgin #0
-document.getElementById("send-pidgin0").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	recordHistory(str);
-
-	var userName = document.getElementsByName("pidgin-who0")[0].value;
-	sendPidgin(userName, str);
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-
-// Send message to Pidgin #1
-document.getElementById("send-pidgin1").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	recordHistory(str);
-
-	var userName = document.getElementsByName("pidgin-who1")[0].value;
-	sendPidgin(userName, str);
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-*****/
-
 // Browsing history with up and down arrows
 document.onkeydown = checkKey;
 
@@ -958,259 +830,6 @@ function checkKey(e) {
 	// document.getElementById("white-box").focus();
 };
 
-/*
-document.getElementById("send-green").addEventListener("click", function() {
-	str = document.getElementById("green-box").textContent;
-	str = simplify(str);
-	str = replaceYKY(str);
-	// str = str.replace(/[()]/g, "");  // remove ()'s
-
-	send2Chat(str);
-	// console.log("I'm sending something");
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-document.getElementById("send-up").addEventListener("click", function() {
-	green_str = document.getElementById("green-box").textContent;
-	// str = str.replace(/[()]/g, "");		// remove ()'s
-
-	white_str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = white_str + green_str;
-
-	history_view_index = -1;		// No longer in history mode
-}, false);
-
-document.getElementById("send-down").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	words = str.split(" ");
-	words.forEach(function(word, i, array) {
-		// wrap () around all words
-		// word = "(" + word + ")";
-		// make words draggable
-		// create node for all words
-		textNode = document.createElement('span');
-		textNode.id = 'word_' + word_index;
-		++word_index;
-		// allow dragging of words
-		textNode.draggable = true;
-		textNode.ondragstart = drag;
-		textNode.appendChild(document.createTextNode(word));
-		document.getElementById("green-box").appendChild(textNode);
-	});
-}, false);
-*/
-
-/*
-document.getElementById("history-up").addEventListener("click", function() {
-	if (history_view_index == -1)
-		history_view_index = history_index - 1;
-	else
-		--history_view_index;
-	document.getElementById("white-box").value = history[history_view_index];
-}, false);
-
-document.getElementById("history-down").addEventListener("click", function() {
-	if (history_view_index != -1)				// -1 = no history to view
-		{
-		++history_view_index;
-		if (history_view_index == history_index)	// reached end of history?
-			{
-			history_view_index = -1;
-			document.getElementById("white-box").value = "";
-			}
-		else
-			document.getElementById("white-box").value = history[history_view_index];
-		}
-}, false);
-*/
-
-document.getElementById("clear-white").addEventListener("click", function() {
-	var box = document.getElementById("white-box");
-	box.value = "";
-	box.focus();
-	history_view_index = -1;		// No longer in history mode
-}, false);
-
-/*
-document.getElementById("clear-green1-L").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	node.removeChild(node.firstChild);
-}, false);
-
-document.getElementById("clear-green1-R").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	node.removeChild(node.lastChild);
-}, false);
-
-document.getElementById("clear-green").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	while (node.hasChildNodes()) {
-		node.removeChild(node.lastChild);
-	}
-}, false);
-
-document.getElementById("clear-red").addEventListener("click", function() {
-	var node = document.getElementById("red-box");
-	while (node.hasChildNodes()) {
-		node.removeChild(node.lastChild);
-	}
-}, false);
-*/
-
-document.getElementById("smile").addEventListener("click", function() {
-	document.getElementById("white-box").value += " :)";
-}, false);
-
-$("#smile").on("contextmenu", function(ev) {
-//	document.getElementById("white-box").value += " :)";
-	send2Chat(" :)");
-	// console.log("I'm sending something");
-	var audio = new Audio("sending.ogg");
-	audio.play();
-});
-
-document.getElementById("quotes").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = "「" + str + "」";
-}, false);
-
-document.getElementById("parentheses").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = "（" + str + "）";
-}, false);
-
-// *********** Functions for manipulating tree categories ***********
-
-// insert White-Box item below currently selected menu node
-document.getElementById("insert").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-
-	// add to tree:
-	currentNode[0][currentNode[0].length] = str;
-
-	// just add to #suggestions and refresh
-	fillSuggestions();
-}, false);
-
-// add a child node to tree
-document.getElementById("add-child").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-
-	// Insert node at tree before currentNode
-	// We need to traverse the tree to the currentNode,
-	// The problem is to determine where are we.
-
-	currentNode.splice(currentNode.length, 0, [[str]]);
-
-	// whose location is given by level1, level2, level3
-	//var parentNode = null;
-	//if (level3 != null) {
-		//parentNode = database[level1][level2];		// find parent
-		//parentNode.splice(level3, 0, [[str]]);		// add new array
-	//}
-	//else if (level2 != null) {
-		//parentNode = database[level1];				// find parent
-		//parentNode.splice(level2, 0, [[str]]);		// add new array
-	//}
-	//else {
-		//parentNode = database;						// find parent
-		//parentNode.splice(level1, 0, [[str]]);		// add new array
-	//}
-
-	// redraw tree menu
-	fillDirs();
-
-}, false);
-
-
-// **************** Choosing which web page to feed output to *****************
-
-/*
-document.getElementById("voov").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "voov"}, "*");
-}, false);
-
-document.getElementById("adult").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "adult"}, "*");
-}, false);
-*/
-
-/*
-document.getElementById("hklove").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
-}, false);
-
-document.getElementById("ip131").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "ip131"}, "*");
-}, false);
-
-document.getElementById("ip203").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "ip203"}, "*");
-}, false);
-*/
-
-// document.getElementById("skype").addEventListener("click", function() {
-//	to_skype = true;
-// }, false);
-
-document.getElementById("loadDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
-	loadDB(dbname);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-document.getElementById("saveDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
-	saveDB(dbname);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-window.addEventListener('DOMContentLoaded', splitWords, false);
-
-// **************** Old functions, create draggable elements ******************
-// (may become obsolete in next version)
-
-function splitWords() {
-
-	var elems = document.querySelectorAll('.draggable'),
-			  text,
-			  textNode,
-			  words,
-			  elem;
-
-	// iterate through all .draggable elements
-	for (var i = 0, l = elems.length; i < l; i++) {
-
-		elem = elems[i];
-		textNode = elem.childNodes[0];
-		text = textNode.nodeValue;
-
-		// remove current text node
-		elem.removeChild(textNode);
-		words = text.split(' ');
-
-		// iterate through words
-		for (var k = 0, ll = words.length; k < ll; k++) {
-			// create node for all words
-			textNode = document.createElement('span');
-			textNode.id = 'word_A' + i + k;
-			// allow dragging for words
-			textNode.draggable = true;
-			textNode.ondragstart = drag;
-			textNode.appendChild(document.createTextNode(words[k] + ' '));
-			elem.appendChild(textNode);
-		}
-	}
-}
-
 function allowDrop(ev)
 {
 	ev.preventDefault();
@@ -1238,37 +857,4 @@ loadDB("database_default");
 // initial chat room is "voov"
 // window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
 
-// ************************** Read hcutf8.txt into buffer ************************
-// the file "hcutf8.txt" is from /chinese/zhcode
-var h = new Object(); // or just {}
-
-console.log("Loading hcutf8-YKY.txt into h[]:\n" +
-$.ajax({
-method: "GET",
-url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
-cache: false,
-success: function(data) {
-	var lines = data.split("\n");
-	lines.forEach(function(line) {
-		if (line[0] != '/')				// comments
-			h[line.substr(0,1)] = line.substr(1);
-	});
-}}));
-
-// ************************** Read pinyins into buffer ************************
-var pin = new Object(); // or just {}
-
-console.log("Loading pinyins.txt into pin[]:\n" +
-$.ajax({
-method: "GET",
-url: "/loadDatabase/pinyins",		// Note: name without extension
-cache: false,
-success: function(data) {
-	var lines = data.split("\n");
-	lines.forEach(function(line) {
-		var pinyin = line.substr(1).split(',');
-		pin[line.substr(0,1)] = [pinyin[0], pinyin[1], parseInt(pinyin[2])];
-	});
-}}));
-
-console.log("So far so good, from YKY-input-method.js");
+console.log("So far so good, from Cantonese-input.js");

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- To Do:
+*
+-->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>Cantonese input 广东话拼音输入</title>
+
+		<style type="text/css">
+			body {
+				font-size: 50%;
+				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
+				padding-top: 0px;
+				background-color: #000000;
+				color: #ccffff;
+			}
+
+			label { display: block; margin-top: 10px; color: #0066cc; }
+
+			input[type=button] {
+				background-color: #555555;
+				color: #ffffff;
+				padding: 2px;
+				font: 9px;
+				font-weight: bold;
+				text-decoration: none;
+				border: 3px solid #000;
+				border-color: #aaa #333 #333 #aaa;
+			}
+
+			input[type=text] {
+				font-size: 100%;
+				background-color: #000000;
+				color: #ffffff;
+				/* font-weight: bold; */
+			}
+
+			a {
+				color: #aaaaFF;
+				text-decoration: none;
+				border-bottom: 1px dotted #0066cc;
+			}
+
+			#column1 {
+				float: left;
+				width: 37%;
+				font-family: "Courier New", Courier, monospace;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				line-height: 1.2;
+				border: 2px solid #007700;
+			}
+
+			#column2 {
+				overflow: auto;
+				float: right;
+				width: 60%;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				// padding: 5px 5px;
+				line-height: 170%;
+				border: 2px solid #770000;
+			}
+
+			#pinyin-bar {
+				height: 30px;
+				color: #ff5555;
+				font-family: "Courier New", Courier, monospace;
+				font-size: 20px;
+				font-weight: bold;
+				padding: 6px 0px 0px 0px;	// top right bottom left
+				width: 99%;
+				// margin: 5px 5px;
+			}
+
+			#column1 span {
+				display:inline-block;
+				background: #003333;
+				padding-top: 1px;
+				padding-right: 1px;
+				padding-bottom: 1px;
+				padding-left: 1px;
+				border: 1px solid #00bb00;
+				margin: 5px 5px;
+			}
+
+			#header-bar span {
+				background: #000000;
+				padding: 1px;
+				border: 1px solid #ff0000;
+				margin: 1px;
+				color: #ff0000;
+			}
+
+			.selected td {
+				background: #003333;
+				border: 1px solid #00bb00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<input type="text" id="white-box" style="width:100%; height:120%;"
+		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
+		<br>
+		</div>
+
+		<span id="pinyin-bar"></span>
+		<br>
+
+		<!-- span id="header-bar"></span -->
+
+		<div id="mid-levels">
+
+			<div id="column1">&nbsp;
+			</div>
+
+			<div id="column2">&nbsp;
+			</div>
+
+			<!-- br style="clear:both;" -->
+		</div>
+
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/Cantonese-input.js"></script>
+
+	</body>
+</html>
