@@ -40,7 +40,7 @@ function saveLog(name) {
 
 	$.ajax({
 		method: "POST",
-		url: "http://localhost:8080/saveChatLog/" + logName,
+		url: "http://localhost:8484/saveChatLog/" + logName,
 		contentType: "application/json; charset=utf-8",
 		// dataType: "text",	// This affects the data to be received
 		processData: false,

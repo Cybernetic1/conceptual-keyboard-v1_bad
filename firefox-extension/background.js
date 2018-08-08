@@ -75,7 +75,7 @@ querying.then((tabs) => {
 	}});
 
 // Listen to Node.js server
-var evtSource = new EventSource("http://localhost:8080/stream");
+var evtSource = new EventSource("http://localhost:8484/stream");
 
 evtSource.onmessage = function(e) {
 	// Directly output to chatroom
@@ -267,7 +267,7 @@ browser.runtime.onMessage.addListener(
 	// reset event stream:
 	if (request.resetEventStream != null) {
 
-		evtSource = new EventSource("http://localhost:8080/stream");
+		evtSource = new EventSource("http://localhost:8484/stream");
 
 		evtSource.onmessage = function(e) {
 			// Directly output to chatroom
@@ -348,7 +348,7 @@ function onClickContext4(info, tab) {
 // *** restart event stream
 function onClickContext5(info, tab) {
 
-	evtSource = new EventSource("http://localhost:8080/stream");
+	evtSource = new EventSource("http://localhost:8484/stream");
 
 	evtSource.onmessage = function(e) {
 		// Directly output to chatroom

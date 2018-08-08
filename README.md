@@ -44,7 +44,7 @@ Then run the server (you need to install nodejs first):
 
 then open this URL in your browser:
 
-    http://localhost:8080/index.html
+    http://localhost:8484/index.html
 
 
 A Little Grammar Theory
