@@ -1,14 +1,16 @@
 #!/bin/sh
+xclip -selection clipboard load-conkey.txt
 beep
 firefox about:debugging &
-xdotool sleep 5
-win_id=$(xdotool search Debugging)
-xdotool windowfocus --sync $win_id
-xdotool mousemove 894 263
-xdotool click 3
-xdotool sleep 3
-xdotool key --delay 60 slash h o m e slash y k y slash m i s c minus p r o g r a m s slash c o n c e p t u a l minus k e y b o a r d slash f i r e f o x minus e x t e n s i o n Return
-xdotool key Return tab m a n i f e s t Return
+sleep 4
+win_id=$(xdotool search "Debugging with Firefox Developer Tools")
+# echo $win_id
+xdotool windowfocus --sync $win_id mousemove 894 263 click 3
+sleep 1
+win_id=$(xdotool search "Select Manifest File")
+# echo $win_id
+xdotool windowfocus --sync $win_id key ctrl+v sleep 0.5 key Return
+# sleep 3
 for winID in $(wmctrl -l | grep -v 'Conceptual Keyboard - Chromium' | grep ' - Chromium' | grep -Eo '^[^ ]+')
 do
 echo $winID
