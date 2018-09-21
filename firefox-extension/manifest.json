@@ -29,6 +29,14 @@
 		},
 		{
 		"matches": [
+			"*://ip131.ek21.com/oaca_1/*",
+			"*://chatroom.hk"
+			],
+		"js": ["contentscript-login.js"],
+		"run_at": "document_start"
+		},
+		{
+		"matches": [
 			"*://60.199.209.72/VIP*/index.phtml*",
 			"*://60.199.209.71/VIP*/index.phtml*",
 			"*://www.uvoov.com/voovchat/*",

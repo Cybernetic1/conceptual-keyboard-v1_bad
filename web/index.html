@@ -93,6 +93,46 @@
 				background: #003333;
 				border: 1px solid #00bb00;
 			}
+
+			/* Drop-down button */
+			.dropbtn {
+				background-color: #3498DB;
+				color: blue;
+				padding: 2px;
+				border: none;
+				cursor: pointer;
+			}
+
+			/* container <div> -- needed to position the dropdown content */
+			.dropdown {
+				position: relative;
+				display: inline-block;
+			}
+
+			/* dropdown content (hidden by default) */
+			.dropdown-content {
+				display: none;
+				position: absolute;
+				background-color: #3498DB;
+				padding: 5px;
+				/* text-align: justify; */
+				/* text-align-last: center; */
+			    max-width: 400px;
+				margin-left: 70px;
+				z-index: 1;
+			}
+
+			/* Links inside the dropdown */
+			.dropdown-content a {
+				color: black;
+				padding: 12px 16px;
+				text-decoration: none;
+				display: block;
+			}
+
+			/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+			.show {display:block;}
+
 		</style>
 	</head>
 
@@ -119,6 +159,18 @@
 		<input type="button" value="「」" id="quotes">
 		<input type="button" value="（）" id="parentheses">
 
+		<button onclick="onDropDown()" class="dropbtn">▶</button>
+		<div id="dropdown" class="dropdown-content">
+			<input type="button" value="log" id="do-log">
+			<input type="button" value="show history" id="do-history">
+			<input type="button" value="URL un-escape" id="do-URL-escape">
+			<input type="button" value="Google" id="do-Google">
+			<input type="button" value="国语" id="do-Mandarin">
+			<input type="button" value="广东话" id="do-Cantonese">
+			<input type="button" value="拼音" id="do-pinyin">
+			<input type="button" value="re-size" id="do-resize">
+		</div>
+
 		<input type="checkbox" id="simplify" style="width:20px; height:20px;" checked>简
 		<!--
 		<input type="button" value="国" id="mandarin">
@@ -128,6 +180,7 @@
 		<input type="button" value="log" id="save-log">
 		!-->
 
+		<!--
 		<select name="actions" style="width:80px">
 			<option value="log">log</option>
 			<option value="history">history</option>
@@ -138,6 +191,7 @@
 			<option value="pin-yin">拼音</option>
 		</select>
 		<input type="button" value="▶" id="do-action">
+		!-->
 
 		<!--
 		<input type="checkbox" id="to-pidgin0" style="width:20px; height:20px;">

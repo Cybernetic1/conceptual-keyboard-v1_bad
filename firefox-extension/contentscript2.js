@@ -692,25 +692,7 @@ setInterval( function() {
 
 // ******** Execute only once, at start of page-load **********
 setTimeout(function() {
-	/* ****** What is this for???
-	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
-		statusBar = document.getElementsByName("message")[0].contentDocument.childNodes[1];
-		button = statusBar.childNodes[2].childNodes[1].childNodes[22].childNodes[3].
-		childNodes[1].childNodes[2].childNodes[1].childNodes[1].childNodes[1].childNodes[0].
-		childNodes[5].childNodes[1];
-		button.click();
-	}
-	*/
-
-	// ****** Fill in password
-	if (document.URL.indexOf("hk2love.com\/index.php?location=chat") >= 0) {
-		document.getElementsByName("id")[0].value = "yanyinyinyin";
-		document.getElementsByName("pw")[0].value = "l0wsecurity";
-		document.getElementsByName("auto_login")[0].checked = true;
-		// button.click();
-	}
-
-	// ****** click 'private chat' and 'auto scroll' automatically
+	// ****** chatroom.HK:  click 'private chat' and 'auto scroll' automatically
 	if (document.URL.indexOf("chatroom.hk\/chatroom.php") >= 0) {
 		var secretBox = document.getElementsByTagName("frame")[2].contentWindow.document.getElementsByName("secret")[0];
 		secretBox.checked = true;
@@ -718,32 +700,25 @@ setTimeout(function() {
 		autoscrollBox.checked = true;
 	}
 
-	/* Click 'private chat' automatically
-	if (document.URL.indexOf("hk2love.com\/cgi-bin") >= 0) {
-		var doc = document.getElementsByName("c")[0].contentDocument;
-		doc.getElementById("c4").checked = true;
-	}
-	*/
-
-	/* ******* Sort females first, but it's not working
+	/* ******* 寻梦园:  set 女生优先, but it's not working */
 	if (document.URL.indexOf("ip131") >= 0) {
-		// Background selector
-		html = document.getElementsByName("ta")[0];
-		button = html.contentDocument.childNodes[0].childNodes[2].childNodes[1].
-			childNodes[1].childNodes[0].childNodes[3].childNodes[13].childNodes[21].
-			childNodes[4];
+		// Sort method = 女生优先
+		var e1 = document.getElementsByTagName("frameset")[4].getElementsByTagName("frame")[1].contentDocument.getElementsByTagName("select")[0];
 
-		// Sort method
-		html = document.childNodes[0].childNodes[2].childNodes[3].childNodes[3].
-			childNodes[1].childNodes[1].contentDocument;
-		butt = html.childNodes[0].childNodes[2].childNodes[0].childNodes[3].childNodes[1];
+		e1.value = "gender1";
+		e1.onchange();		// force it to change
+
+		// Select background color
+		var e2 = document.getElementsByTagName("frameset")[1].getElementsByTagName("frame")["ta"].contentDocument.getElementsByTagName("select")[4];
+
+		e2.value="ffffff";
+		e2.onchange();
 	}
-	*/
 },
 2000);
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
-console.log("Content script #2 (25 March 2017) loaded....");
+console.log("Content script #2 (Sept 2018) loaded....");
 
 /* *******************************************************************************
 

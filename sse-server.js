@@ -151,6 +151,25 @@ http.createServer(function (req, res) {
 		res.end();
 		return;	}
 
+	if (fileName.startsWith("/shellCommand")) {
+		res.writeHead(200, {
+				'Content-Type': 'text/event-stream',
+			});
+
+		const buffer4 = [];
+		req.on('data', chunk => buffer4.push(chunk));
+		req.on('end', () => {
+			const data4 = Buffer.concat(buffer4);
+			const data4b = decodeURIComponent(data4).toString('utf8');
+			var exec = require('child_process').exec;
+			exec(data4b,
+				function (error, stdout, stderr)
+					{ console.log(stdout); });
+			console.log("Shell command: " + data4b);
+		});
+		res.end();
+		return;	}
+
 	if (fileName.startsWith("/saveDatabase/")) {
 		var pathname = url.parse(req.url).pathname;
 

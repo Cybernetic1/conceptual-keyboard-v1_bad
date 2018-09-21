@@ -1,5 +1,5 @@
 #!/bin/sh
-xclip -selection clipboard load-conkey.txt
+xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conkey.txt
 beep
 firefox about:debugging &
 sleep 4

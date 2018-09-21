@@ -22,15 +22,15 @@ echo $Conkey_PID > conkey_PID.txt
 sleep 1
 ##### start chrome browser
 if google-chrome --version >/dev/null; then
-	chromium-browser --new-window http://localhost:8484/index.html
+	chromium-browser --app=http://localhost:8484/index.html
     # google-chrome --new-window http://localhost:8484/index.html
 else
-    chromium-browser --new-window http://localhost:8484/index.html
+    chromium-browser --app=http://localhost:8484/index.html
 fi
 sleep 2
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
-wmctrl -r "Conceptual Keyboard" -e 1,50,200,600,500
+wmctrl -r "Conceptual Keyboard" -e 1,500,200,520,450
 wmctrl -r "Conceptual Keyboard" -b add,above
 ##### wait for termination
 # echo "to terminate type: kill $Conkey_PID"

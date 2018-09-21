@@ -536,12 +536,7 @@ function send2Chat(str) {
 	});
 }
 
-document.getElementById("do-action").addEventListener("click", function() {
-
-	var action = document.getElementsByName("actions")[0].value;
-
-	switch (action) {
-		case "log":
+document.getElementById("do-log").addEventListener("click", function() {
 		// No need to get date & time -- server will do that automatically
 		// Get date and time
 		// var date = new Date();
@@ -549,41 +544,27 @@ document.getElementById("do-action").addEventListener("click", function() {
 		send2Chat("!log quick");
 		var audio = new Audio("sending.ogg");
 		audio.play();
-		break;
+}, false);
 
-		case "history":
+document.getElementById("do-history").addEventListener("click", function() {
 		send2Chat("!his");
 		var audio = new Audio("sending.ogg");
 		audio.play();
-		break;
+}, false);
 
-		case "pin-yin":
-		str = document.getElementById("white-box").value;
-		display_pinyin(str);
-		// Pronunciate it
-		$.ajax({
-			method: "POST",
-			url: "/speakMandarin/",
-			data: str,
-			success: function(resp) {
-				// nothing
-				}
-		});
-		break;
-
-		case "URL":
+document.getElementById("do-URL-escape").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		str2 = decodeURIComponent(str);
 		document.getElementById("white-box").value = str2;
-		break;
+}, false);
 
-		case "Google":
+document.getElementById("do-Google").addEventListener("click", function() {
 		// Open browser and search Google
 		str = document.getElementById("white-box").value;
 		window.open("https://www.google.com/search?q=" + str);
-		break;
+}, false);
 
-		case "Mandarin":
+document.getElementById("do-Mandarin").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		// Copy to Red Box
 		document.getElementById("red-box").value = str;
@@ -597,16 +578,40 @@ document.getElementById("do-action").addEventListener("click", function() {
 				console.log("Mandarin: " + str);
 			}
 		});
-		break;
+}, false);
 
-		case "Cantonize":
+document.getElementById("do-Cantonese").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		// Copy to Pink Box
 		document.getElementById("pink-box").value = str;
 		// cantonize(str);
-		break;
-	}
+}, false);
 
+document.getElementById("do-pinyin").addEventListener("click", function() {
+		str = document.getElementById("white-box").value;
+		display_pinyin(str);
+		// Pronunciate it
+		$.ajax({
+			method: "POST",
+			url: "/speakMandarin/",
+			data: str,
+			success: function(resp) {
+				// nothing
+				}
+		});
+}, false);
+
+document.getElementById("do-resize").addEventListener("click", function() {
+	$.ajax({
+		method: "POST",
+		url: "./shellCommand",
+		contentType: "application/json; charset=utf-8",
+		processData: false,
+		data: "wmctrl -r 'Conceptual Keyboard' -e 1,500,200,520,450",
+		success: function(resp) {
+			console.log("Shell command executed");
+		}
+	});
 }, false);
 
 var butt1 = document.getElementById("paste1");
@@ -1260,6 +1265,28 @@ function drop(ev)
 	var oldValue = ev.target.value;
 	ev.target.value = document.getElementById(data).textContent + oldValue;
 	// console.log("dropped onto: " + ev.target.id);
+}
+
+// ==================== For dealing with Drop-down menu ========================
+
+/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+function onDropDown() {
+    document.getElementById("dropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
 }
 
 // *********************** Initialize by loading database **********************
