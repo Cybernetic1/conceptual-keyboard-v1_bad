@@ -18,11 +18,21 @@ function onClickButt4() {
 	}
 
 function onClickButt5() {
-	console.log("Say something")
+	var name = document.getElementById("Nickname").value;
+	browser.runtime.sendMessage({SelectNickname: name});
+	console.log("Chosen nickname = ", name);
 	}
+
+function onSelectNickname() {
+	browser.runtime.sendMessage({alert: "boing"});
+	var name = document.getElementById("Nickname").value;
+	browser.runtime.sendMessage({selectNickname: name});
+}
 
 document.getElementById('butt1').addEventListener('click', onClickButt1);
 document.getElementById('butt2').addEventListener('click', onClickButt2);
 document.getElementById('butt3').addEventListener('click', onClickButt3);
 document.getElementById('butt4').addEventListener('click', onClickButt4);
 document.getElementById('butt5').addEventListener('click', onClickButt5);
+
+document.getElementById('Nickname').addEventListener('change', onSelectNickname);

@@ -52,8 +52,9 @@ function saveLog(name) {
 }
 
 // ******** Detect mouse-over on ChatRoom page
-// Not only set the flags, but we need to broadcast to other content scripts
-// These messages are processed by
+// Not only set the flags, but we need to broadcast to ALL other content scripts
+// These messages are processed by background.js, which then broadcast to all content scripts
+// If we use "sendResponse()" then only the sending script gets the response, which is not enough
 document.addEventListener("mouseover", function(){
 	/*
 	if (document.URL.indexOf("hklovechat") >= 0) {
@@ -70,7 +71,7 @@ document.addEventListener("mouseover", function(){
 		roomHKChat = false; ip69Chat = false;
 	}
 	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
-		// console.log("switch to ip4");
+		console.log("switch to chatroom.HK");
 		browser.runtime.sendMessage({chatroom: "roomHK"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
 		roomHKChat = false; ip69Chat = true;
@@ -114,7 +115,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
 
 	// Mouseover event has occurred, update which chatroom is selected:
-	// This messages are sent by different instances of *this script* itself
+	// This messages are sent from different instances of *this script* itself, relayed and broadcast by background.js
 	if (request.chatroom2 != null) {
 		/*
 		if      (request.chatroom == "voov")
@@ -292,6 +293,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			sendButton.click();
 
 			// record own messages
+			console.log("attempted speech: " + str2);
 			chat_history[chat_history.length] = "me: " + str2 + "\n";
 			}
 
@@ -564,7 +566,7 @@ setInterval( function() {
 			var alert = false;
 			for (i = lastIndex; i > lastIp131Index; i--) {
 				stuff = chatWin.children[i].innerText;
-				if (stuff.indexOf("對 訪客_半機械人一號") > -1 ||
+				if (stuff.indexOf("對 訪客_Cybernetic3") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic2") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
 					// sound alert

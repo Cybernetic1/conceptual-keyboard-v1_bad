@@ -3,11 +3,24 @@
 // To-do:
 // *
 
+var nickname = "Cybernetic1";
+
+function handleResponse(message) {
+	nickname = message.response;
+}
+
+function handleError(error) {
+	console.log(`LOGIN script rrror: ${error}`);
+}
+
+var sending = browser.runtime.sendMessage({askNickname: "who?"});
+sending.then(handleResponse, handleError);
+
 // ******** Execute only once, at start of page-load **********
 setTimeout(function() {
 	// ****** 寻梦园, fill in password
 	if (document.URL.indexOf("ip131.ek21.com\/oaca") >= 0) {
-		document.getElementsByClassName("nameform 12")[0].value = "Cybernetic1";
+		document.getElementsByClassName("nameform 12")[0].value = nickname;
 		document.getElementsByClassName("mainenter")[0].click();
 	}
 
@@ -19,5 +32,5 @@ setTimeout(function() {
 },
 3000);
 
-// This seems to be run only once, as each "Chatroom" page is loaded.
+// This runs only once, as "login" page is loaded
 console.log("Content script #3 = LOGIN (21 Sept 2018) loaded....");

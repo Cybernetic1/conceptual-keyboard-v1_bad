@@ -12,6 +12,8 @@ var ip4Id = null;
 var ip69Id = null;
 var roomHKId = null;
 
+var theNickname = "Cybernetic1";
+
 /*
 var querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
 querying.then((tabs) => {
@@ -91,6 +93,14 @@ browser.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :
 	//	"from the extension");
+
+	if (request.selectNickname != null) {
+		theNickname = request.selectNickname;
+	}
+
+	if (request.askNickname != null) {
+		sendResponse({response: theNickname});;
+	}
 
 	// Request to change target chatroom
 	// The request is sent from contentscript2:mouseover event

@@ -1061,6 +1061,7 @@ document.getElementById("history-down").addEventListener("click", function() {
 */
 
 document.getElementById("clear-white").addEventListener("click", function() {
+	document.getElementById("pinyin-box").innerHTML = "";
 	var box = document.getElementById("white-box");
 	box.value = "";
 	box.focus();
@@ -1257,13 +1258,14 @@ function drag(ev)
 	// console.log('targetid: ' + ev.target.id);
 }
 
+// This function is no longer working
 function drop(ev)
 {
 	ev.preventDefault();
 	var data = ev.dataTransfer.getData("Text");
 	// ev.target.appendChild(document.getElementById(data));
 	var oldValue = ev.target.value;
-	ev.target.value = document.getElementById(data).textContent + oldValue;
+	// ev.target.value = document.getElementById(data).textContent + oldValue;
 	// console.log("dropped onto: " + ev.target.id);
 }
 

@@ -22,21 +22,21 @@
 	},
 
 	"content_scripts": [
-		{
-		"matches": ["https://localhost/*"],
+
+		{"matches": ["https://localhost/*"],
 		"js": ["contentscript.js"],
 		"run_at": "document_idle"
 		},
-		{
-		"matches": [
+
+		{"matches": [
 			"*://ip131.ek21.com/oaca_1/*",
-			"*://chatroom.hk"
+			"*://chatroom.hk/"
 			],
 		"js": ["contentscript-login.js"],
 		"run_at": "document_start"
 		},
-		{
-		"matches": [
+
+		{"matches": [
 			"*://60.199.209.72/VIP*/index.phtml*",
 			"*://60.199.209.71/VIP*/index.phtml*",
 			"*://www.uvoov.com/voovchat/*",
