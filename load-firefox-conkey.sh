@@ -3,11 +3,11 @@ xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conk
 beep
 firefox about:debugging &
 sleep 4
-win_id=$(xdotool search "Debugging with Firefox Developer Tools")
+win_id=$(xdotool search --name --onlyvisible "Debugging with Firefox Developer Tools")
 # echo $win_id
-xdotool windowfocus --sync $win_id mousemove 894 263 click 3
+xdotool windowfocus --sync $win_id mousemove 894 225 click 3
 sleep 1
-win_id=$(xdotool search "Select Manifest File")
+win_id=$(xdotool search --name --onlyvisible "Select Manifest File")
 # echo $win_id
 xdotool windowfocus --sync $win_id key ctrl+v sleep 0.5 key Return
 # sleep 3
