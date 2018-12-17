@@ -293,7 +293,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			sendButton.click();
 
 			// record own messages
-			console.log("attempted speech: " + str2);
+			// console.log("attempted speech: " + str2);
 			chat_history[chat_history.length] = "me: " + str2 + "\n";
 			}
 
@@ -527,10 +527,8 @@ setInterval( function() {
 					// console.log("Line: " + stuff);
 					if (stuff == lastRoomHKLine)
 						break;
-					if (// stuff.indexOf("只對『PT141』") > -1 ||
-						stuff.indexOf("向 你 秘密的說 :") > -1 ||
+					if (stuff.indexOf("向 你 秘密的說 :") > -1 ||
 						stuff.indexOf("向 你 說 :") > -1)
-						// stuff.indexOf(">>『PT141』") > -1)
 						{
 						// sound alert
 						alert = true;

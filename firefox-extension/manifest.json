@@ -33,7 +33,7 @@
 			"*://chatroom.hk/"
 			],
 		"js": ["contentscript-login.js"],
-		"run_at": "document_start"
+		"run_at": "document_end"
 		},
 
 		{"matches": [
