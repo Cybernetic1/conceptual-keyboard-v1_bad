@@ -6,7 +6,7 @@ sleep 4
 win_id=$(xdotool search --name --onlyvisible "Debugging with Firefox Developer Tools")
 # echo $win_id
 if [ $(hostname) = 'Vivobook' ]; then
-	xdotool windowfocus --sync $win_id mousemove 894 225 click 1
+	xdotool windowfocus --sync $win_id mousemove 894 273 click 1
 else
 	xdotool windowfocus --sync $win_id mousemove 894 225 click 3
 fi
