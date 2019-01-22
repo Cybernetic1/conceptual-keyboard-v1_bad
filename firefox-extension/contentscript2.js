@@ -272,6 +272,8 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			ip131Spoken = true;
 			ip131Spoken2 = false;
 			ip131SentText = str;
+			// wait for 10 seconds then check if really spoken:
+			setTimeout(checkSpoken, 10000);
 			}
 
 		/* This one is for: 寻梦园 长直发
@@ -313,6 +315,8 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			roomHKSpoken = true;
 			roomHKSpoken2 = false;
 			roomHKSentText = str2;
+			// wait for 10 seconds then check if really spoken:
+			setTimeout(checkSpoken, 10000);
 			}
 
 		/* For HK2Love chatroom (prude chat):
@@ -390,7 +394,8 @@ var lastIp4Index = 1;
 var lastIp69Index = 1;
 
 // After spoken, wait for 10 secs to check if really spoken, if not, re-send
-setInterval( function() {
+function checkSpoken()
+	{
 	if (roomHKSpoken)
 		{
 		if (!roomHKSpoken2)
@@ -416,7 +421,7 @@ setInterval( function() {
 		ip131Spoken = false;
 		ip131Spoken2 = false;
 		}
-}, 10000);
+}
 
 // Check activity every 3 seconds
 // If there's activity, message Background Script to play a sound
