@@ -2,7 +2,7 @@
 xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conkey.txt
 beep
 firefox about:debugging &
-sleep 4
+sleep 4.5
 win_id=$(xdotool search --name --onlyvisible "Debugging with Firefox Developer Tools")
 # echo $win_id
 if [ $(hostname) = 'Vivobook' ]; then
@@ -10,10 +10,10 @@ if [ $(hostname) = 'Vivobook' ]; then
 else
 	xdotool windowfocus --sync $win_id mousemove 894 225 click 3
 fi
-sleep 1
+sleep 1.9
 win_id=$(xdotool search --name --onlyvisible "Select Manifest File")
 # echo $win_id
-xdotool windowfocus --sync $win_id key ctrl+v sleep 0.5 key Return
+xdotool windowfocus --sync $win_id key ctrl+v sleep 0.9 key Return
 # sleep 3
 for winID in $(wmctrl -l | grep -v 'Conceptual Keyboard - Chromium' | grep ' - Chromium' | grep -Eo '^[^ ]+')
 do
