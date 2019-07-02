@@ -2,7 +2,7 @@
 xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conkey.txt
 beep
 firefox about:debugging &
-sleep 4.5
+sleep 5.0
 win_id=$(xdotool search --name --onlyvisible "Debugging with Firefox Developer Tools")
 # echo $win_id
 if [ $(hostname) = 'Vivobook' ]; then

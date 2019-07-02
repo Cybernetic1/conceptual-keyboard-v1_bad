@@ -585,6 +585,15 @@ document.getElementById("do-Cantonese").addEventListener("click", function() {
 		// Copy to Pink Box
 		document.getElementById("pink-box").value = str;
 		// cantonize(str);
+		// Pronunciate it
+		$.ajax({
+			method: "POST",
+			url: "/speakCantonese/",
+			data: str,
+			success: function(resp) {
+				// nothing
+				}
+		});
 }, false);
 
 document.getElementById("do-pinyin").addEventListener("click", function() {
