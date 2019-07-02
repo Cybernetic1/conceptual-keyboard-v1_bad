@@ -170,6 +170,28 @@ http.createServer(function (req, res) {
 		res.end();
 		return;	}
 
+	if (fileName.startsWith("/speakCantonese")) {
+		res.writeHead(200, {
+				'Content-Type': 'text/event-stream',
+			});
+
+		// req.setEncoding("utf8");		// This causes an error, seems chunk cannot be string
+		const buffer5 = [];
+		req.on('data', chunk => buffer5.push(chunk));
+		req.on('end', () => {
+			const data5 = Buffer.concat(buffer5);
+			const data5b = decodeURIComponent(data5).toString('utf8');
+			var exec = require('child_process').exec;
+			exec("ekho -v Cantonese " + data5b,
+				function (error, stdout, stderr)
+					{ console.log(stdout); });
+			console.log("Speak: " + data5b);
+			// console.log("log data: " + data5b);
+			// console.log(unescape(encodeURIComponent(data5b)));
+		});
+		res.end();
+		return;	}
+
 	if (fileName.startsWith("/saveDatabase/")) {
 		var pathname = url.parse(req.url).pathname;
 

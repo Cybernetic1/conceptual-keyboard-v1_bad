@@ -259,14 +259,15 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 				str = "..." + str;
 			ip131SentText = str;
 
-			if (!ip131Spoken)		// during rapid speaking, disable this function
-				{
-				ip131Spoken = true;
-				ip131Spoken2 = false;
+			// This function is fucking annoying
+			//if (!ip131Spoken)		// during rapid speaking, disable this function
+				//{
+				//ip131Spoken = true;
+				//ip131Spoken2 = false;
 				
-				// wait for 10 seconds then check if really spoken:
-				setTimeout(checkSpoken, 15000, ip131SentText);
-				}
+				//// wait for 10 seconds then check if really spoken:
+				//setTimeout(checkSpoken, 15000, ip131SentText);
+				//}
 
 			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
 			// console.log("DOM element: " + inputBox);
@@ -307,13 +308,14 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 			// var str2 = str.replace("'", "`");    // already done in YKY-input-method.js
 			roomHKSentText = str;
 
-			if (false && !roomHKSpoken)		// during rapid speaking, disable this function
-				{
-				roomHKSpoken = true;
-				roomHKSpoken2 = false;
-				// wait for 10 seconds then check if really spoken:
-				setTimeout(checkSpoken, 15000, roomHKSentText);
-				}
+			// This function is fucking annoying
+			//if (false && !roomHKSpoken)		// during rapid speaking, disable this function
+				//{
+				//roomHKSpoken = true;
+				//roomHKSpoken2 = false;
+				//// wait for 10 seconds then check if really spoken:
+				//setTimeout(checkSpoken, 15000, roomHKSentText);
+				//}
 
 			// var inputBox = document.getElementsByName("c")[0].contentWindow.document.getElementsByName("says_temp")[0];
 			// console.log("DOM element: " + inputBox);
@@ -326,7 +328,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 			// record own messages
 			// console.log("attempted speech: " + str2);
-			chat_history[chat_history.length] = "me: " + str2 + "\n";
+			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
 
 		/* For HK2Love chatroom (prude chat):
@@ -588,7 +590,7 @@ setInterval( function() {
 				for (i = lastIndex; i > 0; i--) {
 					stuff = chatWin.children[i].innerText;
 					// console.log("Line: " + stuff);
-					if (stuff == lastRoomHKLine)
+					if (stuff == lastRoomHKLine)			// nothing new...
 						break;
 					if (stuff.indexOf("向 你 秘密的說 :") > -1 ||
 						stuff.indexOf("向 你 說 :") > -1)
@@ -596,7 +598,7 @@ setInterval( function() {
 						// sound alert
 						alert = true;
 						chat_history[chat_history.length] = stuff + "\n";
-						// console.log(timeStamp + stuff);
+						console.log("alert: ", timeStamp + stuff);
 						}
 					else if (stuff.indexOf("你 向") > -1)
 						{
@@ -609,12 +611,15 @@ setInterval( function() {
 					browser.runtime.sendMessage({alert: "roomHK"});
 			}
 			lastRoomHKIndex = lastIndex;
+			// console.log("last index ", lastIndex);
 			// Find the last line that's non-empty
 			lastRoomHKLine = "top line";
 			for (i = lastIndex; i > 0; i--) {
 				stuff = chatWin.children[i].innerText;
-				if (stuff != "") {
+				// 大頭仔 stuff is spamming the chatroom recently
+				if (stuff != "" && !stuff.includes("大頭仔")) {
 					lastRoomHKLine = stuff;
+					// console.log("last line ", stuff);
 					break;
 				}
 			}
@@ -627,7 +632,8 @@ setInterval( function() {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
 		// this is the <div> element containing the rows:
-		chatWin = html.children[3].children[7];		// sometimes it's [1][7]
+		chatWin = html.children[1].children[7];		// sometimes it's [1][7], or [3][7]
+		// console.log("chatWin", chatWin);
 		// number of lines in chat win:
 		lastIndex = chatWin.childElementCount - 1;
 		if ((chatWin != null) && (lastIndex > lastIp131Index)) {
