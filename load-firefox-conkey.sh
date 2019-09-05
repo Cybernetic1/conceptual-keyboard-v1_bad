@@ -1,17 +1,17 @@
 #!/bin/sh
 xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conkey.txt
 beep
-firefox about:debugging &
+firefox about:debugging#/runtime/this-firefox &
 sleep 5.0
-win_id=$(xdotool search --name --onlyvisible "Debugging with Firefox Developer Tools")
+win_id=$(xdotool search --name --onlyvisible "Debugging - Runtime / this-firefox")
 # echo $win_id
 if [ $(hostname) = 'Vivobook' ]; then
-	xdotool windowfocus --sync $win_id mousemove 894 273 click 1
+	xdotool windowfocus --sync $win_id mousemove 880 339 click 1
 else
-	xdotool windowfocus --sync $win_id mousemove 894 225 click 3
+	xdotool windowfocus --sync $win_id mousemove 880 339 click 3
 fi
 sleep 1.9
-win_id=$(xdotool search --name --onlyvisible "Select Manifest File")
+win_id=$(xdotool search --name --onlyvisible "Select manifest.json file")
 # echo $win_id
 xdotool windowfocus --sync $win_id key ctrl+v sleep 0.9 key Return
 # sleep 3

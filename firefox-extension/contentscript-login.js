@@ -26,7 +26,10 @@ setTimeout(function() {
 
 	// ****** chatroom.HK, fill in password
 	if (document.URL.indexOf("chatroom.hk") >= 0) {
-		document.getElementById("name").value = "Cybernetic";
+		if (nickname == "Cybernetik")
+			document.getElementById("name").value = "Cybernetik";
+		else
+			document.getElementById("name").value = "Cybernetic";
 		document.getElementById("submit").click();
 	}
 },

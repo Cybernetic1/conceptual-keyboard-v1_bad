@@ -81,7 +81,7 @@ document.addEventListener("mouseover", function(){
 		roomHKChat = false; ip69Chat = false;
 	}
 	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
-		console.log("switch to chatroom.HK");
+		console.log("switch to chatroom.HK!!");
 		browser.runtime.sendMessage({chatroom: "roomHK"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
 		roomHKChat = false; ip69Chat = true;
@@ -120,10 +120,9 @@ function his() {
 		console.log(chat_history[i]);
 }
 
-
 browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	// console.log("processing message...");
-	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
+	console.log("processing message...");
+	console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
 
 	// Mouseover event has occurred, update which chatroom is selected:
 	// This messages are sent from different instances of *this script* itself, relayed and broadcast by background.js
@@ -203,7 +202,7 @@ browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 		if (str.indexOf("!test") > -1) {
 			console.log("Testing sound...");
-			browser.runtime.sendMessage({alert: "boing"});
+			browser.runtime.sendMessage({alert: "sendFail"});
 			return true;
 		}
 
@@ -783,7 +782,7 @@ setTimeout(function() {
 		autoscrollBox.checked = true;
 	}
 
-	/* ******* 寻梦园:  set 女生优先, but it's not working */
+	/* ******* 寻梦园:  set 女生优先, it seems working now */
 	if (document.URL.indexOf("ip131") >= 0) {
 		// Sort method = 女生优先
 		var e1 = document.getElementsByTagName("frameset")[4].getElementsByTagName("frame")[1].contentDocument.getElementsByTagName("select")[0];
