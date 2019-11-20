@@ -275,7 +275,8 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			browser.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + request.saveLog });
+			portScript2.postMessage({sendtext: "!log " + request.saveLog});
+			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + request.saveLog });
 		});
 
 		var audio = new Audio("ip69.ogg");
@@ -289,7 +290,8 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			browser.tabs.sendMessage(tabs[0].id, { sendtext: "!clear" });
+			portScript2.postMessage({sendtext: "!clear"});
+			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!clear" });
 		});
 
 		var audio = new Audio("ip69.ogg");
@@ -303,10 +305,7 @@ function backListener(request) {
 
 		evtSource.onmessage = function(e) {
 			// Directly output to chatroom
-			if (hk2loveId)
-				browser.tabs.sendMessage(hk2loveId, {sendtext: e.data});
-			if (ip131Id)
-				browser.tabs.sendMessage(ip131Id, {sendtext: e.data});
+			portScript2.postMessage({sendtext: e.data});
 			console.log("Event: " + e.data);
 		};
 
