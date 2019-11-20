@@ -14,6 +14,24 @@ var roomHKId = null;
 
 var theNickname = "Cybernetic1";
 
+querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip131Id = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://chatroom.hk/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	roomHKId = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip69Id = tab.id;
+	}});
+
 /*
 var querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
 querying.then((tabs) => {
@@ -58,39 +76,37 @@ querying.then((tabs) => {
 	}});
 */
 
-querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip131Id = tab.id;
-	}});
+// **** Establish connection to script-2
 
-querying = browser.tabs.query({url: "http://chatroom.hk/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	roomHKId = tab.id;
-	}});
+let portScript2;
 
-querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip69Id = tab.id;
-	}});
+function connected(p) {
+	portScript2 = p;
+	console.log("Background: connected to content scripts-2");
+	// portScript2.postMessage({greeting: "hi there content script2!"});
+
+	portScript2.onMessage.addListener(backListener);
+}
+
+browser.runtime.onConnect.addListener(connected);
 
 // Listen to Node.js server
 var evtSource = new EventSource("http://localhost:8484/stream");
 
 evtSource.onmessage = function(e) {
 	// Directly output to chatroom
+	portScript2.postMessage({sendtext: e.data});
+	/*
 	if (roomHKId)
 		browser.tabs.sendMessage(roomHKId, {sendtext: e.data});
 	if (ip131Id)
 		browser.tabs.sendMessage(ip131Id, {sendtext: e.data});
+	*/
 	console.log("Event: " + e.data);
 };
 
 // Set up message listener
-browser.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
+function backListener(request) {
 	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :
 	//	"from the extension");
 
@@ -99,7 +115,7 @@ browser.runtime.onMessage.addListener(
 	}
 
 	if (request.askNickname != null) {
-		sendResponse({response: theNickname});;
+		portScript2.postMessage({response: theNickname});
 	}
 
 	// Request to change target chatroom
@@ -166,11 +182,21 @@ browser.runtime.onMessage.addListener(
 			function() {hk2loveId = null;});
 		*/
 
+		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
+		querying.then((tabs) => {
+			for (var tab of tabs) {
+				roomHKId = tab.id;
+				portScript2.postMessage({chatroom2: request.chatroom});
+				// browser.tabs.sendMessage(roomHKId, {chatroom2: request.chatroom});
+				}},
+			function() {roomHKId = null;});
+
 		querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
 		querying.then((tabs) => {
 			for (var tab of tabs) {
 				ip131Id = tab.id;
-				browser.tabs.sendMessage(ip131Id, {chatroom2: request.chatroom});
+				portScript2.postMessage({chatroom2: request.chatroom});
+				// browser.tabs.sendMessage(ip131Id, {chatroom2: request.chatroom});
 				}},
 			function() {ip131Id = null;});
 
@@ -178,17 +204,10 @@ browser.runtime.onMessage.addListener(
 		querying.then((tabs) => {
 			for (var tab of tabs) {
 				ip69Id = tab.id;
-				browser.tabs.sendMessage(ip69Id, {chatroom2: request.chatroom});
+				portScript2.postMessage({chatroom2: request.chatroom});
+				// browser.tabs.sendMessage(ip69Id, {chatroom2: request.chatroom});
 				}},
 			function() {ip69Id = null;});
-
-		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				roomHKId = tab.id;
-				browser.tabs.sendMessage(roomHKId, {chatroom2: request.chatroom});
-				}},
-			function() {roomHKId = null;});
 
 		// console.log("trying to switch to: ", request.chatroom)
 		}
@@ -212,11 +231,14 @@ browser.runtime.onMessage.addListener(
 			browser.tabs.sendMessage(ip4Id, {sendtext: request.sendtext});
 		*/
 		if (ip131Id)
-			browser.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
+			portScript2.postMessage({sendtext: request.sendtext});
+			// browser.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
 		if (ip69Id)
-			browser.tabs.sendMessage(ip69Id, {sendtext: request.sendtext});
+			portScript2.postMessage({sendtext: request.sendtext});
+			// browser.tabs.sendMessage(ip69Id, {sendtext: request.sendtext});
 		if (roomHKId)
-			browser.tabs.sendMessage(roomHKId, {sendtext: request.sendtext});
+			portScript2.postMessage({sendtext: request.sendtext});
+			// browser.tabs.sendMessage(roomHKId, {sendtext: request.sendtext});
 
 		// console.log("Sent text to content script 2: ", ip131Id);
 		}
@@ -293,7 +315,7 @@ browser.runtime.onMessage.addListener(
 	}
 
 // End of message-listener
-});
+}
 
 /* ************** these parts also seem unneeded *************
 // *** save log

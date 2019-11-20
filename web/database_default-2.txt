@@ -141,7 +141,7 @@ http://www.cnblogs.com/geniferology/p/what_is_reinforcement_learning.html
 胸圍|奶罩
 蕾絲|絲襪|吊帶襪
 高跟鞋
-	8.1. ClothingPic
+	8.1. !lingerie.jpg
 picture
 	9. People Family
 妓女|高級|應召女郎

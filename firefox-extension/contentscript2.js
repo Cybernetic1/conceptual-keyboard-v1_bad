@@ -17,8 +17,8 @@
 var voov2Chat = false;
 var voovChat = false;
 var adultChat = false;
-var ip131Chat = true;		// 寻梦园 情色聊天室
-var roomHKChat = false;		// chatroom.HK
+var ip131Chat = false;		// 寻梦园 情色聊天室
+var roomHKChat = true;		// chatroom.HK
 var ip203Chat = false;
 var ip4Chat = false;
 var ip69Chat = false;		// 长直发
@@ -61,6 +61,11 @@ function saveLog(name) {
 	});
 }
 
+// **** Establish connection with background script
+
+let myPort = browser.runtime.connect({name:"PORT-script-2"});
+// myPort.postMessage({greeting: "HELLO from content script-2"});
+
 // ******** Detect mouse-over on ChatRoom page
 // Not only set the flags, but we need to broadcast to ALL other content scripts
 // These messages are processed by background.js, which then broadcast to all content scripts
@@ -76,20 +81,23 @@ document.addEventListener("mouseover", function(){
 	*/
 	if (document.URL.indexOf("ip131") >= 0) {		// 寻梦园 情色聊天室
 		// console.log("switch to ip131");
-		browser.runtime.sendMessage({chatroom: "ip131"});
+		myPort.postMessage({chatroom: "ip131"});
+		// browser.runtime.sendMessage({chatroom: "ip131"});
 		ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 		roomHKChat = false; ip69Chat = false;
 	}
 	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
-		console.log("switch to chatroom.HK!!");
-		browser.runtime.sendMessage({chatroom: "roomHK"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
-		roomHKChat = false; ip69Chat = true;
+		// console.log("switch to chatroom.HK!!");
+		myPort.postMessage({chatroom: "roomHK"});
+		// browser.runtime.sendMessage({chatroom: "roomHK"});
+		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		roomHKChat = true; ip69Chat = false;
 	}
 	if (document.URL.indexOf("ip69") >= 0) {		// 寻梦园 长直发
 		// console.log("switch to ip4");
-		browser.runtime.sendMessage({chatroom: "ip4"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
+		myPort.postMessage({chatroom: "ip69"});
+		// browser.runtime.sendMessage({chatroom: "ip69"});
+		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 		roomHKChat = false; ip69Chat = true;
 	}
 	/*
@@ -120,19 +128,17 @@ function his() {
 		console.log(chat_history[i]);
 }
 
-var returnVal = browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	console.log("processing message...");
-	console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
+// browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
+myPort.onMessage.addListener(function(request) {
+	// console.log("processing message...");
+	// console.log(sender.tab ?	"from a content script:" + sender.tab.url :	"from the extension");
+	// console.log("roomHKChat =", roomHKChat);
+	// console.log("me =", document.URL);
 
 	// Mouseover event has occurred, update which chatroom is selected:
 	// This messages are sent from different instances of *this script* itself, relayed and broadcast by background.js
 	if (request.chatroom2 != null) {
-		/*
-		if      (request.chatroom == "voov")
-			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
-		else if (request.chatroom == "adult")
-			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
-		*/
 		if (request.chatroom2 == "ip131")
 			{ ip131Chat = true; ip203Chat = false; roomHKChat = false; ip4Chat = false;
 				voov2Chat = false; ip69Chat = false; }
@@ -143,6 +149,10 @@ var returnVal = browser.runtime.onMessage.addListener(function(request, sender, 
 			{ ip131Chat = false; ip203Chat = false; roomHKChat = false; ip4Chat = false;
 				voov2Chat = false; ip69Chat = true; }
 		/*
+		if  (request.chatroom == "voov")
+			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
+		else if (request.chatroom == "adult")
+			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		else if (request.chatroom2 == "ip203")
 			{ ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
 				voov2Chat = false;}
@@ -166,7 +176,6 @@ var returnVal = browser.runtime.onMessage.addListener(function(request, sender, 
 	if (request.sendtext != null) {
 		str = request.sendtext;
 		// console.log("Script2: got message...");
-		// sendResponse({farewell: "2: got msg..."});
 
 		// check for save-log command:
 		if (str.indexOf("!log") > -1) {
@@ -326,7 +335,7 @@ var returnVal = browser.runtime.onMessage.addListener(function(request, sender, 
 			sendButton.click();
 
 			// record own messages
-			// console.log("attempted speech: " + str2);
+			console.log("attempted speech: " + str);
 			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
 
@@ -391,7 +400,8 @@ var returnVal = browser.runtime.onMessage.addListener(function(request, sender, 
 	return true;
 	});
 
-console.log("Return value =  ", returnVal);
+console.log("Added message listener");
+//console.log("Return value =  ", returnVal);
 
 // Indexes of bottom-most lines in the chat frames:
 var lastVoovLine = 1;
