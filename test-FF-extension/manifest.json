@@ -1,0 +1,47 @@
+{
+    "manifest_version": 2,
+    "name": "YKY test",
+    "version": "1.0",
+    "description": "Test message-listening in Chatroom.HK",
+
+    "icons": {
+        "48": "icons/question-mark.png"
+    },
+
+    "browser_action": {
+		"browser_style": true,
+		"default_icon": {
+			"48": "icons/question-mark.png"
+		},
+		"default_title": "FF test",
+		"default_popup": "popup.html"
+	},
+
+	"background": {
+		"page": "background.html"
+	},
+
+	"content_scripts": [
+
+		{"matches": ["https://localhost/*"],
+		"js": ["contentscript.js"],
+		"run_at": "document_idle"
+		},
+
+		{"matches": [
+			"*://chatroom.hk/chatroom.php*"
+			],
+		"js": ["jquery-1.11.2.min.js", "contentscript2.js" ],
+		"run_at": "document_end"
+		}
+	],
+
+	"permissions": [
+		"tabs",
+		"http://localhost/",
+		"clipboardRead",
+		"clipboardWrite",
+		"contextMenus"
+	]
+
+}

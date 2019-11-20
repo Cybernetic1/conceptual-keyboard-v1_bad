@@ -166,22 +166,6 @@ browser.runtime.onMessage.addListener(
 			function() {hk2loveId = null;});
 		*/
 
-		querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip131Id = tab.id;
-				browser.tabs.sendMessage(ip131Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip131Id = null;});
-
-		querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip69Id = tab.id;
-				browser.tabs.sendMessage(ip69Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip69Id = null;});
-
 		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
 		querying.then((tabs) => {
 			for (var tab of tabs) {
@@ -288,7 +272,7 @@ browser.runtime.onMessage.addListener(
 			console.log("Event: " + e.data);
 		};
 
-		var audio = new Audio("reset-stream.ogg");
+		var audio = new Audio("ip69.ogg");
 		audio.play();
 	}
 

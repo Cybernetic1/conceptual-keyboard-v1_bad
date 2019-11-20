@@ -77,7 +77,11 @@ function fillDirs()
 	for (i = currentNode.length - 1; i > 0; --i) {
 		var row = table.insertRow(0);
 		var cell = row.insertCell(0);
-		cell.innerHTML = currentNode[i][0][0];
+		subdirName = currentNode[i][0][0];
+		if (subdirName[0] == '!')					// name = "!pictures.png"
+			cell.innerHTML = subdirName.slice(1,-4);
+		else
+			cell.innerHTML = subdirName;
 	}
 
 	if (currentNode.length <= 1) {	// use <= 1 for single-column view
@@ -138,12 +142,11 @@ function fillSuggestions()
 
 	node = currentNode;
 	// For pictures
-	if (node[0][0] == 'ClothingPic') {
+	if (node[0][0].startsWith('!')) {
 		img = document.createElement('img');
-		img.setAttribute('src', 'images/lingerie.jpg');
-		// 'https://raw.githubusercontent.com/Cybernetic1/conceptual-keyboard/master/web/images/lingerie.jpg');
+		img.setAttribute('src', 'images/' + node[0][0].substr(1));
 		// 'height', '1px'
-		imgWord = document.createTextNode(node[0][0]);
+		imgWord = document.createTextNode(node[0][0].slice(1,-4));
 		div.appendChild(imgWord);
 		div.appendChild(document.createElement("br"));
 		div.appendChild(img);
