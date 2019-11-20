@@ -7,3 +7,4 @@
 /web/node_modules/
 /web/database_default.txt
 *.bak
+conkey_PID.txt
