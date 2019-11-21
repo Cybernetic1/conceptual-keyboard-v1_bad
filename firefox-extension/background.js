@@ -2,6 +2,7 @@
 // Read from Conceptual Keyboard tab and feed into input box of another tab.
 
 // Identify chatroom pages (if they exist), id's are used for message passing
+/*
 var adultId = null;
 var voovId = null;
 var voov2Id = null;
@@ -11,9 +12,11 @@ var hk2loveId = null
 var ip4Id = null;
 var ip69Id = null;
 var roomHKId = null;
+*/
 
 var theNickname = "Cybernetic1";
 
+/*
 querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
 querying.then((tabs) => {
 	for (var tab of tabs) {
@@ -31,7 +34,7 @@ querying.then((tabs) => {
 	for (var tab of tabs) {
 	ip69Id = tab.id;
 	}});
-
+*/
 /*
 var querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
 querying.then((tabs) => {
@@ -82,7 +85,7 @@ let portScript2;
 
 function connected(p) {
 	portScript2 = p;
-	console.log("Background: connected to content scripts-2");
+	console.log("Background: CONNECTED to content-scripts-2");
 	// portScript2.postMessage({greeting: "hi there content script2!"});
 
 	portScript2.onMessage.addListener(backListener);
@@ -96,12 +99,6 @@ var evtSource = new EventSource("http://localhost:8484/stream");
 evtSource.onmessage = function(e) {
 	// Directly output to chatroom
 	portScript2.postMessage({sendtext: e.data});
-	/*
-	if (roomHKId)
-		browser.tabs.sendMessage(roomHKId, {sendtext: e.data});
-	if (ip131Id)
-		browser.tabs.sendMessage(ip131Id, {sendtext: e.data});
-	*/
 	console.log("Event: " + e.data);
 };
 
@@ -182,6 +179,7 @@ function backListener(request) {
 			function() {hk2loveId = null;});
 		*/
 
+		/*
 		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
 		querying.then((tabs) => {
 			for (var tab of tabs) {
@@ -208,6 +206,9 @@ function backListener(request) {
 				// browser.tabs.sendMessage(ip69Id, {chatroom2: request.chatroom});
 				}},
 			function() {ip69Id = null;});
+		*/
+
+		portScript2.postMessage({chatroom2: request.chatroom});
 
 		// console.log("trying to switch to: ", request.chatroom)
 		}
@@ -215,6 +216,8 @@ function backListener(request) {
 	// Request to send text to target chatroom
 	if (request.sendtext != null) {
 		// sendResponse({farewell: "script 1's msg recieved"});
+
+		portScript2.postMessage({sendtext: request.sendtext});
 
 		// send message to content script 2
 		// script 2 will decide which page to actually output
@@ -229,7 +232,6 @@ function backListener(request) {
 			browser.tabs.sendMessage(ip203Id, {sendtext: request.sendtext});
 		if (ip4Id)
 			browser.tabs.sendMessage(ip4Id, {sendtext: request.sendtext});
-		*/
 		if (ip131Id)
 			portScript2.postMessage({sendtext: request.sendtext});
 			// browser.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
@@ -239,6 +241,7 @@ function backListener(request) {
 		if (roomHKId)
 			portScript2.postMessage({sendtext: request.sendtext});
 			// browser.tabs.sendMessage(roomHKId, {sendtext: request.sendtext});
+		*/
 
 		// console.log("Sent text to content script 2: ", ip131Id);
 		}
@@ -300,7 +303,6 @@ function backListener(request) {
 
 	// reset event stream:
 	if (request.resetEventStream != null) {
-
 		evtSource = new EventSource("http://localhost:8484/stream");
 
 		evtSource.onmessage = function(e) {
@@ -439,7 +441,7 @@ for (var i = 0; i < contexts.length; i++) {
 
 // var console2 = document.getElementById("console-msgs");
 // console2.value = "Background Script .js loaded";
-console.log("Background Script.js (11-Oct-2017) loaded");
+console.log("Background Script.js (21-Nov-2019) RE/LOADED");
 
 // *******************************************************************
 // *******************************************************************

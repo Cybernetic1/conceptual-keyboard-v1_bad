@@ -619,7 +619,8 @@ setInterval( function() {
 						}
 				}
 				if (alert == true)
-					browser.runtime.sendMessage({alert: "roomHK"});
+					myPort.postMessage({alert: "roomHK"});
+					// browser.runtime.sendMessage({alert: "roomHK"});
 			}
 			lastRoomHKIndex = lastIndex;
 			// console.log("last index ", lastIndex);
@@ -628,7 +629,8 @@ setInterval( function() {
 			for (i = lastIndex; i > 0; i--) {
 				stuff = chatWin.children[i].innerText;
 				// 大頭仔 stuff is spamming the chatroom recently
-				if (stuff != "" && !stuff.includes("大頭仔")) {
+				// if (stuff != "" && !stuff.includes("大頭仔")) {
+				if (stuff != "") {
 					lastRoomHKLine = stuff;
 					// console.log("last line ", stuff);
 					break;
@@ -669,7 +671,8 @@ setInterval( function() {
 				// To-do:  On Adult page, own messages appear as broken pieces (fixed now?)
 			}
 			if (alert == true)
-				browser.runtime.sendMessage({alert: "ip131"});
+				myPort.postMessage({alert: "ip131"});
+				// browser.runtime.sendMessage({alert: "ip131"});
 		}
 		lastIp131Index = lastIndex;
 	}
@@ -696,7 +699,8 @@ setInterval( function() {
 				// To-do:  On Adult page, own messages appear as broken pieces
 			}
 			if (alert == true)
-				browser.runtime.sendMessage({alert: "ip69"});
+				myPort.postMessage({alert: "ip69"});
+				// browser.runtime.sendMessage({alert: "ip69"});
 		}
 		lastIp69Index = lastIndex;
 	}
@@ -812,7 +816,7 @@ setTimeout(function() {
 2000);
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
-console.log("Content script #2 (Sept 2018) loaded....");
+console.log("Content script #2 (Nov 2019) RE/LOADED....");
 
 /* *******************************************************************************
 

@@ -1,15 +1,19 @@
 // var app = chrome.runtime.getBackgroundPage();
 
+let myPort = browser.runtime.connect({name:"PORT-popup"});
+
 // test sound
 function onClickButt1() {
-	browser.runtime.sendMessage({alert: "boing"});
+	myPort.postMessage({alert: "boing"});
+	// browser.runtime.sendMessage({alert: "boing"});
 	window.close();
 	}
 
 // save log
 function onClickButt2() {
 	var fname = document.getElementById("logName").value;
-	browser.runtime.sendMessage({saveLog: fname});
+	myPort.postMessage({saveLog: fname});
+	// browser.runtime.sendMessage({saveLog: fname});
 	setTimeout(function() {
 		window.close();
 		}, 500);
@@ -17,7 +21,8 @@ function onClickButt2() {
 
 // clear history
 function onClickButt3() {
-	browser.runtime.sendMessage({clearHistory: "?"});
+	myPort.postMessage({clearHistory: "?"});
+	// browser.runtime.sendMessage({clearHistory: "?"});
 	setTimeout(function() {
 		window.close();
 		}, 500);
@@ -25,7 +30,8 @@ function onClickButt3() {
 
 // Reset event stream
 function onClickButt4() {
-	browser.runtime.sendMessage({resetEventStream: "?"});
+	myPort.postMessage({resetEventStream: "?"});
+	// browser.runtime.sendMessage({resetEventStream: "?"});
 	setTimeout(function() {
 		window.close();
 		}, 500);
@@ -34,7 +40,8 @@ function onClickButt4() {
 // test chosen nickname
 function onClickButt5() {
 	var name = document.getElementById("Nickname").value;
-	browser.runtime.sendMessage({SelectNickname: name});
+	myPort.postMessage({selectNickname: name});
+	// browser.runtime.sendMessage({selectNickname: name});
 	console.log("Chosen nickname = ", name);
 	setTimeout(function() {
 		window.close();
@@ -51,9 +58,11 @@ function onClickButt6() {
 
 // select nickname
 function onSelectNickname() {
-	browser.runtime.sendMessage({alert: "boing"});
+	myPort.postMessage({alert: "boing"});
+	// browser.runtime.sendMessage({alert: "boing"});
 	var name = document.getElementById("Nickname").value;
-	browser.runtime.sendMessage({selectNickname: name});
+	myPort.postMessage({selectNickname: name});
+	// browser.runtime.sendMessage({selectNickname: name});
 	setTimeout(function() {
 		window.close();
 		}, 500);
