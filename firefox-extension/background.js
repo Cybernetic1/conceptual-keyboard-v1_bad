@@ -1,84 +1,8 @@
 // Background script
 // Read from Conceptual Keyboard tab and feed into input box of another tab.
 
-// Identify chatroom pages (if they exist), id's are used for message passing
-/*
-var adultId = null;
-var voovId = null;
-var voov2Id = null;
-var ip131Id = null;
-var ip203Id = null;
-var hk2loveId = null
-var ip4Id = null;
-var ip69Id = null;
-var roomHKId = null;
-*/
-
 var theNickname = "Cybernetic1";
 var whoIsActive = "roomHK";
-
-/*
-querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip131Id = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://chatroom.hk/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	roomHKId = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip69Id = tab.id;
-	}});
-*/
-/*
-var querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	voovId = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://chat.hklovechat.com/frames*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	voov2Id = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://60.199.209.71/VIP*\/index.phtml"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	adultId = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://60.199.209.72/VIP*\/index.phtml"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	adultId = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://ip203.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip203Id = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://ip4.ek21.com/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	ip4Id = tab.id;
-	}});
-
-querying = browser.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"});
-querying.then((tabs) => {
-	for (var tab of tabs) {
-	hk2loveId = tab.id;
-	}});
-*/
 
 // **** Establish connection to script-2
 
@@ -134,9 +58,7 @@ function backListener(request) {
 	// Request to change target chatroom
 	// The request is sent from contentscript2:mouseover event
 	if (request.chatroom != null) {
-		// We should send messages to both chatroom's content scripts
-		// Let them decide whether to speak or not
-
+		// background.js decides which room to speak to
 		whoIsActive = request.chatroom;
 		// console.log("switched to:", request.chatroom)
 
@@ -144,62 +66,6 @@ function backListener(request) {
 		// port_roomHK.postMessage({chatroom2: request.chatroom});
 
 		/*
-		var querying = browser.tabs.query({url: "http://chat.hklovechat.com/frames*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				voov2Id = tab.id;
-				browser.tabs.sendMessage(voov2Id, {chatroom2: request.chatroom});
-				}},
-			function() {voov2Id = null;});
-
-		querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				voovId = tab.id;
-				browser.tabs.sendMessage(voovId, {chatroom2: request.chatroom});
-				}},
-			function() {voovId = null;});
-
-		querying = browser.tabs.query({url: "http://60.199.209.71/VIP*\/index.phtml"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				adultId = tab.id;
-				browser.tabs.sendMessage(adultId, {chatroom2: request.chatroom});
-				}},
-			function() {adultId = null;});
-
-		querying = browser.tabs.query({url: "http://60.199.209.72/VIP*\/index.phtml"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				adultId = tab.id;
-				browser.tabs.sendMessage(adultId, {chatroom2: request.chatroom});
-				}},
-			function() {adultId = null;});
-
-		querying = browser.tabs.query({url: "http://ip203.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip203Id = tab.id;
-				browser.tabs.sendMessage(ip203Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip203Id = null;});
-
-		querying = browser.tabs.query({url: "http://ip4.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip4Id = tab.id;
-				browser.tabs.sendMessage(ip4Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip4Id = null;});
-
-		querying = browser.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				hk2loveId = tab.id;
-				browser.tabs.sendMessage(hk2loveId, {chatroom2: request.chatroom});
-				}},
-			function() {hk2loveId = null;});
-
 		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
 		querying.then((tabs) => {
 			for (var tab of tabs) {
@@ -208,75 +74,8 @@ function backListener(request) {
 				// browser.tabs.sendMessage(roomHKId, {chatroom2: request.chatroom});
 				}},
 			function() {roomHKId = null;});
-
-		querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip131Id = tab.id;
-				portScript2.postMessage({chatroom2: request.chatroom});
-				// browser.tabs.sendMessage(ip131Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip131Id = null;});
-
-		querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
-		querying.then((tabs) => {
-			for (var tab of tabs) {
-				ip69Id = tab.id;
-				portScript2.postMessage({chatroom2: request.chatroom});
-				// browser.tabs.sendMessage(ip69Id, {chatroom2: request.chatroom});
-				}},
-			function() {ip69Id = null;});
 		*/
-
-		// console.log("trying to switch to: ", request.chatroom)
 		}
-
-	// **** Request to send text to target chatroom
-	// This may no longer be needed?
-	// if (request.sendtext != null) {
-		// sendResponse({farewell: "script 1's msg recieved"});
-
-		// port_ip131.postMessage({sendtext: request.sendtext});
-		// port_roomHK.postMessage({sendtext: request.sendtext});
-
-		// send message to content script 2
-		// script 2 will decide which page to actually output
-		/*
-		if (adultId)
-			browser.tabs.sendMessage(adultId, {sendtext: request.sendtext});
-		if (voovId)
-			browser.tabs.sendMessage(voovId, {sendtext: request.sendtext});
-		if (voov2Id)
-			browser.tabs.sendMessage(voov2Id, {sendtext: request.sendtext});
-		if (ip203Id)
-			browser.tabs.sendMessage(ip203Id, {sendtext: request.sendtext});
-		if (ip4Id)
-			browser.tabs.sendMessage(ip4Id, {sendtext: request.sendtext});
-		if (ip131Id)
-			portScript2.postMessage({sendtext: request.sendtext});
-			// browser.tabs.sendMessage(ip131Id, {sendtext: request.sendtext});
-		if (ip69Id)
-			portScript2.postMessage({sendtext: request.sendtext});
-			// browser.tabs.sendMessage(ip69Id, {sendtext: request.sendtext});
-		if (roomHKId)
-			portScript2.postMessage({sendtext: request.sendtext});
-			// browser.tabs.sendMessage(roomHKId, {sendtext: request.sendtext});
-		*/
-
-		// console.log("Sent text to content script 2: ", ip131Id);
-		// }
-
-	// Request to copy to clipboard, this must be done via background page
-	/* (No longer needed, handled in YKY-input-method.js, via document.execCommand('copy'))
-	if (request.clipboard != null) {
-		// copy to clipboard
-		// bg = chrome.extension.getBackgroundPage();
-		console.log("copying to clipboard: " + request.clipboard);
-		clipboardholder = document.getElementById("clipboardholder");
-		clipboardholder.value = request.clipboard;
-		clipboardholder.select();
-		document.execCommand("Copy");
-		} */
 
 	// Request to play an alert sound (must be done thru background page)
 	if (request.alert != null) {
@@ -340,10 +139,85 @@ function backListener(request) {
 		audio.play();
 	}
 
+	// Request to copy to clipboard, this must be done via background page
+	/* (No longer needed, handled in YKY-input-method.js, via document.execCommand('copy'))
+	if (request.clipboard != null) {
+		// copy to clipboard
+		// bg = chrome.extension.getBackgroundPage();
+		console.log("copying to clipboard: " + request.clipboard);
+		clipboardholder = document.getElementById("clipboardholder");
+		clipboardholder.value = request.clipboard;
+		clipboardholder.select();
+		document.execCommand("Copy");
+		} */
+
 // End of message-listener
 }
 
 console.log("Background Script.js (21-Nov-2019) RE/LOADED");
+
+/*
+querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip131Id = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://chatroom.hk/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	roomHKId = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://ip69.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip69Id = tab.id;
+	}});
+
+var querying = browser.tabs.query({url: "http://www.uvoov.com/voovchat/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	voovId = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://chat.hklovechat.com/frames*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	voov2Id = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://60.199.209.71/VIP*\/index.phtml"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	adultId = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://60.199.209.72/VIP*\/index.phtml"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	adultId = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://ip203.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip203Id = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://ip4.ek21.com/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	ip4Id = tab.id;
+	}});
+
+querying = browser.tabs.query({url: "http://www.hk2love.com/cgi-bin/*"});
+querying.then((tabs) => {
+	for (var tab of tabs) {
+	hk2loveId = tab.id;
+	}});
+*/
+
 
 /* ************** these parts also seem unneeded *************
 // *** save log

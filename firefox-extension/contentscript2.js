@@ -12,24 +12,6 @@
 // * record whom I am speaking to
 // * recover from send-fail
 
-// Which chatroom output is selected by user?
-// These flags are set according to "mouseover" event
-//var voov2Chat = false;
-//var voovChat = false;
-//var adultChat = false;
-//var ip131Chat = false;		// 寻梦园 情色聊天室
-//var roomHKChat = true;		// chatroom.HK
-//var ip203Chat = false;
-//var ip4Chat = false;
-//var ip69Chat = false;		// 长直发
-//var hk2loveChat = false;
-
-// Which chatroom has I just sent message?  To keep track of send failure
-//var roomHKSpoken = false;
-//var roomHKSpoken2 = false;
-//var ip131Spoken = false;
-//var ip131Spoken2 = false;
-
 var roomHKSentText = "";
 var ip131SentText = "";
 
@@ -68,32 +50,17 @@ let myPort = browser.runtime.connect({name:"PORT-script-2"});
 // myPort.postMessage({greeting: "HELLO from content script-2"});
 
 // ******** Detect mouse-over on ChatRoom page
-// Not only set the flags, but we need to broadcast to ALL other content scripts
-// These messages are processed by background.js, which then broadcast to all content scripts
-// If we use "sendResponse()" then only the sending script gets the response, which is not enough
+// Notify background.js, who decides ultimately which script-2 to output to
 document.addEventListener("mouseover", function(){
-	if (document.URL.indexOf("ip131") >= 0) {		// 寻梦园 情色聊天室
-		// console.log("switch to ip131");
+	if (document.URL.indexOf("ip131") >= 0)
 		myPort.postMessage({chatroom: "ip131"});
-		// browser.runtime.sendMessage({chatroom: "ip131"});
-		// ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		// roomHKChat = false; ip69Chat = false;
-		}
-	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
-		// console.log("switch to chatroom.HK!!");
+	if (document.URL.indexOf("chatroom.hk") >= 0)
 		myPort.postMessage({chatroom: "roomHK"});
-		// browser.runtime.sendMessage({chatroom: "roomHK"});
-		// ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		// roomHKChat = true; ip69Chat = false;
-		}
-	if (document.URL.indexOf("ip69") >= 0) {		// 寻梦园 长直发
-		// console.log("switch to ip4");
-		myPort.postMessage({chatroom: "ip69"});
-		// browser.runtime.sendMessage({chatroom: "ip69"});
-		// ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		// roomHKChat = false; ip69Chat = true;
-		}
+
 	/*
+ 	if (document.URL.indexOf("ip69") >= 0)
+		myPort.postMessage({chatroom: "ip69"});
+
 	if (document.URL.indexOf("hklovechat") >= 0) {
 		// console.log("switch to hk love chat (new voov)");
 		browser.runtime.sendMessage({chatroom: "voov2"});
@@ -135,44 +102,11 @@ myPort.onMessage.addListener(function(request) {
 	// console.log("roomHKChat =", roomHKChat);
 	// console.log("me =", document.URL);
 
-	// Mouseover event has occurred, update which chatroom is selected:
-	// This messages are sent from different instances of *this script* itself, relayed and broadcast by background.js
-	/*
-	if (request.chatroom2 != null) {
-		if (request.chatroom2 == "ip131")
-			{ ip131Chat = true; ip203Chat = false; roomHKChat = false; ip4Chat = false;
-				voov2Chat = false; ip69Chat = false; }
-		else if (request.chatroom2 == "roomHK")
-			{ ip131Chat = false; ip203Chat = false; roomHKChat = true; ip4Chat = false;
-				voov2Chat = false; ip69Chat = false; }
-		else if (request.chatroom2 == "ip69")
-			{ ip131Chat = false; ip203Chat = false; roomHKChat = false; ip4Chat = false;
-				voov2Chat = false; ip69Chat = true; }
-		if  (request.chatroom == "voov")
-			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
-		else if (request.chatroom == "adult")
-			{ voovChat = false; adultChat = true; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
-		else if (request.chatroom2 == "ip203")
-			{ ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
-				voov2Chat = false;}
-		else if (request.chatroom2 == "ip4")
-			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
-				voov2Chat = false;}
-		else if (request.chatroom2 == "voov2")
-			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-				voov2Chat = true;}
-		// else if (request.chatroom == "skype")
-		//	{ voovChat = false; adultChat = false; }
-
-		// console.log("Script2: switched to: " + request.chatroom2);
-		return true;
-		}
-	*/
-
 	// Some text has been typed by the user on Conceptual Keyboard:
 	// Now we feed that text into the INPUT box of target web page.
 	// There are several possible chat rooms:  "Adult", "Voov", "ip131", "ip203", etc
-	if (request.sendtext != null) {
+	if (request.sendtext != null)
+		{
 		str = request.sendtext;
 
 		// check for save-log command:
@@ -226,38 +160,9 @@ myPort.onMessage.addListener(function(request) {
 		}
 		*/
 
-		/*
-		if (voov2Chat && document.URL.indexOf("hklovechat") >= 0) {
-			//**************** HK Love Chat (new Voov) ***************
-			var inputBox = document.getElementsByName("message")[0].contentDocument;
-			var inputBox2 = inputBox.getElementById("txtMessage");
-			if (last_str == str)		// does not allow to send duplicate messages
-				str = " " + str;
-			inputBox2.value = str;
-			last_str = str;
-			var sendButton = inputBox.getElementById("Button1");
-			sendButton.click();
-
-			//chat_history[chat_history.length] = str + "\n";
-			}
-
-		if (adultChat && document.URL.indexOf("VIP") >= 0) {
-			// *********** UT Adult Chatroom ***************
-			var inputBox = document.getElementsByName("c")[0].contentWindow.document.getElementsByName("SAYS")[0];
-			// console.log("DOM element: " + inputBox);
-			inputBox.value = str;
-			// and then perhaps click "enter"?
-			var sendButton = document.getElementsByName("c")[0].contentWindow.document.getElementsByClassName("Off2")[0];
-			sendButton.click();
-
-			// For Adult chat, need to record own messages
-			// because own messages appear as broken pieces on their page
-			chat_history[chat_history.length] = str + "\n";
-			}
-		*/
-
 		// This one is the new Dream Chat: 寻梦园 情色聊天室
-		if (document.URL.indexOf("ip131") >= 0) {
+		if (document.URL.indexOf("ip131") >= 0)
+			{
 			// *********** Find Dream Garden Chatroom ***************
 			if (ip131SentText == str)	// DreamLand does not allow to send duplicate messages
 				str = "..." + str;
@@ -287,28 +192,9 @@ myPort.onMessage.addListener(function(request) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 
-		/* This one is for: 寻梦园 长直发
-		if (ip69Chat && document.URL.indexOf("ip69") >= 0) {
-			// *********** Find Dream Garden Chatroom ***************
-			if (last_str == str)		// DreamLand does not allow to send duplicate messages
-				str = " " + str;
-
-			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
-			// console.log("DOM element: " + inputBox);
-			inputBox.value = str;
-			last_str = str;
-			// and then perhaps click "enter"?
-			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
-			sendButton.click();
-
-			// For Adult chat, need to record own messages
-			// because own messages appear as broken pieces on their page
-			chat_history[chat_history.length] = "me: " + str + "\n";
-			}
-		*/
-
 		// **** for chatroom.HK
-		if (document.URL.indexOf("chatroom.hk") >= 0) {
+		if (document.URL.indexOf("chatroom.hk") >= 0)
+			{
 			// var str2 = str.replace("'", "`");    // already done in YKY-input-method.js
 			roomHKSentText = str;
 
@@ -335,7 +221,55 @@ myPort.onMessage.addListener(function(request) {
 			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
 
-		/* For HK2Love chatroom (prude chat):
+		/*
+		if (voov2Chat && document.URL.indexOf("hklovechat") >= 0) {
+			//**************** HK Love Chat (new Voov) ***************
+			var inputBox = document.getElementsByName("message")[0].contentDocument;
+			var inputBox2 = inputBox.getElementById("txtMessage");
+			if (last_str == str)		// does not allow to send duplicate messages
+				str = " " + str;
+			inputBox2.value = str;
+			last_str = str;
+			var sendButton = inputBox.getElementById("Button1");
+			sendButton.click();
+
+			//chat_history[chat_history.length] = str + "\n";
+			}
+
+		if (adultChat && document.URL.indexOf("VIP") >= 0) {
+			// *********** UT Adult Chatroom ***************
+			var inputBox = document.getElementsByName("c")[0].contentWindow.document.getElementsByName("SAYS")[0];
+			// console.log("DOM element: " + inputBox);
+			inputBox.value = str;
+			// and then perhaps click "enter"?
+			var sendButton = document.getElementsByName("c")[0].contentWindow.document.getElementsByClassName("Off2")[0];
+			sendButton.click();
+
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			chat_history[chat_history.length] = str + "\n";
+			}
+
+		// This one is for: 寻梦园 长直发
+		if (ip69Chat && document.URL.indexOf("ip69") >= 0) {
+			// *********** Find Dream Garden Chatroom ***************
+			if (last_str == str)		// DreamLand does not allow to send duplicate messages
+				str = " " + str;
+
+			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
+			// console.log("DOM element: " + inputBox);
+			inputBox.value = str;
+			last_str = str;
+			// and then perhaps click "enter"?
+			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
+			sendButton.click();
+
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			chat_history[chat_history.length] = "me: " + str + "\n";
+			}
+
+		// For HK2Love chatroom (prude chat):
 		if (hk2loveChat && document.URL.indexOf("hk2love") >= 0) {
 			if (last_str == str)		// does not allow to send duplicate messages
 				str = " " + str;
@@ -351,9 +285,8 @@ myPort.onMessage.addListener(function(request) {
 			// record own messages
 			chat_history[chat_history.length] = str + "\n";
 			}
-		*/
 
-		/* This one is the new Dream Chat:
+		// This one is the new Dream Chat:
 		if (ip203Chat && document.URL.indexOf("ip203") >= 0) {
 			// *********** Find Dream Garden Chatroom ***************
 			if (last_str == str)		// DreamLand does not allow to send duplicate messages
@@ -393,6 +326,7 @@ myPort.onMessage.addListener(function(request) {
 		*/
 
 		}
+		
 	return true;
 	});
 
@@ -414,6 +348,7 @@ var lastIp69Index = 1;
 
 // After spoken, wait for 10 secs to check if really spoken, if not, re-send
 // New method checks for existence of spoken text in last 5 lines of log
+/*
 function checkSpoken(sentText)
 	{
 	if (roomHKSpoken)
@@ -442,146 +377,12 @@ function checkSpoken(sentText)
 		ip131Spoken2 = false;
 		}
 }
+*/
 
 // Check activity every 3 seconds
 // If there's activity, message Background Script to play a sound
 setInterval( function() {
 	timeStamp = Date().slice(16,24);
-
-	/*
-	if (document.URL.indexOf("voovchat\/") >= 0) {
-		chatWin = document.getElementById("chatContainer2");
-		if (chatWin == null)
-			chatWin = document.getElementById("chatContainer");
-		// line number of last line in chat window
-		lineNum = chatWin.children.length;
-		// console.log("we are checking voovChat");
-		if (lineNum > lastVoovLine) {
-			// check if line contains message to Cybernetic1
-			// » Cybernetic1 秘密的說
-			lastIndex = chatWin.children.length - 1;
-			numberToTest = lineNum - lastVoovLine;
-			// Check the last N lines
-			var alert = false;
-			for (i = lastIndex; i > lastIndex - numberToTest; i--) {
-				if (i >= 0) {
-					stuff = chatWin.children[i].innerText.toLowerCase();
-					if (stuff.indexOf("» cybernetic1") > -1 ||
-						stuff.indexOf("» 半機械人一號") > -1) {
-						// Cannot sound alert on this web page because browser will not enable sounds
-						//    when the page is off-focus.  So we have to message background script.
-						alert = true;
-						stuff2 = stuff.replace("cybernetic1", "");
-						stuff = stuff2.replace("半機械人一號", "");
-						stuff2 = stuff.replace("秘密的說", "");
-						chat_history[chat_history.length] = stuff2 + "\n";
-						// console.log(timeStamp + stuff2);
-					}
-					else if (stuff.indexOf("cybernetic1") > -1) {
-						stuff2 = stuff.replace("cybernetic1", "*ME*");
-						stuff = stuff2.replace("半機械人一號", "*ME*");
-						stuff2 = stuff.replace("秘密的說", "");
-						chat_history[chat_history.length] = stuff2 + "\n";
-						// console.log(timeStamp + stuff2);
-					}
-				}
-			}
-			if (alert == true)
-				browser.runtime.sendMessage({alert: "voov"});
-		}
-		lastVoovLine = lineNum;
-	}
-	*/
-
-	/*
-	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
-		chatWin = document.getElementsByName("messages")[0].contentDocument.childNodes[1];
-		chatWin2 = chatWin.childNodes[2].childNodes[1].getElementsByClassName("divMessages").divMessages;
-		// line number of last line in chat window
-		lineNum = chatWin2.childElementCount;
-		// need to scan all lines from bottom until last line
-		lastIndex = lineNum - 1;
-		var alert = false;
-		for (i = lastIndex; i > 0; i--) {
-			stuff = chatWin2.childNodes[i].innerText.toLowerCase();
-			if (stuff == lastVoovLine2)
-				break;
-			if (stuff.indexOf("對住 cybernetic1") > -1 ||
-				stuff.indexOf("對住 metazoan") > -1) {
-				// Cannot sound alert on this web page because browser will not enable sounds
-				//    when the page is off-focus.  So we have to message background script.
-				alert = true;
-				stuff2 = stuff.replace("對住 cybernetic1", "");
-				stuff3 = stuff2.replace("對住 metazoan", "");
-				stuff2 = stuff3.replace("秘密地說", "");
-				chat_history[chat_history.length] = stuff2 + "\n";
-				// console.log(timeStamp + stuff2);
-			}
-			else if (stuff.indexOf("cybernetic1") > -1) {
-				stuff2 = stuff.replace("cybernetic1", "*ME*");
-				stuff3 = stuff2.replace("metazoan", "*ME*");
-				stuff2 = stuff3.replace("秘密地說", "");
-				chat_history[chat_history.length] = stuff2 + "\n";
-				// console.log(timeStamp + stuff2);
-			}
-		}
-		if (alert == true)
-			browser.runtime.sendMessage({alert: "voov2"});
-		// Find the last line that's non-empty
-		lastVoovLine2 = "top line";
-		for (i = lastIndex; i > 0; i--) {
-			stuff = chatWin2.childNodes[i].innerText.toLowerCase();
-			if (stuff != "") {
-				lastVoovLine2 = stuff;
-				break;
-			}
-		}
-	}
-
-	// ******** HK 2 Love **************
-	if (document.URL.indexOf("hk2love.com\/cgi-bin") >= 0) {
-		// this gives us an HTML element of the public chat area:
-		html = document.getElementsByName("a2")[0].contentDocument;
-		// this is the element containing the rows:
-		chatWin1 = html.childNodes[0].childNodes[1];
-		// get down to the last page of messages:
-		chatWin = chatWin1.childNodes[chatWin1.childElementCount];
-		if (chatWin !== undefined) {
-			// number of lines in chat win:
-			lastIndex = chatWin.childElementCount - 1;
-			if ((chatWin != null) && (lastIndex > lastHk2loveIndex)) {
-				var alert = false;
-				for (i = lastIndex; i > 0; i--) {
-					stuff = chatWin.children[i].innerText;
-					if (stuff == lastHk2loveLine)
-						break;
-					if (// stuff.indexOf("只對『PT141』") > -1 ||
-						stuff.indexOf("只對『dearCharlotte』") > -1 ||
-						stuff.indexOf(">>『dearCharlotte』") > -1)
-						// stuff.indexOf(">>『PT141』") > -1)
-						{
-						// sound alert
-						alert = true;
-						chat_history[chat_history.length] = stuff + "\n";
-						// console.log(timeStamp + stuff);
-					}
-				}
-				if (alert == true)
-					browser.runtime.sendMessage({alert: "hk2love"});
-			}
-			lastHk2loveIndex = lastIndex;
-			// Find the last line that's non-empty
-			lastHk2loveLine = "top line";
-			for (i = lastIndex; i > 0; i--) {
-				stuff = chatWin.children[i].innerText;
-				if (stuff != "") {
-					lastHk2loveLine = stuff;
-					break;
-				}
-			}
-		}
-	}
-	*/
 
 	// ************ chatroom.HK **************
 	if (document.URL.indexOf("chatroom.hk\/chatroom.php") >= 0) {
@@ -673,6 +474,7 @@ setInterval( function() {
 		lastIp131Index = lastIndex;
 	}
 
+	/*
 	// ******** 寻梦园 长直发 **************
 	if (document.URL.indexOf("ip69") >= 0) {
 		// this gives us an HTML element of the public chat area:
@@ -701,7 +503,140 @@ setInterval( function() {
 		lastIp69Index = lastIndex;
 	}
 
-	/*
+	// Voov Chat
+	if (document.URL.indexOf("voovchat\/") >= 0) {
+		chatWin = document.getElementById("chatContainer2");
+		if (chatWin == null)
+			chatWin = document.getElementById("chatContainer");
+		// line number of last line in chat window
+		lineNum = chatWin.children.length;
+		// console.log("we are checking voovChat");
+		if (lineNum > lastVoovLine) {
+			// check if line contains message to Cybernetic1
+			// » Cybernetic1 秘密的說
+			lastIndex = chatWin.children.length - 1;
+			numberToTest = lineNum - lastVoovLine;
+			// Check the last N lines
+			var alert = false;
+			for (i = lastIndex; i > lastIndex - numberToTest; i--) {
+				if (i >= 0) {
+					stuff = chatWin.children[i].innerText.toLowerCase();
+					if (stuff.indexOf("» cybernetic1") > -1 ||
+						stuff.indexOf("» 半機械人一號") > -1) {
+						// Cannot sound alert on this web page because browser will not enable sounds
+						//    when the page is off-focus.  So we have to message background script.
+						alert = true;
+						stuff2 = stuff.replace("cybernetic1", "");
+						stuff = stuff2.replace("半機械人一號", "");
+						stuff2 = stuff.replace("秘密的說", "");
+						chat_history[chat_history.length] = stuff2 + "\n";
+						// console.log(timeStamp + stuff2);
+					}
+					else if (stuff.indexOf("cybernetic1") > -1) {
+						stuff2 = stuff.replace("cybernetic1", "*ME*");
+						stuff = stuff2.replace("半機械人一號", "*ME*");
+						stuff2 = stuff.replace("秘密的說", "");
+						chat_history[chat_history.length] = stuff2 + "\n";
+						// console.log(timeStamp + stuff2);
+					}
+				}
+			}
+			if (alert == true)
+				browser.runtime.sendMessage({alert: "voov"});
+		}
+		lastVoovLine = lineNum;
+	}
+
+	// HK Love Chat
+	if (document.URL.indexOf("hklovechat.com\/") >= 0) {
+		chatWin = document.getElementsByName("messages")[0].contentDocument.childNodes[1];
+		chatWin2 = chatWin.childNodes[2].childNodes[1].getElementsByClassName("divMessages").divMessages;
+		// line number of last line in chat window
+		lineNum = chatWin2.childElementCount;
+		// need to scan all lines from bottom until last line
+		lastIndex = lineNum - 1;
+		var alert = false;
+		for (i = lastIndex; i > 0; i--) {
+			stuff = chatWin2.childNodes[i].innerText.toLowerCase();
+			if (stuff == lastVoovLine2)
+				break;
+			if (stuff.indexOf("對住 cybernetic1") > -1 ||
+				stuff.indexOf("對住 metazoan") > -1) {
+				// Cannot sound alert on this web page because browser will not enable sounds
+				//    when the page is off-focus.  So we have to message background script.
+				alert = true;
+				stuff2 = stuff.replace("對住 cybernetic1", "");
+				stuff3 = stuff2.replace("對住 metazoan", "");
+				stuff2 = stuff3.replace("秘密地說", "");
+				chat_history[chat_history.length] = stuff2 + "\n";
+				// console.log(timeStamp + stuff2);
+			}
+			else if (stuff.indexOf("cybernetic1") > -1) {
+				stuff2 = stuff.replace("cybernetic1", "*ME*");
+				stuff3 = stuff2.replace("metazoan", "*ME*");
+				stuff2 = stuff3.replace("秘密地說", "");
+				chat_history[chat_history.length] = stuff2 + "\n";
+				// console.log(timeStamp + stuff2);
+			}
+		}
+		if (alert == true)
+			browser.runtime.sendMessage({alert: "voov2"});
+		// Find the last line that's non-empty
+		lastVoovLine2 = "top line";
+		for (i = lastIndex; i > 0; i--) {
+			stuff = chatWin2.childNodes[i].innerText.toLowerCase();
+			if (stuff != "") {
+				lastVoovLine2 = stuff;
+				break;
+			}
+		}
+	}
+
+	// ******** HK 2 Love **************
+	if (document.URL.indexOf("hk2love.com\/cgi-bin") >= 0) {
+		// this gives us an HTML element of the public chat area:
+		html = document.getElementsByName("a2")[0].contentDocument;
+		// this is the element containing the rows:
+		chatWin1 = html.childNodes[0].childNodes[1];
+		// get down to the last page of messages:
+		chatWin = chatWin1.childNodes[chatWin1.childElementCount];
+		if (chatWin !== undefined) {
+			// number of lines in chat win:
+			lastIndex = chatWin.childElementCount - 1;
+			if ((chatWin != null) && (lastIndex > lastHk2loveIndex)) {
+				var alert = false;
+				for (i = lastIndex; i > 0; i--) {
+					stuff = chatWin.children[i].innerText;
+					if (stuff == lastHk2loveLine)
+						break;
+					if (// stuff.indexOf("只對『PT141』") > -1 ||
+						stuff.indexOf("只對『dearCharlotte』") > -1 ||
+						stuff.indexOf(">>『dearCharlotte』") > -1)
+						// stuff.indexOf(">>『PT141』") > -1)
+						{
+						// sound alert
+						alert = true;
+						chat_history[chat_history.length] = stuff + "\n";
+						// console.log(timeStamp + stuff);
+					}
+				}
+				if (alert == true)
+					browser.runtime.sendMessage({alert: "hk2love"});
+			}
+			lastHk2loveIndex = lastIndex;
+			// Find the last line that's non-empty
+			lastHk2loveLine = "top line";
+			for (i = lastIndex; i > 0; i--) {
+				stuff = chatWin.children[i].innerText;
+				if (stuff != "") {
+					lastHk2loveLine = stuff;
+					break;
+				}
+			}
+		}
+	}
+
+	// VIP
 	if (document.URL.indexOf("VIP") >= 0) {
 		// this gives us an HTML element:
 		html = document.getElementsByName("m")[0].contentDocument.childNodes[0];
@@ -726,9 +661,8 @@ setInterval( function() {
 		}
 		lastAdultIndex = lastIndex;
 	}
-	*/
 
-	/*
+	// ip203
 	if (document.URL.indexOf("ip203") >= 0) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
@@ -755,6 +689,7 @@ setInterval( function() {
 		lastIp203Index = lastIndex;
 	}
 
+	// ip4
 	if (document.URL.indexOf("ip4") >= 0) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
