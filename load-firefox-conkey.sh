@@ -8,7 +8,7 @@ win_id=$(xdotool search --name --onlyvisible "Debugging - Runtime / this-firefox
 if [ $(hostname) = 'Vivobook' ]; then
 	xdotool windowfocus --sync $win_id mousemove 880 369 click 1
 else
-	xdotool windowfocus --sync $win_id mousemove 880 369 click 3
+	xdotool windowfocus --sync $win_id mousemove 847 335 click 3
 fi
 sleep 1.0
 win_id=$(xdotool search --name --onlyvisible "Select manifest.json file")

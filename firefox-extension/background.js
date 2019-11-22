@@ -15,6 +15,7 @@ var roomHKId = null;
 */
 
 var theNickname = "Cybernetic1";
+var whoIsActive = "roomHK";
 
 /*
 querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});
@@ -81,14 +82,25 @@ querying.then((tabs) => {
 
 // **** Establish connection to script-2
 
-let portScript2;
+var port_roomHK;
+var port_ip131;
+var port_popup;
 
 function connected(p) {
-	portScript2 = p;
-	console.log("Background: CONNECTED to content-scripts-2");
+	// title = p.sender.tab.title;
+	url = p.sender.url;
+	console.log("CONNECTED to tab:", url);
+	if (url.indexOf("ip131") >= 0)
+		port_ip131 = p;
+	else if (url.indexOf("chatroom.hk") >= 0)
+		port_roomHK = p;
+	else if (url.indexOf("popup.html") >= 0)
+		port_popup = p;
+
+	// console.log("Background: CONNECTED to content-scripts-2");
 	// portScript2.postMessage({greeting: "hi there content script2!"});
 
-	portScript2.onMessage.addListener(backListener);
+	p.onMessage.addListener(backListener);
 }
 
 browser.runtime.onConnect.addListener(connected);
@@ -98,7 +110,10 @@ var evtSource = new EventSource("http://localhost:8484/stream");
 
 evtSource.onmessage = function(e) {
 	// Directly output to chatroom
-	portScript2.postMessage({sendtext: e.data});
+	if (whoIsActive == "ip131")
+		port_ip131.postMessage({sendtext: e.data});
+	else if (whoIsActive == "roomHK")
+		port_roomHK.postMessage({sendtext: e.data});
 	console.log("Event: " + e.data);
 };
 
@@ -112,7 +127,8 @@ function backListener(request) {
 	}
 
 	if (request.askNickname != null) {
-		portScript2.postMessage({response: theNickname});
+		port_ip131.postMessage({response: theNickname});
+		port_roomHK.postMessage({response: theNickname});		
 	}
 
 	// Request to change target chatroom
@@ -120,6 +136,12 @@ function backListener(request) {
 	if (request.chatroom != null) {
 		// We should send messages to both chatroom's content scripts
 		// Let them decide whether to speak or not
+
+		whoIsActive = request.chatroom;
+		// console.log("switched to:", request.chatroom)
+
+		// port_ip131.postMessage({chatroom2: request.chatroom});
+		// port_roomHK.postMessage({chatroom2: request.chatroom});
 
 		/*
 		var querying = browser.tabs.query({url: "http://chat.hklovechat.com/frames*"});
@@ -177,9 +199,7 @@ function backListener(request) {
 				browser.tabs.sendMessage(hk2loveId, {chatroom2: request.chatroom});
 				}},
 			function() {hk2loveId = null;});
-		*/
 
-		/*
 		querying = browser.tabs.query({url: "http://chatroom.hk/*"});
 		querying.then((tabs) => {
 			for (var tab of tabs) {
@@ -208,16 +228,16 @@ function backListener(request) {
 			function() {ip69Id = null;});
 		*/
 
-		portScript2.postMessage({chatroom2: request.chatroom});
-
 		// console.log("trying to switch to: ", request.chatroom)
 		}
 
-	// Request to send text to target chatroom
-	if (request.sendtext != null) {
+	// **** Request to send text to target chatroom
+	// This may no longer be needed?
+	// if (request.sendtext != null) {
 		// sendResponse({farewell: "script 1's msg recieved"});
 
-		portScript2.postMessage({sendtext: request.sendtext});
+		// port_ip131.postMessage({sendtext: request.sendtext});
+		// port_roomHK.postMessage({sendtext: request.sendtext});
 
 		// send message to content script 2
 		// script 2 will decide which page to actually output
@@ -244,7 +264,7 @@ function backListener(request) {
 		*/
 
 		// console.log("Sent text to content script 2: ", ip131Id);
-		}
+		// }
 
 	// Request to copy to clipboard, this must be done via background page
 	/* (No longer needed, handled in YKY-input-method.js, via document.execCommand('copy'))
@@ -278,7 +298,8 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			portScript2.postMessage({sendtext: "!log " + request.saveLog});
+			port_ip131.postMessage({sendtext: "!log " + request.saveLog});
+			port_roomHK.postMessage({sendtext: "!log " + request.saveLog});
 			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + request.saveLog });
 		});
 
@@ -293,7 +314,8 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			portScript2.postMessage({sendtext: "!clear"});
+			port_ip131.postMessage({sendtext: "!clear"});
+			port_roomHK.postMessage({sendtext: "!clear"});
 			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!clear" });
 		});
 
@@ -307,7 +329,10 @@ function backListener(request) {
 
 		evtSource.onmessage = function(e) {
 			// Directly output to chatroom
-			portScript2.postMessage({sendtext: e.data});
+			if (whoIsActive == "ip131")
+				port_ip131.postMessage({sendtext: e.data});
+			else if (whoIsActive == "roomHK")
+				port_roomHK.postMessage({sendtext: e.data});
 			console.log("Event: " + e.data);
 		};
 
@@ -317,6 +342,8 @@ function backListener(request) {
 
 // End of message-listener
 }
+
+console.log("Background Script.js (21-Nov-2019) RE/LOADED");
 
 /* ************** these parts also seem unneeded *************
 // *** save log
@@ -441,7 +468,6 @@ for (var i = 0; i < contexts.length; i++) {
 
 // var console2 = document.getElementById("console-msgs");
 // console2.value = "Background Script .js loaded";
-console.log("Background Script.js (21-Nov-2019) RE/LOADED");
 
 // *******************************************************************
 // *******************************************************************
@@ -470,9 +496,9 @@ browser.tabs.query(title("YKY input form"), function(tabs) {
 			// Try to read what YKY has decided to "enter"
 
 
-			// Then, send message to 成人聊天室's tab
+			// Then, send message to 鲁脡脠脣脕脛脤矛脢脪's tab
 
-			// Then, put text into 成人聊天室's input box
+			// Then, put text into 鲁脡脠脣脕脛脤矛脢脪's input box
 
 			// Look through all views to find the window which will display
 			// the screenshot.  The url of the tab which will display the

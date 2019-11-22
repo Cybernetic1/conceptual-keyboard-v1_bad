@@ -13,23 +13,24 @@
 // * recover from send-fail
 
 // Which chatroom output is selected by user?
-// The selection is done on the Conceptual Keyboard page with radio buttons
-var voov2Chat = false;
-var voovChat = false;
-var adultChat = false;
-var ip131Chat = false;		// 寻梦园 情色聊天室
-var roomHKChat = true;		// chatroom.HK
-var ip203Chat = false;
-var ip4Chat = false;
-var ip69Chat = false;		// 长直发
-var hk2loveChat = false;
+// These flags are set according to "mouseover" event
+//var voov2Chat = false;
+//var voovChat = false;
+//var adultChat = false;
+//var ip131Chat = false;		// 寻梦园 情色聊天室
+//var roomHKChat = true;		// chatroom.HK
+//var ip203Chat = false;
+//var ip4Chat = false;
+//var ip69Chat = false;		// 长直发
+//var hk2loveChat = false;
 
 // Which chatroom has I just sent message?  To keep track of send failure
-var roomHKSpoken = false;
-var roomHKSpoken2 = false;
+//var roomHKSpoken = false;
+//var roomHKSpoken2 = false;
+//var ip131Spoken = false;
+//var ip131Spoken2 = false;
+
 var roomHKSentText = "";
-var ip131Spoken = false;
-var ip131Spoken2 = false;
 var ip131SentText = "";
 
 var logName = "log.txt";					// Name of the log file, to be filled
@@ -71,54 +72,52 @@ let myPort = browser.runtime.connect({name:"PORT-script-2"});
 // These messages are processed by background.js, which then broadcast to all content scripts
 // If we use "sendResponse()" then only the sending script gets the response, which is not enough
 document.addEventListener("mouseover", function(){
+	if (document.URL.indexOf("ip131") >= 0) {		// 寻梦园 情色聊天室
+		// console.log("switch to ip131");
+		myPort.postMessage({chatroom: "ip131"});
+		// browser.runtime.sendMessage({chatroom: "ip131"});
+		// ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		// roomHKChat = false; ip69Chat = false;
+		}
+	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
+		// console.log("switch to chatroom.HK!!");
+		myPort.postMessage({chatroom: "roomHK"});
+		// browser.runtime.sendMessage({chatroom: "roomHK"});
+		// ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		// roomHKChat = true; ip69Chat = false;
+		}
+	if (document.URL.indexOf("ip69") >= 0) {		// 寻梦园 长直发
+		// console.log("switch to ip4");
+		myPort.postMessage({chatroom: "ip69"});
+		// browser.runtime.sendMessage({chatroom: "ip69"});
+		// ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
+		// roomHKChat = false; ip69Chat = true;
+		}
 	/*
 	if (document.URL.indexOf("hklovechat") >= 0) {
 		// console.log("switch to hk love chat (new voov)");
 		browser.runtime.sendMessage({chatroom: "voov2"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 		voov2Chat = true;
-	}
-	*/
-	if (document.URL.indexOf("ip131") >= 0) {		// 寻梦园 情色聊天室
-		// console.log("switch to ip131");
-		myPort.postMessage({chatroom: "ip131"});
-		// browser.runtime.sendMessage({chatroom: "ip131"});
-		ip131Chat = true; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		roomHKChat = false; ip69Chat = false;
-	}
-	if (document.URL.indexOf("chatroom.hk") >= 0) {		// chatroom.hk
-		// console.log("switch to chatroom.HK!!");
-		myPort.postMessage({chatroom: "roomHK"});
-		// browser.runtime.sendMessage({chatroom: "roomHK"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		roomHKChat = true; ip69Chat = false;
-	}
-	if (document.URL.indexOf("ip69") >= 0) {		// 寻梦园 长直发
-		// console.log("switch to ip4");
-		myPort.postMessage({chatroom: "ip69"});
-		// browser.runtime.sendMessage({chatroom: "ip69"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		roomHKChat = false; ip69Chat = true;
-	}
-	/*
+		}
 	if (document.URL.indexOf("hk2love") >= 0) {
 		// console.log("switch to hk2love (prude chat)");
 		browser.runtime.sendMessage({chatroom: "hk2love"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
 		voov2Chat = false; ip69Chat = false;
-	}
+		}
 	if (document.URL.indexOf("ip203") >= 0) {
 		// console.log("switch to ip203");
 		browser.runtime.sendMessage({chatroom: "ip203"});
 		ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
 		voov2Chat = false;
-	}
+		}
 	if (document.URL.indexOf("ip4") >= 0) {
 		// console.log("switch to ip4");
 		browser.runtime.sendMessage({chatroom: "ip4"});
 		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
 		voov2Chat = false;
-	}
+		}
 	*/
 });
 
@@ -138,6 +137,7 @@ myPort.onMessage.addListener(function(request) {
 
 	// Mouseover event has occurred, update which chatroom is selected:
 	// This messages are sent from different instances of *this script* itself, relayed and broadcast by background.js
+	/*
 	if (request.chatroom2 != null) {
 		if (request.chatroom2 == "ip131")
 			{ ip131Chat = true; ip203Chat = false; roomHKChat = false; ip4Chat = false;
@@ -148,7 +148,6 @@ myPort.onMessage.addListener(function(request) {
 		else if (request.chatroom2 == "ip69")
 			{ ip131Chat = false; ip203Chat = false; roomHKChat = false; ip4Chat = false;
 				voov2Chat = false; ip69Chat = true; }
-		/*
 		if  (request.chatroom == "voov")
 			{ voovChat = true; adultChat = false; ip131Chat = false; ip203Chat = false; hk2loveChat = false}
 		else if (request.chatroom == "adult")
@@ -162,31 +161,30 @@ myPort.onMessage.addListener(function(request) {
 		else if (request.chatroom2 == "voov2")
 			{ ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
 				voov2Chat = true;}
-		*/
 		// else if (request.chatroom == "skype")
 		//	{ voovChat = false; adultChat = false; }
 
 		// console.log("Script2: switched to: " + request.chatroom2);
 		return true;
 		}
+	*/
 
 	// Some text has been typed by the user on Conceptual Keyboard:
 	// Now we feed that text into the INPUT box of target web page.
 	// There are several possible chat rooms:  "Adult", "Voov", "ip131", "ip203", etc
 	if (request.sendtext != null) {
 		str = request.sendtext;
-		// console.log("Script2: got message...");
 
 		// check for save-log command:
 		if (str.indexOf("!log") > -1) {
 			// Determine this script instance is for the current active page...
 			// If not, no action should be taken
-			if ((roomHKChat && document.URL.indexOf("chatroom.hk") >= 0) ||
-				(ip131Chat && document.URL.indexOf("ip131") >= 0) ||
-				(ip203Chat && document.URL.indexOf("ip203") >= 0) ||
-				(ip4Chat && document.URL.indexOf("ip4") >= 0) ||
-				(ip69Chat && document.URL.indexOf("ip69") >= 0) ||
-				(hk2loveChat && document.URL.indexOf("hk2love") >= 0)) {
+			if ((document.URL.indexOf("chatroom.hk") >= 0) ||
+				(document.URL.indexOf("ip131") >= 0) ||
+				(document.URL.indexOf("ip203") >= 0) ||
+				(document.URL.indexOf("ip4") >= 0) ||
+				(document.URL.indexOf("ip69") >= 0) ||
+				(document.URL.indexOf("hk2love") >= 0)) {
 
 				// the string following by "!log " is the Nickname, hence 5 chars
 				// console.log("log person = " + str.slice(5));
@@ -242,9 +240,7 @@ myPort.onMessage.addListener(function(request) {
 
 			//chat_history[chat_history.length] = str + "\n";
 			}
-		*/
 
-		/*
 		if (adultChat && document.URL.indexOf("VIP") >= 0) {
 			// *********** UT Adult Chatroom ***************
 			var inputBox = document.getElementsByName("c")[0].contentWindow.document.getElementsByName("SAYS")[0];
@@ -261,9 +257,9 @@ myPort.onMessage.addListener(function(request) {
 		*/
 
 		// This one is the new Dream Chat: 寻梦园 情色聊天室
-		if (ip131Chat && document.URL.indexOf("ip131") >= 0) {
+		if (document.URL.indexOf("ip131") >= 0) {
 			// *********** Find Dream Garden Chatroom ***************
-			if (ip131SentText == str)		// DreamLand does not allow to send duplicate messages
+			if (ip131SentText == str)	// DreamLand does not allow to send duplicate messages
 				str = "..." + str;
 			ip131SentText = str;
 
@@ -312,7 +308,7 @@ myPort.onMessage.addListener(function(request) {
 		*/
 
 		// **** for chatroom.HK
-		if (roomHKChat && document.URL.indexOf("chatroom.hk") >= 0) {
+		if (document.URL.indexOf("chatroom.hk") >= 0) {
 			// var str2 = str.replace("'", "`");    // already done in YKY-input-method.js
 			roomHKSentText = str;
 
