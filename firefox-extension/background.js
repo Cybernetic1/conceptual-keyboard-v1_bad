@@ -4,11 +4,20 @@
 var theNickname = "Cybernetic1";
 var whoIsActive = "roomHK";
 
-// **** Establish connection to script-2
-
 var port_roomHK;
 var port_ip131;
 var port_popup;
+
+function streamEventHandler(e) {
+	// Directly output to chatroom
+	if (whoIsActive == "ip131")
+		port_ip131.postMessage({sendtext: e.data});
+	else if (whoIsActive == "roomHK")
+		port_roomHK.postMessage({sendtext: e.data});
+	console.log("Event: " + e.data);
+}	
+
+// **** Establish connection to script-2
 
 function connected(p) {
 	// title = p.sender.tab.title;
@@ -25,21 +34,13 @@ function connected(p) {
 	// portScript2.postMessage({greeting: "hi there content script2!"});
 
 	p.onMessage.addListener(backListener);
+
+	// Listen to Node.js server
+	var evtSource = new EventSource("http://localhost:8484/stream");
+	evtSource.onmessage = streamEventHandler;
 }
 
 browser.runtime.onConnect.addListener(connected);
-
-// Listen to Node.js server
-var evtSource = new EventSource("http://localhost:8484/stream");
-
-evtSource.onmessage = function(e) {
-	// Directly output to chatroom
-	if (whoIsActive == "ip131")
-		port_ip131.postMessage({sendtext: e.data});
-	else if (whoIsActive == "roomHK")
-		port_roomHK.postMessage({sendtext: e.data});
-	console.log("Event: " + e.data);
-};
 
 // Set up message listener
 function backListener(request) {
@@ -125,15 +126,7 @@ function backListener(request) {
 	// reset event stream:
 	if (request.resetEventStream != null) {
 		evtSource = new EventSource("http://localhost:8484/stream");
-
-		evtSource.onmessage = function(e) {
-			// Directly output to chatroom
-			if (whoIsActive == "ip131")
-				port_ip131.postMessage({sendtext: e.data});
-			else if (whoIsActive == "roomHK")
-				port_roomHK.postMessage({sendtext: e.data});
-			console.log("Event: " + e.data);
-		};
+		evtSource.onmessage = streamEventHandler;
 
 		var audio = new Audio("reset-stream.ogg");
 		audio.play();

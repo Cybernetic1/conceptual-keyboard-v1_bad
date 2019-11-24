@@ -1,4 +1,7 @@
-﻿// This script is running in Firefox
+﻿// This script is no longer needed.  Conkey must be run in Chrome, because we need Google Input
+//	Method.  The Chrome .js code interacts with background.js via "event stream".
+
+// This script runs in Firefox
 
 // This script is loaded by the web page "Conceptual Keyboard"
 // Its purpose is to relay the user's input to the background script

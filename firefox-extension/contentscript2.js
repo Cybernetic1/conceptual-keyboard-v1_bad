@@ -1,12 +1,11 @@
-﻿// This script is loaded by the pages "Voov Chat" and "Adult Chat"
-// The script has to be reloaded whenever the Chrome Extension is reloaded,
-// Seems that only content scripts from the *same* Extension can message
-// each other.
+﻿// This script is loaded by the pages "Chatroom.HK" and "寻梦园" etc.
+// The script has to be reloaded whenever the Chrome Extension is reloaded.
+// Multiple copies of this script talks to background.js
 
 // To-do:
-// * spoken, waiting, spoken2 recorded, and then speak again, so spoken2=false, within 10 secs,
-//	 which triggers failure.
+// * What is meant by "reset event stream"?  
 // * 来客发声
+// * detect when stream is broken
 
 // Done:
 // * record whom I am speaking to
@@ -57,35 +56,7 @@ document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("chatroom.hk") >= 0)
 		myPort.postMessage({chatroom: "roomHK"});
 
-	/*
- 	if (document.URL.indexOf("ip69") >= 0)
-		myPort.postMessage({chatroom: "ip69"});
-
-	if (document.URL.indexOf("hklovechat") >= 0) {
-		// console.log("switch to hk love chat (new voov)");
-		browser.runtime.sendMessage({chatroom: "voov2"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = false;
-		voov2Chat = true;
-		}
-	if (document.URL.indexOf("hk2love") >= 0) {
-		// console.log("switch to hk2love (prude chat)");
-		browser.runtime.sendMessage({chatroom: "hk2love"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = true; ip4Chat = false;
-		voov2Chat = false; ip69Chat = false;
-		}
-	if (document.URL.indexOf("ip203") >= 0) {
-		// console.log("switch to ip203");
-		browser.runtime.sendMessage({chatroom: "ip203"});
-		ip131Chat = false; ip203Chat = true; hk2loveChat = false; ip4Chat = false;
-		voov2Chat = false;
-		}
-	if (document.URL.indexOf("ip4") >= 0) {
-		// console.log("switch to ip4");
-		browser.runtime.sendMessage({chatroom: "ip4"});
-		ip131Chat = false; ip203Chat = false; hk2loveChat = false; ip4Chat = true;
-		voov2Chat = false;
-		}
-	*/
+	// ip68, ip203, ip4, hklovechat, hk2love, etc...
 });
 
 function his() {
@@ -195,7 +166,8 @@ myPort.onMessage.addListener(function(request) {
 		// **** for chatroom.HK
 		if (document.URL.indexOf("chatroom.hk") >= 0)
 			{
-			// var str2 = str.replace("'", "`");    // already done in YKY-input-method.js
+			var str2 = str.replace(":)", "[e07]");
+			str = str2;
 			roomHKSentText = str;
 
 			// This function is fucking annoying

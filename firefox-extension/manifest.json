@@ -23,11 +23,6 @@
 
 	"content_scripts": [
 
-		{"matches": ["https://localhost/*"],
-		"js": ["contentscript.js"],
-		"run_at": "document_idle"
-		},
-
 		{"matches": [
 			"*://ip131.ek21.com/oaca_1/*",
 			"*://chatroom.hk/"
