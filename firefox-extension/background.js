@@ -17,6 +17,19 @@ function streamEventHandler(e) {
 	console.log("Event: " + e.data);
 }	
 
+var evtSource = null;
+function initEventSource() {
+	// Listen to Node.js server
+	evtSource = new EventSource("http://localhost:8484/stream");
+	evtSource.onmessage = streamEventHandler;
+	evtSource.onerror = function(e) {
+		if (evtSource.readyState == 2) {
+			evtSource.close();
+			setTimeout(initEventSource, 3000);
+		}
+	};
+}
+
 // **** Establish connection to script-2
 
 function connected(p) {
@@ -34,10 +47,7 @@ function connected(p) {
 	// portScript2.postMessage({greeting: "hi there content script2!"});
 
 	p.onMessage.addListener(backListener);
-
-	// Listen to Node.js server
-	var evtSource = new EventSource("http://localhost:8484/stream");
-	evtSource.onmessage = streamEventHandler;
+	initEventSource();
 }
 
 browser.runtime.onConnect.addListener(connected);
@@ -49,12 +59,26 @@ function backListener(request) {
 
 	if (request.selectNickname != null) {
 		theNickname = request.selectNickname;
-	}
+		}
 
 	if (request.askNickname != null) {
 		port_ip131.postMessage({response: theNickname});
 		port_roomHK.postMessage({response: theNickname});		
-	}
+		}
+
+	if (request.speak != null) {
+		$.ajax({
+			method: "POST",
+			url: "http://localhost:8484/shellCommand/",
+			contentType: "application/json; charset=utf-8",
+			dataType: "text",	// This affects the data to be received
+			processData: false,
+			data: "ekho " + request.speak,
+			success: function(resp) {
+				console.log("Speak: " + request.speak);
+				}
+			});
+		}
 
 	// Request to change target chatroom
 	// The request is sent from contentscript2:mouseover event
@@ -125,8 +149,7 @@ function backListener(request) {
 
 	// reset event stream:
 	if (request.resetEventStream != null) {
-		evtSource = new EventSource("http://localhost:8484/stream");
-		evtSource.onmessage = streamEventHandler;
+		initEventSource();
 
 		var audio = new Audio("reset-stream.ogg");
 		audio.play();

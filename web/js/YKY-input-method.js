@@ -146,28 +146,58 @@ function fillSuggestions()
 		img = document.createElement('img');
 		img.setAttribute('src', 'images/' + node[0][0].substr(1));
 		// 'height', '1px'
-		imgWord = document.createTextNode(node[0][0].slice(1,-4));
-		div.appendChild(imgWord);
-		div.appendChild(document.createElement("br"));
+		// imgWord = document.createTextNode(node[0][0].slice(1,-4));
+		imgWord = document.createElement('span');
+		imgWord.appendChild(document.createTextNode("..."));
+		mousePosition = document.createTextNode(" >0,0");
 		div.appendChild(img);
-		$("img").on('mousemove', function(ev)
-			{
+		div.appendChild(document.createElement("br"));
+		div.appendChild(imgWord);
+		div.appendChild(mousePosition);
+		// rect = img.getBoundingClientRect();
+		img.addEventListener('mousemove', ev => {
 			// read mouse position
-			element = $(ev.target);
-			mouse.x = (ev.clientX || ev.pageX) - ev.target.offsetLeft;
-			mouse.y = (ev.clientY || ev.pageY) - ev.target.offsetTop;
+			rect = img.getBoundingClientRect();
+			mouse.x = ev.clientX - rect.left;
+			mouse.y = ev.clientY - rect.top;
 			// determine word @ mouse position
-
 			// change word accordingly
-			imgWord.textContent = ">" + mouse.x + "," + mouse.y;
+			mousePosition.textContent = " >" + mouse.x + "," + mouse.y;
+			for (i = 1; i < node[0].length; ++i) {
+				s = node[0][i];
+				result = s.slice(1).split(",");
+				if (mouse.x >= result[0] && mouse.y >= result[1])
+					imgWord.textContent = result[2];
+				}
 			});
-		return;
+		img.addEventListener('click', ev => {
+			clicked_str = imgWord.textContent;
+			word_SingleClick(imgWord);
+			});
+		//$("img").on('mousemove', function(ev)
+			//{
+			//// read mouse position
+			//element = $(ev.target);
+			//// mouse.x = (ev.clientX || ev.pageX) - ev.target.offsetLeft;
+			//// mouse.y = (ev.clientY || ev.pageY) - ev.target.offsetTop;
+			//let bound = element.getBoundingClientRect();
+			//mouse.x = (ev.clientX) - bound.left;
+			//mouse.y = (ev.clientY) - bound.top;
+			//// determine word @ mouse position
+
+			//// change word accordingly
+			//imgWord.textContent = ">" + mouse.x + "," + mouse.y;
+			//});
 	}
 
 	// node[0] contains its data.
 	// For each data item inside this node:
 	for (i = 1; i < node[0].length; ++i) {
 		s = node[0][i];
+
+		// If s = picture coordinate
+		if (s.startsWith('!'))
+			continue;
 
 		// Each data item could still contain multiple words separated by " ".
 		// We add every word to the Suggestions panel as HTML <span> elements:
@@ -619,9 +649,9 @@ document.getElementById("do-resize").addEventListener("click", function() {
 		url: "./shellCommand",
 		contentType: "application/json; charset=utf-8",
 		processData: false,
-		data: "wmctrl -r 'Conceptual Keyboard' -e 1,500,200,520,450",
+		data: "wmctrl -r 'Conceptual Keyboard' -e 0,-1,-1,520,450",
 		success: function(resp) {
-			console.log("Shell command executed");
+			console.log("Shell command, wmctrl");
 		}
 	});
 }, false);
@@ -756,7 +786,7 @@ function replaceYKY(str) {
 
 function quicksend() {
 	str = document.getElementById("white-box").value;
-	// str = simplify(str);
+	// str = simplify(str);			// when sending to chat rooms, no simplify
 	str = replaceYKY(str);
 
 //	if (to_skype) {			// Try to send text to Skype chat dialog

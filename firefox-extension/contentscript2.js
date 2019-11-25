@@ -422,6 +422,10 @@ setInterval( function() {
 			var alert = false;
 			for (i = lastIndex; i > lastIp131Index; i--) {
 				stuff = chatWin.children[i].innerText;
+				var k = stuff.indexOf("進入1k情色皇朝聊天室");
+				if (k > -1) {
+					myPort.postMessage({speak: stuff.slice(1,k)});
+					}
 				if (stuff.indexOf("對 訪客_Cybernetic1") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic2") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic3") > -1) {
