@@ -134,7 +134,10 @@ myPort.onMessage.addListener(function(request) {
 		// This one is the new Dream Chat: 寻梦园 情色聊天室
 		if (document.URL.indexOf("ip131") >= 0)
 			{
-			// *********** Find Dream Garden Chatroom ***************
+			// **** Local replacements:
+			var str2 = str.replace(/娘/g, "孃");
+			str = str2;
+
 			if (ip131SentText == str)	// DreamLand does not allow to send duplicate messages
 				str = "..." + str;
 			ip131SentText = str;
@@ -166,8 +169,10 @@ myPort.onMessage.addListener(function(request) {
 		// **** for chatroom.HK
 		if (document.URL.indexOf("chatroom.hk") >= 0)
 			{
+			// **** Local replacements
 			var str2 = str.replace(":)", "[e07]");
-			str = str2;
+			str = str2.replace("'", "`");
+
 			roomHKSentText = str;
 
 			// This function is fucking annoying

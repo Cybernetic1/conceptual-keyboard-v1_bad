@@ -779,9 +779,9 @@ function simplify(str) {
 function replaceYKY(str) {
 	str2 = str.replace(/。。/g, "……");
 	str = str2.replace(/…。/g, "……");
-	str2 = str.replace(/娘/g, "孃");
-	str = str2.replace(/\'/g, "`");
-	return str;
+	// str2 = str.replace(/娘/g, "孃");
+	str2 = str.replace(/\'/g, "`");
+	return str2;
 }
 
 function quicksend() {

@@ -1,7 +1,7 @@
 // This script is loaded by login pages
 
 // To-do:
-// *
+// * Talk to background.js via "connection" instead of messages
 
 var nickname = "Cybernetic1";
 
