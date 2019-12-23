@@ -142,7 +142,7 @@ function fillSuggestions()
 
 	node = currentNode;
 	// For pictures
-	if (node[0][0].startsWith('!')) {
+	if (node[0][0] && node[0][0].startsWith('!')) {
 		img = document.createElement('img');
 		img.setAttribute('src', 'images/' + node[0][0].substr(1));
 		// 'height', '1px'
