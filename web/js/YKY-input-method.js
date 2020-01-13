@@ -784,8 +784,16 @@ function replaceYKY(str) {
 	return str2;
 }
 
+// ************* This is used when 'enter' is pressed or the '↵' button is clicked:
 function quicksend() {
 	str = document.getElementById("white-box").value;
+
+	// **** If input ends with 'ggg' ---> go to Google search
+	if (str.endsWith('ggg')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-3));
+		return;
+	}
+
 	// str = simplify(str);			// when sending to chat rooms, no simplify
 	str = replaceYKY(str);
 
