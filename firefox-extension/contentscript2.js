@@ -166,6 +166,23 @@ myPort.onMessage.addListener(function(request) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 
+		// This one is for: 寻梦园 长直发／忘年之戀
+		if (document.URL.indexOf("ip4") >= 0)
+			{
+			// (Skip some pleasantries for this room...)
+
+			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
+			// console.log("DOM element: " + inputBox);
+			inputBox.value = str;
+			// and then perhaps click "enter"?
+			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
+			sendButton.click();
+
+			// For Adult chat, need to record own messages
+			// because own messages appear as broken pieces on their page
+			chat_history[chat_history.length] = "me: " + str + "\n";
+			}
+
 		// **** for chatroom.HK
 		if (document.URL.indexOf("chatroom.hk") >= 0)
 			{
@@ -225,25 +242,6 @@ myPort.onMessage.addListener(function(request) {
 			// For Adult chat, need to record own messages
 			// because own messages appear as broken pieces on their page
 			chat_history[chat_history.length] = str + "\n";
-			}
-
-		// This one is for: 寻梦园 长直发
-		if (ip69Chat && document.URL.indexOf("ip69") >= 0) {
-			// *********** Find Dream Garden Chatroom ***************
-			if (last_str == str)		// DreamLand does not allow to send duplicate messages
-				str = " " + str;
-
-			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
-			// console.log("DOM element: " + inputBox);
-			inputBox.value = str;
-			last_str = str;
-			// and then perhaps click "enter"?
-			var sendButton = document.getElementsByName("ta")[0].contentWindow.document.querySelectorAll("input[value='送出']")[0];
-			sendButton.click();
-
-			// For Adult chat, need to record own messages
-			// because own messages appear as broken pieces on their page
-			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
 
 		// For HK2Love chatroom (prude chat):
@@ -455,18 +453,17 @@ setInterval( function() {
 		lastIp131Index = lastIndex;
 	}
 
-	/*
-	// ******** 寻梦园 长直发 **************
-	if (document.URL.indexOf("ip69") >= 0) {
+	// ******** 寻梦园 长直发／忘年之戀 **************
+	if (document.URL.indexOf("ip4") >= 0) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
 		// this is the <div> element containing the rows:
-		chatWin = html.children[1].children[6];
+		chatWin = html.children[1].children[7];		// sometimes [1][6]
 		// number of lines in chat win:
 		lastIndex = chatWin.childElementCount - 1;
-		if ((chatWin != null) && (lastIndex > lastIp69Index)) {
+		if ((chatWin != null) && (lastIndex > lastIp4Index)) {
 			var alert = false;
-			for (i = lastIndex; i > lastIp69Index; i--) {
+			for (i = lastIndex; i > lastIp4Index; i--) {
 				stuff = chatWin.children[i].innerText;
 				if (stuff.indexOf("對 訪客_Cybernetic2") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
@@ -478,11 +475,13 @@ setInterval( function() {
 				// To-do:  On Adult page, own messages appear as broken pieces
 			}
 			if (alert == true)
-				myPort.postMessage({alert: "ip69"});
+				myPort.postMessage({alert: "ip4"});
 				// browser.runtime.sendMessage({alert: "ip69"});
 		}
-		lastIp69Index = lastIndex;
+		lastIp4Index = lastIndex;
 	}
+
+	/*
 
 	// Voov Chat
 	if (document.URL.indexOf("voovchat\/") >= 0) {

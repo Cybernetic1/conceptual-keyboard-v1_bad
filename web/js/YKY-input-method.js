@@ -788,9 +788,21 @@ function replaceYKY(str) {
 function quicksend() {
 	str = document.getElementById("white-box").value;
 
-	// **** If input ends with 'ggg' ---> go to Google search
-	if (str.endsWith('ggg')) {
-		window.open("https://www.google.com/search?q=" + str.slice(0,-3));
+	// **** If input ends with 'gg' ---> go to Google search
+	if (str.endsWith('gg')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2));
+		return;
+	}
+
+	// **** If input ends with 'cc' ---> Google search with 中文
+	if (str.endsWith('cc')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2) + "%20中文");
+		return;
+	}
+
+	// **** If input ends with 'yy' ---> Google search with 粤语
+	if (str.endsWith('yy')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2) + "%20粤语");
 		return;
 	}
 
