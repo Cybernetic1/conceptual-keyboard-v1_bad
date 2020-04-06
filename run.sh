@@ -21,12 +21,12 @@ echo $Conkey_PID > conkey_PID.txt
 ##### wait 2 seconds
 sleep 1.5
 ##### start chrome browser
-if google-chrome --version >/dev/null; then
-	chromium-browser --app=http://localhost:8484/index.html
+vivaldi --app=http://localhost:8484/index.html
+# if google-chrome --version >/dev/null; then
     # google-chrome --new-window http://localhost:8484/index.html
-else
-    chromium-browser --app=http://localhost:8484/index.html
-fi
+# else
+#    chromium-browser --app=http://localhost:8484/index.html
+# fi
 sleep 2
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
