@@ -201,7 +201,7 @@ function fillSuggestions()
 
 		// Each data item could still contain multiple words separated by " ".
 		// We add every word to the Suggestions panel as HTML <span> elements:
-		s.split("|").forEach(function(s1) {
+		s.split("┆").forEach(function(s1) {
 			textNode = document.createElement('span');
 			textNode.appendChild(document.createTextNode(s1));
 			div.appendChild(textNode);
@@ -325,7 +325,7 @@ function word_SingleClick(item) {
 	}
 	else if ($("#append").prop("checked") === true) {
 		// get value of input box (white box)
-		new_s = "|" + document.getElementById("white-box").value;
+		new_s = "┆" + document.getElementById("white-box").value;
 
 		if (j > -1) {
 			// change item in tree data structure
@@ -778,7 +778,7 @@ function simplify(str) {
 // ************* replace with YKY shorthands
 function replaceYKY(str) {
 	str2 = str.replace(/。。/g, "……");
-	str = str2.replace(/…。/g, "……");
+	str = str2.replace(/\//g, "|");
 	// str2 = str.replace(/娘/g, "孃");
 	str2 = str.replace(/\'/g, "`");
 	return str2;
@@ -1260,6 +1260,9 @@ document.getElementById("ip203").addEventListener("click", function() {
 
 document.getElementById("loadDB").addEventListener("click", function() {
 	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
+	// In Vivaldi app mode, 'prompt' function does not work and always returns null
+	if (dbname == null)
+		dbname = document.getElementById("pink-box").value;
 	loadDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -1267,6 +1270,9 @@ document.getElementById("loadDB").addEventListener("click", function() {
 
 document.getElementById("saveDB").addEventListener("click", function() {
 	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
+	// In Vivaldi app mode, 'prompt' function does not work and always returns null
+	if (dbname == null)
+		dbname = document.getElementById("red-box").value;
 	saveDB(dbname);
 	var audio = new Audio("sending.ogg");
 	audio.play();

@@ -29,7 +29,7 @@ setTimeout(function() {
 		if (nickname == "Cybernetik")
 			document.getElementById("name").value = "Cybernetik";
 		else
-			document.getElementById("name").value = "Cybernetic";
+			document.getElementById("name").value = "雷米";
 		document.getElementById("submit").click();
 	}
 },
