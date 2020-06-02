@@ -591,6 +591,12 @@ document.getElementById("do-URL-escape").addEventListener("click", function() {
 		document.getElementById("white-box").value = str2;
 }, false);
 
+document.getElementById("do-traditionalize").addEventListener("click", function() {
+		str = document.getElementById("white-box").value;
+		str2 = traditionalize(str);
+		document.getElementById("white-box").value = str2;
+}, false);
+
 document.getElementById("do-Google").addEventListener("click", function() {
 		// Open browser and search Google
 		str = document.getElementById("white-box").value;
@@ -767,6 +773,30 @@ function simplify(str) {
 		c = str[i];
 		// convert character to Simplified
 		c2 = h[c];
+		if (c2 != undefined)
+			str2 += c2;
+		else
+			str2 += c;
+	}
+	return str2;
+}
+
+// ********** convert simplified Chinese chars to traditional
+function traditionalize(str) {
+	var c = c2 = '', str2 = "";
+
+	for (i = 0; i < str.length; ++i) {
+		c = str[i];
+		// convert character to traditional
+		var c2 = undefined;
+		for (var x in h)
+			{
+			if (h[x] === c)
+				{
+				c2 = x;
+				break;
+				}
+			}
 		if (c2 != undefined)
 			str2 += c2;
 		else
