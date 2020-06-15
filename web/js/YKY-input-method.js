@@ -283,8 +283,8 @@ function word_SingleClick(item) {
 		index = old_s.indexOf(selection);
 		endIndex = index + selection.length;
 		if ((index > -1) &&
-				((index == 0) || (old_s[index - 1] == '|')) &&
-				((endIndex >= old_s.length) || (old_s[endIndex] == '|'))) {
+				((index == 0) || (old_s[index - 1] == '┆')) &&
+				((endIndex >= old_s.length) || (old_s[endIndex] == '┆'))) {
 			j = i;
 			break;
 			}
@@ -299,7 +299,7 @@ function word_SingleClick(item) {
 	if ($("#delete").prop("checked") === true) {
 		if (j > -1) {
 			// remove from tree data structure
-			if ((endIndex < old_s.length) && (old_s[endIndex] == '|'))
+			if ((endIndex < old_s.length) && (old_s[endIndex] == '┆'))
 				endIndex += 1;
 			var replaced_s = old_s.slice(0, index) + old_s.slice(endIndex);
 			currentNode[0][j] = replaced_s;
