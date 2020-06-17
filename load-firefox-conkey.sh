@@ -16,10 +16,13 @@ win_id=$(xdotool search --name --onlyvisible "Select manifest.json file")
 # echo $win_id
 xdotool windowfocus --sync $win_id key ctrl+v sleep 0.5 key Return
 # sleep 3
-for winID in $(wmctrl -l | grep -v 'Conceptual Keyboard - Chromium' | grep ' - Chromium' | grep -Eo '^[^ ]+')
-do
-echo $winID
-wmctrl -i -r $winID -b add,below
-done
+
+# ***** This part seems to set Chromium windows "always below", but seems not needed
+# for winID in $(wmctrl -l | grep -v 'Conceptual Keyboard - Chromium' | grep ' - Chromium' | grep -Eo '^[^ ]+')
+# do
+# echo $winID
+# wmctrl -i -r $winID -b add,below
+# done
+
 wmctrl -i -r $(wmctrl -l | grep "Conceptual Keyboard - Chromium" | grep -Eo '^[^ ]+') -b add,above
 # wmctrl -i -r $(wmctrl -l | grep " - Mozilla Firefox" | grep -Eo '^[^ ]+') -b add,below
