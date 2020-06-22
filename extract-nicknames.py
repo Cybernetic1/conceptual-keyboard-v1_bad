@@ -23,26 +23,29 @@ for fname in os.listdir():
 
 		allNicks = []
 
-		for line in f:
-			nick = ""
+		try:
+			for line in f:
+				nick = ""
 
-			i = line.find("向 你 秘密的說 :")
-			if i > -1:
-				nick = line[1:i - 1]
-				# print("1 " + nick)
+				i = line.find("向 你 秘密的說 :")
+				if i > -1:
+					nick = line[1:i - 1]
+					# print("1 " + nick)
 
-			j = line.find("只對 訪客_Cybernetic")
-			if j > -1:
-				nick = line[15:j - 1]
-				if nick.startswith("訪客_"):
-					nick = nick[3:]
-				if nick.startswith("_"):
-					nick = nick[1:]
-				# print("2 " + nick)
+				j = line.find("只對 訪客_Cybernetic")
+				if j > -1:
+					nick = line[15:j - 1]
+					if nick.startswith("訪客_"):
+						nick = nick[3:]
+					if nick.startswith("_"):
+						nick = nick[1:]
+					# print("2 " + nick)
 
-			if nick is not "":
-				allNicks.append(nick)
-
+				if nick is not "":
+					allNicks.append(nick)
+		except UnicodeDecodeError as err:
+			print("Error processing line >>>>>", err.object[err.start:err.end + 60].decode("utf-8", "replace"), end="<<<<<\n\n")
+			continue
 		# print("all = ", allNicks)
 
 		counts = Counter(allNicks)
