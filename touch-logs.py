@@ -26,8 +26,6 @@ for fname in os.listdir():
 		print("Error: filename extension is not '.txt' :", fname)
 		continue
 
-	print(">>>>>", fname)
-
 	m = re.search('([0-9]+)-([0-9]+)-([0-9]+)\(([0-9]+):([0-9]+)\)', date_time)
 	MM = int(m.group(1))
 	DD = int(m.group(2))
@@ -44,6 +42,7 @@ for fname in os.listdir():
 	if t - stats.st_mtime < 61.0:
 		continue
 
+	print(">>>>>", fname)
 	print(stamp)
 	with open(fname, 'a'):
 		os.utime(fname, (stats.st_atime, t))
