@@ -8,6 +8,7 @@
 
 import os
 from collections import Counter
+from termcolor import colored
 
 os.chdir("/home/yky/misc-programs/conceptual-keyboard/logs/")
 
@@ -18,13 +19,15 @@ for fname in os.listdir():
 		# print("**** skipping: " + fname)
 	else:
 		restOfName = fname[9:]
-		print("**** processing: " + restOfName)
+		print("processing: " + restOfName)
 		f = open(fname, 'r')
 
 		allNicks = []
 
-		try:
-			for line in f:
+		iterobject = iter(f)
+		while iterobject:
+			try:
+				line = next(iterobject)
 				nick = ""
 
 				i = line.find("向 你 秘密的說 :")
@@ -43,11 +46,15 @@ for fname in os.listdir():
 
 				if nick is not "":
 					allNicks.append(nick)
-		except UnicodeDecodeError as err:
-			print("Error processing line >>>>>", err.object[err.start:err.end + 60].decode("utf-8", "replace"), end="<<<<<\n\n")
-			continue
-		# print("all = ", allNicks)
 
+			except StopIteration:
+				break
+			except UnicodeDecodeError as err:
+				print(colored("Error line >>>>> ", "red", end=''))
+				print(err.object[err.start:err.end + 60].decode("utf-8", "replace"), end="<<<<<\n\n")
+				continue
+
+		# print("all = ", allNicks)
 		counts = Counter(allNicks)
 		str = ""
 		for s in counts.most_common(4):
@@ -57,9 +64,11 @@ for fname in os.listdir():
 		if str == '':				# probably has nicknames that speak only 1-2 lines
 			for s in counts.most_common(3):
 				str += (s[0] + '.')
+			if str == '':
+				str = 'log-name.'
 			newName = str + restOfName
 			os.rename(fname, newName)
-			print(">>> error: " + newName)
+			print(colored(">>> error: " + newName, "red"))
 		else:
 			newName = str + restOfName
 			os.rename(fname, newName)

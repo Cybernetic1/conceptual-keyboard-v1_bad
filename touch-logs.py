@@ -5,6 +5,7 @@
 import os
 import re
 from datetime import datetime
+from termcolor import colored
 
 os.chdir("/home/yky/misc-programs/conceptual-keyboard/logs/")
 
@@ -35,14 +36,14 @@ for fname in os.listdir():
 
 	stats = os.stat(fname)
 
-	# print(YYYY, MM, DD, hh, mm)
+	print(fname, YYYY, MM, DD, hh, mm)
 	stamp = datetime(YYYY, MM, DD, hh, mm, 0)
 	t = datetime.timestamp(stamp)
 
-	if t - stats.st_mtime < 61.0:
+	if abs(t - stats.st_mtime) < 61.0:
 		continue
 
-	print(">>>>>", fname)
+	print(colored(fname, 'red'))
 	print(stamp)
 	with open(fname, 'a'):
 		os.utime(fname, (stats.st_atime, t))
