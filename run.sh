@@ -28,7 +28,7 @@ chromium-browser --app=http://localhost:8484/index.html
 # else
 #    chromium-browser --app=http://localhost:8484/index.html
 # fi
-sleep 2
+sleep 2.5
 ##### set size and flags of conkey broswer window
 wmctrl -r "Conceptual Keyboard" -b remove,maximized_horz,maximized_vert
 wmctrl -r "Conceptual Keyboard" -e 1,500,200,520,450
