@@ -21,8 +21,8 @@ echo $Conkey_PID > conkey_PID.txt
 ##### wait 2 seconds
 sleep 1.5
 ##### start chrome browser
-chromium-browser --app=http://localhost:8484/index.html
 # vivaldi --app=http://localhost:8484/index.html
+chromium-browser --app=http://localhost:8484/index.html
 # if google-chrome --version >/dev/null; then
     # google-chrome --new-window http://localhost:8484/index.html
 # else
