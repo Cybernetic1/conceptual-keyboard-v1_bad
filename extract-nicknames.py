@@ -50,7 +50,7 @@ for fname in os.listdir():
 			except StopIteration:
 				break
 			except UnicodeDecodeError as err:
-				print(colored("Error line >>>>> ", "red", end=''))
+				print(colored("Error line >>>>> ", "red"), end='')
 				print(err.object[err.start:err.end + 60].decode("utf-8", "replace"), end="<<<<<\n\n")
 				continue
 
