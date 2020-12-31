@@ -662,6 +662,66 @@ document.getElementById("do-resize").addEventListener("click", function() {
 	});
 }, false);
 
+document.getElementById("quick-simplify").addEventListener("click", function() {
+	var whiteBox = document.getElementById("white-box");
+	str = whiteBox.value;
+	str = simplify(str, true);	// true means force simplify
+	// str = replaceYKY(str);
+	whiteBox.value = str;
+
+	whiteBox.focus();
+	whiteBox.select();
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
+
+	// Copy to clipboard, by sending to Chrome Extension Content Script first
+	// The window.postMessage commmand seems obsolete:
+	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
+
+	recordHistory(str);
+
+	// clear input box
+	whiteBox.value = "";
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("quick-complex").addEventListener("click", function() {
+	var whiteBox = document.getElementById("white-box");
+	str = whiteBox.value;
+	str = traditionalize(str);
+	// str = replaceYKY(str);
+	whiteBox.value = str;
+
+	whiteBox.focus();
+	whiteBox.select();
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
+
+	// Copy to clipboard, by sending to Chrome Extension Content Script first
+	// The window.postMessage commmand seems obsolete:
+	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
+
+	recordHistory(str);
+
+	// clear input box
+	whiteBox.value = "";
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
 var butt1 = document.getElementById("paste1");
 butt1.title = "妳好 :)";
 butt1.addEventListener("click", function() {
@@ -763,10 +823,10 @@ document.getElementById("genifer-teach").addEventListener("click", function() {
 }, false);
 
 // ********** convert traditional Chinese chars to simplified
-function simplify(str) {
+function simplify(str, forcing=false) {
 	var c = c2 = '', str2 = "";
 
-	if ($("#simplify").prop("checked") === false)
+	if (!forcing || $("#simplify").prop("checked") === false)
 		return str;
 
 	for (i = 0; i < str.length; ++i) {
