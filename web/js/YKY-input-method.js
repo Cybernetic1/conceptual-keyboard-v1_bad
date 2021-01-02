@@ -665,7 +665,7 @@ document.getElementById("do-resize").addEventListener("click", function() {
 document.getElementById("quick-simplify").addEventListener("click", function() {
 	var whiteBox = document.getElementById("white-box");
 	str = whiteBox.value;
-	str = simplify(str, true);	// true means force simplify
+	str = simplify(str, forcing=true);	// true means force simplify
 	// str = replaceYKY(str);
 	whiteBox.value = str;
 
@@ -826,7 +826,7 @@ document.getElementById("genifer-teach").addEventListener("click", function() {
 function simplify(str, forcing=false) {
 	var c = c2 = '', str2 = "";
 
-	if (!forcing || $("#simplify").prop("checked") === false)
+	if (!forcing && $("#simplify").prop("checked") === false)
 		return str;
 
 	for (i = 0; i < str.length; ++i) {
