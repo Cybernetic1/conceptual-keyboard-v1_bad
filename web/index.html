@@ -37,7 +37,15 @@
 				border-color: #aaa #333 #333 #aaa;
 			}
 
-			input[type=text] {
+			textarea {
+				height: 35px;
+				font-size: 130%;
+				background-color: #000000;
+				color: #ffffff;
+				/* font-weight: bold; */
+			}
+
+			input[type=text] {		// This is no longer used
 				font-size: 100%;
 				background-color: #000000;
 				color: #ffffff;
@@ -137,8 +145,9 @@
 	</head>
 
 	<body>
-		<input type="text" id="white-box" style="width:100%; height:120%;"
-		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
+		<!-- input type="text" id="white-box2" style="width:100%; height:120%;"
+		ondrop="drop(event);" ondragover="allowDrop(event)" value="" -->
+		<textarea id="white-box" style="width:100%;" rows="1"></textarea>
 		<br>
 		<!-- div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)" -->
 		</div>

@@ -666,7 +666,7 @@ document.getElementById("quick-simplify").addEventListener("click", function() {
 	var whiteBox = document.getElementById("white-box");
 	str = whiteBox.value;
 	str = simplify(str, forcing=true);	// true means force simplify
-	// str = replaceYKY(str);
+	str = replaceYKY(str);
 	whiteBox.value = str;
 
 	whiteBox.focus();
@@ -696,7 +696,7 @@ document.getElementById("quick-complex").addEventListener("click", function() {
 	var whiteBox = document.getElementById("white-box");
 	str = whiteBox.value;
 	str = traditionalize(str);
-	// str = replaceYKY(str);
+	str = replaceYKY(str);
 	whiteBox.value = str;
 
 	whiteBox.focus();
@@ -871,6 +871,7 @@ function replaceYKY(str) {
 	str = str2.replace(/\//g, "|");
 	// str2 = str.replace(/娘/g, "孃");
 	str2 = str.replace(/\'/g, "`");
+	// str = str2.replace(/\r/g, "\r\n");
 	return str2;
 }
 
