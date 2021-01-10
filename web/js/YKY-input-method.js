@@ -63,9 +63,10 @@ var word_index = 0;
 var node_index = 0;
 
 // History of input box
-var history = new Array();
+const MaxHistory = 1000;
+var history = new Array(MaxHistory);
 var history_index = 0;			// current position of history, which should be empty
-var history_view_index = 0;		// current viewing position of history
+var history_view_index = -1;	// current viewing position of history
 
 // Fill the 1st column (= leftmost column) with sub-dirs of current dir
 function fillDirs()
@@ -541,7 +542,8 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
 function recordHistory(str) {
 	history[history_index] = str;
 	++history_index;
-	if (history_index == 500) history_index = 0;
+	if (history_index == MaxHistory)
+		history_index = 0;
 	history_view_index = -1;
 }
 
@@ -1124,12 +1126,16 @@ function checkKey(e) {
 
 	if (e.keyCode == 38) {							// up arrow key
 		// console.log("up arrow detected");
-		if (history_view_index == -1)
+		if (history_view_index <= 0) {				// -1 = no history to view
+			var stuffs = document.getElementById("white-box").value;
+			if (stuffs)
+				recordHistory(stuffs);
 			history_view_index = history_index - 1;
+			}
 		else
 			--history_view_index;
 		document.getElementById("white-box").value = history[history_view_index];
-	}
+		}
 	if (e.keyCode == 40) {							// down arrow key
 		// console.log("down arrow detected");
 		if (history_view_index != -1)				// -1 = no history to view
@@ -1143,9 +1149,9 @@ function checkKey(e) {
 			else
 				document.getElementById("white-box").value = history[history_view_index];
 			}
-	}
+		}
 	// document.getElementById("white-box").focus();
-};
+	};
 
 /*
 document.getElementById("send-green").addEventListener("click", function() {
