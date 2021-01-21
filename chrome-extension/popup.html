@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+  	<meta http-equiv="Content-Type" content="text/html"/>
+	<meta charset="utf-8">
+	<title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width: 210px;
+        overflow-x: hidden;
+        border: 2px solid black;
+      }
+
+      input {
+		  font-size: 16px;
+		  text-align: left;
+		  color: blue;
+	  }
+
+	  textarea {
+			font-size: 16px;
+	  }
+
+	  select {
+			font-size: 16px;
+			color: red;
+	  }
+
+      img {
+        margin: 5px;
+        border: 5px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+     -->
+
+	<!-- script src="feed-input.js"></script !-->
+  </head>
+  <body>
+		<input id="butt4" type="button" value="Reset event stream"/>
+
+		<input id="butt6" type="button" value="Reload extension"/>
+		<input id="butt1" type="button" value="Beep"/>
+		ConKey -- WeChat &copy; 2021 YKY
+
+    <!-- JavaScript and HTML must be in separate files !!!-->
+	<script type="text/javascript" src="popup.js"></script>
+
+  </body>
+
+</html>
+

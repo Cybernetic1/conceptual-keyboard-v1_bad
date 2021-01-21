@@ -1,0 +1,42 @@
+{
+    "manifest_version": 2,
+    "name": "Conkey-WeChat",
+    "version": "1.0",
+    "description": "allow communication between Conkey and WeChat",
+
+    "icons": {
+        "48": "icons/icon.png"
+    },
+
+    "browser_action": {
+		"browser_style": true,
+		"default_icon": {
+			"32": "icons/icon.png"
+		},
+		"default_title": "Conkey-WeChat",
+		"default_popup": "popup.html"
+	},
+
+	"background": {
+		"page": "background.html"
+	},
+
+	"content_scripts": [
+
+		{"matches": [
+			"*://web.wechat.com/?&lang=en"
+			],
+		"js": ["jquery-1.11.2.min.js", "contentscript-WeChat.js" ],
+		"run_at": "document_end"
+		}
+	],
+
+	"permissions": [
+		"tabs",
+		"http://localhost/",
+		"clipboardRead",
+		"clipboardWrite",
+		"contextMenus"
+	]
+
+}

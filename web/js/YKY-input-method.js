@@ -899,7 +899,7 @@ function quicksend() {
 		return;
 	}
 
-	// str = simplify(str);			// when sending to chat rooms, no simplify
+	str = simplify(str);			// when sending to chat rooms, no simplify
 	str = replaceYKY(str);
 
 //	if (to_skype) {			// Try to send text to Skype chat dialog
