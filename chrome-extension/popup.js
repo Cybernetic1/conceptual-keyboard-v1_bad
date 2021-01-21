@@ -20,7 +20,7 @@ function onClickButt4() {
 
 // reload extension
 function onClickButt6() {
-	browser.runtime.reload();
+	chrome.runtime.reload();
 	setTimeout(function() {
 		window.close();
 		}, 500);

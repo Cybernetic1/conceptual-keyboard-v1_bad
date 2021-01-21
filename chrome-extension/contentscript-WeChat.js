@@ -12,7 +12,7 @@ let myPort = chrome.runtime.connect({name:"PORT-script-WeChat"});
 // ******** Detect mouse-over on ChatRoom page
 // Notify background.js, who decides ultimately which contentscript-* to output to
 document.addEventListener("mouseover", function(){
-	myPort.postMessage({chatroom: "WeChat"});
+	// myPort.postMessage({chatroom: "WeChat"});
 	// ip68, ip203, ip4, hklovechat, hk2love, etc...
 });
 
@@ -45,12 +45,13 @@ myPort.onMessage.addListener(function(request) {
 			// str = str2;
 			var inputBox = document.querySelector("#editArea");
 			inputBox.innerText = str;
-			inputBox.dispatchEvent(new KeyboardEvent('keydown',{'key':'!'}));
+			// ******* Send 不出去的原因是因为我未在box内打过字!!
+			// The problem is, unable to trigger keypress in input box
+			inputBox.dispatchEvent(new KeyboardEvent('keydown',{'key':'A'}));
+			angular.element(inputBox).triggerHandler('click');
 			// and then perhaps click "enter"?
 			var sendButton = document.querySelector("#chatArea > div.box_ft.ng-scope > div.action > a");
-			// angular.element(sendButton).triggerHandler('click');
 			// console.log("button DOM element: " + sendButton);
-			// ******* Send 不出去的原因是因为我未在box内打过字!!
 			sendButton.click();
 			}
 
@@ -58,6 +59,15 @@ myPort.onMessage.addListener(function(request) {
 		
 	return true;
 	});
+
+// ***** This is useless:
+var injection = document.createElement('script');
+// TODO: add "script.js" to web_accessible_resources in manifest.json
+injection.src = chrome.runtime.getURL('injection.js');
+injection.onload = function() {
+    this.remove();
+};
+(document.head || document.documentElement).appendChild(injection);
 
 console.log("WeChat: Added message listener");
 

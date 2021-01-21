@@ -26,10 +26,12 @@
 		{"matches": [
 			"*://web.wechat.com/?&lang=en"
 			],
-		"js": ["jquery-1.11.2.min.js", "contentscript-WeChat.js" ],
+		"js": ["jquery-1.11.2.min.js", "angular.min.js", "contentscript-WeChat.js" ],
 		"run_at": "document_end"
 		}
 	],
+
+	"web_accessible_resources": ["injection.js"],
 
 	"permissions": [
 		"tabs",
