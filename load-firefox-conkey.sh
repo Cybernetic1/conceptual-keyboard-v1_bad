@@ -2,12 +2,16 @@
 xclip -selection clipboard /home/yky/misc-programs/conceptual-keyboard/load-conkey.txt
 beep
 # firefox about:debugging#/runtime/this-firefox &
-sleep 0.5
 # echo $win_id
 if [ $(hostname) = 'Vivobook' ]; then
-	win_id=$(xdotool search --name --onlyvisible "Debugging - Runtime / this-firefox");
-	xdotool windowfocus --sync $win_id mousemove 880 369 click 1
+	firefox about:debugging#/runtime/this-firefox
+	# not sure why but the window name search isn't working
+	sleep 0.7
+	win_id=$(xdotool search --name --onlyvisible "Firefox");
+	# win_id=$(xdotool search --name --onlyvisible "Debugging - Runtime / this-firefox");
+	xdotool windowfocus --sync $win_id mousemove 880 320 click 1
 else
+	sleep 0.5
 	win_id=$(xdotool search --name --onlyvisible "Mozilla Firefox");
 	xdotool windowfocus --sync $win_id mousemove 228 107 click 3 sleep 1 mousemove 105 265 click 3 sleep 1 mousemove 847 345 click 3
 fi
