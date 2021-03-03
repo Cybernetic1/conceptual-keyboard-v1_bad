@@ -1,0 +1,56 @@
+{
+
+    "manifest_version": 2,
+    "name": "Conkey",
+    "version": "4.0",
+    "description": "allow communication between keyboard page and chatroom pages",
+
+    "icons": {
+        "48": "icons/icon.png"
+    },
+
+	"background": {
+		"page": "background.html",
+		"scripts": ["background.js"],
+		"persistent": true
+	},
+
+	"content_scripts": [
+		{
+		/* This is the script associated with the "Conceptual Keyboard" page, */
+		/*    which is currently run by localhost */
+		"matches": ["https://localhost/*"],
+		"js": ["contentscript.js"],
+		"run_at": "document_end"
+		},
+		{
+		/* This is the script associated with various "Chatroom" pages */
+		/* For example:  http://www.uvoov.com/voovchat/index.php */
+		/*               http://60.199.209.71/VIP5D/index.phtml */
+		/*               http://ip131.ek21.com/login?r=0.30678198183886707 */
+		"matches": [
+			"*://60.199.209.72/VIP*/index.phtml*",
+			"*://60.199.209.71/VIP*/index.phtml*",
+			"*://www.uvoov.com/voovchat/*",
+			"*://chat.hklovechat.com/frames.aspx*",
+			"*://ip131.ek21.com/login*",
+			"*://ip203.ek21.com/*",
+			"*://ip4.ek21.com/*",
+			"*://ip69.ek21.com/*",
+			"*://www.hk2love.com/cgi-bin/*",
+			"*://www.hk2love.com/index.php?location=chat"
+			],
+		"js": ["jquery-1.11.2.min.js", "contentscript2.js" ],
+		"run_at": "document_end"
+		}
+	],
+
+	"permissions": [
+		"tabs",
+		"http://localhost/",
+		"clipboardRead",
+		"clipboardWrite",
+		"contextMenus"
+	]
+
+}
