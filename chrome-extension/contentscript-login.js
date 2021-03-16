@@ -5,16 +5,13 @@
 
 var nickname = "Cybernetic1";
 
-function handleResponse(message) {
-	nickname = message.response;
+function handleResponse(response) {
+	if (response !== undefined)
+		nickname = response;
 }
 
-function handleError(error) {
-	console.log(`LOGIN script rrror: ${error}`);
-}
-
-var sending = browser.runtime.sendMessage({askNickname: "who?"});
-sending.then(handleResponse, handleError);
+var sending = chrome.runtime.sendMessage({askNickname: "who?"},
+handleResponse);
 
 // ******** Execute only once, at start of page-load **********
 setTimeout(function() {
@@ -33,7 +30,7 @@ setTimeout(function() {
 		document.getElementById("submit").click();
 	}
 },
-3000);
+4000);
 
 // This runs only once, as "login" page is loaded
 console.log("Content script #3 = LOGIN (21 Sept 2018) loaded....");

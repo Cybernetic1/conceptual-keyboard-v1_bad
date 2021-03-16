@@ -53,6 +53,8 @@ let myPort = browser.runtime.connect({name:"PORT-script-2"});
 document.addEventListener("mouseover", function(){
 	if (document.URL.indexOf("ip131") >= 0)
 		myPort.postMessage({chatroom: "ip131"});
+	if (document.URL.indexOf("ip4") >= 0)
+		myPort.postMessage({chatroom: "ip4"});
 	if (document.URL.indexOf("chatroom.hk") >= 0)
 		myPort.postMessage({chatroom: "roomHK"});
 
@@ -166,7 +168,7 @@ myPort.onMessage.addListener(function(request) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 
-		// This one is for: 寻梦园 长直发／忘年之戀
+		/* This one is for: 寻梦园 长直发／忘年之戀
 		if (document.URL.indexOf("ip4") >= 0)
 			{
 			// (Skip some pleasantries for this room...)
@@ -182,6 +184,7 @@ myPort.onMessage.addListener(function(request) {
 			// because own messages appear as broken pieces on their page
 			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
+		*/
 
 		// **** for chatroom.HK
 		if (document.URL.indexOf("chatroom.hk") >= 0)

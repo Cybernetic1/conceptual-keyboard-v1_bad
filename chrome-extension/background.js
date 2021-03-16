@@ -1,13 +1,22 @@
 // Background script
 // Read from Conceptual Keyboard tab and feed into input box of another tab.
+// Notice that this *Chrome* extension connects to port *8585*
 
-var whoIsActive = "WeChat";
+var whoIsActive = "roomHK";
 
 var port_WeChat;
+var port_roomHK;
+var port_ip131;
+var port_ip4;
+// var port_popup;		// ?? What's the use of this?
 
 function streamEventHandler(e) {
 	// Directly output to chatroom
-	if (whoIsActive == "WeChat")
+	if (whoIsActive == "ip131")
+		port_ip131.postMessage({sendtext: e.data});
+	else if (whoIsActive == "roomHK")
+		port_roomHK.postMessage({sendtext: e.data});
+	else if (whoIsActive == "WeChat")
 		port_WeChat.postMessage({sendtext: e.data});
 	console.log("Event: " + e.data);
 }	
@@ -15,7 +24,7 @@ function streamEventHandler(e) {
 var evtSource = null;
 function initEventSource() {
 	// Listen to Node.js server
-	evtSource = new EventSource("http://localhost:8484/stream");
+	evtSource = new EventSource("http://localhost:8585/stream");
 	evtSource.onmessage = streamEventHandler;
 	evtSource.onerror = function(e) {
 		if (evtSource.readyState == 2) {
@@ -31,7 +40,9 @@ function connected(p) {
 	// title = p.sender.tab.title;
 	url = p.sender.url;
 	console.log("CONNECTED to tab:", url);
-	if (url.indexOf("wechat") >= 0)
+	if (url.indexOf("ip131") >= 0)
+		port_ip131 = p;
+	else if (url.indexOf("wechat") >= 0)
 		port_WeChat = p;
 
 	// console.log("Background: CONNECTED to content-scripts-2");

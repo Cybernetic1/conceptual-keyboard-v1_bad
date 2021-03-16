@@ -31,7 +31,7 @@ var path = require("path");
 
 var sse_res = null;
 
-http.createServer(function (req, res) {
+function reqHandler(req, res) {
 
 	if (req.headers.accept && req.headers.accept == 'text/event-stream') {
 		if (req.url == '/stream') {
@@ -379,6 +379,12 @@ http.createServer(function (req, res) {
 	// All failed:
 	res.writeHead(404);
 	res.end();
+}
 
-}).listen(8484, "127.0.0.1");
-console.log("Server running at http://127.0.0.1:8484/");
+var s = http.createServer(reqHandler);
+s.listen(8484, "127.0.0.1");
+
+var s2 = http.createServer(reqHandler);
+s2.listen(8585, "127.0.0.1");
+
+console.log("Servers running at http://127.0.0.1:8484/ and :8585/");

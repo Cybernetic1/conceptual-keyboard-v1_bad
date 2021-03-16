@@ -733,7 +733,7 @@ butt1.addEventListener("click", function() {
 }, false);
 
 var butt2 = document.getElementById("paste2");
-butt2.title = "喜欢玩文字网爱吗?";
+butt2.title = "喜歡玩文字網愛嗎?";
 butt2.addEventListener("click", function() {
 	send2Chat(butt2.title);
 	var audio = new Audio("sending.ogg");
@@ -741,7 +741,7 @@ butt2.addEventListener("click", function() {
 }, false);
 
 var butt3 = document.getElementById("paste3");
-butt3.title = "喜欢做什么？";
+butt3.title = "喜歡做什麼？";
 butt3.addEventListener("click", function() {
 	send2Chat(butt3.title);
 	var audio = new Audio("sending.ogg");
