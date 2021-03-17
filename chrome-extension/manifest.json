@@ -37,6 +37,7 @@
 		},
 
 		{"matches": [
+			"*://chatroom.hk/chatroom.php",
 			"*://ip131.ek21.com/login*",
 			"*://ip4.ek21.com/*",
 			"*://ip69.ek21.com/*"

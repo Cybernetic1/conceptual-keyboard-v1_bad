@@ -24,7 +24,7 @@ function streamEventHandler(e) {
 var evtSource = null;
 function initEventSource() {
 	// Listen to Node.js server
-	evtSource = new EventSource("http://localhost:8585/stream");
+	evtSource = new EventSource("http://localhost:8484/stream");
 	evtSource.onmessage = streamEventHandler;
 	evtSource.onerror = function(e) {
 		if (evtSource.readyState == 2) {
@@ -42,6 +42,8 @@ function connected(p) {
 	console.log("CONNECTED to tab:", url);
 	if (url.indexOf("ip131") >= 0)
 		port_ip131 = p;
+	else if (url.indexOf("chatroom.hk") >= 0)
+		port_roomHK = p;
 	else if (url.indexOf("wechat") >= 0)
 		port_WeChat = p;
 
