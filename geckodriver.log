@@ -1,0 +1,190 @@
+1616010574049	geckodriver	INFO	Listening on 127.0.0.1:32915
+1616010575041	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilefux3WJ"
+
+(firefox:2859): GLib-GIO-CRITICAL **: 03:49:37.693: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:2859): GLib-GIO-CRITICAL **: 03:49:37.693: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:2859): GLib-GIO-CRITICAL **: 03:49:37.693: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616010581912	Marionette	INFO	Listening on port 39227
+1616010582024	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://cae333af6f23cc90cafdbd41bb779fb6.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: googqscp is not defined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=BMj99Py7zRUq line 229 > injectedScript, line 111: TypeError: box is null
+1616010624642	Marionette	INFO	Stopped listening on port 39227
+1616010713761	geckodriver	INFO	Listening on 127.0.0.1:52555
+1616010713767	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileP8CmBi"
+
+(firefox:3170): GLib-GIO-CRITICAL **: 03:51:55.259: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3170): GLib-GIO-CRITICAL **: 03:51:55.259: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3170): GLib-GIO-CRITICAL **: 03:51:55.259: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616010719192	Marionette	INFO	Listening on port 45409
+1616010719355	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=1lPvsdvyrM1E line 229 > injectedScript, line 111: TypeError: box is null
+1616010833764	Marionette	INFO	Stopped listening on port 45409
+1616010838317	geckodriver	INFO	Listening on 127.0.0.1:46237
+1616010838324	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileykTUMt"
+
+(firefox:3498): GLib-GIO-CRITICAL **: 03:53:59.791: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3498): GLib-GIO-CRITICAL **: 03:53:59.791: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3498): GLib-GIO-CRITICAL **: 03:53:59.791: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616010843867	Marionette	INFO	Listening on port 44191
+1616010844011	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: https://320bd763cca1e35cbcaeccb780d73632.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: googqscp is not defined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=MRxUFg4dpTYt line 229 > injectedScript, line 111: TypeError: box is null
+1616010927547	Marionette	INFO	Stopped listening on port 44191
+1616010932575	geckodriver	INFO	Listening on 127.0.0.1:46827
+1616010932581	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileShxlTC"
+
+(firefox:3732): GLib-GIO-CRITICAL **: 03:55:34.107: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3732): GLib-GIO-CRITICAL **: 03:55:34.108: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:3732): GLib-GIO-CRITICAL **: 03:55:34.108: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616010938272	Marionette	INFO	Listening on port 46575
+1616010938352	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=6MFvV6eiaHLs line 229 > injectedScript, line 111: TypeError: box is null
+1616011081431	Marionette	INFO	Stopped listening on port 46575
+1616011089322	geckodriver	INFO	Listening on 127.0.0.1:45321
+1616011089329	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileveWI6m"
+
+(firefox:4001): GLib-GIO-CRITICAL **: 03:58:10.835: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:4001): GLib-GIO-CRITICAL **: 03:58:10.835: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:4001): GLib-GIO-CRITICAL **: 03:58:10.836: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616011094875	Marionette	INFO	Listening on port 33967
+1616011095012	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=9CD4MdfEDKHO line 229 > injectedScript, line 111: TypeError: box is null
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616011715597	Marionette	INFO	Stopped listening on port 33967
+1616011721407	geckodriver	INFO	Listening on 127.0.0.1:44917
+1616011721414	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilecbfOtu"
+
+(firefox:4795): GLib-GIO-CRITICAL **: 04:08:43.005: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:4795): GLib-GIO-CRITICAL **: 04:08:43.005: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:4795): GLib-GIO-CRITICAL **: 04:08:43.005: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616011727700	Marionette	INFO	Listening on port 44441
+1616011727801	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=wsQSzaaW5SN7 line 229 > injectedScript, line 111: TypeError: box is null
+Exiting due to channel error.
+Exiting due to channel error.
+Exiting due to channel error.
+1616012376362	geckodriver	INFO	Listening on 127.0.0.1:37897
+1616012376369	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileGqIloH"
+
+(firefox:5376): GLib-GIO-CRITICAL **: 04:19:38.006: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:5376): GLib-GIO-CRITICAL **: 04:19:38.006: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:5376): GLib-GIO-CRITICAL **: 04:19:38.006: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616012382734	Marionette	INFO	Listening on port 42937
+1616012382855	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=2sV99Re7eQyo line 229 > injectedScript, line 111: TypeError: box is null
+1616012491460	Marionette	INFO	Stopped listening on port 42937
+1616012503978	geckodriver	INFO	Listening on 127.0.0.1:55703
+1616012503985	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileG4ztLR"
+
+(firefox:5650): GLib-GIO-CRITICAL **: 04:21:45.811: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:5650): GLib-GIO-CRITICAL **: 04:21:45.811: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:5650): GLib-GIO-CRITICAL **: 04:21:45.811: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616012510700	Marionette	INFO	Listening on port 34265
+1616012510791	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=Un5hYTmHQr26 line 229 > injectedScript, line 111: TypeError: box is null
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616013071710	Marionette	INFO	Stopped listening on port 34265
+1616013663048	geckodriver	INFO	Listening on 127.0.0.1:56623
+1616013663054	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileVkomGv"
+
+(firefox:7167): GLib-GIO-CRITICAL **: 04:41:04.565: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:7167): GLib-GIO-CRITICAL **: 04:41:04.565: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:7167): GLib-GIO-CRITICAL **: 04:41:04.565: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616013668592	Marionette	INFO	Listening on port 39371
+1616013668733	Marionette	WARN	TLS certificate errors will be ignored for this session
+1616013675579	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+1616013675583	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=FF43IIIhZI8t line 229 > injectedScript, line 111: TypeError: box is null
+1616013842525	Marionette	INFO	Stopped listening on port 39371
+1616013851335	geckodriver	INFO	Listening on 127.0.0.1:52501
+1616013851341	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileNmIGe9"
+
+(firefox:7584): GLib-GIO-CRITICAL **: 04:44:12.829: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:7584): GLib-GIO-CRITICAL **: 04:44:12.829: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:7584): GLib-GIO-CRITICAL **: 04:44:12.829: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616013857003	Marionette	INFO	Listening on port 40763
+1616013857118	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=oBhnAE8iy0kh line 229 > injectedScript, line 111: TypeError: box is null
+1616014085529	Marionette	INFO	Stopped listening on port 40763
+1616014216668	geckodriver	INFO	Listening on 127.0.0.1:33131
+1616014216675	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileVd8Ued"
+
+(firefox:8103): GLib-GIO-CRITICAL **: 04:50:18.186: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:8103): GLib-GIO-CRITICAL **: 04:50:18.186: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:8103): GLib-GIO-CRITICAL **: 04:50:18.187: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616014222170	Marionette	INFO	Listening on port 41803
+1616014222260	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: http://a.breaktime.com.tw/js/au.js?spj=M0MyOUNYMUlaWEs5QVY4SEczMEQwMw==, line 1: TypeError: e is undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=Z82C8bucLiat line 229 > injectedScript, line 111: TypeError: box is null
+1616014276686	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:231:19
+TimedPromise@chrome://marionette/content/sync.js:216:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:433:10
+webdriverClickElement@chrome://marionette/content/interaction.js:179:31
+1616014353306	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616015288407	Marionette	INFO	Stopped listening on port 41803
+1616017398406	geckodriver	INFO	Listening on 127.0.0.1:42655
+1616017398412	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileuimcJT"
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616017403880	Marionette	INFO	Listening on port 40525
+1616017403980	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=iIj52O2bsPUc line 229 > injectedScript, line 111: TypeError: box is null
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616018015983	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=iIj52O2bsPUc, line 304: NS_ERROR_UNEXPECTED: 
+1616036902399	Marionette	INFO	Stopped listening on port 40525

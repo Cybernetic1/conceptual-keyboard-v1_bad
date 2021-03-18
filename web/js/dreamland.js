@@ -1,59 +1,3 @@
-// ***********************************************
-// *** Code for storing the database in a tree ***
-// *** and for handling the user interface     ***
-// ***********************************************
-
-// To do: (Misc)
-// * determine automatic log name (seems to be solved by server?)
-// * enable using more self-nickname variants
-// * on page close save log
-// * log what she says
-// * forget Typing Log directory files periodically
-
-// To do: (abandoned)
-// * left and right click in Green Box
-// * drag-and-drop to white box
-// * create an area like a clipboard, that can be saved
-
-// To do: (Cantonese with Genifer 5)
-// -- it's Genifer's job now
-
-// To do: (Pictures)
-// * determine word @ mouse position
-//		- need data structure:  list of { word, rectangle }
-// * use mouse to draw rectangle and record params
-// * display rectangle when mouse-over / mouse-off
-// * save params in a data file
-// * how to name and store image files?
-// * images may have its own navigation system
-//		- how to build via machine learning?
-
-/* Notes on trianglulation geometry
-point p1(x1, y1);
-point p2(x2, y2);
-point p3(x3, y3);
-
-point p(x,y); // <-- You are checking if this point lies in the triangle.
-
-p = (alpha)*p1 + (beta)*p2 + (gamma)*p3
-
-float alpha = ((p2.y - p3.y)*(p.x - p3.x) + (p3.x - p2.x)*(p.y - p3.y)) /
-        ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
-float beta = ((p3.y - p1.y)*(p.x - p3.x) + (p1.x - p3.x)*(p.y - p3.y)) /
-       ((p2.y - p3.y)*(p1.x - p3.x) + (p3.x - p2.x)*(p1.y - p3.y));
-float gamma = 1.0f - alpha - beta;
-
-If all of alpha, beta, and gamma are greater than 0, then the point p lies within the triangle made of points p1, p2, and p3.
-*/
-
-// ************* Tree data structure *************
-// The format is an array of arrays of arrays...
-// For example, the top-level nodes are: database[1], database[2], database[3], etc...
-// All node indexes start at 1.
-// Deeper nodes are such as database[3][1][4]... for node 3.1.4... etc
-// For each node, data[x][y]...[z][0] holds its data, which is also an array.
-// Within the "data" array, element 0 is the name of "that" node.
-// In other words, the name of node 4.2.3.7 is database[4][2][3][7][0][0].
 var database = new Array();
 
 var currentNode = null;		// node (within database) currently selected by user
@@ -496,14 +440,6 @@ function saveDB(dbname)
 		data: s,
 		success: function(resp) {}
 	}));
-
-// **** Save to client side with this code:
-//	var textFileAsBlob = new Blob([s0], {type: 'text/plain'});
-//	var fileNameToSaveAs = "database-out.txt";	//	must be "Downloads" directory
-//	var downloadLink = document.createElement("a");
-//	downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-//	downloadLink.download = fileNameToSaveAs;
-//	downloadLink.click();
 }
 
 // ******************************* Menu buttons ********************************
@@ -809,21 +745,6 @@ function display_pinyin(str) {
 	document.getElementById("pinyin-box").innerHTML = str2;
 }
 
-// Genifer:  save input-output pair in ./training directory
-document.getElementById("genifer-teach").addEventListener("click", function() {
-	var in_str  = document.getElementById("red-box").value;
-	var out_str = document.getElementById("pink-box").value;
-
-	// send to server for saving
-	console.log($.ajax({
-		method: "POST",
-		url: "/saveTrainingPair/",
-		data: {input: in_str, output: out_str},
-		success: function(resp) {}
-	}));
-
-}, false);
-
 // ********** convert traditional Chinese chars to simplified
 function simplify(str, forcing=false) {
 	var c = c2 = '', str2 = "";
@@ -902,31 +823,8 @@ function quicksend() {
 	str = simplify(str);			// when sending to chat rooms, no simplify
 	str = replaceYKY(str);
 
-//	if (to_skype) {			// Try to send text to Skype chat dialog
-//		Skype.ui({				// don't know how to do it yet...
-//			name: "",
-//			element: "",
-//			participants: [""]
-//		});
-//	}
-
 	recordHistory(str);
 	display_pinyin(str);
-
-	/***** Send to Pidgin #0?
-	if ($("#to-pidgin0").prop("checked") === true) {
-		var userName = document.getElementsByName("pidgin-who0")[0].value;
-		sendPidgin(userName, str);
-		return;
-	}
-
-	// Send to Pidgin #1?
-	if ($("#to-pidgin1").prop("checked") === true) {
-		var userName = document.getElementsByName("pidgin-who1")[0].value;
-		sendPidgin(userName, str);
-		return;
-	}
-	*****/
 
 	send2Chat(str);
 
@@ -1043,105 +941,7 @@ function flushTypings() {
 	return null;
 }
 
-// Send message to DreamLand
-var last_dream = ""
-document.getElementById("to-dream").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	if (str == last_dream)
-		str = "..." + str;
-	last_dream = str;
-	recordHistory(str);
-
-	// send to dreamland.py
-	$.ajax({
-		method: "POST",
-		url: "./dreamland",
-		data: str,
-		success: function(resp) {
-		// nothing
-		}
-	});
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-
-document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
-
 document.getElementById("send-white").addEventListener("click", quicksend, false);
-
-/*******
-function sendPidgin(userName, str) {
-	$.ajax({
-		method: "POST",
-		url: "/sendPidginMessage/" + userName,
-		data: {data: str},
-		success: function(resp) {
-			console.log("Pidgin<" + userName + "> " + str);
-		}
-	});
-}
-
-// Get list of Pidgin window names
-document.getElementById("pidgin-names").addEventListener("click", function() {
-	var str = "";
-
-	$.ajax({
-		method: "GET",
-		url: "/getPidginNames/",
-		data: str,
-		cache: false,
-		success: function(data) {
-			console.log("Got names:\n" + data);
-
-			pidginNames0 = document.getElementsByName("pidgin-who0")[0];
-			pidginNames1 = document.getElementsByName("pidgin-who1")[0];
-			pidginNames0.innerHTML = "";
-			pidginNames1.innerHTML = "";
-
-			var lines = data.split('\n');
-			for (var i = 0; i < lines.length - 1; i += 2) {
-				pidginNames0.innerHTML += "<option value=\"" + lines[i] + "\">"
-					+ lines[i+1] + "</option>";
-				pidginNames1.innerHTML += "<option value=\"" + lines[i] + "\">"
-					+ lines[i+1] + "</option>";
-				}
-		}
-	});
-
-}, false);
-
-
-// Send message to Pidgin #0
-document.getElementById("send-pidgin0").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	recordHistory(str);
-
-	var userName = document.getElementsByName("pidgin-who0")[0].value;
-	sendPidgin(userName, str);
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-
-// Send message to Pidgin #1
-document.getElementById("send-pidgin1").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	recordHistory(str);
-
-	var userName = document.getElementsByName("pidgin-who1")[0].value;
-	sendPidgin(userName, str);
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-*****/
 
 // Browsing history with up and down arrows
 document.onkeydown = checkKey;
@@ -1178,73 +978,6 @@ function checkKey(e) {
 	// document.getElementById("white-box").focus();
 	};
 
-/*
-document.getElementById("send-green").addEventListener("click", function() {
-	str = document.getElementById("green-box").textContent;
-	str = simplify(str);
-	str = replaceYKY(str);
-	// str = str.replace(/[()]/g, "");  // remove ()'s
-
-	send2Chat(str);
-	// console.log("I'm sending something");
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-document.getElementById("send-up").addEventListener("click", function() {
-	green_str = document.getElementById("green-box").textContent;
-	// str = str.replace(/[()]/g, "");		// remove ()'s
-
-	white_str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = white_str + green_str;
-
-	history_view_index = -1;		// No longer in history mode
-}, false);
-
-document.getElementById("send-down").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	words = str.split(" ");
-	words.forEach(function(word, i, array) {
-		// wrap () around all words
-		// word = "(" + word + ")";
-		// make words draggable
-		// create node for all words
-		textNode = document.createElement('span');
-		textNode.id = 'word_' + word_index;
-		++word_index;
-		// allow dragging of words
-		textNode.draggable = true;
-		textNode.ondragstart = drag;
-		textNode.appendChild(document.createTextNode(word));
-		document.getElementById("green-box").appendChild(textNode);
-	});
-}, false);
-*/
-
-/*
-document.getElementById("history-up").addEventListener("click", function() {
-	if (history_view_index == -1)
-		history_view_index = history_index - 1;
-	else
-		--history_view_index;
-	document.getElementById("white-box").value = history[history_view_index];
-}, false);
-
-document.getElementById("history-down").addEventListener("click", function() {
-	if (history_view_index != -1)				// -1 = no history to view
-		{
-		++history_view_index;
-		if (history_view_index == history_index)	// reached end of history?
-			{
-			history_view_index = -1;
-			document.getElementById("white-box").value = "";
-			}
-		else
-			document.getElementById("white-box").value = history[history_view_index];
-		}
-}, false);
-*/
-
 document.getElementById("clear-white").addEventListener("click", function() {
 	document.getElementById("pinyin-box").innerHTML = "";
 	var box = document.getElementById("white-box");
@@ -1252,32 +985,6 @@ document.getElementById("clear-white").addEventListener("click", function() {
 	box.focus();
 	history_view_index = -1;		// No longer in history mode
 }, false);
-
-/*
-document.getElementById("clear-green1-L").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	node.removeChild(node.firstChild);
-}, false);
-
-document.getElementById("clear-green1-R").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	node.removeChild(node.lastChild);
-}, false);
-
-document.getElementById("clear-green").addEventListener("click", function() {
-	var node = document.getElementById("green-box");
-	while (node.hasChildNodes()) {
-		node.removeChild(node.lastChild);
-	}
-}, false);
-
-document.getElementById("clear-red").addEventListener("click", function() {
-	var node = document.getElementById("red-box");
-	while (node.hasChildNodes()) {
-		node.removeChild(node.lastChild);
-	}
-}, false);
-*/
 
 document.getElementById("smile").addEventListener("click", function() {
 	document.getElementById("white-box").value += " :)";
@@ -1303,170 +1010,6 @@ document.getElementById("parentheses").addEventListener("click", function() {
 
 // *********** Functions for manipulating tree categories ***********
 
-// insert White-Box item below currently selected menu node
-document.getElementById("insert").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-
-	// add to tree:
-	currentNode[0][currentNode[0].length] = str;
-
-	// just add to #suggestions and refresh
-	fillSuggestions();
-}, false);
-
-// add a child node to tree
-document.getElementById("add-child").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-
-	// Insert node at tree before currentNode
-	// We need to traverse the tree to the currentNode,
-	// The problem is to determine where are we.
-
-	currentNode.splice(currentNode.length, 0, [[str]]);
-
-	// whose location is given by level1, level2, level3
-	//var parentNode = null;
-	//if (level3 != null) {
-		//parentNode = database[level1][level2];		// find parent
-		//parentNode.splice(level3, 0, [[str]]);		// add new array
-	//}
-	//else if (level2 != null) {
-		//parentNode = database[level1];				// find parent
-		//parentNode.splice(level2, 0, [[str]]);		// add new array
-	//}
-	//else {
-		//parentNode = database;						// find parent
-		//parentNode.splice(level1, 0, [[str]]);		// add new array
-	//}
-
-	// redraw tree menu
-	fillDirs();
-
-}, false);
-
-
-// **************** Choosing which web page to feed output to *****************
-
-/*
-document.getElementById("voov").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "voov"}, "*");
-}, false);
-
-document.getElementById("adult").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "adult"}, "*");
-}, false);
-*/
-
-/*
-document.getElementById("hklove").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
-}, false);
-
-document.getElementById("ip131").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "ip131"}, "*");
-}, false);
-
-document.getElementById("ip203").addEventListener("click", function() {
-	to_skype = false;
-	window.postMessage({type: "CHAT_ROOM", text: "ip203"}, "*");
-}, false);
-*/
-
-// document.getElementById("skype").addEventListener("click", function() {
-//	to_skype = true;
-// }, false);
-
-document.getElementById("loadDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
-	// In Vivaldi app mode, 'prompt' function does not work and always returns null
-	if (dbname == null)
-		dbname = document.getElementById("pink-box").value;
-	loadDB(dbname);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-document.getElementById("saveDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
-	// In Vivaldi app mode, 'prompt' function does not work and always returns null
-	if (dbname == null)
-		dbname = document.getElementById("red-box").value;
-	saveDB(dbname);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-window.addEventListener('DOMContentLoaded', splitWords, false);
-
-// **************** Old functions, create draggable elements ******************
-// (may become obsolete in next version)
-
-function splitWords() {
-
-	var elems = document.querySelectorAll('.draggable'),
-			  text,
-			  textNode,
-			  words,
-			  elem;
-
-	// iterate through all .draggable elements
-	for (var i = 0, l = elems.length; i < l; i++) {
-
-		elem = elems[i];
-		textNode = elem.childNodes[0];
-		text = textNode.nodeValue;
-
-		// remove current text node
-		elem.removeChild(textNode);
-		words = text.split(' ');
-
-		// iterate through words
-		for (var k = 0, ll = words.length; k < ll; k++) {
-			// create node for all words
-			textNode = document.createElement('span');
-			textNode.id = 'word_A' + i + k;
-			// allow dragging for words
-			textNode.draggable = true;
-			textNode.ondragstart = drag;
-			textNode.appendChild(document.createTextNode(words[k] + ' '));
-			elem.appendChild(textNode);
-		}
-	}
-}
-
-function allowDrop(ev)
-{
-	ev.preventDefault();
-}
-
-function drag(ev)
-{
-	ev.dataTransfer.setData("Text", ev.target.id);
-	// console.log('targetid: ' + ev.target.id);
-}
-
-// This function is no longer working
-function drop(ev)
-{
-	ev.preventDefault();
-	var data = ev.dataTransfer.getData("Text");
-	// ev.target.appendChild(document.getElementById(data));
-	var oldValue = ev.target.value;
-	// ev.target.value = document.getElementById(data).textContent + oldValue;
-	// console.log("dropped onto: " + ev.target.id);
-}
-
-// ==================== For dealing with Drop-down menu ========================
-
-/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-function onDropDown() {
-    document.getElementById("dropdown").classList.toggle("show");
-}
-
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -1482,43 +1025,4 @@ window.onclick = function(event) {
   }
 }
 
-// *********************** Initialize by loading database **********************
-
-loadDB("database_default");
-// initial chat room is "voov"
-// window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
-
-// ************************** Read hcutf8.txt into buffer ************************
-// the file "hcutf8.txt" is from /chinese/zhcode
-var h = new Object(); // or just {}
-
-console.log("Loading hcutf8-YKY.txt into h[]:\n" +
-$.ajax({
-method: "GET",
-url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
-cache: false,
-success: function(data) {
-	var lines = data.split("\n");
-	lines.forEach(function(line) {
-		if (line[0] != '/')				// comments
-			h[line.substr(0,1)] = line.substr(1);
-	});
-}}));
-
-// ************************** Read pinyins into buffer ************************
-var pin = new Object(); // or just {}
-
-console.log("Loading pinyins.txt into pin[]:\n" +
-$.ajax({
-method: "GET",
-url: "/loadDatabase/pinyins",		// Note: name without extension
-cache: false,
-success: function(data) {
-	var lines = data.split("\n");
-	lines.forEach(function(line) {
-		var pinyin = line.substr(1).split(',');
-		pin[line.substr(0,1)] = [pinyin[0], pinyin[1], parseInt(pinyin[2])];
-	});
-}}));
-
-console.log("So far so good, from YKY-input-method.js");
+console.log("So far so good, from DreamLand.js");

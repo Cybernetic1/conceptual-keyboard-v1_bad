@@ -30,13 +30,14 @@ var url = require("url");
 var path = require("path");
 
 var sse_res = null;
+var sse_res2 = null;
 
-http.createServer(function (req, res) {
+function reqHandler(req, res) {
 
 	if (req.headers.accept && req.headers.accept == 'text/event-stream') {
 		if (req.url == '/stream') {
 			res.writeHead(200, {
-				'Content-Type': 'text/event-stream',
+				'Content-Type': 'text/event-stream; charset=utf-8',
 				'Cache-Control': 'no-cache',
 				'Connection': 'keep-alive'
 			});
@@ -49,6 +50,21 @@ http.createServer(function (req, res) {
 			// res.end();		// this causes "write after end" error
 			sse_res = res;
 			console.log("Connected event stream");
+		} else if (req.url == '/dreamstream') {
+			res.writeHead(200, {
+				'Content-Type': 'text/event-stream; charset=utf-8',
+				'Cache-Control': 'no-cache',
+				'Connection': 'keep-alive'
+			});
+			res.write("retry: 10000\n");
+			res.write("event: connecttime\n");
+			// res.write("data: " + (new Date()) + "\n\n");
+			// res.write("data: " + (new Date()) + "\n\n");
+			res.write(": \n\n");
+			res.write(": \n\n");
+			// res.end();		// this causes "write after end" error
+			sse_res2 = res;
+			console.log("Connected event stream 2");
 		} else {
 			res.writeHead(404);
 			res.end();
@@ -64,6 +80,7 @@ http.createServer(function (req, res) {
 	else
 		fileName = req.url;
 
+	// **** This is the route to send to firefox content script
 	if (fileName === "/fireFox") {
 		const buffer1 = [];
 		req.on('data', chunk => buffer1.push(chunk));
@@ -72,6 +89,19 @@ http.createServer(function (req, res) {
 			if (sse_res != null)
 				sse_res.write("data: " + data1 + '\n\n');
 			console.log("data: " + data1);
+			// console.log(unescape(encodeURIComponent(data)));
+		});
+		res.end();
+		return;	}
+
+	if (fileName === "/dreamland") {
+		const buffer1 = [];
+		req.on('data', chunk => buffer1.push(chunk));
+		req.on('end', () => {
+			const data1 = Buffer.concat(buffer1);
+			if (sse_res2 != null)
+				sse_res2.write("data: " + data1 + '\n\n');
+			console.log("dream: " + data1);
 			// console.log(unescape(encodeURIComponent(data)));
 		});
 		res.end();
@@ -379,6 +409,12 @@ http.createServer(function (req, res) {
 	// All failed:
 	res.writeHead(404);
 	res.end();
+}
 
-}).listen(8484, "127.0.0.1");
-console.log("Server running at http://127.0.0.1:8484/");
+var s = http.createServer(reqHandler);
+s.listen(8484, "127.0.0.1");
+
+var s2 = http.createServer(reqHandler);
+s2.listen(8585, "127.0.0.1");
+
+console.log("Servers running at http://127.0.0.1:8484/ and :8585/");

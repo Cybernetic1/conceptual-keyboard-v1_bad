@@ -1,18 +1,16 @@
 {
     "manifest_version": 2,
     "name": "Conkey-WeChat",
-    "version": "1.0",
-    "description": "allow communication between Conkey and WeChat",
+    "version": "2.0",
+    "description": "allow communication between Conkey and WeChat and Firefox",
 
     "icons": {
-        "48": "icons/icon.png"
+        "48": "icon.png"
     },
 
     "browser_action": {
 		"browser_style": true,
-		"default_icon": {
-			"32": "icons/icon.png"
-		},
+		"default_icon": "icon.png",
 		"default_title": "Conkey-WeChat",
 		"default_popup": "popup.html"
 	},
@@ -28,7 +26,26 @@
 			],
 		"js": ["jquery-1.11.2.min.js", "angular.min.js", "contentscript-WeChat.js" ],
 		"run_at": "document_end"
+		},
+
+		{"matches": [
+			"*://ip131.ek21.com/oaca_1/*",
+			"*://chatroom.hk/"
+			],
+		"js": ["contentscript-login.js"],
+		"run_at": "document_end"
+		},
+
+		{"matches": [
+			"*://chatroom.hk/chatroom.php",
+			"*://ip131.ek21.com/login*",
+			"*://ip4.ek21.com/*",
+			"*://ip69.ek21.com/*"
+			],
+		"js": ["jquery-1.11.2.min.js", "contentscript2.js" ],
+		"run_at": "document_end"
 		}
+
 	],
 
 	"web_accessible_resources": ["injection.js"],

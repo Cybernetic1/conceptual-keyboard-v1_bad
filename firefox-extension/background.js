@@ -6,12 +6,15 @@ var whoIsActive = "roomHK";
 
 var port_roomHK;
 var port_ip131;
+var port_ip4;
 var port_popup;
 
 function streamEventHandler(e) {
 	// Directly output to chatroom
 	if (whoIsActive == "ip131")
 		port_ip131.postMessage({sendtext: e.data});
+//	else if (whoIsActive == "ip4")
+//		port_ip4.postMessage({sendtext: e.data});
 	else if (whoIsActive == "roomHK")
 		port_roomHK.postMessage({sendtext: e.data});
 	console.log("Event: " + e.data);
@@ -38,6 +41,8 @@ function connected(p) {
 	console.log("CONNECTED to tab:", url);
 	if (url.indexOf("ip131") >= 0)
 		port_ip131 = p;
+//	else if (url.indexOf("ip4") >= 0)
+//		port_ip4 = p;
 	else if (url.indexOf("chatroom.hk") >= 0)
 		port_roomHK = p;
 	else if (url.indexOf("popup.html") >= 0)

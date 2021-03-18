@@ -169,10 +169,9 @@
 		<input type="button" value=":)" id="smile">
 		<input type="button" value="「」" id="quotes">
 		<input type="button" value="（）" id="parentheses">
-		<input type="button" value="梦" id="to-dream">
 
 		<input type="checkbox" id="simplify" style="width:20px; height:20px;" checked>
-		<input type="button" value="✄" id="send-clipboard">
+		<input type="button" value="cut" id="send-clipboard">
 
 		<button onclick="onDropDown()" class="dropbtn">▶</button>
 		<div id="dropdown" class="dropdown-content">
@@ -186,14 +185,6 @@
 			<input type="button" value="拼音" id="do-pinyin">
 			<input type="button" value="re-size" id="do-resize">
 		</div>
-
-		<!--
-		<input type="button" value="国" id="mandarin">
-		<input type="button" value="粤" id="cantonize">
-		<input type="button" value="拼" id="pinyin-it">
-		<input type="button" value="URL" id="unescape">
-		<input type="button" value="log" id="save-log">
-		!-->
 
 		<!--
 		<select name="actions" style="width:80px">
@@ -246,57 +237,29 @@
 
 		<div id="mid-levels">
 
-			<div id="column1">
+			<div id="column1" style="width:10%">
 				<table id="sub-dirs">
+					<tr>
+						<td>this</td>
+						<td>that</td>
+					</tr>
+					<tr><td>this</td></tr>
+					<tr><td>that</td></tr>
 				</table>
 			</div>
 
 			<div id="column2">
 				<table id="suggestions">
+					<tr><td>blah 3</td></tr>
+					<tr><td>blah 4</td></tr>
 				</table>
 			</div>
 
 			<br style="clear:both;"/>
 		</div>
 
-		<div id="bottom">
-			<!-- input type="radio" name="group1" id="voov" checked style="width:25px; height:25px;"> 夢 &nbsp;
-			<input type="radio" name="group1" id="adult" style="width:25px; height:25px;"> VIP &nbsp;
-			<input type="radio" name="group1" id="hklove" style="width:25px; height:25px;"> HKlove &nbsp;
-			<input type="radio" name="group1" id="ip131" style="width:25px; height:25px;"> ip131 &nbsp;
-			<input type="radio" name="group1" id="ip203" style="width:25px; height:25px;"> ip203 &nbsp;
-			<br -->
-			<input type="checkbox" id="delete" style="width:20px; height:20px;">delete
-			<input type="checkbox" id="change" style="width:20px; height:20px;">change
-			<input type="checkbox" id="append" style="width:20px; height:20px;">add
-			<input type="button" value="+" id="insert" style="color: #aaffaa;">
-			<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
-
-			<br>
-			<input type="button" value="load" id="loadDB">
-			<input type="button" value="save" id="saveDB">
-			&nbsp; <a href="javascript:loadDB('synonym_forest')">同義詞詞林</a>
-			&nbsp; <a href="javascript:loadDB('rogets_thesaurus')">Roget's</a>
-			&nbsp; <input type="button" value="typings" id="flush-typings">
-		</div>
-
-		<div id="genifer">
-			<input type="text" id="pink-box" style="height:26px;" value="database_default">
-			<input type="text" id="red-box" style="height:26px;" value="database_default">
-			<br>
-			<input type="button" value="teach" id="genifer-teach">
-			<input type="button" value="reward" id="genifer-reward">
-			<input type="button" value="punish" id="genifer-punish">
-			<br>
-		</div>
-
-		<!-- div style="position:absolute;bottom:-20px;right:0;">
-			<a href="javascript:loadDB('synonym_forest_YKY_database.txt')">(Load 同義詞詞林) </a>
-			<a href="javascript:saveDB()">(Save DB) </a>
-		</div -->
-
 		<script src="js/jquery-1.10.1.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/YKY-input-method.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/dreamland.js"></script>
 
 	</body>
 </html>
