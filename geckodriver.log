@@ -170,3 +170,21 @@ interaction.flushEventLoop@chrome://marionette/content/interaction.js:433:10
 webdriverClickElement@chrome://marionette/content/interaction.js:179:31
 1616014353306	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
 console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616015288407	Marionette	INFO	Stopped listening on port 41803
+1616017398406	geckodriver	INFO	Listening on 127.0.0.1:42655
+1616017398412	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileuimcJT"
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+
+(firefox:10961): GLib-GIO-CRITICAL **: 05:43:19.878: g_dbus_proxy_new: assertion 'G_IS_DBUS_CONNECTION (connection)' failed
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1616017403880	Marionette	INFO	Listening on port 40525
+1616017403980	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=iIj52O2bsPUc line 229 > injectedScript, line 111: TypeError: box is null
+console.log: WebExtensions: reset-default-search: No addons in our list are installed.
+1616018015983	Marionette	WARN	Ignoring event 'DOMContentLoaded' because document has an invalid readyState of 'complete'.
+JavaScript error: http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=iIj52O2bsPUc, line 304: NS_ERROR_UNEXPECTED: 
+1616036902399	Marionette	INFO	Stopped listening on port 40525

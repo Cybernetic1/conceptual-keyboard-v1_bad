@@ -1044,10 +1044,14 @@ function flushTypings() {
 }
 
 // Send message to DreamLand
+var last_dream = ""
 document.getElementById("to-dream").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
 	str = replaceYKY(str);
+	if (str == last_dream)
+		str = "..." + str;
+	last_dream = str;
 	recordHistory(str);
 
 	// send to dreamland.py
