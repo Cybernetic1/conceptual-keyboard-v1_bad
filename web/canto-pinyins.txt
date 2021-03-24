@@ -1,3 +1,5 @@
+// For use with Cantonese-input.js
+// This is based on Yale phonetics; not very desirable
 的di
 的dik
 一yat
