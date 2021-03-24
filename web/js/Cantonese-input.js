@@ -4,7 +4,7 @@
 
 // Flow-chart for preparing canto-pinyins.txt:
 // 1. yale-sort-by-freq.txt
-// 2.
+// 2. ???....
 
 // To do
 // =====
@@ -43,12 +43,15 @@
 // * accept key, display keys so far
 // * put list of chars in column
 // * allow choosing of chars by number
+// * prepare Google exact pinyin list
+// * 
 
 // ************************** Read pinyins into buffer ************************
 var pin = new Object(); // or just {}
 var approx = new Object();
 
-console.log("Loading canto-pinyins.txt\n" +
+/**** Read Yale pinyins file ****
+	console.log("Loading canto-pinyins.txt\n" +
 	$.ajax({
 	method: "GET",
 	url: "/loadDatabase/canto-pinyins",		// Note: use filename without extension
@@ -64,21 +67,27 @@ console.log("Loading canto-pinyins.txt\n" +
 				pin[line.substr(1)] += line.substr(0,1);
 		});
 	}}));
+*/
 
-console.log("Loading exact-Google-pinyins-1.txt\n" +
+console.log("Loading exact-Google-pinyins.txt\n" +
 	$.ajax({
 	method: "GET",
-	url: "/loadDatabase/exact-Google-pinyin2-1",		// Note: use filename without extension
+	url: "/loadDatabase/exact-Google-pinyins",		// Note: use filename without extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
 		lines.forEach(function(line) {
-			if (line[0] == '/')
-				return;
-			else if (pin[line.substr(1)] == undefined)
-				pin[line.substr(1)] = line.substr(0,1);
+			var n1 = line.charCodeAt(1);
+			var n2 = line.charCodeAt(2);
+			var i = 1;
+			if (n1 >= 97 && n1 < 123)
+				i = 1;
+			else if (n2 >= 97 && n2 < 123)
+				i = 2;
+			if (pin[line.substr(i)] == undefined)
+				pin[line.substr(i)] = line.substr(0,i);
 			else
-				pin[line.substr(1)] += line.substr(0,1);
+				pin[line.substr(i)] += line.substr(0,i);
 		});
 	}}));
 
@@ -112,6 +121,13 @@ $("#white-box").keydown(function (e) {
 		current_pinyin += '●';
 		e.preventDefault();
 	}
+
+	if (e.which == 32) {						// space chooses 1st char
+		current_pinyin += "●";
+		current_num = 0;
+		sendChar(current_num);
+		e.preventDefault();
+    }
 
 	document.getElementById("pinyin-bar").innerHTML = current_pinyin;
 });
