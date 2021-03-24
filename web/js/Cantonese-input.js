@@ -121,8 +121,7 @@ function showChars()
 var column2 = document.getElementById("column2");
 column2.innerHTML = "test";		// clear the contents first
 
-
-exit(0);
+throw new Error("Script normally terminated.");
 
 // Indexes for creating new words
 var word_index = 0;
