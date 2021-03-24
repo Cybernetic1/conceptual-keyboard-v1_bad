@@ -11,6 +11,8 @@
 // * handle approx pinyins
 //   或者最简单的方法是： add another map for similar approx pinyins
 //   in other words, look up YKY's pinyin and match to standard pinyin
+// * need freq ranking number
+// * cannot continuously input characters
 // * allow choosing of chars by mouse
 // * perhaps send to Conkey main window
 
