@@ -11,9 +11,19 @@
 // * handle approx pinyins
 //   或者最简单的方法是： add another map for similar approx pinyins
 //   in other words, look up YKY's pinyin and match to standard pinyin
+// * be able to modify ranking / pinyin of chars
 // * cannot continuously input characters
 // * allow choosing of chars by mouse
 // * perhaps send to Conkey main window
+
+// To do -- approx pinyin matching
+// ===============================
+// * the file scraped from Google actually contains (Google's) approx matching results,
+//		which we may use as a reference or as initial data
+// * perhaps reverse engineer Google's approx matching?
+// * break into consonents and vowels
+// * a potential problem:  too many candidates, that depends on how good the ranking quality is
+// * try to extract all approx matches by Google
 
 // To do -- using Google Cantonese pinyin
 // ======================================
@@ -35,6 +45,7 @@
 // * but it may be the job of an RNN -- output a few keys
 // * OR, cluster phrases, map chars --> semantic clusters
 // * OR, build semantically-organized tree structure
+// * Google has some "consonent abbreviation" for phrases
 // *
 
 // Done:
@@ -74,68 +85,68 @@ var approx = new Object();
 var rank = new Object();
 
 // **** Character frequency ranking (1 = most frequent)
-console.log("Loading char-rank.txt\n" +
+$.ajax({
+method: "GET",
+url: "/loadDatabase/char-rank",		// Note: use filename without extension
+cache: false,
+success: function(data) {
+	var lines = data.split("\n");
+	lines.forEach(function(line) {
+		var c = line.charAt(0);
+		var cc = line.charCodeAt(1);
+		if (!isNaN(cc) && cc != 44)		// 44 = comma
+			console.log("char-rank.txt line corrupt:", line);
+		else if (rank[c] == undefined)
+			rank[c] = parseInt(line.substr(2));
+		else
+			console.log("char-rank.txt line error:", line);
+		});
+	console.log("testing rank['是'] =", rank['是']);
+	console.log("Loaded char-rank.txt.");
+
+	// **** Load exact Google pinyins which depends on rank[]:
 	$.ajax({
 	method: "GET",
-	url: "/loadDatabase/char-rank",		// Note: use filename without extension
+	url: "/loadDatabase/exact-Google-pinyins",		// Note: use filename without extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
 		lines.forEach(function(line) {
-			var c = line.charAt(0);
-			var cc = line.charCodeAt(1);
-			if (!isNaN(cc) && cc != 44)		// 44 = comma
-				console.log("char-rank.txt line corrupt:", line);
-			else if (rank[c] == undefined)
-				rank[c] = parseInt(line.substr(2));
-			else
-				console.log("char-rank.txt line error:", line);
+			// line format:  "字pinyin" or "字字pinyin"
+			var n1 = line.charCodeAt(1);
+			var n2 = line.charCodeAt(2);
+			var i = 1;
+			if (n1 >= 97 && n1 < 123)
+				i = 1;
+			else if (n2 >= 97 && n2 < 123)
+				i = 2;
+			var a = line.substr(0,i);		// 字 or 字字 to be added
+			if (i == 2)	{
+				// console.log("ignored: ", a);
+				return;						// ignore n-grams > 1
+				}
+			var pinyin = line.substr(i);
+			if (pin[pinyin] == undefined)
+				pin[pinyin] = a;
+			else {
+				// **** Need to sort according to frequency ranking
+				var s = pin[line.substr(i)];	// sequence to insert 'a' to
+				var j = 0;
+				ra = rank[a];
+				if (ra == undefined)
+					ra = 65535;
+				// Below, exploit the fact that 'undefined' in ANY comparison condition is ALWAYS false
+				while (rank[s.charAt(j)] < ra)
+					++j;
+				var s2 = s.substring(0,j) + a + s.substring(j);
+				pin[pinyin] = s2;
+				}
 			});
-		console.log("testing rank 是:", rank['是']);
-
-		// **** Load exact Google pinyins which depends on rank[]:
-		console.log("Loading exact-Google-pinyins.txt\n" +
-			$.ajax({
-			method: "GET",
-			url: "/loadDatabase/exact-Google-pinyins",		// Note: use filename without extension
-			cache: false,
-			success: function(data) {
-				var lines = data.split("\n");
-				lines.forEach(function(line) {
-					// line format:  "字pinyin" or "字字pinyin"
-					var n1 = line.charCodeAt(1);
-					var n2 = line.charCodeAt(2);
-					var i = 1;
-					if (n1 >= 97 && n1 < 123)
-						i = 1;
-					else if (n2 >= 97 && n2 < 123)
-						i = 2;
-					var a = line.substr(0,i);		// 字 or 字字 to be added
-					if (i == 2)	{
-						console.log("ignored: ", a);
-						return;						// ignore n-grams > 1
-						}
-					var pinyin = line.substr(i);
-					if (pin[pinyin] == undefined)
-						pin[pinyin] = a;
-					else {
-						// **** Need to sort according to frequency ranking
-						var s = pin[line.substr(i)];	// sequence to insert 'a' to
-						var j = 0;
-						ra = rank[a];
-						if (ra == undefined)
-							ra = 65535;
-						// Below, exploit the fact that 'undefined' in ANY comparison condition is ALWAYS false
-						while (rank[s.charAt(j)] < ra)
-							++j;
-						var s2 = s.substring(0,j) + a + s.substring(j);
-						pin[pinyin] = s2;
-						}
-					});
-			}}));
-			// end of inner loader
-	// end of outer loader
-	}}));
+		console.log("Loaded exact-Google-pinyins.txt.");
+	}});
+	// end of inner loader
+// end of outer loader
+}});
 
 var current_pinyin = "";
 var current_num = 0;

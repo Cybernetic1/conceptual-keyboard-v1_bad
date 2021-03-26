@@ -8,3 +8,4 @@
 /web/database_default.txt
 *.bak
 conkey_PID.txt
+geckodriver.log
