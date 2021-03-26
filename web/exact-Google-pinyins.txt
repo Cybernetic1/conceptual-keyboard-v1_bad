@@ -2523,7 +2523,6 @@
 䄙ming
 䆩ming
 䫤ming
-咪pmi
 冇mou
 無mo
 務mou
@@ -11238,8 +11237,6 @@
 旟yu
 隃yu
 嚙唔ngit m
-嚙nngit
-嚙pngit
 澳ngou
 奧ngou
 俄ngo
