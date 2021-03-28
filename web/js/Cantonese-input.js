@@ -10,6 +10,9 @@
 
 // To do
 // =====
+// * 现时问题是不知怎样做 approx,
+//		不想太滥，又要 algorithm 简单
+//		还有 custom pinyins 的问题
 // * record custom pinyins, replace standard pinyins with custom ones
 // * handle approx pinyins
 //   或者最简单的方法是： add another map for similar approx pinyins
@@ -24,7 +27,7 @@
 // * the file scraped from Google actually contains (Google's) approx matching results,
 //		which we may use as a reference or as initial data
 // * perhaps reverse engineer Google's approx matching?
-// * break into consonents and vowels
+// * there are 635 distinct Cantonese pinyins in 粵語音節表 (Table of Cantonese Syllables)
 // * a potential problem:  too many candidates, that depends on how good the ranking quality is
 // * try to extract all approx matches by Google
 
@@ -60,6 +63,7 @@
 // * allow choosing of chars by number
 // * prepare Google exact pinyin list
 // * sort according to frequency ranking number
+// * break into consonents and vowels
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
@@ -68,7 +72,9 @@
 
 
 // ************************** Read pinyins into buffer ************************
-var pin = new Object(); // or just {}
+// or just {}
+var pin = new Object();		// from pinyin look up char
+var yin = new Object();		// from char look up pinyin
 var approx = new Object();
 
 /**** Read Yale pinyins file ****
@@ -112,7 +118,11 @@ success: function(data) {
 	console.log("testing rank['是'] =", rank['是']);
 	console.log("Loaded char-rank.txt.");
 
-	// **** Load exact Google pinyins which depends on rank[]:
+	loadPinyins();
+}});
+
+// **** Load exact Google pinyins which depends on rank[]:
+function loadPinyins() {
 	$.ajax({
 	method: "GET",
 	url: "/loadDatabase/exact-Google-pinyins",		// Note: use filename without extension
@@ -149,12 +159,72 @@ success: function(data) {
 				var s2 = s.substring(0,j) + a + s.substring(j);
 				pin[pinyin] = s2;
 				}
+			// **** Build yin[] dictionary, ie, from 字 lookup pinyin
+			// at this point we assume a is a single 字
+			if (yin[a] == undefined)
+				yin[a] = pinyin;
+			else {
+				if (typeof yin[a] === 'string') {
+					yin[a] = [yin[a], pinyin];
+				}
+				else if (typeof yin[a] === 'object') {
+					yin[a].push(pinyin);
+				}
+			}
 			});
 		console.log("Loaded exact-Google-pinyins.txt.");
+
+		loadDistincts();
 	}});
-	// end of inner loader
-// end of outer loader
-}});
+}
+
+function loadDistincts() {
+	$.ajax({
+	method: "GET",
+	url: "/loadDatabase/distinct-sounds",		// Note: use filename without extension
+	cache: false,
+	success: function(data) {
+		for (var i = 0; i < data.length; ++i) {
+			var c = data[i];
+			y = yin[c];
+			if (y == undefined) {
+				console.log(c, "undef");
+				}
+			else if (typeof y === "string") {
+				console.log(c, k_n(y));
+				}
+			else {
+				y.forEach(function(x) {
+					console.log(c, k_n(x));
+					});
+				}
+			}
+		console.log("Loaded distinct-sounds.txt.");
+		}
+	});
+}
+
+const consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y'];
+
+const vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut'];
+
+function k_n(pinyin) {
+	var c = pinyin.substring(0,1);
+	var cc = pinyin.substring(0,2);
+	var k = "";
+	var n = "";
+	if (consonants.includes(cc)) {
+		k = cc;
+		n = pinyin.substring(2);
+		}
+	else if (consonants.includes(c)) {
+		k = c;
+		n = pinyin.substring(1);
+		}
+	else
+		n = pinyin;
+	return [k, n];
+}
 
 var current_pinyin = "";
 var current_num = 0;
