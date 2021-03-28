@@ -2,13 +2,15 @@
 // *** Cantonese pinyin input similar to Google's ***
 // **************************************************
 
-// Flow-chart for preparing canto-pinyins.txt:
-// 1. yale-sort-by-freq.txt
-// 2. ???....
+// To do -- AGI related
+// ====================
+// * crawl phrases / crawl for math terms
+// * run language model --> correct grammar
+// * 
 
 // To do
 // =====
-// * record custom pinyins, possibly replace old with new
+// * record custom pinyins, replace standard pinyins with custom ones
 // * handle approx pinyins
 //   或者最简单的方法是： add another map for similar approx pinyins
 //   in other words, look up YKY's pinyin and match to standard pinyin
@@ -59,6 +61,11 @@
 // * prepare Google exact pinyin list
 // * sort according to frequency ranking number
 // * 
+
+// Flow-chart for preparing canto-pinyins.txt:
+// 1. yale-sort-by-freq.txt
+// 2. ???....
+
 
 // ************************** Read pinyins into buffer ************************
 var pin = new Object(); // or just {}
