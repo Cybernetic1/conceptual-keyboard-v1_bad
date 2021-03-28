@@ -13,6 +13,7 @@
 # * extract consonents and vowels matchings separately
 
 # DONE:
+# * combined Cantonese frequencies, including 咁 etc
 
 import codecs
 import re

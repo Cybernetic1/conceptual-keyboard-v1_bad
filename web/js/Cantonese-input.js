@@ -8,6 +8,7 @@
 
 // To do
 // =====
+// * record custom pinyins, possibly replace old with new
 // * handle approx pinyins
 //   或者最简单的方法是： add another map for similar approx pinyins
 //   in other words, look up YKY's pinyin and match to standard pinyin
@@ -84,10 +85,10 @@ var approx = new Object();
 
 var rank = new Object();
 
-// **** Character frequency ranking (1 = most frequent)
+// **** Character frequencies (relative, normalized)
 $.ajax({
 method: "GET",
-url: "/loadDatabase/char-rank",		// Note: use filename without extension
+url: "/loadDatabase/char-rel-freq",		// Note: use filename without extension
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
@@ -95,11 +96,11 @@ success: function(data) {
 		var c = line.charAt(0);
 		var cc = line.charCodeAt(1);
 		if (!isNaN(cc) && cc != 44)		// 44 = comma
-			console.log("char-rank.txt line corrupt:", line);
+			console.log("char-rel-freq.txt line corrupt:", line);
 		else if (rank[c] == undefined)
-			rank[c] = parseInt(line.substr(2));
+			rank[c] = parseFloat(line.substr(2));
 		else
-			console.log("char-rank.txt line error:", line);
+			console.log("char-rel-freq.txt line duplicate:", line);
 		});
 	console.log("testing rank['是'] =", rank['是']);
 	console.log("Loaded char-rank.txt.");
@@ -134,9 +135,9 @@ success: function(data) {
 				var j = 0;
 				ra = rank[a];
 				if (ra == undefined)
-					ra = 65535;
+					ra = 0.0;
 				// Below, exploit the fact that 'undefined' in ANY comparison condition is ALWAYS false
-				while (rank[s.charAt(j)] < ra)
+				while (rank[s.charAt(j)] > ra)
 					++j;
 				var s2 = s.substring(0,j) + a + s.substring(j);
 				pin[pinyin] = s2;
