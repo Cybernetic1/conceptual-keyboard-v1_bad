@@ -1,0 +1,75 @@
+
+aai --> ai
+aak --> ak
+aam --> am
+aan --> an
+aang --> ang
+aap --> ap
+aat --> at
+aau --> au
+
+// require more thoughts:
+deu --> der
+geu --> gur
+heu --> her
+teu --> ter
+
+cheui --> chui
+deui --> due
+geui --> gue
+heui --> hue
+jeui --> jui
+keui --> kue
+leui --> lui
+neui --> nui
+seui --> sui
+teui --> tue
+yeui --> yue
+
+cheuk --> cherk
+deuk --> derk
+geuk --> gue
+jeuk --> juk
+keuk --> kue
+leuk --> lue
+seuk --> shue
+yeuk --> yue, yerk
+
+cheun --> chun
+deun --> dun
+jeun --> jun
+leun --> lun
+seun --> shun
+teun --> tun
+yeun --> yun
+
+cheut --> chut
+deut --> due
+jeut --> jue
+leut --> lud
+seut --> shut, shue
+
+ou --> o
+ou --> ol
+
+chyu --> chu
+chyun --> chuen
+chyut --> chut
+
+dyut --> due
+dyun --> duen
+gyut --> gue
+hyut --> hue
+hyun --> huen
+jyut --> chut
+jyun --> juen
+jyu --> juk
+kyut --> kue
+kyun --> kuen
+lyut --> lue
+lyun --> luen
+nyun --> luen
+syut --> shue
+syun --> suen
+syu --> shu
+tyut --> tue

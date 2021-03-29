@@ -61,11 +61,16 @@ for i in range(len(nz)):
 	fo.write("<tr><th><font color=green>%s</font></th>" % nz[i])
 	for j in range(len(kz)):
 		if table[i,j] != 0:
-			fo.write("<td>%s</td>" % table[i,j][0])
+			fo.write("<td>%s</td>" % table[i,j][0])	# [0]
 		else:
 			fo.write("<td></td>")
 	fo.write("<th><font color=green>%s</font></th></tr>" % nz[i])
-
+	if i == len(nz) // 2:
+		fo.write("<tr><th></th>")
+		for j in range(len(kz)):
+			fo.write("<th><font color=red>%s</font></th>" % kz[j])
+		fo.write("</tr>")
+		
 fo.write("<tr><th></th>")
 for j in range(len(kz)):
 	fo.write("<th><font color=red>%s</font></th>" % kz[j])

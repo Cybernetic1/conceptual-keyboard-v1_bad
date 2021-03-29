@@ -24,6 +24,7 @@
 
 // To do -- approx pinyin matching
 // ===============================
+// * create YKY custom pinyin map
 // * the file scraped from Google actually contains (Google's) approx matching results,
 //		which we may use as a reference or as initial data
 // * perhaps reverse engineer Google's approx matching?
@@ -178,6 +179,7 @@ function loadPinyins() {
 	}});
 }
 
+// Load distinct sounds in Cantonese, depends on pin[] from above
 function loadDistincts() {
 	$.ajax({
 	method: "GET",
