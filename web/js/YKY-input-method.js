@@ -1049,10 +1049,10 @@ document.getElementById("to-dream").addEventListener("click", function() {
 	str = document.getElementById("white-box").value;
 	str = simplify(str);
 	str = replaceYKY(str);
+	recordHistory(str);
 	if (str == last_dream)
 		str = "..." + str;
 	last_dream = str;
-	recordHistory(str);
 
 	// send to dreamland.py
 	$.ajax({

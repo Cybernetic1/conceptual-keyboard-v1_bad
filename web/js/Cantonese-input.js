@@ -188,14 +188,16 @@ function loadDistincts() {
 			var c = data[i];
 			y = yin[c];
 			if (y == undefined) {
-				console.log(c, "undef");
+				console.log(c + ",?");
 				}
 			else if (typeof y === "string") {
-				console.log(c, k_n(y));
+				kn = k_n(y);
+				console.log(c + ',' + kn[0] + ',' + kn[1]);
 				}
 			else {
 				y.forEach(function(x) {
-					console.log(c, k_n(x));
+					kn = k_n(x);
+					console.log(c + ',' + kn[0] + ',' + kn[1]);
 					});
 				}
 			}
