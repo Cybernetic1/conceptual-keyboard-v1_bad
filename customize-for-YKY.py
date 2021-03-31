@@ -6,91 +6,109 @@
 # =====================
 # "字pinyin" or "字字pinyin"
 
+# Output file same format.
+
+replace_finals = {
+	"aai" : ["ai","aai"],
+	"aak" : ["ak","aak"],
+	"aam" : ["am","aam"],
+	"aan" : ["an","aan"],
+	"aang" : ["ang","aang"],
+	"aap" : ["ap","aap"],
+	"aat" : ["at","aat"],
+	"aau" : ["au","aau"],
+
+	"ou" : ["o","ou"],
+	"ou" : ["ol","ou"],
+}
+
+replace_entire = {
+	"deu" : ["der","deu"],
+	"geu" : ["gur","geu"],
+	"heu" : ["her","heu"],
+	"teu" : ["ter","teu"],
+
+	"cheui" : ["chui"],
+	"deui" : ["due"],
+	"geui" : ["gue"],
+	"heui" : ["hue"],
+	"jeui" : ["jui"],
+	"keui" : ["kue"],
+	"leui" : ["lui"],
+	"neui" : ["nui"],
+	"seui" : ["sui"],
+	"teui" : ["tue"],
+	"yeui" : ["yue"],
+
+	"cheuk" : ["cherk","cheuk"],
+	"deuk" : ["derk","deuk"],
+	"geuk" : ["gue","geuk"],
+	"jeuk" : ["juk","jeuk"],
+	"keuk" : ["kue","keuk"],
+	"leuk" : ["lue","leuk"],
+	"seuk" : ["shue","seuk"],
+	"yeuk" : ["yue, yerk", "yeuk"],
+
+	"cheun" : ["chun","cheun"],
+	"deun" : ["dun","deun"],
+	"jeun" : ["jun","jeun"],
+	"leun" : ["lun","leun"],
+	"seun" : ["shun","seun"],
+	"teun" : ["tun","teun"],
+	"yeun" : ["yun","yeun"],
+
+	"cheut" : ["chut"],
+	"deut" : ["due"],
+	"jeut" : ["jue"],
+	"leut" : ["lud"],
+	"seut" : ["shut, shue"],
+
+	"chyu" : ["chu"],
+	"chyun" : ["chuen"],
+	"chyut" : ["chut"],
+
+	"dyut" : ["due"],
+	"dyun" : ["duen"],
+	"gyut" : ["gue"],
+	"hyut" : ["hue"],
+	"hyun" : ["huen"],
+	"jyut" : ["chut"],
+	"jyun" : ["juen"],
+	"jyu" : ["juk"],
+	"kyut" : ["kue"],
+	"kyun" : ["kuen"],
+	"lyut" : ["lue"],
+	"lyun" : ["luen"],
+	"nyun" : ["luen"],
+	"syut" : ["shue"],
+	"syun" : ["suen"],
+	"syu" : ["shu"],
+	"tyut" : ["tue"],
+}
+
+dict = {}
+
 import codecs
 
 # open input file
 f1 = codecs.open("web/exact-Google-pinyins.txt", encoding="UTF-8", "r")
 
-# output file
-fo = codecs.open("YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
-
-replace_finals = {
-	"aai" : "ai",
-	"aak" : "ak",
-	"aam" : "am",
-	"aan" : "an",
-	"aang" : "ang",
-	"aap" : "ap",
-	"aat" : "at",
-	"aau" : "au",
-
-	# require more thoughts:
-	"eu" : "er",
-	"eui" : "ui",
-	"euk" : "erk",
-	"ou" : "ol"
-}
-
-replace_entire = {
-	"chyu" : "chu",
-	"chyun" : "chuen",
-	"chyut" : "chut",
-
-	"dyut" : "due",
-	"dyun" : "duen",
-	"gyut" : "gue",
-	"hyut" : "hue",
-	"hyun" : "huen",
-	"jyut" : "chut",
-	"jyun" : "juen",
-	"jyu" : "juk",
-	"kyut" : "kue",
-	"kyun" : "kuen",
-	"lyut" : "lue",
-	"lyun" : "luen",
-	"nyun" : "luen",
-	"syut" : "shue",
-	"syun" : "suen",
-	"syu" : "shu",
-	"tyut" : "tue"
-}
-
-dict = {}
-
-for line in f:
+for line in f1:
+	c = ord(line[1])
+	if c > 255:				# ignore phrases
+		continue
 
 	print ("\033[0;35m", line, "\033[0m")
-	# * The following fails because only the last item in a ()+ pattern is captured:
-	# pinyins = re.match('[0-9][0-9] [a-z]+ (([0-9]\.(\w+) \(([^\)]*)\)[ |\n])+)', line)
-	head = re.match('[0-9][0-9] ([a-z]+) [0-9]\..*', line).group(1)
-	pinyins = pattern.findall(line)
-	print(head)
-	# print(pinyins)
+	char = line[0]
+	pinyin = line[1:]
 
-	# **** Check if head is different from (tails), if so, record pair
-	for p in pinyins:
-		print(p[1])
-		if head == p[1]:					# head = tail, ignore
-			continue
-		if len(p[0]) == 2:					# ignore phrases
-			continue
-		if not head in dict:
-			dict.setdefault(head, [])		# each dict's value is a list
-			dict[head].append(p[1])
-		elif p[1] in dict[head]:
-			pass
-		else:
-			dict[head].append(p[1])
-			# **** multiple pinyins:
-			# print(head, p[1], end='')
-			# print("\033[0;31m Error: ", end='')
-			# print(dict[head], "\033[0m")
-
-f.close()
+f1.close()
 
 print(dict)
 
-# **** Output char list sorted by freq:
+# output file
+fo = codecs.open("YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
+
 for p1 in dict:
 	for p2 in dict[p1]:
 		f2.write(p1 + "," + p2 + '\n')
