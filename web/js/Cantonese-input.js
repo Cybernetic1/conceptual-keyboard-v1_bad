@@ -107,14 +107,23 @@ cache: false,
 success: function(data) {
 	var lines = data.split("\n");
 	lines.forEach(function(line) {
-		var c = line.charAt(0);
-		var c2 = line.codePointAt(1);
+		var c = line.charAt(0);		// Chinese character
+		var c2 = line[1];			// should be ','
+		var r = line.substr(2);		// rank
+
+		// *** takes care of 2-byte character code:
+		if (line.codePointAt(0) > 65535) {
+			c = String.fromCharCode(line.charCodeAt(0), line.charCodeAt(1));
+			c2 = line[2];
+			r = line.substr(3);
+			}
+
 		if (!isNaN(c2) && c2 != 44)		// 44 = comma
-			console.log("char-rel-freq.txt line corrupt:", c2, line);
+			console.log("char-rel-freq.txt corrupt:", line);
 		else if (rank[c] == undefined)
-			rank[c] = parseFloat(line.substr(2));
+			rank[c] = parseFloat(r);
 		else
-			console.log("char-rel-freq.txt line duplicate:", line);
+			console.log("char-rel-freq.txt duplicate:", c, line);
 		});
 	console.log("testing rank['是'] =", rank['是']);
 	console.log("Loaded char-rank.txt.");
