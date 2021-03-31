@@ -76,26 +76,26 @@
 // or just {}
 var pin = new Object();		// from pinyin look up char
 var yin = new Object();		// from char look up pinyin
+var yky = new Object();		// from char look up pinyin
 var approx = new Object();
 
-/**** Read Yale pinyins file ****
-	console.log("Loading canto-pinyins.txt\n" +
-	$.ajax({
+// **** Read YKY custom pinyins file ****
+$.ajax({
 	method: "GET",
-	url: "/loadDatabase/canto-pinyins",		// Note: use filename without extension
+	url: "/loadDatabase/YKY-custom-pinyins",		// Note: use filename without extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
 		lines.forEach(function(line) {
 			if (line[0] == '/')
 				return;
-			else if (pin[line.substr(1)] == undefined)
-				pin[line.substr(1)] = line.substr(0,1);
+			else if (yky[line.substr(1)] == undefined)
+				yky[line.substr(1)] = line[0];
 			else
-				pin[line.substr(1)] += line.substr(0,1);
-		});
-	}}));
-*/
+				yky[line.substr(1)] += line[0];
+			});
+		console.log("Loaded YKY-custom-pinyins.txt\n");
+}});
 
 var rank = new Object();
 
@@ -108,9 +108,9 @@ success: function(data) {
 	var lines = data.split("\n");
 	lines.forEach(function(line) {
 		var c = line.charAt(0);
-		var cc = line.charCodeAt(1);
-		if (!isNaN(cc) && cc != 44)		// 44 = comma
-			console.log("char-rel-freq.txt line corrupt:", line);
+		var c2 = line.codePointAt(1);
+		if (!isNaN(c2) && c2 != 44)		// 44 = comma
+			console.log("char-rel-freq.txt line corrupt:", c2, line);
 		else if (rank[c] == undefined)
 			rank[c] = parseFloat(line.substr(2));
 		else
@@ -175,7 +175,7 @@ function loadPinyins() {
 			});
 		console.log("Loaded exact-Google-pinyins.txt.");
 
-		loadDistincts();
+		// loadDistincts();
 	}});
 }
 
@@ -246,7 +246,7 @@ $("#white-box").keydown(function (e) {
 		current_pinyin += String.fromCharCode(e.which + 32);
 
 		// display chars
-		chars = pin[current_pinyin];
+		chars = yky[current_pinyin];
 		if (chars != undefined)
 			showChars();
 

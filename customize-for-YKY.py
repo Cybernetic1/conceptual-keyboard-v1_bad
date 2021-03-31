@@ -47,7 +47,7 @@ replace_entire = {
 	"keuk" : ["kue","keuk"],
 	"leuk" : ["lue","leuk"],
 	"seuk" : ["shue","seuk"],
-	"yeuk" : ["yue, yerk", "yeuk"],
+	"yeuk" : ["yue", "yerk", "yeuk"],
 
 	"cheun" : ["chun","cheun"],
 	"deun" : ["dun","deun"],
@@ -61,7 +61,7 @@ replace_entire = {
 	"deut" : ["due"],
 	"jeut" : ["jue"],
 	"leut" : ["lud"],
-	"seut" : ["shut, shue"],
+	"seut" : ["shut", "shue"],
 
 	"chyu" : ["chu"],
 	"chyun" : ["chuen"],
@@ -86,31 +86,54 @@ replace_entire = {
 	"tyut" : ["tue"],
 }
 
-dict = {}
+consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y']
+
+vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut']
+
+def k_n(pinyin):
+	c = pinyin[0]
+	cc = pinyin[0:2]
+	k = ""
+	n = ""
+	if cc in consonants:
+		k = cc
+		n = pinyin[2:]
+	elif c in consonants:
+		k = c
+		n = pinyin[1:]
+	else:
+		n = pinyin
+	return (k, n)
 
 import codecs
 
 # open input file
-f1 = codecs.open("web/exact-Google-pinyins.txt", encoding="UTF-8", "r")
+f1 = codecs.open("web/exact-Google-pinyins.txt", encoding="UTF-8", mode="r")
+
+# output file
+fo = codecs.open("YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
 
 for line in f1:
 	c = ord(line[1])
 	if c > 255:				# ignore phrases
 		continue
 
-	print ("\033[0;35m", line, "\033[0m")
+	print ("\033[0;35m", line[:-1], "\033[0m")
 	char = line[0]
-	pinyin = line[1:]
+	pinyin = line[1:-1]
+
+	if pinyin in replace_entire:
+		for r in replace_entire[pinyin]:
+			fo.write(char + r + '\n')
+		continue
+
+	(k, n) = k_n(pinyin)
+	if n in replace_finals:
+		for r in replace_finals[n]:
+			fo.write(char + k + r + '\n')
+		continue
+
+	fo.write(char + pinyin + '\n')
 
 f1.close()
-
-print(dict)
-
-# output file
-fo = codecs.open("YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
-
-for p1 in dict:
-	for p2 in dict[p1]:
-		f2.write(p1 + "," + p2 + '\n')
-
-f2.close()
+fo.close()
