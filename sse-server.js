@@ -20,6 +20,34 @@
 // * how to decide if both Chrome and Firefox have chat windows?
 //   (use only Firefox from now...)
 
+/* **** This code works, but is not needed now
+ * **** I prefer to use Python to access Neo4j locally.
+const neo4j = require('neo4j-driver');
+
+const driver = neo4j.driver('neo4j://localhost', neo4j.auth.basic('neo4j', 'l0wsecurity'));
+const session = driver.session();
+const personName = 'Alice';
+
+async function startNeo4j() {
+	try {
+		const result = await session.run(
+			'CREATE (a:Person {name: $name}) RETURN a',
+			{ name: personName }
+			)
+		const singleRecord = result.records[0]
+		const node = singleRecord.get(0)
+
+		console.log(node.properties.name)
+		} finally {
+		await session.close()
+		// on application exit:
+		driver.close();
+		}
+	}
+
+startNeo4j();
+*/
+
 var exec = require('child_process').exec;
 var cmd = "beep";
 exec(cmd, function(err, stdout, stderr) {});

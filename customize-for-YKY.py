@@ -23,6 +23,8 @@ replace_finals = {
 }
 
 replace_entire = {
+	"nei" : ["ni", "nei"],
+
 	"deu" : ["der","deu"],
 	"geu" : ["gur","geu"],
 	"heu" : ["her","heu"],
@@ -111,14 +113,14 @@ import codecs
 f1 = codecs.open("web/exact-Google-pinyins.txt", encoding="UTF-8", mode="r")
 
 # output file
-fo = codecs.open("YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
+fo = codecs.open("web/YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
 
 for line in f1:
 	c = ord(line[1])
 	if c > 255:				# ignore phrases
 		continue
 
-	print ("\033[0;35m", line[:-1], "\033[0m")
+	print (line[:-1], end=' ')
 	char = line[0]
 	pinyin = line[1:-1]
 

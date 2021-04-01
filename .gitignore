@@ -5,6 +5,7 @@
 /logs/
 /typings/
 /web/node_modules/
+/node_modules/
 /web/database_default.txt
 *.bak
 conkey_PID.txt

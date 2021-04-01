@@ -10,21 +10,15 @@
 
 // To do
 // =====
-// * 现时问题是不知怎样做 approx,
-//		不想太滥，又要 algorithm 简单
-//		还有 custom pinyins 的问题
-// * record custom pinyins, replace standard pinyins with custom ones
-// * handle approx pinyins
-//   或者最简单的方法是： add another map for similar approx pinyins
-//   in other words, look up YKY's pinyin and match to standard pinyin
-// * be able to modify ranking / pinyin of chars
 // * cannot continuously input characters
+// * ability to record custom pinyins
+// * handle approx pinyins
+// * be able to modify ranking / pinyin of chars
 // * allow choosing of chars by mouse
 // * perhaps send to Conkey main window
 
 // To do -- approx pinyin matching
 // ===============================
-// * create YKY custom pinyin map
 // * the file scraped from Google actually contains (Google's) approx matching results,
 //		which we may use as a reference or as initial data
 // * perhaps reverse engineer Google's approx matching?
@@ -47,7 +41,15 @@
 // To do -- phrases
 // ================
 // * build repository of phrases
-//   - how / where to store?
+//		- how / where to store?
+//		- Neo4j
+// * 词语是有的，问题是怎样 recall？
+//		- has head or tail
+//		- how should be organize the keys?
+// * With Neo4j:
+//		- store all chars and all words (n-grams) as nodes
+//		- store "char belongs to word" relations
+//		- later, words can be semantically clustered
 // * each phrase is addressed by 1 or more key?  It may be too slow to search from zero
 // * but it may be the job of an RNN -- output a few keys
 // * OR, cluster phrases, map chars --> semantic clusters
@@ -65,12 +67,45 @@
 // * prepare Google exact pinyin list
 // * sort according to frequency ranking number
 // * break into consonents and vowels
+// * created YKY custom pinyin map
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
 // 1. yale-sort-by-freq.txt
 // 2. ???....
 
+// This web driver allows to talk to Neo4j via web socket
+var driver = neo4j.driver(
+  'neo4j://localhost',
+  neo4j.auth.basic('neo4j', 'l0wsecurity') );
+
+const column2 = document.getElementById("column2");
+
+async function findWords(c) {
+	const session = driver.session();
+
+	try {
+		const result = await session.run(
+			"MATCH (n:Char {char: $char}) -[:In]->(m) RETURN (n),(m)",
+			{char: c} );
+		console.log(result.records.length);
+
+		column2.innerHTML = "";		// clear the contents first
+		result.records.reverse().forEach(function(r, i) {
+			const node = r.get(1);
+			const word = node.properties.chars;
+
+			var num = i.toString() + '.';
+			textNode = document.createElement('span');
+			textNode.appendChild(document.createTextNode(num + word));
+			column2.appendChild(textNode);
+
+			// console.log(node.properties.chars);
+			});
+		} finally {
+		await session.close()
+		}
+	}
 
 // ************************** Read pinyins into buffer ************************
 // or just {}
@@ -242,6 +277,7 @@ function k_n(pinyin) {
 var current_pinyin = "";
 var current_num = 0;
 var chars = "";
+var cs = [];
 
 $("#white-box").keydown(function (e) {
 	if (e.which == 27) {						// Escape
@@ -254,10 +290,16 @@ $("#white-box").keydown(function (e) {
 		current_num = 0;
 		current_pinyin += String.fromCharCode(e.which + 32);
 
-		// display chars
+		// **** display chars
 		chars = yky[current_pinyin];
-		if (chars != undefined)
+		if (chars != undefined) {
+			// **** sort by frequency rank:
+			cs = chars.split('').sort(rankcompare);
 			showChars();
+
+			// after displaying char, display n-grams
+			findWords(cs[0]);
+			}
 
 		e.preventDefault();
     }
@@ -283,21 +325,34 @@ $("#white-box").keydown(function (e) {
 function sendChar(i)
 {
 	if (i <= 9)
-		document.getElementById("white-box").value += chars.charAt(i);
+		document.getElementById("white-box").value += cs[i];
 	else {
 		element = document.getElementById("white-box");
-		element.value = element.value.slice(0,-1) + chars.charAt(i);
+		element.value = element.value.slice(0,-1) + cs[i];
 	}
 }
+
+// Javascript's sort order: from small to big
+// Our ranking requires: from big to small
+// so the order relation is REVERSED.
+function rankcompare(a, b) {
+	ra = rank[a];
+	rb = rank[b];
+	// undefined behaves like 0
+	if (ra == undefined)
+		return 1;		// 0 > b = always false
+	if (rb == undefined)
+		return -1;		// a > 0 = always true
+	return ra > rb ? -1 : 1;
+	}
 
 function showChars()
 {
 	var column1 = document.getElementById("column1");
 	column1.innerHTML = "";		// clear the contents first
 
-	for (var i = 0; i < chars.length; ++i)
-		{
-		var c = chars.charAt(i);
+	cs.forEach(function(c, i) {
+		// var c = chars.charAt(i);
 		// column1.appendChild(document.createTextNode(nums[i] + '.'));
 		var num = i.toString();
 		if (i < 10)
@@ -310,10 +365,15 @@ function showChars()
 		// var row = column1.insertRow(-1)
 		// var cell = row.insertCell(0);
 		// cell.innerHTML = c;
-		}
+		});
 }
 
-var column2 = document.getElementById("column2");
 column2.innerHTML = "test";		// clear the contents first
+
+window.addEventListener('beforeunload', function (e) {
+	// on application exit:
+	driver.close();
+	e.returnValue = '';
+});
 
 console.log("So far so good, from Cantonese-input.js");
