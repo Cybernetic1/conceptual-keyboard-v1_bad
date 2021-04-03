@@ -4,17 +4,27 @@
 
 // To do -- AGI related
 // ====================
+// * use reinforcement learning!!
+//		State = current chars in white-box + "tags"
+//		Action = each word / char is an action, + tags
+//		Reward = what I choose
 // * crawl phrases / crawl for math terms
 // * run language model --> correct grammar
 // * 
 
 // To do
 // =====
-// * cannot continuously input characters
+// * Confusion matrix -- need more data, otherwise cannot machine-learn
+// * 
+// * Missing '惡 = ok', don't know why?
+// * Allow English mode
+// * Handle punctuations, Ctrl-keys etc.
+// * use Ctrl-keys to choose words
+// * some approx pinyins not available (eg. gau -> gao, mo -> mou)
+// * usage buttons from old YKY-input-method.js
 // * ability to record custom pinyins
-// * handle approx pinyins
+// * handle approx pinyins (eg. even with single pinyin letter)
 // * be able to modify ranking / pinyin of chars
-// * allow choosing of chars by mouse
 // * perhaps send to Conkey main window
 
 // To do -- approx pinyin matching
@@ -40,17 +50,11 @@
 
 // To do -- phrases
 // ================
-// * build repository of phrases
-//		- how / where to store?
-//		- Neo4j
-// * 词语是有的，问题是怎样 recall？
-//		- has head or tail
-//		- how should be organize the keys?
+// * Output matching words for char list members 1,2,3,...
 // * With Neo4j:
-//		- store all chars and all words (n-grams) as nodes
-//		- store "char belongs to word" relations
 //		- later, words can be semantically clustered
-// * each phrase is addressed by 1 or more key?  It may be too slow to search from zero
+// * each phrase is addressed by 1 or more key?
+//		It may be too slow to search from zero
 // * but it may be the job of an RNN -- output a few keys
 // * OR, cluster phrases, map chars --> semantic clusters
 // * OR, build semantically-organized tree structure
@@ -68,7 +72,14 @@
 // * sort according to frequency ranking number
 // * break into consonents and vowels
 // * created YKY custom pinyin map
-// * 
+// * use Neo4j to store words
+// * With Neo4j:
+//		- store all chars and all words (n-grams) as nodes
+//		- store "char belongs to word" relations
+// * now can continuously input characters
+// * choosing words by mouse
+// * choosing chars by mouse
+// * findWords() use simplified chars
 
 // Flow-chart for preparing canto-pinyins.txt:
 // 1. yale-sort-by-freq.txt
@@ -79,11 +90,15 @@ var driver = neo4j.driver(
   'neo4j://localhost',
   neo4j.auth.basic('neo4j', 'l0wsecurity') );
 
+const white_box = document.getElementById("white-box");
+const pinyin_bar = document.getElementById("pinyin-bar");
+const column1 = document.getElementById("column1");
 const column2 = document.getElementById("column2");
 
-async function findWords(c) {
+async function findWords(ch) {
 	const session = driver.session();
 
+	const c = simplify_char(ch);
 	try {
 		const result = await session.run(
 			"MATCH (n:Char {char: $char}) -[:In]->(m) RETURN (n),(m)",
@@ -102,9 +117,47 @@ async function findWords(c) {
 
 			// console.log(node.properties.chars);
 			});
+
+		// **** on-click HTML "span" element:
+		$("#column2 span").on('click', function(ev)
+			{
+			clicked_str = this.textContent;
+			var spanItem = this;
+			word_SingleClick(spanItem);
+			})
+			.dblclick(function(ev)
+				{
+				word_DoubleClick();
+				});
+
 		} finally {
 		await session.close()
 		}
+	}
+
+// Event handler for single-click of a suggested word
+function word_SingleClick(item) {
+	const selection = clicked_str;			// the clicked word (string)
+
+	const audio = new Audio("sending.ogg");
+	audio.play();
+
+	// Add to end of text:
+	white_box.value += selection.split('.')[1];
+	white_box.focus();
+	}
+
+function word_DoubleClick() {
+	const selection = clicked_str;			// the clicked word (string)
+
+	// const audio = new Audio("sending.ogg");
+	// audio.play();
+
+	// Add to end of text:
+	pair = selection.split('.');
+	white_box.value = box.value.slice(0, -2 * pair[1].length);
+	white_box.value += pair[0];
+	white_box.focus();
 	}
 
 // ************************** Read pinyins into buffer ************************
@@ -163,11 +216,11 @@ success: function(data) {
 	console.log("testing rank['是'] =", rank['是']);
 	console.log("Loaded char-rank.txt.");
 
-	loadPinyins();
+	loadGooglePins();
 }});
 
 // **** Load exact Google pinyins which depends on rank[]:
-function loadPinyins() {
+function loadGooglePins() {
 	$.ajax({
 	method: "GET",
 	url: "/loadDatabase/exact-Google-pinyins",		// Note: use filename without extension
@@ -256,6 +309,7 @@ const consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','
 
 const vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut'];
 
+// **** Decompose pinyin into consonant and vowel
 function k_n(pinyin) {
 	var c = pinyin.substring(0,1);
 	var cc = pinyin.substring(0,2);
@@ -278,17 +332,25 @@ var current_pinyin = "";
 var current_num = 0;
 var chars = "";
 var cs = [];
+var state = 'A';		// state = A: alpha, 0: numeric
 
+// **** Intercept keys:
 $("#white-box").keydown(function (e) {
-	if (e.which == 27) {						// Escape
+	const key = e.which;
+
+	if (key == 27) {						// Escape
 		current_pinyin = "";
 		current_num = 0;
 		e.preventDefault();
     }
 
-    if (e.which >= 65 && e.which <= 90) {		// A-Z
+    if (key >= 65 && key <= 90) {			// A-Z
+		if (state == '0') {
+			current_pinyin = "";
+			state = 'A';
+			}
 		current_num = 0;
-		current_pinyin += String.fromCharCode(e.which + 32);
+		current_pinyin += String.fromCharCode(key + 32);
 
 		// **** display chars
 		chars = yky[current_pinyin];
@@ -304,31 +366,41 @@ $("#white-box").keydown(function (e) {
 		e.preventDefault();
     }
 
-	if (e.which >= 48 && e.which <= 57) {		// 0-9
+	if (key >= 48 && key <= 57) {			// 0-9
 		// choose chars
-		current_num = current_num * 10 + (e.which - 48);
+		state = '0';
+		current_num = current_num * 10 + (key - 48);
 		sendChar(current_num);
-		current_pinyin += '●';
+		// current_pinyin += '●';
 		e.preventDefault();
 	}
 
-	if (e.which == 32) {						// space chooses 1st char
-		current_pinyin += "●";
+	if (key == 32) {						// space chooses 1st char
+		// current_pinyin += "●";
 		current_num = 0;
-		sendChar(current_num);
+		if (state == '0' || current_pinyin == "")
+			sendChar(-32);					// send space
+		else
+			sendChar(current_num);
+		current_pinyin = "";
 		e.preventDefault();
     }
 
-	document.getElementById("pinyin-bar").innerHTML = current_pinyin;
+	pinyin_bar.innerHTML = current_pinyin;
 });
 
 function sendChar(i)
 {
-	if (i <= 9)
-		document.getElementById("white-box").value += cs[i];
+	if (i < 0)
+		white_box.value += String.fromCharCode(-i);
+	else if (i <= 9) {
+		white_box.value += cs[i];
+		findWords(cs[i]);
+		}
 	else {
-		element = document.getElementById("white-box");
-		element.value = element.value.slice(0,-1) + cs[i];
+		// There is an existing character, needs to be over-written
+		white_box.value = white_box.value.slice(0,-1) + cs[i];
+		findWords(cs[i]);
 	}
 }
 
@@ -348,7 +420,6 @@ function rankcompare(a, b) {
 
 function showChars()
 {
-	var column1 = document.getElementById("column1");
 	column1.innerHTML = "";		// clear the contents first
 
 	cs.forEach(function(c, i) {
@@ -366,9 +437,40 @@ function showChars()
 		// var cell = row.insertCell(0);
 		// cell.innerHTML = c;
 		});
+
+	// **** specify on-click behavior, for HTML "span" elements:
+	$("#column1 span").on('click', function(ev)
+		{
+		clicked_str = this.textContent;
+		var spanItem = this;
+		char_SingleClick(spanItem);
+		})
+		.dblclick(function(ev)
+			{
+			char_DoubleClick();
+			});	
 }
 
-column2.innerHTML = "test";		// clear the contents first
+// Event handler for single-click of a suggested word
+function char_SingleClick(item) {
+	const selection = clicked_str;			// the clicked word (string)
+
+	const audio = new Audio("sending.ogg");
+	audio.play();
+
+	// Add to end of text:
+	white_box.value += selection.slice(-1);
+	white_box.focus();
+	}
+
+function char_DoubleClick() {
+	const selection = clicked_str;			// the clicked word (string)
+
+	// Add to end of text:
+	white_box.value = white_box.value.slice(0, -2);
+	white_box.value += selection.slice(0,-1);
+	white_box.focus();
+	}
 
 window.addEventListener('beforeunload', function (e) {
 	// on application exit:
@@ -376,4 +478,105 @@ window.addEventListener('beforeunload', function (e) {
 	e.returnValue = '';
 });
 
+function simplify(str, forcing=false) {
+	var c = c2 = '', str2 = "";
+
+	if (!forcing && $("#simplify").prop("checked") === false)
+		return str;
+
+	for (i = 0; i < str.length; ++i) {
+		c = str[i];
+		// convert character to Simplified
+		c2 = h[c];
+		if (c2 != undefined)
+			str2 += c2;
+		else
+			str2 += c;
+	}
+	return str2;
+}
+
+function simplify_char(c) {
+	const c2 = h[c];
+	if (c2 != undefined)
+		return c2;
+	else
+		return c;
+}
+
+// **** Read hcutf8.txt into buffer ****
+// the file "hcutf8.txt" is from /chinese/zhcode
+var h = new Object(); // or just {}
+
+$.ajax({
+method: "GET",
+url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
+cache: false,
+success: function(data) {
+	var lines = data.split("\n");
+	lines.forEach(function(line) {
+		if (line[0] != '/')				// comments
+			h[line.substr(0,1)] = line.substr(1);
+	});
+	console.log("Loading hcutf8-YKY.txt into h[].");
+}});
+
+// ************* replace with YKY shorthands
+function replaceYKY(str) {
+	str2 = str.replace(/。。/g, "……");
+	// str = str2.replace(/\//g, "|");
+	// str2 = str.replace(/娘/g, "孃");
+	// str = str2.replace(/\'/g, "`");
+	// str = str2.replace(/\r/g, "\r\n");
+	return str2;
+}
+
+document.getElementById("send-clipboard").addEventListener("click", function() {
+	str = white_box.value;
+	str = simplify(str);
+	str = replaceYKY(str);
+	white_box.value = str;
+
+	white_box.focus();
+	white_box.select();
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
+
+	// recordHistory(str);
+
+	// clear input box
+	white_box.value = "";
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+// ==== For dealing with Drop-down menu ====
+
+/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+function onDropDown() {
+    document.getElementById("dropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+white_box.focus();
 console.log("So far so good, from Cantonese-input.js");

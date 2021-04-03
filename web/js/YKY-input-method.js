@@ -125,10 +125,7 @@ function fillDirs()
 	});
 }
 
-// Global variables for distinguishing between click and double-click
-var clicktimer;
-var e_click;
-var id_click;
+// Global variable for storing clicked HTML "span" element
 var clicked_str;
 
 var imgWord;	// word displayed for image at mouse position
@@ -217,28 +214,16 @@ function fillSuggestions()
 
 	// On click: send to [previously Green] White box
 	// On double-click: send to output directly
-	// may be depend on where (in which Box) the span element is located
+	// may depend on where (in which Box) the span element is located
 	// the location can be given by [DOMelement].parentNode or .parentElement
 	$("#suggestions span").on('click', function(ev)
 		{
 		clicked_str = this.textContent;
-		e_click = ev;
-		id_click = this.id;
 		var spanItem = this;
-		// we need to use timer to distinguish single and double-click
-		clicktimer = window.setTimeout(function () {
-			if(e_click) {
-				word_SingleClick(spanItem);
-				clearTimeout(clicktimer);
-				clicktimer = null;
-				}
-			}, 900);
+		word_SingleClick(spanItem);
 		})
 		.dblclick(function(ev)
 			{
-			window.clearTimeout(clicktimer);
-			e_click = null;
-			id_click = null;
 			word_DoubleClick();
 			});
 
@@ -362,10 +347,14 @@ function word_SingleClick(item) {
 
 // Event handler for double-click on a suggested word
 // Action: send the text directly to output
-function word_DoubleClick(str) {
-	// Play a sound
-	var audio = new Audio("sending.ogg");
-	audio.play();
+function word_DoubleClick() {
+	const box = document.getElementById("white-box");
+	box.value = box.value.slice(0, -2 * clicked_str.length);
+
+	// **** Perhaps no need to play sound, because single-click does
+	// var audio = new Audio("sending.ogg");
+	// audio.play();
+
 	// Send output via message to Google Chrome extension script:
 	// clicked_str = simplify(clicked_str);
 	send2Chat(clicked_str);
@@ -1460,7 +1449,7 @@ function drop(ev)
 	// console.log("dropped onto: " + ev.target.id);
 }
 
-// ==================== For dealing with Drop-down menu ========================
+// ==== For dealing with Drop-down menu ====
 
 /* When the user clicks on the button, toggle between hiding and showing the dropdown content */
 function onDropDown() {
@@ -1488,7 +1477,7 @@ loadDB("database_default");
 // initial chat room is "voov"
 // window.postMessage({type: "CHAT_ROOM", text: "hklove"}, "*");
 
-// ************************** Read hcutf8.txt into buffer ************************
+// **** Read hcutf8.txt into buffer ****
 // the file "hcutf8.txt" is from /chinese/zhcode
 var h = new Object(); // or just {}
 
@@ -1505,7 +1494,7 @@ success: function(data) {
 	});
 }}));
 
-// ************************** Read pinyins into buffer ************************
+// **** Read pinyins into buffer ****
 var pin = new Object(); // or just {}
 
 console.log("Loading pinyins.txt into pin[]:\n" +
