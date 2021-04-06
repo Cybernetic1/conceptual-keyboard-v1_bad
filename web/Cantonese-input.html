@@ -13,7 +13,7 @@
 				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
 				padding-top: 0px;
 				background-color: #000000;
-				color: #ccffff;
+				color: #eeeeee;
 			}
 
 			// label { display: block; margin-top: 10px; color: #0066cc; }
@@ -25,7 +25,7 @@
 				// border-style: solid;
 				border-radius: 5px;
 				color: white;
-				background-color: #275D80;
+				background-color: #275d80;
 				padding: 5px;
 				// text-align: left;
 				font-size: 20px;
@@ -71,31 +71,6 @@
 				border-bottom: 1px dotted #0066cc;
 			}
 
-			#columnA {
-				float: left;
-				width: 48%;
-				font-family: "Courier New", Courier, monospace;
-				margin-left: 0px
-				margin-right: 0px;
-				margin-top: 5px;
-				margin-bottom: 5px;
-				line-height: 1.2;
-				border: 2px solid #007700;
-			}
-
-			#columnB {
-				overflow: auto;
-				float: right;
-				width: 50%;
-				margin-left: 0px
-				margin-right: 0px;
-				margin-top: 5px;
-				margin-bottom: 5px;
-				// padding: 5px 5px;
-				line-height: 1.2;
-				border: 2px solid #7777bb;
-			}
-
 			#pinyin-bar {
 				display: inline-block; 
 				// height: 50px;
@@ -108,32 +83,66 @@
 				// margin: 5px 5px;
 			}
 
+			#columnA {
+				width: 48%;
+				height:200px;
+				overflow-y: auto;
+				float: left;
+				font-family: "Courier New", Courier, monospace;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				line-height: 1.2;
+				border: 2px solid #007700;
+			}
+
+			#columnB {
+				width: 50%;
+				height:200px;
+				overflow-y: auto;
+				overflow: auto;
+				float: right;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				// padding: 5px 5px;
+				line-height: 1.2;
+				border: 2px solid #7777bb;
+			}
+
 			#columnA span {
 				display:inline-block;
-				background: #003333;
+				background: #275D80;
 				padding-top: 1px;
 				padding-right: 1px;
 				padding-bottom: 1px;
 				padding-left: 1px;
-				border: 1px solid #00bb00;
+				// border: 1px solid #225588;
+				border: None;
+				border-radius: 5px;
 				margin: 5px 5px;
 			}
 
 			#columnB span {
 				display:inline-block;
-				background: #330033;
+				background: #606060;
 				padding-top: 1px;
 				padding-right: 1px;
 				padding-bottom: 1px;
 				padding-left: 1px;
-				border: 1px solid #9999bb;
+				// border: 1px solid #9999bb;
+				border: None;
+				border-radius: 5px;
 				margin: 5px 5px;
 			}
 
 			#columnA span:hover,
 			#columnB span:hover,
 			#column2 span:hover {
-				background: #0000ff;
+				background: #ff7777;
+				color: #000000;
 				}
 
 			#header-bar span {
@@ -163,9 +172,11 @@
 			}
 
 			#suggestions span {
-				background: #003333;
+				background: #336633;
 				padding: 1px;
-				border: 1px solid #00bb00;
+				// border: 1px solid #00bb00;
+				border: None;
+				border-radius: 5px;
 				margin: 3px;
 			}
 
