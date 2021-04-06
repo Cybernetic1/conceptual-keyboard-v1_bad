@@ -55,7 +55,7 @@
 
 			input[type=text] {
 				font-size: 130%;
-				background-color: #777777;
+				background-color: #555555;
 				color: #aaaaaa;
 				/* font-weight: bold; */
 			}
@@ -71,7 +71,7 @@
 				border-bottom: 1px dotted #0066cc;
 			}
 
-			#column1 {
+			#columnA {
 				float: left;
 				width: 48%;
 				font-family: "Courier New", Courier, monospace;
@@ -83,7 +83,7 @@
 				border: 2px solid #007700;
 			}
 
-			#column2 {
+			#columnB {
 				overflow: auto;
 				float: right;
 				width: 50%;
@@ -92,7 +92,7 @@
 				margin-top: 5px;
 				margin-bottom: 5px;
 				// padding: 5px 5px;
-				line-height: 170%;
+				line-height: 1.2;
 				border: 2px solid #7777bb;
 			}
 
@@ -108,7 +108,7 @@
 				// margin: 5px 5px;
 			}
 
-			#column1 span {
+			#columnA span {
 				display:inline-block;
 				background: #003333;
 				padding-top: 1px;
@@ -119,7 +119,7 @@
 				margin: 5px 5px;
 			}
 
-			#column2 span {
+			#columnB span {
 				display:inline-block;
 				background: #330033;
 				padding-top: 1px;
@@ -130,12 +130,43 @@
 				margin: 5px 5px;
 			}
 
+			#columnA span:hover,
+			#columnB span:hover,
+			#column2 span:hover {
+				background: #0000ff;
+				}
+
 			#header-bar span {
 				background: #000000;
 				padding: 1px;
 				border: 1px solid #ff0000;
 				margin: 1px;
 				color: #ff0000;
+			}
+
+			#column1 {
+				overflow: auto;
+				float:left;
+				width:25%;
+				padding:0px;
+				border:1px solid #ccffff;
+			}
+
+			#column2 {
+				// overflow: auto;
+				float:left;
+				width:74%;
+				padding:0px;
+				line-height: 170%;
+				// margin: 5px 5px;
+				border:1px solid #ccffff;
+			}
+
+			#suggestions span {
+				background: #003333;
+				padding: 1px;
+				border: 1px solid #00bb00;
+				margin: 3px;
 			}
 
 			.selected td {
@@ -190,7 +221,7 @@
 		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
 		<br>
 		<div>
-		<span id="pinyin-bar">abc</span>
+		<span id="pinyin-bar"></span>
 		<!--button type="button" id="pinyin-bar" style="width:80px;">abc</button-->
 		<button type="button" id="quick-simplify">简</button>
 		<button type="button" id="quick-complex">烦</button>
@@ -226,20 +257,61 @@
 
 		<!-- span id="header-bar"></span -->
 
-		<div id="mid-levels">
+		<div id="upper-levels">
 
-			<div id="column1">&nbsp;
+			<div id="columnA">&nbsp;
 			</div>
 
-			<div id="column2">&nbsp;
+			<div id="columnB">&nbsp;
 			</div>
 
 			<!-- br style="clear:both;" -->
 		</div>
 
+		<div id="header-bar">
+		</div>
+
+		<div id="mid-levels">
+
+			<div id="column1">
+				<table id="sub-dirs">
+				</table>
+			</div>
+
+			<div id="column2">
+				<table id="suggestions">
+				</table>
+			</div>
+
+			<br style="clear:both;"/>
+		</div>
+
+
+		<div id="bottom">
+			<input type="checkbox" id="delete" style="width:20px; height:20px;">delete
+			<input type="checkbox" id="change" style="width:20px; height:20px;">change
+			<input type="checkbox" id="append" style="width:20px; height:20px;">add
+			<button type="button" id="insert" style="color: #aaffaa;">+</button>
+			<button type="button" id="add-child" style="color: #aaffaa;">+node</button>
+
+			<br>
+			<button type="button" id="loadDB">load</button>
+			<button type="button" id="saveDB">save</button>
+			&nbsp; <a href="javascript:loadDB('synonym_forest')">同義詞詞林</a>
+			&nbsp; <a href="javascript:loadDB('rogets_thesaurus')">Roget's</a>
+			&nbsp; <button type="button" id="flush-typings">typings</button>
+		</div>
+
+		<!-- dummy variables: -->
+		<span id="pinyin-box" style="display:none;"></span>
+
 		<script src="js/jquery-1.10.1.min.js"></script>
 		<script src="js/neo4j-web.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/Cantonese-input.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/history.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/utils.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/buttons.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/Conkey-menu.js"></script>
 
 	</body>
 </html>

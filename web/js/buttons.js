@@ -1,14 +1,90 @@
+function send2Chat(str) {
+	// **** Now this is to Chatroom.HK only
+	var str2 = str.replace(/\//g, "|");
+	str = str2.replace(/\'/g, "`");
+	
+	$.ajax({
+		method: "POST",
+		url: "./fireFox",
+		data: str,
+		success: function(resp) {
+			// console.log("Fire: " + str);
+		}
+	});
+}
+
+// ************* This is used when 'enter' is pressed or '↵' button is clicked:
+function quicksend() {
+	str = document.getElementById("white-box").value;
+
+	// **** If input ends with 'gg' ---> go to Google search
+	if (str.endsWith('gg')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2));
+		return;
+	}
+
+	// **** If input ends with 'cc' ---> Google search with 中文
+	if (str.endsWith('cc')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2) + "%20中文");
+		return;
+	}
+
+	// **** If input ends with 'yy' ---> Google search with 粤语
+	if (str.endsWith('yy')) {
+		window.open("https://www.google.com/search?q=" + str.slice(0,-2) + "%20粤语");
+		return;
+	}
+
+	str = simplify(str);			// when sending to chat rooms, no simplify
+	str = replaceYKY(str);
+
+	/*
+	if (to_skype) {			// Try to send text to Skype chat dialog
+		Skype.ui({				// don't know how to do it yet...
+			name: "",
+			element: "",
+			participants: [""]
+		});
+	}
+	*/
+
+	recordHistory(str);
+	display_pinyin(str);
+
+	/***** Send to Pidgin #0?
+	if ($("#to-pidgin0").prop("checked") === true) {
+		var userName = document.getElementsByName("pidgin-who0")[0].value;
+		sendPidgin(userName, str);
+		return;
+	}
+
+	// Send to Pidgin #1?
+	if ($("#to-pidgin1").prop("checked") === true) {
+		var userName = document.getElementsByName("pidgin-who1")[0].value;
+		sendPidgin(userName, str);
+		return;
+	}
+	*****/
+
+	send2Chat(str);
+
+	// clear input box
+	document.getElementById("white-box").value = "";
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}
+
 // ******************************* Menu buttons ********************************
 
 document.getElementById("send-clipboard").addEventListener("click", function() {
-	var whiteBox = document.getElementById("white-box");
-	str = whiteBox.value;
+	str = white_box.value;
 	str = simplify(str);
 	str = replaceYKY(str);
-	whiteBox.value = str;
+	white_box.value = str;
 
-	whiteBox.focus();
-	whiteBox.select();
+	white_box.focus();
+	white_box.select();
 	try {
 		var successful = document.execCommand('copy');
 		var msg = successful ? 'successful' : 'unsuccessful';
@@ -17,14 +93,10 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
 		console.error('Fallback: Oops, unable to copy', err);
 	}
 
-	// Copy to clipboard, by sending to Chrome Extension Content Script first
-	// The window.postMessage commmand seems obsolete:
-	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
-
 	recordHistory(str);
 
 	// clear input box
-	whiteBox.value = "";
+	white_box.value = "";
 
 	var audio = new Audio("sending.ogg");
 	audio.play();
@@ -207,21 +279,6 @@ butt3.addEventListener("click", function() {
 	audio.play();
 }, false);
 
-// Genifer:  save input-output pair in ./training directory
-document.getElementById("genifer-teach").addEventListener("click", function() {
-	var in_str  = document.getElementById("red-box").value;
-	var out_str = document.getElementById("pink-box").value;
-
-	// send to server for saving
-	console.log($.ajax({
-		method: "POST",
-		url: "/saveTrainingPair/",
-		data: {input: in_str, output: out_str},
-		success: function(resp) {}
-	}));
-
-}, false);
-
 // Send message to DreamLand
 var last_dream = ""
 document.getElementById("to-dream").addEventListener("click", function() {
@@ -249,14 +306,10 @@ document.getElementById("to-dream").addEventListener("click", function() {
 
 document.getElementById("clear-white").addEventListener("click", function() {
 	document.getElementById("pinyin-box").innerHTML = "";
-	var box = document.getElementById("white-box");
-	box.value = "";
-	box.focus();
+	white_box.value = "";
+	white_box.focus();
 	history_view_index = -1;		// No longer in history mode
 }, false);
-
-
-document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
 
 document.getElementById("send-white").addEventListener("click", quicksend, false);
 
@@ -307,6 +360,23 @@ window.onclick = function(event) {
   }
 }
 
+// document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
+
+/* Genifer:  save input-output pair in ./training directory
+document.getElementById("genifer-teach").addEventListener("click", function() {
+	var in_str  = document.getElementById("red-box").value;
+	var out_str = document.getElementById("pink-box").value;
+
+	// send to server for saving
+	console.log($.ajax({
+		method: "POST",
+		url: "/saveTrainingPair/",
+		data: {input: in_str, output: out_str},
+		success: function(resp) {}
+	}));
+
+}, false);
+*/
 
 /*
 document.getElementById("send-green").addEventListener("click", function() {

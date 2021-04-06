@@ -18,6 +18,7 @@
 // * 'X' delete safely (ie, keep copy of content)
 // * backspace on pinyin first and then on input text
 // * use Alt-number-keys to choose words
+// * tool tip on chars with pinyins
 // * some approx pinyins not available (eg. gau -> gao, mo -> mou)
 // * usage buttons from old YKY-input-method.js
 // * ability to record custom pinyins
@@ -94,8 +95,8 @@ var driver = neo4j.driver(
 
 const white_box = document.getElementById("white-box");
 const pinyin_bar = document.getElementById("pinyin-bar");
-const column1 = document.getElementById("column1");
-const column2 = document.getElementById("column2");
+const columnA = document.getElementById("columnA");
+const columnB = document.getElementById("columnB");
 const status = document.getElementById("chin-or-eng");
 
 async function findWords(ch) {
@@ -108,7 +109,7 @@ async function findWords(ch) {
 			{char: c} );
 		console.log(result.records.length);
 
-		column2.innerHTML = "";		// clear the contents first
+		columnB.innerHTML = "";		// clear the contents first
 		result.records.reverse().forEach(function(r, i) {
 			const node = r.get(1);
 			const word = node.properties.chars;
@@ -116,13 +117,13 @@ async function findWords(ch) {
 			var num = i.toString() + '.';
 			textNode = document.createElement('span');
 			textNode.appendChild(document.createTextNode(num + word));
-			column2.appendChild(textNode);
+			columnB.appendChild(textNode);
 
 			// console.log(node.properties.chars);
 			});
 
 		// **** on-click HTML "span" element:
-		$("#column2 span").on('click', function(ev)
+		$("#columnB span").on('click', function(ev)
 			{
 			clicked_str = this.textContent;
 			var spanItem = this;
@@ -165,8 +166,8 @@ function word_DoubleClick() {
 
 // ************************** Read pinyins into buffer ************************
 // or just {}
-var pin = new Object();		// from pinyin look up char
-var yin = new Object();		// from char look up pinyin
+var p2c = new Object();		// from pinyin look up char
+var c2p = new Object();		// from char look up pinyin
 var yky = new Object();		// from char look up pinyin
 var approx = new Object();
 
@@ -245,11 +246,11 @@ function loadGooglePins() {
 				return;						// ignore n-grams > 1
 				}
 			var pinyin = line.substr(i);
-			if (pin[pinyin] == undefined)
-				pin[pinyin] = a;
+			if (p2c[pinyin] == undefined)
+				p2c[pinyin] = a;
 			else {
 				// **** Need to sort according to frequency ranking
-				var s = pin[line.substr(i)];	// sequence to insert 'a' to
+				var s = p2c[line.substr(i)];	// sequence to insert 'a' to
 				var j = 0;
 				ra = rank[a];
 				if (ra == undefined)
@@ -258,18 +259,18 @@ function loadGooglePins() {
 				while (rank[s.charAt(j)] > ra)
 					++j;
 				var s2 = s.substring(0,j) + a + s.substring(j);
-				pin[pinyin] = s2;
+				p2c[pinyin] = s2;
 				}
-			// **** Build yin[] dictionary, ie, from 字 lookup pinyin
+			// **** Build c2p[] dictionary, ie, from 字 lookup pinyin
 			// at this point we assume a is a single 字
-			if (yin[a] == undefined)
-				yin[a] = pinyin;
+			if (c2p[a] == undefined)
+				c2p[a] = pinyin;
 			else {
-				if (typeof yin[a] === 'string') {
-					yin[a] = [yin[a], pinyin];
+				if (typeof c2p[a] === 'string') {
+					c2p[a] = [c2p[a], pinyin];
 				}
-				else if (typeof yin[a] === 'object') {
-					yin[a].push(pinyin);
+				else if (typeof c2p[a] === 'object') {
+					c2p[a].push(pinyin);
 				}
 			}
 			});
@@ -279,7 +280,7 @@ function loadGooglePins() {
 	}});
 }
 
-// Load distinct sounds in Cantonese, depends on pin[] from above
+// Load distinct sounds in Cantonese, depends on p2c[] from above
 function loadDistincts() {
 	$.ajax({
 	method: "GET",
@@ -288,7 +289,7 @@ function loadDistincts() {
 	success: function(data) {
 		for (var i = 0; i < data.length; ++i) {
 			var c = data[i];
-			y = yin[c];
+			y = c2p[c];
 			if (y == undefined) {
 				console.log(c + ",?");
 				}
@@ -439,26 +440,26 @@ function rankcompare(a, b) {
 
 function showChars()
 {
-	column1.innerHTML = "";		// clear the contents first
+	columnA.innerHTML = "";		// clear the contents first
 
 	cs.forEach(function(c, i) {
 		// var c = chars.charAt(i);
-		// column1.appendChild(document.createTextNode(nums[i] + '.'));
+		// columnA.appendChild(document.createTextNode(nums[i] + '.'));
 		var num = i.toString();
 		if (i < 10)
 			num += " ";
 
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(num + c));
-		column1.appendChild(textNode);
+		columnA.appendChild(textNode);
 
-		// var row = column1.insertRow(-1)
+		// var row = columnA.insertRow(-1)
 		// var cell = row.insertCell(0);
 		// cell.innerHTML = c;
 		});
 
 	// **** specify on-click behavior, for HTML "span" elements:
-	$("#column1 span").on('click', function(ev)
+	$("#columnA span").on('click', function(ev)
 		{
 		clicked_str = this.textContent;
 		var spanItem = this;
@@ -496,106 +497,6 @@ window.addEventListener('beforeunload', function (e) {
 	driver.close();
 	e.returnValue = '';
 });
-
-function simplify(str, forcing=false) {
-	var c = c2 = '', str2 = "";
-
-	if (!forcing && $("#simplify").prop("checked") === false)
-		return str;
-
-	for (i = 0; i < str.length; ++i) {
-		c = str[i];
-		// convert character to Simplified
-		c2 = h[c];
-		if (c2 != undefined)
-			str2 += c2;
-		else
-			str2 += c;
-	}
-	return str2;
-}
-
-function simplify_char(c) {
-	const c2 = h[c];
-	if (c2 != undefined)
-		return c2;
-	else
-		return c;
-}
-
-// **** Read hcutf8.txt into buffer ****
-// the file "hcutf8.txt" is from /chinese/zhcode
-var h = new Object(); // or just {}
-
-$.ajax({
-method: "GET",
-url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
-cache: false,
-success: function(data) {
-	var lines = data.split("\n");
-	lines.forEach(function(line) {
-		if (line[0] != '/')				// comments
-			h[line.substr(0,1)] = line.substr(1);
-	});
-	console.log("Loading hcutf8-YKY.txt into h[].");
-}});
-
-// ************* replace with YKY shorthands
-function replaceYKY(str) {
-	str2 = str.replace(/。。/g, "……");
-	// str = str2.replace(/\//g, "|");
-	// str2 = str.replace(/娘/g, "孃");
-	// str = str2.replace(/\'/g, "`");
-	// str = str2.replace(/\r/g, "\r\n");
-	return str2;
-}
-
-document.getElementById("send-clipboard").addEventListener("click", function() {
-	str = white_box.value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	white_box.value = str;
-
-	white_box.focus();
-	white_box.select();
-	try {
-		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Fallback: Copying text command was ' + msg);
-	} catch (err) {
-		console.error('Fallback: Oops, unable to copy', err);
-	}
-
-	// recordHistory(str);
-
-	// clear input box
-	white_box.value = "";
-
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-// ==== For dealing with Drop-down menu ====
-
-/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-function onDropDown() {
-    document.getElementById("dropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
 
 white_box.focus();
 console.log("So far so good, from Cantonese-input.js");
