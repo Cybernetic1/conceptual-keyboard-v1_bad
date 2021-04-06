@@ -24,9 +24,33 @@
 				color: #ccffff;
 			}
 
-			label { display: block; margin-top: 10px; color: #0066cc; }
+			// label { display: block; margin-top: 10px; color: #0066cc; }
 
-			input[type=button] {
+			button {
+				border: None;
+				// border: #333333;
+				// border-width: 2px;
+				// border-style: solid;
+				border-radius: 5px;
+				color: white;
+				background-color: #275D80;
+				padding: 5px;
+				// text-align: left;
+				font-size: 20px;
+				line-height: 1.1;
+				// width: 40px;
+				// height: 40px;
+				cursor: pointer;
+				// margin-right: 1px;
+				// margin-bottom: 2px;
+				margin-top: 5px;
+			}
+
+			button:hover {
+				background-color: #AAAAAA;
+			}
+
+			/* button {
 				background-color: #555555;
 				color: #ffffff;
 				padding: 2px;
@@ -35,7 +59,7 @@
 				text-decoration: none;
 				border: 3px solid #000;
 				border-color: #aaa #333 #333 #aaa;
-			}
+			} */
 
 			textarea {
 				height: 35px;
@@ -125,7 +149,7 @@
 				padding: 5px;
 				/* text-align: justify; */
 				/* text-align-last: center; */
-			    max-width: 400px;
+			    max-width: 410px;
 				margin-left: 70px;
 				z-index: 1;
 			}
@@ -152,39 +176,40 @@
 		<!-- div id="green-box" ondrop="drop(event);" ondragover="allowDrop(event)" -->
 		</div>
 
-		<input type="button" value="简" id="quick-simplify">
-		<input type="button" value="烦" id="quick-complex">
+		<button type="button" id="quick-simplify">简</button>
+		<button type="button" id="quick-complex">烦</button>
 
-		<input type="button" value="↲" id="send-white">
+		<button type="button" id="send-white">↲</button>
 		<!-- input type="button" value="↲" id="send-green" style="color: #33ff33;" -->
 		<!-- input type="button" value="▲" id="send-up" -->
 		<!-- input type="button" value="▼" id="send-down" -->
 		<!-- input type="button" value="▲" id="history-up" -->
 		<!-- input type="button" value="▼" id="history-down" -->
-		<input type="button" value="X" id="clear-white">
+		<button type="button" id="clear-white">X</button>
 		<!-- input type="button" value="X" id="clear-green" style="color: #33ff33;" -->
 		<!-- input type="button" value="<x" id="clear-green1-L" style="color: #33ff33;" -->
 		<!-- input type="button" value="x>" id="clear-green1-R" style="color: #33ff33;" -->
 		<!-- input type="button" value="X" id="clear-red" style="color: #ff3333;" -->
-		<input type="button" value=":)" id="smile">
-		<input type="button" value="「」" id="quotes">
-		<input type="button" value="（）" id="parentheses">
-		<input type="button" value="梦" id="to-dream">
+		<button type="button" id="smile">:)</button>
+		<button type="button" id="quotes">「」</button>
+		<button type="button" id="parentheses">()</button>
+		<button type="button" id="to-dream">梦</button>
 
-		<input type="checkbox" id="simplify" style="width:20px; height:20px;" checked>
-		<input type="button" value="✄" id="send-clipboard">
+		<button type="button" id="send-clipboard">✂</button>
 
-		<button onclick="onDropDown()" class="dropbtn">▶</button>
+		<button onclick="onDropDown()" class="dropbtn">❋</button>
 		<div id="dropdown" class="dropdown-content">
-			<input type="button" value="log" id="do-log">
-			<input type="button" value="show history" id="do-history">
-			<input type="button" value="URL un-escape" id="do-URL-escape">
-			<input type="button" value="Google" id="do-Google">
-			<input type="button" value="繁" id="do-traditionalize">
-			<input type="button" value="国语" id="do-Mandarin">
-			<input type="button" value="广东话" id="do-Cantonese">
-			<input type="button" value="拼音" id="do-pinyin">
-			<input type="button" value="re-size" id="do-resize">
+			<button type="button" id="do-log">log</button>
+			<button type="button" id="do-history">show history</button>
+			<button type="button" id="do-URL-escape">URL un-escape</button>
+			<button type="button" id="do-Google">Google</button>
+			<button type="button" id="do-traditionalize">繁</button>
+			<button type="button" id="do-Mandarin">国语</button>
+			<button type="button" id="do-Cantonese">广东话</button>
+			<button type="button" id="do-pinyin">拼音</button>
+			<button type="button" id="do-resize">re-size</button>
+			<input type="checkbox" id="simplify" style="width:20px; height:20px;">简</input> <!-- may add "checked" attribute -->
+			<input type="checkbox" id="speech" style="width:20px; height:20px;">声</input>
 		</div>
 
 		<!--
@@ -229,11 +254,9 @@
 		<input type="button" value="名" id="pidgin-names">
 		!-->
 
-		<input type="checkbox" id="speech" style="width:20px; height:20px;">声
-
-		<input type="button" value="1" id="paste1">
-		<input type="button" value="2" id="paste2">
-		<input type="button" value="3" id="paste3">
+		<button type="button" id="paste1">1</button>
+		<button type="button" id="paste2">2</button>
+		<button type="button" id="paste3">3</button>
 		<!-- input type="checkbox" id="firefox" style="width:20px; height:20px;" checked>Fire -->
 
 		<br>
@@ -269,24 +292,24 @@
 			<input type="checkbox" id="delete" style="width:20px; height:20px;">delete
 			<input type="checkbox" id="change" style="width:20px; height:20px;">change
 			<input type="checkbox" id="append" style="width:20px; height:20px;">add
-			<input type="button" value="+" id="insert" style="color: #aaffaa;">
-			<input type="button" value="+node" id="add-child" style="color: #aaffaa;">
+			<button type="button" id="insert" style="color: #aaffaa;">+</button>
+			<button type="button" id="add-child" style="color: #aaffaa;">+node</button>
 
 			<br>
-			<input type="button" value="load" id="loadDB">
-			<input type="button" value="save" id="saveDB">
+			<button type="button" id="loadDB">load</button>
+			<button type="button" id="saveDB">save</button>
 			&nbsp; <a href="javascript:loadDB('synonym_forest')">同義詞詞林</a>
 			&nbsp; <a href="javascript:loadDB('rogets_thesaurus')">Roget's</a>
-			&nbsp; <input type="button" value="typings" id="flush-typings">
+			&nbsp; <button type="button" id="flush-typings">typings</button>
 		</div>
 
 		<div id="genifer">
 			<input type="text" id="pink-box" style="height:26px;" value="database_default">
 			<input type="text" id="red-box" style="height:26px;" value="database_default">
 			<br>
-			<input type="button" value="teach" id="genifer-teach">
-			<input type="button" value="reward" id="genifer-reward">
-			<input type="button" value="punish" id="genifer-punish">
+			<button type="button" id="genifer-teach">teach</button>
+			<button type="button" id="genifer-reward">reward</button>
+			<button type="button" id="genifer-punish">punish</button>
 			<br>
 		</div>
 
@@ -297,6 +320,7 @@
 
 		<script src="js/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/YKY-input-method.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/buttons.js"></script>
 
 	</body>
 </html>

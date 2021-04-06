@@ -15,11 +15,9 @@
 // To do
 // =====
 // * Confusion matrix -- need more data, otherwise cannot machine-learn
-// * 
-// * Missing '惡 = ok', don't know why?
-// * Allow English mode
-// * Handle punctuations, Ctrl-keys etc.
-// * use Ctrl-keys to choose words
+// * 'X' delete safely (ie, keep copy of content)
+// * backspace on pinyin first and then on input text
+// * use Alt-number-keys to choose words
 // * some approx pinyins not available (eg. gau -> gao, mo -> mou)
 // * usage buttons from old YKY-input-method.js
 // * ability to record custom pinyins
@@ -80,6 +78,10 @@
 // * choosing words by mouse
 // * choosing chars by mouse
 // * findWords() use simplified chars
+// * Missing '惡 = ok', don't know why?
+// * ho -> hou,  (gwan -> kwan is not used)
+// * Allow English mode
+// * 
 
 // Flow-chart for preparing canto-pinyins.txt:
 // 1. yale-sort-by-freq.txt
@@ -94,6 +96,7 @@ const white_box = document.getElementById("white-box");
 const pinyin_bar = document.getElementById("pinyin-bar");
 const column1 = document.getElementById("column1");
 const column2 = document.getElementById("column2");
+const status = document.getElementById("chin-or-eng");
 
 async function findWords(ch) {
 	const session = driver.session();
@@ -333,10 +336,26 @@ var current_num = 0;
 var chars = "";
 var cs = [];
 var state = 'A';		// state = A: alpha, 0: numeric
+var chin_or_eng = 0		// 0 = Chinese, 1 = English
 
 // **** Intercept keys:
 $("#white-box").keydown(function (e) {
 	const key = e.which;
+
+	if (key == 17) {						// Ctrl key
+		if (chin_or_eng == 0) {
+			chin_or_eng = 1;
+			status.innerText = "Eng";
+			}
+		else {
+			chin_or_eng = 0;
+			status.innerText = "中";
+			}
+		e.preventDefault();
+    }
+
+	if (chin_or_eng == 1)
+		return;
 
 	if (key == 27) {						// Escape
 		current_pinyin = "";

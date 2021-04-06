@@ -18,8 +18,9 @@ replace_finals = {
 	"aat" : ["at","aat"],
 	"aau" : ["au","aau"],
 
-	"ou" : ["o","ou"],
-	"ou" : ["ol","ou"],
+	"ou" : ["o","ol", "ou"],
+	"at" : ["at", "ud"],
+	"au" : ["au", "ao"],
 }
 
 replace_entire = {
