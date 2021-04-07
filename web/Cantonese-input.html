@@ -9,7 +9,7 @@
 
 		<style type="text/css">
 			body {
-				font-size: 150%;
+				font-size: 130%;
 				font-family: "Trebuchet MS",Verdana, Arial, Helvetica, sans-serif;
 				padding-top: 0px;
 				background-color: #000000;
@@ -28,7 +28,7 @@
 				background-color: #275d80;
 				padding: 5px;
 				// text-align: left;
-				font-size: 20px;
+				font-size: 100%;
 				line-height: 1.1;
 				// width: 40px;
 				// height: 40px;
@@ -41,17 +41,6 @@
 			button:hover {
 				background-color: #AAAAAA;
 			}
-
-			/* input[type=button] {
-				background-color: #555555;
-				color: #ffffff;
-				padding: 2px;
-				font: 20px;
-				font-weight: bold;
-				text-decoration: none;
-				border: 3px solid #000;
-				border-color: #aaa #333 #333 #aaa;
-			} */
 
 			input[type=text] {
 				font-size: 130%;
@@ -85,7 +74,7 @@
 
 			#columnA {
 				width: 48%;
-				height:200px;
+				height:120px;
 				overflow-y: auto;
 				float: left;
 				font-family: "Courier New", Courier, monospace;
@@ -94,12 +83,12 @@
 				margin-top: 5px;
 				margin-bottom: 5px;
 				line-height: 1.2;
-				border: 2px solid #007700;
+				// border: 2px solid #007700;
 			}
 
 			#columnB {
 				width: 50%;
-				height:200px;
+				height:120px;
 				overflow-y: auto;
 				overflow: auto;
 				float: right;
@@ -109,25 +98,25 @@
 				margin-bottom: 5px;
 				// padding: 5px 5px;
 				line-height: 1.2;
-				border: 2px solid #7777bb;
+				// border: 2px solid #7777bb;
 			}
 
 			#columnA span {
 				display:inline-block;
-				background: #275D80;
-				padding-top: 1px;
-				padding-right: 1px;
+				background: #606060;
+				padding-top: 5px;
+				padding-right: 3px;
 				padding-bottom: 1px;
 				padding-left: 1px;
-				// border: 1px solid #225588;
-				border: None;
+				// border: 1px solid #606060;
+				border: none;
 				border-radius: 5px;
 				margin: 5px 5px;
 			}
 
 			#columnB span {
 				display:inline-block;
-				background: #606060;
+				background: #275D80;
 				padding-top: 1px;
 				padding-right: 1px;
 				padding-bottom: 1px;
@@ -141,7 +130,7 @@
 			#columnA span:hover,
 			#columnB span:hover,
 			#column2 span:hover {
-				background: #ff7777;
+				background: #ff0000;
 				color: #000000;
 				}
 
@@ -168,7 +157,7 @@
 				padding:0px;
 				line-height: 170%;
 				// margin: 5px 5px;
-				border:1px solid #ccffff;
+				// border:1px solid #ccffff;
 			}
 
 			#suggestions span {
@@ -230,7 +219,7 @@
 	<body>
 		<input type="text" id="white-box" style="width:98%; height:120%;"
 		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
-		<br>
+
 		<div>
 		<span id="pinyin-bar"></span>
 		<!--button type="button" id="pinyin-bar" style="width:80px;">abc</button-->
@@ -264,7 +253,6 @@
 
 		<button type="button" id="chin-or-eng" style="background-color:#AA5555;">中</button>
 		</div>
-		<br>
 
 		<!-- span id="header-bar"></span -->
 

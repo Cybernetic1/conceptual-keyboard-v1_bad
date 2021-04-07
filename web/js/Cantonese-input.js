@@ -14,12 +14,12 @@
 
 // To do
 // =====
-// * Confusion matrix -- need more data, otherwise cannot machine-learn
-// * 'X' delete safely (ie, keep copy of content)
+// * add char at cursor, not end of white_box text
+// * some approx pinyins not available (eg. gau -> gao, mo -> mou, jyu)
 // * backspace on pinyin first and then on input text
+// * 'X' delete safely (ie, keep copy of content)
 // * use Alt-number-keys to choose words
 // * tool tip on chars with pinyins
-// * some approx pinyins not available (eg. gau -> gao, mo -> mou)
 // * usage buttons from old YKY-input-method.js
 // * ability to record custom pinyins
 // * handle approx pinyins (eg. even with single pinyin letter)
@@ -28,6 +28,7 @@
 
 // To do -- approx pinyin matching
 // ===============================
+// * Confusion matrix -- need more data, otherwise cannot machine-learn
 // * the file scraped from Google actually contains (Google's) approx matching results,
 //		which we may use as a reference or as initial data
 // * perhaps reverse engineer Google's approx matching?
@@ -114,7 +115,7 @@ async function findWords(ch) {
 			const node = r.get(1);
 			const word = node.properties.chars;
 
-			var num = i.toString() + '.';
+			var num = i.toString() + ' ';
 			textNode = document.createElement('span');
 			textNode.appendChild(document.createTextNode(num + word));
 			columnB.appendChild(textNode);

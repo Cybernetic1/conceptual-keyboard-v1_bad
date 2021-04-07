@@ -77,7 +77,7 @@ replace_entire = {
 	"hyun" : ["huen"],
 	"jyut" : ["chut"],
 	"jyun" : ["juen"],
-	"jyu" : ["juk"],
+	"jyu" : ["juk", "ju", "chu" ],
 	"kyut" : ["kue"],
 	"kyun" : ["kuen"],
 	"lyut" : ["lue"],
