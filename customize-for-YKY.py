@@ -8,6 +8,20 @@
 
 # Output file same format.
 
+# **** Old consonants & vowels from Google pinyin ****
+
+consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y']
+
+vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut']
+
+# new consonants = ['b','ch','d','f','g','gw','gy','h','hm','j','k','kw','l','m','n','ng','p','s','t','ty','w','y']
+
+# new vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ao','ap','at','au','e','ei','ek','eng','er','erk','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','ol''on','ong','ot','ou','u','ud','ue','uen','ui','uk','un','ung','ur','ut','yu','yun','yut']
+
+replace_consonants = {
+	"n" : ["n", "l"],
+}
+
 replace_finals = {
 	"aai" : ["ai","aai"],
 	"aak" : ["ak","aak"],
@@ -89,10 +103,7 @@ replace_entire = {
 	"tyut" : ["tue"],
 }
 
-consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y']
-
-vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut']
-
+# Note: if a consonant is 2-chars, it must be recognized first
 def k_n(pinyin):
 	c = pinyin[0]
 	cc = pinyin[0:2]
@@ -112,9 +123,8 @@ import codecs
 
 # open input file
 f1 = codecs.open("web/exact-Google-pinyins.txt", encoding="UTF-8", mode="r")
-
 # output file
-fo = codecs.open("web/YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
+fo = codecs.open("web/YKY-custom-pinyins-tmp.txt", encoding="UTF-8", mode='w')
 
 for line in f1:
 	c = ord(line[1])
@@ -130,10 +140,34 @@ for line in f1:
 			fo.write(char + r + '\n')
 		continue
 
+	fo.write(char + pinyin + '\n')
+
+f1.close()
+fo.close()
+
+print("**** Phase 2 ****")
+
+f1 = codecs.open("web/YKY-custom-pinyins-tmp.txt", encoding="UTF-8", mode="r")
+fo = codecs.open("web/YKY-custom-pinyins.txt", encoding="UTF-8", mode='w')
+
+for line in f1:
+	print (line[:-1], end=' ')
+	char = line[0]
+	pinyin = line[1:-1]
+
 	(k, n) = k_n(pinyin)
-	if n in replace_finals:
-		for r in replace_finals[n]:
-			fo.write(char + k + r + '\n')
+	
+	if k in replace_consonants:
+		for k2 in replace_consonants[k]:
+			if n in replace_finals:
+				for n2 in replace_finals[n]:
+					fo.write(char + k2 + n2 + '\n')
+			else:
+					fo.write(char + k2 + n + '\n')
+		continue
+	elif n in replace_finals:
+		for n2 in replace_finals[n]:
+			fo.write(char + k + n2 + '\n')
 		continue
 
 	fo.write(char + pinyin + '\n')
