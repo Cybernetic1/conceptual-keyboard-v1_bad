@@ -15,7 +15,7 @@
 // To do (sorted by priority)
 // ==========================
 // * display 常用词语, eg "词语"
-//		- recognize when 2nd char begins (could have multiple possibilities)
+//		- decompose pinyin into 2 chars (could have multiple possibilities)
 //		- how to find all matching 2-words?  actually can use Neo4j.
 // * some approx pinyins not available (eg. gau -> gao)
 // * backspace on pinyin first and then on input text
@@ -337,17 +337,17 @@ function k_n(pinyin) {
 	return [k, n];
 }
 
-// [b|ch|d|f|g|gw|gy|h|hm|j|k|kw|l|m|n|ng|p|s|t|ty|w|y]
-
-//[a|aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|an|ang|ap|at|au|e|ei|ek|eng|eu|eui|euk|eun|eung|eut|i|ik|im|in|ing|ip|it|iu|o|oi|ok|on|ong|ot|ou|u|ui|uk|un|ung|ut|yu|yun|yut]
-
 // **** decompose pinyin into 2 (or more, to be implemented later) words
 // Assume that the pinyin is correct and can be decomposed
 // ie, pinyin = k1 n1 k2 n2
 // problem is: both k, n can be null, and there may exist multiple matches
 // How about using regular expressions?
-function decompose_pinyin(pinyin) {
-	
+function decompose_pinyin(s) {
+	// regex = ( (?:k) (?:n) ){2} 
+	let regex = /((?:b|ch|d|f|g|gw|gy|h|hm|j|k|kw|l|m|n|ng|p|s|t|ty|w|y)(?:a|aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|an|ang|ap|at|au|e|ei|ek|eng|eu|eui|euk|eun|eung|eut|i|ik|im|in|ing|ip|it|iu|o|oi|ok|on|ong|ot|ou|u|ui|uk|un|ung|ut|yu|yun|yut))/g;
+
+	const results = [...s.matchAll(regex)];
+	return results;
 }
 
 var current_pinyin = "";
