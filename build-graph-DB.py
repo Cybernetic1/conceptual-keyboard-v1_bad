@@ -25,7 +25,6 @@ import re
 
 uri = "neo4j://localhost:7687"
 driver = GraphDatabase.driver(uri, auth=("neo4j", "l0wsecurity"))
-#driver = GraphDatabase.driver(uri, auth=("neo4j", "neo4j"))
 
 def create_word(tx, chars):
 	tx.run("CREATE (a :Word {chars: $chars})",

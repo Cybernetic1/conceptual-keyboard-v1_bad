@@ -1,3 +1,11 @@
+# Installation
+# ============
+#	pip3 install selenium
+#	pip3 install sseclient
+#	download geckodriver linux64, untar
+#	move binary to /usr/local/bin/
+# Now you're ready to enjoy this program.
+
 #encoding: utf-8
 from selenium import webdriver
 from selenium.webdriver.common.by import By
