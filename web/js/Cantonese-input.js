@@ -12,10 +12,12 @@
 // * run language model --> correct grammar
 // * 
 
-// To do
-// =====
-// * add char at cursor, not end of white_box text
-// * some approx pinyins not available (eg. gau -> gao, mo -> mou, jyu)
+// To do (sorted by priority)
+// ==========================
+// * display 常用词语, eg "词语"
+//		- recognize when 2nd char begins (could be ambiguous)
+//		- how to find all matching 2-words?
+// * some approx pinyins not available (eg. gau -> gao)
 // * backspace on pinyin first and then on input text
 // * 'X' delete safely (ie, keep copy of content)
 // * use Alt-number-keys to choose words
@@ -83,6 +85,8 @@
 // * Missing '惡 = ok', don't know why?
 // * ho -> hou,  (gwan -> kwan is not used)
 // * Allow English mode
+// * add char at cursor, not end of white_box text
+// * Ctrl keys such as cut-and-paste are affected; use "Windows" key to 切换
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
@@ -342,9 +346,10 @@ var chin_or_eng = 0		// 0 = Chinese, 1 = English
 
 // **** Intercept keys:
 $("#white-box").keydown(function (e) {
-	const key = e.which;
+	const key = e.key;
+	const code = e.keyCode;
 
-	if (key == 17) {						// Ctrl key
+	if (code === 91) {						// "Windows" key
 		if (chin_or_eng == 0) {
 			chin_or_eng = 1;
 			status.innerText = "Eng";
@@ -354,24 +359,25 @@ $("#white-box").keydown(function (e) {
 			status.innerText = "中";
 			}
 		e.preventDefault();
+		return;
     }
 
 	if (chin_or_eng == 1)
 		return;
 
-	if (key == 27) {						// Escape
+	if (key === "Escape") {						// Escape
 		current_pinyin = "";
 		current_num = 0;
 		e.preventDefault();
     }
 
-    if (key >= 65 && key <= 90) {			// A-Z
+    if (code >= 65 && code <= 90) {				// A-Z
 		if (state == '0') {
 			current_pinyin = "";
 			state = 'A';
 			}
 		current_num = 0;
-		current_pinyin += String.fromCharCode(key + 32);
+		current_pinyin += String.fromCharCode(code + 32);
 
 		// **** display chars
 		chars = yky[current_pinyin];
@@ -387,16 +393,16 @@ $("#white-box").keydown(function (e) {
 		e.preventDefault();
     }
 
-	if (key >= 48 && key <= 57) {			// 0-9
+	if (code >= 48 && code <= 57) {			// 0-9
 		// choose chars
 		state = '0';
-		current_num = current_num * 10 + (key - 48);
+		current_num = current_num * 10 + (code - 48);
 		sendChar(current_num);
 		// current_pinyin += '●';
 		e.preventDefault();
 	}
 
-	if (key == 32) {						// space chooses 1st char
+	if (code === 32) {						// space chooses 1st char
 		// current_pinyin += "●";
 		current_num = 0;
 		if (state == '0' || current_pinyin == "")
@@ -412,17 +418,27 @@ $("#white-box").keydown(function (e) {
 
 function sendChar(i)
 {
+	const c = cs[i];
+	const start = white_box.selectionStart;
+	const text = white_box.value;
+	
 	if (i < 0)
-		white_box.value += String.fromCharCode(-i);
+		white_box.value += String.fromCharCode(-i);		// display the number, just for testing
 	else if (i <= 9) {
-		white_box.value += cs[i];
-		findWords(cs[i]);
+		white_box.value = text.slice(0, start) + c + text.slice(start);
+		// set caret to new position
+		white_box.selectionStart = start + 1;
+		white_box.selectionEnd = start + 1;
+		findWords(c);
 		}
 	else {
-		// There is an existing character, needs to be over-written
-		white_box.value = white_box.value.slice(0,-1) + cs[i];
-		findWords(cs[i]);
-	}
+		// There is an existing character before cursor, needs to be deleted
+		white_box.value = text.slice(0, start - 1) + c + text.slice(start);
+		// set caret to new position
+		white_box.selectionStart = start;
+		white_box.selectionEnd = start;
+		findWords(c);
+		}
 }
 
 // Javascript's sort order: from small to big

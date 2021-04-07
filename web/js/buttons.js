@@ -188,7 +188,7 @@ document.getElementById("do-resize").addEventListener("click", function() {
 		url: "./shellCommand",
 		contentType: "application/json; charset=utf-8",
 		processData: false,
-		data: "wmctrl -r 'Conceptual Keyboard' -e 0,-1,-1,520,450",
+		data: "wmctrl -r 'iCant' -e 0,-1,-1,620,450",
 		success: function(resp) {
 			console.log("Shell command, wmctrl");
 		}
