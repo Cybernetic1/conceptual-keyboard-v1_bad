@@ -77,6 +77,7 @@ function quicksend() {
 
 // ******************************* Menu buttons ********************************
 
+/*
 document.getElementById("send-clipboard").addEventListener("click", function() {
 	str = white_box.value;
 	str = simplify(str);
@@ -101,6 +102,7 @@ document.getElementById("send-clipboard").addEventListener("click", function() {
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
+*/
 
 document.getElementById("do-log").addEventListener("click", function() {
 		// No need to get date & time -- server will do that automatically
@@ -206,10 +208,10 @@ document.getElementById("quick-simplify").addEventListener("click", function() {
 	whiteBox.select();
 	try {
 		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Fallback: Copying text command was ' + msg);
+		// var msg = successful ? 'success' : 'failure';
+		// console.log('Copying text:' + msg);
 	} catch (err) {
-		console.error('Fallback: Oops, unable to copy', err);
+		console.error('Oops, unable to copy:', err);
 	}
 
 	// Copy to clipboard, by sending to Chrome Extension Content Script first
@@ -239,7 +241,7 @@ document.getElementById("quick-complex").addEventListener("click", function() {
 		// var msg = successful ? 'success' : 'failure';
 		// console.log('Copying text:' + msg);
 	} catch (err) {
-		// console.error('Oops, unable to copy:', err);
+		console.error('Oops, unable to copy:', err);
 	}
 
 	// Copy to clipboard, by sending to Chrome Extension Content Script first

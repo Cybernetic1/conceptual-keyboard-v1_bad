@@ -63,7 +63,7 @@
 			#pinyin-bar {
 				display: inline-block; 
 				// height: 50px;
-				width: 80px;
+				width: 125px;
 				color: #ff5555;
 				font-family: "Courier New", Courier, monospace;
 				font-size: 20px;
@@ -220,7 +220,7 @@
 		<input type="text" id="white-box" style="width:98%; height:120%;"
 		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
 
-		<div>
+		<div><span style="color:gray;">▼</span>
 		<span id="pinyin-bar"></span>
 		<!--button type="button" id="pinyin-bar" style="width:80px;">abc</button-->
 		<button type="button" id="quick-simplify">简</button>
@@ -231,7 +231,7 @@
 		<button type="button" id="quotes">「」</button>
 		<button type="button" id="parentheses">()</button>
 		<button type="button" id="to-dream">梦</button>
-		<button type="button" id="send-clipboard">✂</button>
+		<!--button type="button" id="send-clipboard">✂</button-->
 
 		<button onclick="onDropDown()" class="dropbtn">❋</button>
 		<div id="dropdown" class="dropdown-content">
@@ -254,8 +254,6 @@
 		<button type="button" id="chin-or-eng" style="background-color:#AA5555;">中</button>
 		</div>
 
-		<!-- span id="header-bar"></span -->
-
 		<div id="upper-levels">
 
 			<div id="columnA">&nbsp;
@@ -264,7 +262,7 @@
 			<div id="columnB">&nbsp;
 			</div>
 
-			<!-- br style="clear:both;" -->
+		  <br style="clear:both;"/>
 		</div>
 
 		<div id="header-bar">

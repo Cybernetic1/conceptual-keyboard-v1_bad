@@ -266,11 +266,13 @@ $("#white-box").keydown(function (e) {
 	if (code === 91) {						// "Windows" key
 		if (chin_or_eng == 0) {
 			chin_or_eng = 1;
-			status.innerText = "Eng";
+			status.innerText = "En";
+			status.style.backgroundColor = "Green";
 			}
 		else {
 			chin_or_eng = 0;
 			status.innerText = "中";
+			status.style.backgroundColor = "Red";
 			}
 		e.preventDefault();
 		return;
@@ -373,7 +375,7 @@ function sendChar(i) {
 		add_to_caret(c);
 	else
 		// There is an existing character before cursor, needs to be deleted
-		add_to_caret(c, remove=1*2);
+		add_to_caret(c, remove=1);
 
 	findWords_char(c);	// I have chosen char c, should display words with c
 	}

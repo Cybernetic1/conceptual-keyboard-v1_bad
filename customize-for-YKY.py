@@ -42,6 +42,7 @@ replace_entire = {
 	"mut" : ["mut", "mud"],
 	"ngoi" : ["ngoi", "oi", "ao"],
 	"gwok" : ["gwok", "gok"],
+	"gwo" : ["go", "gor", "gou"],
 
 	"deu" : ["der","deu"],
 	"geu" : ["gur","geu"],
@@ -90,6 +91,7 @@ replace_entire = {
 	"dyut" : ["due"],
 	"dyun" : ["duen"],
 	"gyut" : ["gue"],
+	"gyun" : ["guen"],
 	"hyut" : ["hue"],
 	"hyun" : ["huen"],
 	"jyut" : ["chut"],
