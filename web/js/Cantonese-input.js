@@ -14,7 +14,7 @@
 
 // To do (sorted by priority)
 // ==========================
-// * cannot choose with number a second time
+// * findWord regex buggy 
 // * display 常用词语, eg "词语"
 //		- decompose pinyin into 2 chars (could have multiple possibilities)
 //		- how to find all matching 2-words?  actually can use Neo4j.
@@ -88,6 +88,7 @@
 // * Allow English mode
 // * add char at cursor, not end of white_box text
 // * Ctrl keys such as cut-and-paste are affected; use "Windows" key to 切换
+// * can choose char with number multiple times
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
@@ -405,6 +406,7 @@ var chin_or_eng = 0		// 0 = Chinese, 1 = English
 $("#white-box").keydown(function (e) {
 	const key = e.key;
 	const code = e.keyCode;
+	var displayChars = false;
 
 	if (code === 91) {						// "Windows" key
 		if (chin_or_eng == 0) {
@@ -428,6 +430,15 @@ $("#white-box").keydown(function (e) {
 		e.preventDefault();
 		}
 
+	if (key === "Backspace") {
+		if (current_pinyin == "")
+			return;				// let backspace act on input text line
+		e.preventDefault();
+		current_pinyin = current_pinyin.slice(0,-1);
+		current_num = 0;
+		displayChars = true;
+		}
+
     if (code >= 65 && code <= 90) {				// A-Z
 		e.preventDefault();
 
@@ -437,7 +448,10 @@ $("#white-box").keydown(function (e) {
 			}
 		current_num = 0;
 		current_pinyin += String.fromCharCode(code + 32);
+		displayChars = true;
+		}
 
+	if (displayChars) {
 		// **** display chars
 		chars = yky[current_pinyin];
 		if (chars != undefined) {
@@ -462,6 +476,8 @@ $("#white-box").keydown(function (e) {
 		// choose chars
 		state = '0';
 		current_num = current_num * 10 + (code - 48);
+		if (current_num > cs.length)
+			current_num = code - 48;
 		sendChar(current_num);
 		// current_pinyin += '●';
 		e.preventDefault();

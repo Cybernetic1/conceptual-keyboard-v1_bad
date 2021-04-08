@@ -50,13 +50,16 @@ print("Acquired buttons")
 
 for msg in eventStream:
 	s = msg.data
-	print("fire.data:", s)
 	if s:
 		inbox.send_keys(s)
 		sendbutt.click()
+		if s != "\n":
+			print("fire.data:", s)
 
+driver.close()
 exit(0)
 
+"""
 # ********* SSE client to print messages from localhost:8484
 from sseclient import SSEClient
 messages = SSEClient('http://localhost:8484/dreamstream',
@@ -80,3 +83,4 @@ if r.content:
 	data = r.text.encode('utf-8')
 	print(data)
 exit(0)
+"""
