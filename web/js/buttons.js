@@ -236,10 +236,10 @@ document.getElementById("quick-complex").addEventListener("click", function() {
 	whiteBox.select();
 	try {
 		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Fallback: Copying text command was ' + msg);
+		// var msg = successful ? 'success' : 'failure';
+		// console.log('Copying text:' + msg);
 	} catch (err) {
-		console.error('Fallback: Oops, unable to copy', err);
+		// console.error('Oops, unable to copy:', err);
 	}
 
 	// Copy to clipboard, by sending to Chrome Extension Content Script first

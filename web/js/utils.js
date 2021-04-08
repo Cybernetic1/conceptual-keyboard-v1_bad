@@ -124,7 +124,6 @@ function display_pinyin(str) {
 // the file "hcutf8.txt" is from /chinese/zhcode
 var h = new Object(); // or just {}
 
-console.log("Loading hcutf8-YKY.txt into h[]:\n" +
 $.ajax({
 method: "GET",
 url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
@@ -135,12 +134,12 @@ success: function(data) {
 		if (line[0] != '/')				// comments
 			h[line.substr(0,1)] = line.substr(1);
 	});
-}}));
+	console.log("Loaded hcutf8-YKY.txt into h[].");
+}});
 
 // **** Read pinyins into buffer ****
 var pin = new Object(); // or just {}
 
-console.log("Loading pinyins.txt into pin[]:\n" +
 $.ajax({
 method: "GET",
 url: "/loadDatabase/pinyins",		// Note: name without extension
@@ -151,5 +150,6 @@ success: function(data) {
 		var pinyin = line.substr(1).split(',');
 		pin[line.substr(0,1)] = [pinyin[0], pinyin[1], parseInt(pinyin[2])];
 	});
-}}));
+	console.log("Loaded pinyins.txt into pin[].");
+}});
 

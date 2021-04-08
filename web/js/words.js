@@ -1,9 +1,5 @@
 // To do (sorted by priority)
 // ==========================
-// * findWord regex buggy 
-// * display 常用词语, eg "词语"
-//		- decompose pinyin into 2 chars (could have multiple possibilities)
-//		- how to find all matching 2-words?  actually can use Neo4j.
 
 // To do -- phrases
 // ================
@@ -25,12 +21,17 @@
 //		- store all chars and all words (n-grams) as nodes
 //		- store "char belongs to word" relations
 // * findWords_char() use simplified chars
-
+// * findWord regex buggy
+// * display 常用词语, eg "词语"
+//		- decompose pinyin into 2 chars (could have multiple possibilities)
+//		- how to find all matching 2-words?  actually can use Neo4j.
 
 // This web driver allows to talk to Neo4j via web socket
 var driver = neo4j.driver(
   'neo4j://localhost',
   neo4j.auth.basic('neo4j', 'l0wsecurity') );
+
+var ws = [];
 
 async function findWords_pinyins(p1, p2) {
 	const session = driver.session();
@@ -39,16 +40,16 @@ async function findWords_pinyins(p1, p2) {
 		const result = await session.run(
 			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
 			{p1 : p1, p2 : p2} );
-		console.log(result.records.length);
-		var words = new Array();
+		console.log("match pinyins:", result.records.length);
+		ws = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
 			const word = node.properties.chars;
-			words.push(word);
+			ws.push(word);
 			});
 
 		// default Javascript sort order = 1,2,3...
-		words.sort(function(a, b) {
+		ws.sort(function(a, b) {
 			if (a.length > b.length)
 				return 1;
 			else if (a.length < b.length)
@@ -61,27 +62,7 @@ async function findWords_pinyins(p1, p2) {
 				return 0;
 			});
 
-		columnB.innerHTML = "";		// clear the contents first
-		words.forEach(function(w, i) {
-			var num = i.toString() + ' ';
-			textNode = document.createElement('span');
-			textNode.appendChild(document.createTextNode(num + w));
-			columnB.appendChild(textNode);
-			// console.log(node.properties.chars);
-			});
-
-		// **** on-click HTML "span" element:
-		$("#columnB span").on('click', function(ev)
-			{
-			clicked_str = this.textContent;
-			var spanItem = this;
-			word_SingleClick(spanItem);
-			})
-			.dblclick(function(ev)
-				{
-				word_DoubleClick();
-				});
-
+		display_words();
 		} finally {
 		await session.close()
 		}
@@ -93,38 +74,51 @@ async function findWords_char(ch) {
 	const c = simplify_char(ch);
 	try {
 		const result = await session.run(
-			"MATCH (n:Char {char: $char}) -[:In]-> (m) RETURN (n),(m)",
+			"MATCH (c:Char {char: $char}) -[:In]-> (w) RETURN (w)",
 			{char: c} );
-		console.log(result.records.length);
-
-		columnB.innerHTML = "";		// clear the contents first
-		result.records.reverse().forEach(function(r, i) {
-			const node = r.get(1);
+		console.log("match char:", result.records.length);
+		ws = [];
+		result.records.forEach(function(r) {
+			const node = r.get(0);
 			const word = node.properties.chars;
-
-			var num = i.toString() + ' ';
-			textNode = document.createElement('span');
-			textNode.appendChild(document.createTextNode(num + word));
-			columnB.appendChild(textNode);
-
-			// console.log(node.properties.chars);
+			ws.push(word);
 			});
 
-		// **** on-click HTML "span" element:
-		$("#columnB span").on('click', function(ev)
-			{
-			clicked_str = this.textContent;
-			var spanItem = this;
-			word_SingleClick(spanItem);
-			})
-			.dblclick(function(ev)
-				{
-				word_DoubleClick();
-				});
+		// default Javascript sort order = 1,2,3...
+		ws.sort(function(a, b) {
+			if (a.length > b.length)
+				return 1;
+			else if (a.length < b.length)
+				return -1;
+			});
 
+		display_words();
 		} finally {
 		await session.close()
 		}
+	}
+
+function display_words() {
+	columnB.innerHTML = "";		// clear the contents first
+	ws.forEach(function(w, i) {
+		var num = i.toString() + ' ';
+		textNode = document.createElement('span');
+		textNode.appendChild(document.createTextNode(num + w));
+		columnB.appendChild(textNode);
+		// console.log(node.properties.chars);
+		});
+
+	// **** on-click HTML "span" element:
+	$("#columnB span").on('click', function(ev)
+		{
+		clicked_str = this.textContent;
+		var spanItem = this;
+		word_SingleClick(spanItem);
+		})
+		.dblclick(function(ev)
+			{
+			word_DoubleClick();
+			});
 	}
 
 // Event handler for single-click of a suggested word
@@ -141,7 +135,7 @@ function word_DoubleClick() {				// display number, just for testing
 	const selection = clicked_str;			// the clicked word (string)
 
 	pair = selection.split(' ');			// number, word
-	add_to_caret(pair[0], remove=pair[1].length);
+	add_to_caret(pair[0], remove = 2* pair[1].length);
 	}
 
 // **** decompose pinyin into 2 (or more, to be implemented later) words
@@ -151,7 +145,7 @@ function word_DoubleClick() {				// display number, just for testing
 // How about using regular expressions?
 function decompose_pinyin(s) {
 	// regex = ( (?:k) (?:n) ){2}
-	let regex = /((?:b|ch|d|f|g|gw|gy|h|hm|j|k|kw|l|m|n|ng|p|s|t|ty|w|y)(?:aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|an|ang|ap|at|au|a|e|ei|ek|eng|eu|eui|euk|eun|eung|eut|ik|im|ing|in|ip|it|iu|i|o|oi|ok|on|ong|ot|ou|ui|uk|ung|un|ut|u|yu|yun|yut))/g;
+	let regex = /((?:b|ch|d|f|gw|gy|g|hm|h|j|kw|k|l|m|ng|n|p|s|ty|t|w|y|)(?:aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|ang|an|ap|at|au|a|ei|ek|eng|eung|eun|eui|euk|eut|eu|e|ik|im|ing|in|ip|it|iu|i|oi|ok|ong|on|ot|ou|o|ui|uk|ung|un|ut|u|yun|yut|yu))/g;
 
 	const results = [...s.matchAll(regex)];
 	// const results = s.match(regex);

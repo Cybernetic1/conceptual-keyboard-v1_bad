@@ -40,6 +40,8 @@ replace_finals = {
 replace_entire = {
 	"nei" : ["ni", "nei"],
 	"mut" : ["mut", "mud"],
+	"ngoi" : ["ngoi", "oi", "ao"],
+	"gwok" : ["gwok", "gok"],
 
 	"deu" : ["der","deu"],
 	"geu" : ["gur","geu"],

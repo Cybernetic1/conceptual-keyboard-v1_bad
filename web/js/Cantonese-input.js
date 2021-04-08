@@ -14,9 +14,11 @@
 
 // To do (sorted by priority)
 // ==========================
+// * hide Conkey menu when not in use
+// * prevent "undefined" from appearing in text box
+// * use Alt-number-keys to choose words
 // * some approx pinyins not available (eg. gau -> gao, seun -> seung)
 // * 'X' delete safely (ie, keep copy of content)
-// * use Alt-number-keys to choose words
 // * tool tip on chars with pinyins
 // * ability to record custom pinyins
 // * handle approx pinyins (eg. even with single pinyin letter)
@@ -248,6 +250,8 @@ function k_n(pinyin) {
 
 var current_pinyin = "";
 var current_num = 0;
+var current_Wnum = 0;
+var last_Wlength = 0;
 var chars = "";
 var cs = [];
 var state = 'A';		// state = A: alpha, 0: numeric
@@ -256,7 +260,7 @@ var chin_or_eng = 0		// 0 = Chinese, 1 = English
 // **** Intercept keys:
 $("#white-box").keydown(function (e) {
 	const key = e.key;
-	const code = e.keyCode;
+	var code = e.keyCode;
 	var displayChars = false;
 
 	if (code === 91) {						// "Windows" key
@@ -298,6 +302,8 @@ $("#white-box").keydown(function (e) {
 			state = 'A';
 			}
 		current_num = 0;
+		current_Wnum = 0;
+		last_Wlength = 0;
 		current_pinyin += String.fromCharCode(code + 32);
 		displayChars = true;
 		}
@@ -323,14 +329,22 @@ $("#white-box").keydown(function (e) {
 			}
 		}
 
-	if (code >= 48 && code <= 57) {			// 0-9
-		// choose chars
-		state = '0';
-		current_num = current_num * 10 + (code - 48);
-		if (current_num > cs.length)
-			current_num = code - 48;
-		sendChar(current_num);
-		// current_pinyin += '●';
+	if (key === '`' || (code >= 48 && code <= 57)) {		// 0-9
+		if (key === '`')
+			code = 48;
+		if (!e.altKey) {
+			// choose chars
+			state = '0';
+			current_num = current_num * 10 + (code - 48);
+			if (current_num > cs.length)
+				current_num = code - 48;
+			sendChar(current_num);
+			// current_pinyin += '●';
+			}
+		else {			// choose word
+			current_Wnum = current_Wnum * 10 + (code - 48);
+			sendWord(current_Wnum);
+			}
 		e.preventDefault();
 		}
 
@@ -338,7 +352,7 @@ $("#white-box").keydown(function (e) {
 		// current_pinyin += "●";
 		current_num = 0;
 		if (state == '0' || current_pinyin == "")
-			sendChar(-32);					// send space
+			sendChar(-32);					// send space（唔知有乜用?）
 		else
 			sendChar(current_num);
 		current_pinyin = "";
@@ -350,27 +364,29 @@ $("#white-box").keydown(function (e) {
 
 function sendChar(i) {
 	const c = cs[i];
-	const start = white_box.selectionStart;
-	const text = white_box.value;
 	
-	if (i < 0) {
-		white_box.value += String.fromCharCode(-i);		// display the number, just for testing
+	if (i < 0) {						// send plain char as -i（暂时唔知有乜用）
+		white_box.value += String.fromCharCode(-i);
 		return;
 		}
-	else if (i <= 9) {
-		white_box.value = text.slice(0, start) + c + text.slice(start);
-		// set caret to new position
-		white_box.selectionStart = start + 1;
-		white_box.selectionEnd = start + 1;
-		}
-	else {
+	else if (i <= 9)
+		add_to_caret(c);
+	else
 		// There is an existing character before cursor, needs to be deleted
-		white_box.value = text.slice(0, start - 1) + c + text.slice(start);
-		// set caret to new position
-		white_box.selectionStart = start;
-		white_box.selectionEnd = start;
-		}
+		add_to_caret(c, remove=1*2);
+
 	findWords_char(c);	// I have chosen char c, should display words with c
+	}
+
+function sendWord(i) {
+	const w = ws[i];
+
+	if (i <= 9)
+		add_to_caret(w);
+	else
+		// There is an existing character before cursor, needs to be deleted
+		add_to_caret(w, remove = last_Wlength);
+	last_Wlength = w.length;
 	}
 
 // Javascript's sort order: from small to big
@@ -387,8 +403,7 @@ function rankcompare(a, b) {
 	return ra > rb ? -1 : 1;
 	}
 
-function showChars()
-{
+function showChars() {
 	columnA.innerHTML = "";		// clear the contents first
 
 	cs.forEach(function(c, i) {
@@ -418,17 +433,17 @@ function showChars()
 			{
 			char_DoubleClick();
 			});	
-}
+	}
 
 // **** Add string to caret position, may be of length > 1
 // Optionally remove a number of chars
 function add_to_caret(s, remove=0) {
 	const start = white_box.selectionStart;
 
-	white_box.value = white_box.value.slice(0, start - 2* remove) + s + white_box.value.slice(start);
+	white_box.value = white_box.value.slice(0, start - remove) + s + white_box.value.slice(start);
 
-	white_box.selectionStart = start - 2* remove + s.length;
-	white_box.selectionEnd   = start - 2* remove + s.length;
+	white_box.selectionStart = start - remove + s.length;
+	white_box.selectionEnd   = start - remove + s.length;
 	white_box.focus();
 	}
 
@@ -445,7 +460,7 @@ function char_SingleClick(item) {
 function char_DoubleClick() {				// display number, just for testing
 	const selection = clicked_str;			// the clicked word (string)
 
-	add_to_caret(selection.slice(0, -1), remove=1);
+	add_to_caret(selection.slice(0, -1), remove=1*2);
 	}
 
 window.addEventListener('beforeunload', function (e) {

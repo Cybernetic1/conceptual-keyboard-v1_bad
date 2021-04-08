@@ -350,7 +350,7 @@ function loadDB(dbname)
 
 	// old code:  $.get(pathname, function(data) { ...
 
-	console.log($.ajax({
+	$.ajax({
 	method: "GET",
 	url: "/loadDatabase/" + dbname,		// Note: name without extension
 	cache: false,
@@ -415,8 +415,9 @@ function loadDB(dbname)
 			});
 
 		fillDirs();			// update web-page panels according to new database
+		console.log("Loaded Conkey database.");
 		}
-	}));
+	});
 }
 
 // Save database
