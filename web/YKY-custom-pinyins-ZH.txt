@@ -260,7 +260,7 @@
 碑bei
 陛bai
 敝bai
-痺bei
+痹bei
 披pei
 庇bei
 脾pei
@@ -1189,7 +1189,7 @@
 瘪bit
 瞥pit
 蹩bit
-鼈bit
+鳖bit
 觱bit
 珌bit
 崥bi
@@ -4940,7 +4940,7 @@
 缔dai
 缔tai
 胎toi
-枱toi
+台toi
 台toi
 黛doi
 逮dai
@@ -17638,7 +17638,7 @@
 慰wai
 喂wai
 韦wai
-衞wai
+卫wai
 畏wai
 喂wai
 喂wei
@@ -19490,7 +19490,7 @@
 瞋chan
 琤jang
 苍chong
-粧jong
+妆jong
 姻yan
 闯chong
 瓒jan
@@ -20350,7 +20350,7 @@
 铸juk
 铸ju
 铸chu
-敍jui
+叙jui
 缀jui
 缀chut
 炤jiu
@@ -22133,7 +22133,7 @@
 浺chung
 騘chung
 珫chung
-潀chung
+潨chung
 爞chung
 鬷jung
 鍐jung
@@ -22593,9 +22593,9 @@
 㝊sao
 獀sau
 獀sao
-宂sau
-宂sao
-宂yung
+冗sau
+冗sao
+冗yung
 㟬sau
 㟬saau
 㟬so

@@ -39,6 +39,7 @@ replace_finals = {
 
 replace_entire = {
 	"nei" : ["ni", "nei"],
+	"mut" : ["mut", "mud"],
 
 	"deu" : ["der","deu"],
 	"geu" : ["gur","geu"],

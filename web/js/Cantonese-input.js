@@ -14,6 +14,7 @@
 
 // To do (sorted by priority)
 // ==========================
+// * cannot choose with number a second time
 // * display 常用词语, eg "词语"
 //		- decompose pinyin into 2 chars (could have multiple possibilities)
 //		- how to find all matching 2-words?  actually can use Neo4j.
@@ -81,7 +82,7 @@
 // * now can continuously input characters
 // * choosing words by mouse
 // * choosing chars by mouse
-// * findWords() use simplified chars
+// * findWords_char() use simplified chars
 // * Missing '惡 = ok', don't know why?
 // * ho -> hou,  (gwan -> kwan is not used)
 // * Allow English mode
@@ -104,13 +105,52 @@ const columnA = document.getElementById("columnA");
 const columnB = document.getElementById("columnB");
 const status = document.getElementById("chin-or-eng");
 
-async function findWords(ch) {
+async function findWords_pinyins(p1, p2) {
+	const session = driver.session();
+
+	try {
+		const result = await session.run(
+			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
+			{p1 : p1, p2 : p2} );
+		console.log(result.records.length);
+
+		columnB.innerHTML = "";		// clear the contents first
+		result.records.forEach(function(r, i) {
+			const node = r.get(0);
+			const word = node.properties.chars;
+
+			var num = i.toString() + ' ';
+			textNode = document.createElement('span');
+			textNode.appendChild(document.createTextNode(num + word));
+			columnB.appendChild(textNode);
+
+			// console.log(node.properties.chars);
+			});
+
+		// **** on-click HTML "span" element:
+		$("#columnB span").on('click', function(ev)
+			{
+			clicked_str = this.textContent;
+			var spanItem = this;
+			word_SingleClick(spanItem);
+			})
+			.dblclick(function(ev)
+				{
+				word_DoubleClick();
+				});
+
+		} finally {
+		await session.close()
+		}
+	}
+
+async function findWords_char(ch) {
 	const session = driver.session();
 
 	const c = simplify_char(ch);
 	try {
 		const result = await session.run(
-			"MATCH (n:Char {char: $char}) -[:In]->(m) RETURN (n),(m)",
+			"MATCH (n:Char {char: $char}) -[:In]-> (m) RETURN (n),(m)",
 			{char: c} );
 		console.log(result.records.length);
 
@@ -144,6 +184,18 @@ async function findWords(ch) {
 		}
 	}
 
+// **** Add string to caret position, may be of length > 1
+// Optionally remove a number of chars
+function add_to_caret(s, remove=0) {
+	const start = white_box.selectionStart;
+
+	white_box.value = white_box.value.slice(0, start - 2* remove) + s + white_box.value.slice(start);
+
+	white_box.selectionStart = start - 2* remove + s.length;
+	white_box.selectionEnd   = start - 2* remove + s.length;
+	white_box.focus();
+	}
+
 // Event handler for single-click of a suggested word
 function word_SingleClick(item) {
 	const selection = clicked_str;			// the clicked word (string)
@@ -151,22 +203,14 @@ function word_SingleClick(item) {
 	const audio = new Audio("sending.ogg");
 	audio.play();
 
-	// Add to end of text:
-	white_box.value += selection.split('.')[1];
-	white_box.focus();
+	add_to_caret(selection.split(' ')[1]);
 	}
 
-function word_DoubleClick() {
+function word_DoubleClick() {				// display number, just for testing
 	const selection = clicked_str;			// the clicked word (string)
 
-	// const audio = new Audio("sending.ogg");
-	// audio.play();
-
-	// Add to end of text:
-	pair = selection.split('.');
-	white_box.value = box.value.slice(0, -2 * pair[1].length);
-	white_box.value += pair[0];
-	white_box.focus();
+	pair = selection.split(' ');			// number, word
+	add_to_caret(pair[0], remove=pair[1].length);
 	}
 
 // ************************** Read pinyins into buffer ************************
@@ -382,9 +426,11 @@ $("#white-box").keydown(function (e) {
 		current_pinyin = "";
 		current_num = 0;
 		e.preventDefault();
-    }
+		}
 
     if (code >= 65 && code <= 90) {				// A-Z
+		e.preventDefault();
+
 		if (state == '0') {
 			current_pinyin = "";
 			state = 'A';
@@ -399,12 +445,18 @@ $("#white-box").keydown(function (e) {
 			cs = chars.split('').sort(rankcompare);
 			showChars();
 
-			// after displaying char, display n-grams
-			findWords(cs[0]);
+			// match 到了字, display any words with the char
+			findWords_char(cs[0]);
 			}
-
-		e.preventDefault();
-    }
+		else {
+			// 可能有词语
+			const r = decompose_pinyin(current_pinyin);
+			if (r.length >= 2) {
+				console.log("p1, p2:", r[0][0], r[1][0]);
+				findWords_pinyins(r[0][0], r[1][0]);
+				}
+			}
+		}
 
 	if (code >= 48 && code <= 57) {			// 0-9
 		// choose chars
@@ -413,7 +465,7 @@ $("#white-box").keydown(function (e) {
 		sendChar(current_num);
 		// current_pinyin += '●';
 		e.preventDefault();
-	}
+		}
 
 	if (code === 32) {						// space chooses 1st char
 		// current_pinyin += "●";
@@ -424,25 +476,25 @@ $("#white-box").keydown(function (e) {
 			sendChar(current_num);
 		current_pinyin = "";
 		e.preventDefault();
-    }
+		}
 
 	pinyin_bar.innerHTML = current_pinyin;
-});
+	});
 
-function sendChar(i)
-{
+function sendChar(i) {
 	const c = cs[i];
 	const start = white_box.selectionStart;
 	const text = white_box.value;
 	
-	if (i < 0)
+	if (i < 0) {
 		white_box.value += String.fromCharCode(-i);		// display the number, just for testing
+		return;
+		}
 	else if (i <= 9) {
 		white_box.value = text.slice(0, start) + c + text.slice(start);
 		// set caret to new position
 		white_box.selectionStart = start + 1;
 		white_box.selectionEnd = start + 1;
-		findWords(c);
 		}
 	else {
 		// There is an existing character before cursor, needs to be deleted
@@ -450,9 +502,9 @@ function sendChar(i)
 		// set caret to new position
 		white_box.selectionStart = start;
 		white_box.selectionEnd = start;
-		findWords(c);
 		}
-}
+	findWords_char(c);	// I have chosen char c, should display words with c
+	}
 
 // Javascript's sort order: from small to big
 // Our ranking requires: from big to small
@@ -508,18 +560,13 @@ function char_SingleClick(item) {
 	const audio = new Audio("sending.ogg");
 	audio.play();
 
-	// Add to end of text:
-	white_box.value += selection.slice(-1);
-	white_box.focus();
-	}
+	add_to_caret(selection.slice(-1));
+}
 
-function char_DoubleClick() {
+function char_DoubleClick() {				// display number, just for testing
 	const selection = clicked_str;			// the clicked word (string)
 
-	// Add to end of text:
-	white_box.value = white_box.value.slice(0, -2);
-	white_box.value += selection.slice(0,-1);
-	white_box.focus();
+	add_to_caret(selection.slice(0, -1), remove=1);
 	}
 
 window.addEventListener('beforeunload', function (e) {
