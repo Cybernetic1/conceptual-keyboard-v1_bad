@@ -14,20 +14,13 @@
 
 // To do (sorted by priority)
 // ==========================
-// * findWord regex buggy 
-// * display 常用词语, eg "词语"
-//		- decompose pinyin into 2 chars (could have multiple possibilities)
-//		- how to find all matching 2-words?  actually can use Neo4j.
-// * some approx pinyins not available (eg. gau -> gao)
-// * backspace on pinyin first and then on input text
+// * some approx pinyins not available (eg. gau -> gao, seun -> seung)
 // * 'X' delete safely (ie, keep copy of content)
 // * use Alt-number-keys to choose words
 // * tool tip on chars with pinyins
-// * usage buttons from old YKY-input-method.js
 // * ability to record custom pinyins
 // * handle approx pinyins (eg. even with single pinyin letter)
 // * be able to modify ranking / pinyin of chars
-// * perhaps send to Conkey main window
 
 // To do -- approx pinyin matching
 // ===============================
@@ -51,23 +44,10 @@
 //		* define approx function
 //		* list chars according to freq AND match degree
 
-// To do -- phrases
-// ================
-// * Output matching words for char list members 1,2,3,...
-// * With Neo4j:
-//		- later, words can be semantically clustered
-// * each phrase is addressed by 1 or more key?
-//		It may be too slow to search from zero
-// * but it may be the job of an RNN -- output a few keys
-// * OR, cluster phrases, map chars --> semantic clusters
-// * OR, build semantically-organized tree structure
-// * Google has some "consonent abbreviation" for phrases
-// *
-
 // Done:
 // =====
 // * intercept keys
-// * load pinyinMap
+// * load pinyin map
 // * accept key, display keys so far
 // * put list of chars in column
 // * allow choosing of chars by number
@@ -75,144 +55,28 @@
 // * sort according to frequency ranking number
 // * break into consonents and vowels
 // * created YKY custom pinyin map
-// * use Neo4j to store words
-// * With Neo4j:
-//		- store all chars and all words (n-grams) as nodes
-//		- store "char belongs to word" relations
 // * now can continuously input characters
 // * choosing words by mouse
 // * choosing chars by mouse
-// * findWords_char() use simplified chars
 // * Missing '惡 = ok', don't know why?
 // * ho -> hou,  (gwan -> kwan is not used)
 // * Allow English mode
+// * usage buttons from old YKY-input-method.js
 // * add char at cursor, not end of white_box text
 // * Ctrl keys such as cut-and-paste are affected; use "Windows" key to 切换
 // * can choose char with number multiple times
+// * backspace on pinyin first and then on input text
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
 // 1. yale-sort-by-freq.txt
 // 2. ???....
 
-// This web driver allows to talk to Neo4j via web socket
-var driver = neo4j.driver(
-  'neo4j://localhost',
-  neo4j.auth.basic('neo4j', 'l0wsecurity') );
-
 const white_box = document.getElementById("white-box");
 const pinyin_bar = document.getElementById("pinyin-bar");
 const columnA = document.getElementById("columnA");
 const columnB = document.getElementById("columnB");
 const status = document.getElementById("chin-or-eng");
-
-async function findWords_pinyins(p1, p2) {
-	const session = driver.session();
-
-	try {
-		const result = await session.run(
-			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
-			{p1 : p1, p2 : p2} );
-		console.log(result.records.length);
-
-		columnB.innerHTML = "";		// clear the contents first
-		result.records.forEach(function(r, i) {
-			const node = r.get(0);
-			const word = node.properties.chars;
-
-			var num = i.toString() + ' ';
-			textNode = document.createElement('span');
-			textNode.appendChild(document.createTextNode(num + word));
-			columnB.appendChild(textNode);
-
-			// console.log(node.properties.chars);
-			});
-
-		// **** on-click HTML "span" element:
-		$("#columnB span").on('click', function(ev)
-			{
-			clicked_str = this.textContent;
-			var spanItem = this;
-			word_SingleClick(spanItem);
-			})
-			.dblclick(function(ev)
-				{
-				word_DoubleClick();
-				});
-
-		} finally {
-		await session.close()
-		}
-	}
-
-async function findWords_char(ch) {
-	const session = driver.session();
-
-	const c = simplify_char(ch);
-	try {
-		const result = await session.run(
-			"MATCH (n:Char {char: $char}) -[:In]-> (m) RETURN (n),(m)",
-			{char: c} );
-		console.log(result.records.length);
-
-		columnB.innerHTML = "";		// clear the contents first
-		result.records.reverse().forEach(function(r, i) {
-			const node = r.get(1);
-			const word = node.properties.chars;
-
-			var num = i.toString() + ' ';
-			textNode = document.createElement('span');
-			textNode.appendChild(document.createTextNode(num + word));
-			columnB.appendChild(textNode);
-
-			// console.log(node.properties.chars);
-			});
-
-		// **** on-click HTML "span" element:
-		$("#columnB span").on('click', function(ev)
-			{
-			clicked_str = this.textContent;
-			var spanItem = this;
-			word_SingleClick(spanItem);
-			})
-			.dblclick(function(ev)
-				{
-				word_DoubleClick();
-				});
-
-		} finally {
-		await session.close()
-		}
-	}
-
-// **** Add string to caret position, may be of length > 1
-// Optionally remove a number of chars
-function add_to_caret(s, remove=0) {
-	const start = white_box.selectionStart;
-
-	white_box.value = white_box.value.slice(0, start - 2* remove) + s + white_box.value.slice(start);
-
-	white_box.selectionStart = start - 2* remove + s.length;
-	white_box.selectionEnd   = start - 2* remove + s.length;
-	white_box.focus();
-	}
-
-// Event handler for single-click of a suggested word
-function word_SingleClick(item) {
-	const selection = clicked_str;			// the clicked word (string)
-
-	const audio = new Audio("sending.ogg");
-	audio.play();
-
-	add_to_caret(selection.split(' ')[1]);
-	}
-
-function word_DoubleClick() {				// display number, just for testing
-	const selection = clicked_str;			// the clicked word (string)
-
-	pair = selection.split(' ');			// number, word
-	add_to_caret(pair[0], remove=pair[1].length);
-	}
 
 // ************************** Read pinyins into buffer ************************
 // or just {}
@@ -359,8 +223,8 @@ function loadDistincts() {
 	});
 }
 
+// These are 'old' pinyins from Google Input Method
 const consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y'];
-
 const vowels = ['a','aai','aak','aam','aan','aang','aap','aat','aau','ai','ak','am','an','ang','ap','at','au','e','ei','ek','eng','eu','eui','euk','eun','eung','eut','i','ik','im','in','ing','ip','it','iu','o','oi','ok','on','ong','ot','ou','u','ui','uk','un','ung','ut','yu','yun','yut'];
 
 // **** Decompose pinyin into consonant and vowel
@@ -380,19 +244,6 @@ function k_n(pinyin) {
 	else
 		n = pinyin;
 	return [k, n];
-}
-
-// **** decompose pinyin into 2 (or more, to be implemented later) words
-// Assume that the pinyin is correct and can be decomposed
-// ie, pinyin = k1 n1 k2 n2
-// problem is: both k, n can be null, and there may exist multiple matches
-// How about using regular expressions?
-function decompose_pinyin(s) {
-	// regex = ( (?:k) (?:n) ){2} 
-	let regex = /((?:b|ch|d|f|g|gw|gy|h|hm|j|k|kw|l|m|n|ng|p|s|t|ty|w|y)(?:a|aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|an|ang|ap|at|au|e|ei|ek|eng|eu|eui|euk|eun|eung|eut|i|ik|im|in|ing|ip|it|iu|o|oi|ok|on|ong|ot|ou|u|ui|uk|un|ung|ut|yu|yun|yut))/g;
-
-	const results = [...s.matchAll(regex)];
-	return results;
 }
 
 var current_pinyin = "";
@@ -465,7 +316,7 @@ $("#white-box").keydown(function (e) {
 		else {
 			// 可能有词语
 			const r = decompose_pinyin(current_pinyin);
-			if (r.length >= 2) {
+			if (r.length > 1) {
 				console.log("p1, p2:", r[0][0], r[1][0]);
 				findWords_pinyins(r[0][0], r[1][0]);
 				}
@@ -568,6 +419,18 @@ function showChars()
 			char_DoubleClick();
 			});	
 }
+
+// **** Add string to caret position, may be of length > 1
+// Optionally remove a number of chars
+function add_to_caret(s, remove=0) {
+	const start = white_box.selectionStart;
+
+	white_box.value = white_box.value.slice(0, start - 2* remove) + s + white_box.value.slice(start);
+
+	white_box.selectionStart = start - 2* remove + s.length;
+	white_box.selectionEnd   = start - 2* remove + s.length;
+	white_box.focus();
+	}
 
 // Event handler for single-click of a suggested word
 function char_SingleClick(item) {
