@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-		<title>Test chars</title>
+		<title>Test if Chinese characters are displayed properly</title>
 
 		<style type="text/css">
 			body {
@@ -27,12 +27,14 @@
 		<button id="inc">+</button>
 		<button id="dec">-</button>
 		<input id="num" type="text" style="width:60px;"></input>
+		<span id="total">/</span>
 		<button id="stop" style="color:red;">Stop</button>
 		&nbsp; char code = &nbsp; <span id="code">0</span>
 		<br>
 		<input type="range" id="range" style="width:1000px;" value="1" max="24934">
-
-		<script src="js/jquery-1.10.1.min.js"></script>
+		<br>
+		<button id="save">Save</button> (save non-displayable chars)
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script charset="utf-8" src="js/test-chars.js"></script>
 
 	</body>

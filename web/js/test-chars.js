@@ -1,4 +1,4 @@
-// **** Read YKY custom pinyins file ****
+// **** Check if Chinese characters are displayed properly ****
 
 var canvas = document.getElementById('test');
 var ctx = canvas.getContext('2d');
@@ -10,13 +10,15 @@ const outer = [50, 13, 127, 188];
 const inner = [52, 15, 123, 184];
 //const inner = [57, 20, 113, 174];
 
+// Uncomment the following for testing:
+/*
 // c = String.fromCharCode(18799);
 c = "𫜨"; // 𫜨
 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
 ctx.font = '200px serif';
 ctx.fillText(c + '<', 50, 200);
 
-console.log(c.charCodeAt(0));
+console.log("test char code = ", c.charCodeAt(0));
 
 // Use these rectangles to locate the character region:
 
@@ -41,16 +43,17 @@ i.data.forEach(function(p) {
 		colored += 1;
 	});
 console.log("Inner, total = ", colored);
-
+*/
 // alert("test");
 
 ctx.fillStyle = 'rgba(255, 255, 255, 1)';
 
 chars = [];
 
+fname = "YKY-custom-pinyins";
 $.ajax({
 method: "GET",
-url: "/loadDatabase/YKY-custom-pinyins-ZH",		// Note: use filename without extension
+url: "/loadDatabase/" + fname,		// Note: use filename without extension
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
@@ -59,7 +62,8 @@ success: function(data) {
 			return;
 		chars.push(line[0]);
 		});
-	console.log("Loaded YKY-custom-pinyins-ZH.txt\n");
+	console.log("Loaded", fname +".txt");
+	document.getElementById("total").innerText = "/" + (chars.length -1).toString();
 }});
 
 document.getElementById("play").addEventListener("click", function() {stop = false; play();});
@@ -68,13 +72,13 @@ document.getElementById("stop").addEventListener("click", function() {stop = tru
 document.getElementById("inc").addEventListener("click", function() {num.value = (parseInt(num.value) + 1).toString(); dochar();});
 document.getElementById("dec").addEventListener("click", function() {num.value = (parseInt(num.value) - 1).toString(); dochar();});
 
-document.getElementById("num").addEventListener("change", function() {range.value = num.value; dochar();});
-
 code = document.getElementById("code");
 num = document.getElementById("num");
 range = document.getElementById("range");
-num.value = "159";
+num.value = "0";
 range.value = num.value;
+
+num.addEventListener("change", function() {range.value = num.value; dochar();});
 
 $('#range').mousemove(function(){
     num.value = range.value;
@@ -94,8 +98,11 @@ function play() {
 
 	dochar();
 
-	if (i >= (chars.length - 1))
+	if (i >= chars.length)
 		stop = true;
+	if (last_c === undefined)
+		stop = true;
+
 	if (!stop)
 		setTimeout(play, 1);
 	}
@@ -104,12 +111,9 @@ var found = [];
 
 function dochar() {
 	var i = parseInt(num.value);
-
-	// test.forEach(function(i, c) {
-		// console.log(i, c);
-	// });
-
 	var c = chars[i];
+	if (c === undefined)
+		return
 	ctx.clearRect(0,0,canvas.width,canvas.height);
 	ctx.fillText(c, 50, 200);
 
@@ -129,9 +133,27 @@ function dochar() {
 			n_in += 1;
 		});
 
-	// console.log(i, c, n_out, n_in);
 	if (n_in < 500) {
-		found.push(c);
+		found.push(i.toString() + escape(c));
+		console.log(i, c, n_out, n_in);
 		// alert("found!");
 		}
-}
+	}
+
+document.getElementById("save").addEventListener("click", function() {
+	$.ajaxSettings.mimeType="*/*; charset=UTF-8";	// set you charset
+	// ^^^ This seems useless.
+	// No matter what I try, I can't export the UTF8 unicodes to file.
+	// Problem seems to be in SSE-server.js.
+	// Up to this point I have the correct unicodes.
+
+	$.ajax({
+	method: "POST",
+	url: "/saveDatabase/" + "undisplayable-chars.txt",
+	data: found.join('\n'),
+	success: function(resp) {
+		console.log("Saved found[] to file.");
+		}
+	});
+});
+

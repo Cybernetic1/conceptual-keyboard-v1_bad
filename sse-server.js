@@ -251,10 +251,10 @@ function reqHandler(req, res) {
 		return;	}
 
 	if (fileName.startsWith("/saveDatabase/")) {
-		var pathname = url.parse(req.url).pathname;
+		var filename = path.basename(url.parse(req.url).pathname);
 
 		res.writeHead(200, {
-				'Content-Type': 'text/event-stream',
+				'Content-Type': 'text/event-stream; charset=utf-8',
 			});
 
 		const buffer4 = [];
@@ -264,12 +264,12 @@ function reqHandler(req, res) {
 
 			// Save to file
 			var fs = require('fs');
-			var stream = fs.createWriteStream("./web/database_default.txt");
+			var stream = fs.createWriteStream("./web/" + filename, {encoding: 'utf8'});
 			stream.once('open', function(fd) {
 				stream.write(data4);
 				stream.end();
 			});
-			console.log(pathname + " saved!");
+			console.log(filename + " saved!");
 			// console.log("log data: " + data4);
 			// console.log(unescape(encodeURIComponent(data4)));
 		});
@@ -328,7 +328,10 @@ function reqHandler(req, res) {
 						res.writeHead(500);
 						res.end();
 					} else {
-						res.writeHead(200, {"Content-Type":"text/html"});
+						if (fileName.endsWith(".js"))
+							res.writeHead(200, {"Content-Type":"application/javascript"});
+						else
+							res.writeHead(200, {"Content-Type":"text/html"});
 						res.end(content, "utf-8");
 					}
 				});
