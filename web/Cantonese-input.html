@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-<!-- To Do:
-*
--->
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -60,6 +57,10 @@
 				border-bottom: 1px dotted #0066cc;
 			}
 
+			span {
+				cursor: pointer;
+			}
+
 			#pinyin-bar {
 				display: inline-block; 
 				// height: 50px;
@@ -73,7 +74,7 @@
 			}
 
 			#columnA {
-				width: 60%;
+				width: 54%;
 				height:120px;
 				overflow-y: auto;
 				float: left;
@@ -87,7 +88,7 @@
 			}
 
 			#columnB {
-				width: 38%;
+				width: 44%;
 				height:120px;
 				overflow-y: auto;
 				overflow: auto;
@@ -220,7 +221,7 @@
 		<input type="text" id="white-box" style="width:98%; height:120%;"
 		ondrop="drop(event);" ondragover="allowDrop(event)" value="">
 
-		<div><span style="color:gray;">▼</span>
+		<div><span id="▼" style="color:gray;">▼</span>
 		<span id="pinyin-bar"></span>
 		<!--button type="button" id="pinyin-bar" style="width:80px;">abc</button-->
 		<button type="button" id="quick-simplify">简</button>
@@ -265,10 +266,8 @@
 		  <br style="clear:both;"/>
 		</div>
 
-		<div id="header-bar">
-		</div>
-
 		<div id="mid-levels">
+			<div id="header-bar"></div>
 
 			<div id="column1">
 				<table id="sub-dirs">

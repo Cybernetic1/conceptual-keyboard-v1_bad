@@ -1,3 +1,5 @@
+// ******************************* Menu buttons ********************************
+
 function send2Chat(str) {
 	// **** Now this is to Chatroom.HK only
 	var str2 = str.replace(/\//g, "|");
@@ -75,34 +77,191 @@ function quicksend() {
 	audio.play();
 }
 
-// ******************************* Menu buttons ********************************
+document.getElementById("send-white").addEventListener("click", quicksend, false);
 
-/*
-document.getElementById("send-clipboard").addEventListener("click", function() {
-	str = white_box.value;
-	str = simplify(str);
+document.getElementById("quick-simplify").addEventListener("click", function() {
+	var whiteBox = document.getElementById("white-box");
+	str = whiteBox.value;
+	str = simplify(str, forcing=true);	// true means force simplify
 	str = replaceYKY(str);
-	white_box.value = str;
+	whiteBox.value = str;
 
-	white_box.focus();
-	white_box.select();
+	whiteBox.focus();
+	whiteBox.select();
 	try {
 		var successful = document.execCommand('copy');
-		var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Fallback: Copying text command was ' + msg);
+		// var msg = successful ? 'success' : 'failure';
+		// console.log('Copying text:' + msg);
 	} catch (err) {
-		console.error('Fallback: Oops, unable to copy', err);
+		console.error('Oops, unable to copy:', err);
 	}
+
+	// Copy to clipboard, by sending to Chrome Extension Content Script first
+	// The window.postMessage commmand seems obsolete:
+	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
 
 	recordHistory(str);
 
 	// clear input box
-	white_box.value = "";
+	whiteBox.value = "";
 
 	var audio = new Audio("sending.ogg");
 	audio.play();
 }, false);
-*/
+
+document.getElementById("quick-complex").addEventListener("click", function() {
+	var whiteBox = document.getElementById("white-box");
+	str = whiteBox.value;
+	str = traditionalize(str);
+	str = replaceYKY(str);
+	whiteBox.value = str;
+
+	whiteBox.focus();
+	whiteBox.select();
+	try {
+		var successful = document.execCommand('copy');
+		// var msg = successful ? 'success' : 'failure';
+		// console.log('Copying text:' + msg);
+	} catch (err) {
+		console.error('Oops, unable to copy:', err);
+	}
+
+	// Copy to clipboard, by sending to Chrome Extension Content Script first
+	// The window.postMessage commmand seems obsolete:
+	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
+
+	recordHistory(str);
+
+	// clear input box
+	whiteBox.value = "";
+
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+document.getElementById("clear-white").addEventListener("click", function() {
+	document.getElementById("pinyin-box").innerHTML = "";
+	white_box.value = "";
+	white_box.focus();
+	history_view_index = -1;		// No longer in history mode
+}, false);
+
+document.getElementById("smile").addEventListener("click", function() {
+	document.getElementById("white-box").value += " :)";
+}, false);
+
+$("#smile").on("contextmenu", function(ev) {
+//	document.getElementById("white-box").value += " :)";
+	send2Chat(" :)");
+	// console.log("I'm sending something");
+	var audio = new Audio("sending.ogg");
+	audio.play();
+});
+
+document.getElementById("quotes").addEventListener("click", function(e) {
+	str = white_box.value;
+	var quoted = "「" + str + "」";
+	if (e.altKey || e.ctrlKey || e.shiftKey)
+		quoted = "『" + str + "』";
+	white_box.value = quoted;
+}, false);
+
+document.getElementById("parentheses").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	document.getElementById("white-box").value = "（" + str + "）";
+}, false);
+
+var butt1 = document.getElementById("paste1");
+butt1.title = "妳好 :)";
+butt1.addEventListener("click", function() {
+	send2Chat(butt1.title);
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+var butt2 = document.getElementById("paste2");
+butt2.title = "喜歡玩文字網愛嗎?";
+butt2.addEventListener("click", function() {
+	send2Chat(butt2.title);
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+var butt3 = document.getElementById("paste3");
+butt3.title = "喜歡做什麼？";
+butt3.addEventListener("click", function() {
+	send2Chat(butt3.title);
+	var audio = new Audio("sending.ogg");
+	audio.play();
+}, false);
+
+// Send message to DreamLand
+var last_dream = ""
+document.getElementById("to-dream").addEventListener("click", function() {
+	str = document.getElementById("white-box").value;
+	str = simplify(str);
+	str = replaceYKY(str);
+	recordHistory(str);
+	if (str == last_dream)
+		str = "..." + str;
+	last_dream = str;
+
+	// send to dreamland.py
+	$.ajax({
+		method: "POST",
+		url: "./dreamland",
+		data: str,
+		success: function(resp) {
+		// nothing
+		}
+	});
+
+	// clear input box
+	document.getElementById("white-box").value = "";
+}, false);
+
+// ==== For dealing with Drop-down menu ====
+
+/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
+function onDropDown() {
+    document.getElementById("dropdown").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+var menuShowing = true;
+
+document.getElementById("▼").addEventListener("click", function() {
+	if (menuShowing) {
+		document.getElementById("mid-levels").style.display = "none";
+		document.getElementById("bottom").style.display = "none";
+		document.getElementById("columnA").style.height = "350px";
+		document.getElementById("columnB").style.height = "350px";
+		document.getElementById("upper-levels").style.display = "initial";
+		}
+	else {
+		document.getElementById("upper-levels").style.display = "none";
+		document.getElementById("mid-levels").style.display = "initial";
+		document.getElementById("bottom").style.display = "initial";
+		}
+
+	menuShowing = !menuShowing;
+	var audio = new Audio("sending.ogg");
+	audio.play();
+});
 
 document.getElementById("do-log").addEventListener("click", function() {
 		// No need to get date & time -- server will do that automatically
@@ -197,170 +356,32 @@ document.getElementById("do-resize").addEventListener("click", function() {
 	});
 }, false);
 
-document.getElementById("quick-simplify").addEventListener("click", function() {
-	var whiteBox = document.getElementById("white-box");
-	str = whiteBox.value;
-	str = simplify(str, forcing=true);	// true means force simplify
-	str = replaceYKY(str);
-	whiteBox.value = str;
-
-	whiteBox.focus();
-	whiteBox.select();
-	try {
-		var successful = document.execCommand('copy');
-		// var msg = successful ? 'success' : 'failure';
-		// console.log('Copying text:' + msg);
-	} catch (err) {
-		console.error('Oops, unable to copy:', err);
-	}
-
-	// Copy to clipboard, by sending to Chrome Extension Content Script first
-	// The window.postMessage commmand seems obsolete:
-	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
-
-	recordHistory(str);
-
-	// clear input box
-	whiteBox.value = "";
-
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-document.getElementById("quick-complex").addEventListener("click", function() {
-	var whiteBox = document.getElementById("white-box");
-	str = whiteBox.value;
-	str = traditionalize(str);
-	str = replaceYKY(str);
-	whiteBox.value = str;
-
-	whiteBox.focus();
-	whiteBox.select();
-	try {
-		var successful = document.execCommand('copy');
-		// var msg = successful ? 'success' : 'failure';
-		// console.log('Copying text:' + msg);
-	} catch (err) {
-		console.error('Oops, unable to copy:', err);
-	}
-
-	// Copy to clipboard, by sending to Chrome Extension Content Script first
-	// The window.postMessage commmand seems obsolete:
-	//window.postMessage({type: "CLIPBOARD", text: str}, "*");
-
-	recordHistory(str);
-
-	// clear input box
-	whiteBox.value = "";
-
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-var butt1 = document.getElementById("paste1");
-butt1.title = "妳好 :)";
-butt1.addEventListener("click", function() {
-	send2Chat(butt1.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-var butt2 = document.getElementById("paste2");
-butt2.title = "喜歡玩文字網愛嗎?";
-butt2.addEventListener("click", function() {
-	send2Chat(butt2.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-var butt3 = document.getElementById("paste3");
-butt3.title = "喜歡做什麼？";
-butt3.addEventListener("click", function() {
-	send2Chat(butt3.title);
-	var audio = new Audio("sending.ogg");
-	audio.play();
-}, false);
-
-// Send message to DreamLand
-var last_dream = ""
-document.getElementById("to-dream").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
+/*
+document.getElementById("send-clipboard").addEventListener("click", function() {
+	str = white_box.value;
 	str = simplify(str);
 	str = replaceYKY(str);
-	recordHistory(str);
-	if (str == last_dream)
-		str = "..." + str;
-	last_dream = str;
+	white_box.value = str;
 
-	// send to dreamland.py
-	$.ajax({
-		method: "POST",
-		url: "./dreamland",
-		data: str,
-		success: function(resp) {
-		// nothing
-		}
-	});
+	white_box.focus();
+	white_box.select();
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
+
+	recordHistory(str);
 
 	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
-
-document.getElementById("clear-white").addEventListener("click", function() {
-	document.getElementById("pinyin-box").innerHTML = "";
 	white_box.value = "";
-	white_box.focus();
-	history_view_index = -1;		// No longer in history mode
-}, false);
 
-document.getElementById("send-white").addEventListener("click", quicksend, false);
-
-document.getElementById("smile").addEventListener("click", function() {
-	document.getElementById("white-box").value += " :)";
-}, false);
-
-$("#smile").on("contextmenu", function(ev) {
-//	document.getElementById("white-box").value += " :)";
-	send2Chat(" :)");
-	// console.log("I'm sending something");
 	var audio = new Audio("sending.ogg");
 	audio.play();
-});
-
-document.getElementById("quotes").addEventListener("click", function(e) {
-	str = white_box.value;
-	var quoted = "「" + str + "」";
-	if (e.altKey || e.ctrlKey || e.shiftKey)
-		quoted = "『" + str + "』";
-	white_box.value = quoted;
 }, false);
-
-document.getElementById("parentheses").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	document.getElementById("white-box").value = "（" + str + "）";
-}, false);
-
-// ==== For dealing with Drop-down menu ====
-
-/* When the user clicks on the button, toggle between hiding and showing the dropdown content */
-function onDropDown() {
-    document.getElementById("dropdown").classList.toggle("show");
-}
-
-// Close the dropdown menu if the user clicks outside of it
-window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-      }
-    }
-  }
-}
+*/
 
 // document.getElementById("flush-typings").addEventListener("click", flushTypings, false);
 

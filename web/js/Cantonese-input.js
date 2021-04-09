@@ -332,11 +332,11 @@ $("#white-box").keydown(function (e) {
 		}
 
 	if (key === '`' || (code >= 48 && code <= 57)) {		// 0-9
+		state = '0';
 		if (key === '`')
 			code = 48;
 		if (!e.altKey) {
 			// choose chars
-			state = '0';
 			current_num = current_num * 10 + (code - 48);
 			if (current_num > cs.length)
 				current_num = code - 48;
@@ -381,7 +381,11 @@ function sendChar(i) {
 	}
 
 function sendWord(i) {
-	const w = ws[i];
+	var w = ws[i];
+
+	var c = white_box.value[white_box.selectionStart - 1];
+	if (c === w[0])
+		w = w.slice(1);
 
 	if (i <= 9)
 		add_to_caret(w);
