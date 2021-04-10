@@ -104,38 +104,28 @@ function display_words() {
 		var num = i.toString() + ' ';
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(num + w));
+		textNode.number = i;
 		columnB.appendChild(textNode);
 		// console.log(node.properties.chars);
 		});
 
 	// **** on-click HTML "span" element:
-	$("#columnB span").on('click', function(ev)
-		{
-		clicked_str = this.textContent;
-		var spanItem = this;
-		word_SingleClick(spanItem);
-		})
-		.dblclick(function(ev)
-			{
-			word_DoubleClick();
-			});
+	$("#columnB span").on('click', word_SingleClick)
+		.dblclick(word_DoubleClick);
 	}
 
 // Event handler for single-click of a suggested word
-function word_SingleClick(item) {
-	const selection = clicked_str;			// the clicked word (string)
+function word_SingleClick(ev) {
+	var i = this.number;
 
 	const audio = new Audio("sending.ogg");
 	audio.play();
 
-	add_to_caret(selection.split(' ')[1]);
+	sendWord(i);
 	}
 
-function word_DoubleClick() {				// display number, just for testing
-	const selection = clicked_str;			// the clicked word (string)
-
-	pair = selection.split(' ');			// number, word
-	add_to_caret(pair[0], remove = 2* pair[1].length);
+function word_DoubleClick(ev) {				// display number, just for testing
+	add_to_caret(this.number.toString(), remove = 2* ws[this.number].length);
 	}
 
 // **** decompose pinyin into 2 (or more, to be implemented later) words

@@ -14,8 +14,7 @@
 
 // To do (sorted by priority)
 // ==========================
-// * hide Conkey menu when not in use
-// * prevent "undefined" from appearing in text box
+// * avoid "undefined" from appearing in text box
 // * use Alt-number-keys to choose words
 // * some approx pinyins not available (eg. gau -> gao, seun -> seung)
 // * 'X' delete safely (ie, keep copy of content)
@@ -68,6 +67,9 @@
 // * Ctrl keys such as cut-and-paste are affected; use "Windows" key to 切换
 // * can choose char with number multiple times
 // * backspace on pinyin first and then on input text
+// * hide Conkey menu when not in use
+// * Ctrl-V working
+// * small comma --> Chinese comma
 // * 
 
 // Flow-chart for preparing canto-pinyins.txt:
@@ -297,6 +299,8 @@ $("#white-box").keydown(function (e) {
 		}
 
     if (code >= 65 && code <= 90) {				// A-Z
+		if (e.ctrlKey)
+			return;
 		e.preventDefault();
 
 		if (state == '0') {
@@ -384,7 +388,7 @@ function sendWord(i) {
 	var w = ws[i];
 
 	var c = white_box.value[white_box.selectionStart - 1];
-	if (c === w[0])
+	if (simplify_char(c) === w[0])
 		w = w.slice(1);
 
 	if (i <= 9)

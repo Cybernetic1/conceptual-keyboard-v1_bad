@@ -1,5 +1,8 @@
 // **** Check if Chinese characters are displayed properly ****
 
+// TO-DO:
+// * capture image of unrecognized char, for comparison
+
 var canvas = document.getElementById('test');
 var ctx = canvas.getContext('2d');
 

@@ -51,14 +51,15 @@ function simplify_char(c) {
 
 // ************* replace with YKY shorthands
 function replaceYKY(str) {
-	var str2 = str.replace(/。。/g, "……");
+	var str = str.replace(/(。{2,})/g, (_, g1) => "…".repeat(g1.length));
 	// str = str2.replace(/\//g, "|");
 	// str2 = str.replace(/娘/g, "孃");
 	// str2 = str.replace(/\'/g, "`");
 	// str = str2.replace(/\r/g, "\r\n");
-	if (str2.slice(-1) === ',' && str2.charCodeAt(str2.length - 2) > 255)
-		str2 = str2.slice(0,-1) + '，';		// big comma
-	return str2;
+	// if (str2.slice(-1) === ',' && str2.charCodeAt(str2.length - 2) > 255)
+		// str2 = str2.slice(0,-1) + '，';		// big comma
+	str = str.replace(/(?![^\x00-\x7F])\,/g,"，");		// big comma
+	return str;
 }
 
 function display_pinyin(str) {
