@@ -14,6 +14,7 @@
 
 // To do (sorted by priority)
 // ==========================
+// * run build-DB-2.py
 // * avoid "undefined" from appearing in text box
 // * use Alt-number-keys to choose words
 // * some approx pinyins not available (eg. gau -> gao, seun -> seung)
