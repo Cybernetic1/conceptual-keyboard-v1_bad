@@ -12,28 +12,63 @@
 				color: #eeeeee;
 				}
 
-			canvas { border: 1px solid red; }
+			canvas {
+				border: 1px solid red;
+				border-radius: 10px;
+				}
+
+			button {
+				font-size: 110%;
+				border: None;
+				border-radius: 7px;
+				background-color: #578dd0;
+				cursor: pointer;
+				margin: 5px;
+				}
+
+			button:hover {
+				background-color: #FFAAAA;
+			}
+
+			input {
+				font-size: 115%;
+				border-radius: 10px;
+				}
 
 		</style>
 	</head>
 
 	<body>
-		<canvas id="test" width="400" height="250">
-		</canvas>
+		<div style="width:fit-content; float:left;">
+		<canvas id="test" width="320" height="250"></canvas>
+		</div>
 
+		<div style="float:right;">
+		char code = &nbsp; <span id="code" style="font-size:170%;">0</span>
 		<br><br>
+		Filename:  (without .txt extension) <br>
+		<input id="filename" type="text" style="width:39ch;" value="YKY-custom-pinyins-ZH"></input>
+		<br>
+		<button id="read">Read</button>
+		<br>
+		Found non-displayable chars = <span id="found" style="color:red;">0</span>
+		<br>
+		<button id="save">Save</button> (save non-displayable chars to file)
+		<br>
+		<button id="capture">Capture</button> (capture unprintable icon for comparison)
+		</div>
+		<br style="clear:both;"/>
 
 		<button id="play">Play</button>
 		<button id="inc">+</button>
 		<button id="dec">-</button>
-		<input id="num" type="text" style="width:60px;"></input>
-		<span id="total">/</span>
 		<button id="stop" style="color:red;">Stop</button>
-		&nbsp; char code = &nbsp; <span id="code">0</span>
+		<input id="num" type="text" style="width:70px;"></input>
+		<span id="total">/ total</span>
 		<br>
-		<input type="range" id="range" style="width:1000px;" value="1" max="24934">
+		<input type="range" id="range" style="width:100%;" value="1" max="24934">
 		<br>
-		<button id="save">Save</button> (save non-displayable chars)
+
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script charset="utf-8" src="js/test-chars.js"></script>
 
