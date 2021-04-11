@@ -99,19 +99,20 @@ async function findWords_char(ch) {
 	}
 
 function display_words() {
-	columnB.innerHTML = "";		// clear the contents first
+	//upperLevels.innerHTML = "";		// clear the contents first
 	ws.forEach(function(w, i) {
 		var num = i.toString() + ' ';
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(num + w));
 		textNode.number = i;
-		columnB.appendChild(textNode);
+		textNode.className = "W";
+		upperLevels.appendChild(textNode);
 		// console.log(node.properties.chars);
 		});
 
 	// **** on-click HTML "span" element:
-	$("#columnB span").on('click', word_SingleClick)
-		.dblclick(word_DoubleClick);
+	$("#upperLevels span").on('click', word_SingleClick);
+		// .dblclick(word_DoubleClick);
 	}
 
 // Event handler for single-click of a suggested word
@@ -122,10 +123,6 @@ function word_SingleClick(ev) {
 	audio.play();
 
 	sendWord(i);
-	}
-
-function word_DoubleClick(ev) {				// display number, just for testing
-	add_to_caret(this.number.toString(), remove = 2* ws[this.number].length);
 	}
 
 // **** decompose pinyin into 2 (or more, to be implemented later) words

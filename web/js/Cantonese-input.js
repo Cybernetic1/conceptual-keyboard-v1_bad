@@ -14,9 +14,10 @@
 
 // To do (sorted by priority)
 // ==========================
-// * run build-DB-2.py
+// * use 1 column instead of 2, stop using Alt-number-keys to choose words
+//	- but how to rank them?  perhaps in a fixed ratio?
+// * send-words buggy
 // * avoid "undefined" from appearing in text box
-// * use Alt-number-keys to choose words
 // * some approx pinyins not available (eg. gau -> gao, seun -> seung)
 // * 'X' delete safely (ie, keep copy of content)
 // * tool tip on chars with pinyins
@@ -79,8 +80,7 @@
 
 const white_box = document.getElementById("white-box");
 const pinyin_bar = document.getElementById("pinyin-bar");
-const columnA = document.getElementById("columnA");
-const columnB = document.getElementById("columnB");
+const upperLevels = document.getElementById("upperLevels");
 const status = document.getElementById("chin-or-eng");
 
 // ************************** Read pinyins into buffer ************************
@@ -271,11 +271,13 @@ $("#white-box").keydown(function (e) {
 			chin_or_eng = 1;
 			status.innerText = "En";
 			status.style.backgroundColor = "Green";
+			status.style.color = "white"
 			}
 		else {
 			chin_or_eng = 0;
 			status.innerText = "中";
-			status.style.backgroundColor = "Red";
+			status.style.backgroundColor = "#AA5555";
+			status.style.color = "white"
 			}
 		e.preventDefault();
 		return;
@@ -415,35 +417,29 @@ function rankcompare(a, b) {
 	}
 
 function showChars() {
-	columnA.innerHTML = "";		// clear the contents first
+	upperLevels.innerHTML = "";		// clear the contents first
 
 	cs.forEach(function(c, i) {
 		// var c = chars.charAt(i);
-		// columnA.appendChild(document.createTextNode(nums[i] + '.'));
+		// upperLevels.appendChild(document.createTextNode(nums[i] + '.'));
 		var num = i.toString();
 		if (i < 10)
 			num += " ";
 
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(num + c));
-		columnA.appendChild(textNode);
+		textNode.number = i;
+		textNode.className = "C";
+		upperLevels.appendChild(textNode);
 
-		// var row = columnA.insertRow(-1)
+		// var row = upperLevels.insertRow(-1)
 		// var cell = row.insertCell(0);
 		// cell.innerHTML = c;
 		});
 
 	// **** specify on-click behavior, for HTML "span" elements:
-	$("#columnA span").on('click', function(ev)
-		{
-		clicked_str = this.textContent;
-		var spanItem = this;
-		char_SingleClick(spanItem);
-		})
-		.dblclick(function(ev)
-			{
-			char_DoubleClick();
-			});	
+	$("#upperLevels span").on('click', char_SingleClick);
+		// .dblclick(char_DoubleClick);
 	}
 
 // **** Add string to caret position, may be of length > 1
@@ -459,20 +455,14 @@ function add_to_caret(s, remove=0) {
 	}
 
 // Event handler for single-click of a suggested word
-function char_SingleClick(item) {
-	const selection = clicked_str;			// the clicked word (string)
+function char_SingleClick() {
+	const c = cs[this.number];
 
 	const audio = new Audio("sending.ogg");
 	audio.play();
 
-	add_to_caret(selection.slice(-1));
+	add_to_caret(c);
 }
-
-function char_DoubleClick() {				// display number, just for testing
-	const selection = clicked_str;			// the clicked word (string)
-
-	add_to_caret(selection.slice(0, -1), remove=1*2);
-	}
 
 window.addEventListener('beforeunload', function (e) {
 	// on application exit:

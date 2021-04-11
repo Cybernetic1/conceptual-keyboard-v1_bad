@@ -51,6 +51,7 @@ function simplify_char(c) {
 
 // ************* replace with YKY shorthands
 function replaceYKY(str) {
+	// replace more than one '。' with equal number of "…"
 	var str = str.replace(/(。{2,})/g, (_, g1) => "…".repeat(g1.length));
 	// str = str2.replace(/\//g, "|");
 	// str2 = str.replace(/娘/g, "孃");
@@ -58,7 +59,12 @@ function replaceYKY(str) {
 	// str = str2.replace(/\r/g, "\r\n");
 	// if (str2.slice(-1) === ',' && str2.charCodeAt(str2.length - 2) > 255)
 		// str2 = str2.slice(0,-1) + '，';		// big comma
+
+	// Big comma but only if the previous char is Chinese
 	str = str.replace(/(?![^\x00-\x7F])\,/g,"，");		// big comma
+	str = str.replace(/(?![^\x00-\x7F])\:/g,"：");		// big colon
+	// big period only if previous char is Chinese and next char is not '.' also
+	str = str.replace(/(?![\x00-\x7F])\.(?![\.])/g,"。");	// **** NOT WORKING!!
 	return str;
 }
 

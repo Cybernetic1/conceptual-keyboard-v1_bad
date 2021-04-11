@@ -248,12 +248,11 @@ document.getElementById("▼").addEventListener("click", function() {
 	if (menuShowing) {
 		document.getElementById("mid-levels").style.display = "none";
 		document.getElementById("bottom").style.display = "none";
-		document.getElementById("columnA").style.height = "350px";
-		document.getElementById("columnB").style.height = "350px";
-		document.getElementById("upper-levels").style.display = "initial";
+		document.getElementById("upperLevels").style.height = "350px";
+		document.getElementById("upperLevels").style.display = "initial";
 		}
 	else {
-		document.getElementById("upper-levels").style.display = "none";
+		document.getElementById("upperLevels").style.display = "none";
 		document.getElementById("mid-levels").style.display = "initial";
 		document.getElementById("bottom").style.display = "initial";
 		}

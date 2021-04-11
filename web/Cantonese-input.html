@@ -16,34 +16,26 @@
 			// label { display: block; margin-top: 10px; color: #0066cc; }
 
 			button {
-				// border: #333333;
-				// border-width: 2px;
-				// border-style: solid;
 				border: None;
 				border-radius: 5px;
-				color: white;
-				background-color: #275d80;
+				color: #444444;
+				background-color: #aaaaaa;
 				padding: 5px;
-				// text-align: left;
-				font-size: 100%;
+				font-size: 92%;
+				font-weight: bold;
 				line-height: 1.1;
-				// width: 40px;
-				// height: 40px;
 				cursor: pointer;
-				// margin-right: 1px;
-				// margin-bottom: 2px;
 				margin-top: 5px;
 			}
 
 			button:hover {
-				background-color: #AAAAAA;
+				background-color: #FF0000;
 			}
 
 			input[type=text] {
 				font-size: 130%;
 				background-color: #c0c030;		// yellowish "grey-out" color
 				color: #aaaaaa;
-				/* font-weight: bold; */
 			}
 
 			input[type=text]:focus {
@@ -73,38 +65,19 @@
 				// margin: 5px 5px;
 			}
 
-			#columnA {
-				width: 54%;
+			#upperLevels {
 				height:120px;
+				overflow: auto;
 				overflow-y: auto;
 				float: left;
 				font-family: "Courier New", Courier, monospace;
-				margin-left: 0px
-				margin-right: 0px;
 				margin-top: 5px;
 				margin-bottom: 5px;
 				line-height: 1.2;
-				// border: 2px solid #007700;
 			}
 
-			#columnB {
-				width: 44%;
-				height:120px;
-				overflow-y: auto;
-				overflow: auto;
-				float: right;
-				margin-left: 0px
-				margin-right: 0px;
-				margin-top: 5px;
-				margin-bottom: 5px;
-				// padding: 5px 5px;
-				line-height: 1.2;
-				// border: 2px solid #7777bb;
-			}
-
-			#columnA span {
+			span {
 				display:inline-block;
-				background: #606060;
 				padding-top: 5px;
 				padding-right: 3px;
 				padding-bottom: 1px;
@@ -115,21 +88,15 @@
 				margin: 5px 5px;
 			}
 
-			#columnB span {
-				display:inline-block;
+			.W {
 				background: #275D80;
-				padding-top: 1px;
-				padding-right: 1px;
-				padding-bottom: 1px;
-				padding-left: 1px;
-				// border: 1px solid #9999bb;
-				border: None;
-				border-radius: 5px;
-				margin: 5px 5px;
 			}
 
-			#columnA span:hover,
-			#columnB span:hover,
+			.C {
+				background: #606060;
+			}
+
+			#upperLevels span:hover,
 			#column2 span:hover {
 				background: #ff0000;
 				color: #000000;
@@ -252,18 +219,10 @@
 		<button type="button" id="paste2">2</button>
 		<button type="button" id="paste3">3</button>
 
-		<button type="button" id="chin-or-eng" style="background-color:#AA5555;">中</button>
+		<button type="button" id="chin-or-eng" style="color:white; background-color:#AA5555;">中</button>
 		</div>
 
-		<div id="upper-levels">
-
-			<div id="columnA">&nbsp;
-			</div>
-
-			<div id="columnB">&nbsp;
-			</div>
-
-		  <br style="clear:both;"/>
+		<div id="upperLevels">
 		</div>
 
 		<div id="mid-levels">

@@ -53,7 +53,7 @@ for msg in eventStream:
 	if s:
 		inbox.send_keys(s)
 		sendbutt.click()
-		if s != "\n":
+		if s[0] != "\n":
 			print("fire.data:", s)
 
 driver.close()
