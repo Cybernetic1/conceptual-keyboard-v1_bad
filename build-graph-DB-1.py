@@ -2,8 +2,8 @@
 
 # Simplify "YKY-custom-pinyins.txt" first, using OpenCC:
 #	opencc -i web/YKY-custom-pinyins.txt -o web/YKY-custom-pinyins-ZH.txt -c t2s.json
-# The encoding seems to be "hk2s" on desktop but "t2s" on laptop.
-# This may be a result of the terminal's char-encoding setting.
+# **** But OpenCC sucks because it leaves garbage characters,
+# **** had to use hcutf8-YKY.txt instead.  Use simplify.py.
 
 from neo4j import GraphDatabase
 import re
@@ -18,11 +18,9 @@ def create_rel(tx, char, pinyin):
 			char=char, pinyin=pinyin)
 
 f = open("web/YKY-custom-pinyins-ZH.txt", "r")
+size = 24933
 
 for i, line in enumerate(f):
-	# if i > 1:		# total # lines = 116 
-		# break
-
 	# format: "字pinyin\n"
 	char = line[0]
 	pinyin = line[1:-1]
@@ -30,9 +28,8 @@ for i, line in enumerate(f):
 	with driver.session() as session:
 		session.write_transaction(create_rel, char, pinyin)
 
-	print(char + ',' + str(ord(char)), end='\t')
-	if i % 100 == 0:
-		print()
+	print(i, "{:.1f}".format(i * 100 / size) + '%', char, str(ord(char)), "                              ", end='\r')
 
+print()
 driver.close()
 f.close()

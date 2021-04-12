@@ -90,7 +90,7 @@ var c2p = new Object();		// from char look up pinyin
 var yky = new Object();		// from char look up pinyin
 var approx = new Object();
 
-// **** Read YKY custom pinyins file ****
+// **** Load YKY custom pinyins ****
 $.ajax({
 	method: "GET",
 	url: "/loadDatabase/YKY-custom-pinyins",		// Note: use filename without extension
@@ -108,12 +108,12 @@ $.ajax({
 		console.log("Loaded YKY-custom-pinyins.txt\n");
 }});
 
-var rank = new Object();
+var freq = new Object();
 
-// **** Character frequencies (relative, normalized)
+/* **** Old File: char-rel-freq.txt
 $.ajax({
 method: "GET",
-url: "/loadDatabase/char-rel-freq",		// Note: use filename without extension
+url: "/loadDatabase/char-rel-freq",
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
@@ -136,13 +136,38 @@ success: function(data) {
 		else
 			console.log("char-rel-freq.txt duplicate:", c, line);
 		});
-	console.log("testing rank['是'] =", rank['是']);
-	console.log("Loaded char-rank.txt.");
+        console.log("testing rank['是'] =", rank['是']);
+        console.log("Loaded char-rank.txt.");
+
+        loadGooglePins();
+}});
+*/
+
+// **** Load char and word frequencies
+$.ajax({
+method: "GET",
+// url: "/loadDatabase/char-rel-freq",
+url: "/loadDatabase/merged-freqs",		// Note: use filename without extension
+cache: false,
+success: function(data) {
+	var lines = data.split("\n");
+	lines.forEach(function(line) {
+		// format: 字字... (space) freq \n
+		var c = line.charAt(0);					// Chinese character
+		var f = parseFloat(line.substr(1));		// freq
+
+		if (freq[c] == undefined)
+			freq[c] = f;
+		else
+			console.log("all-freqs.txt duplicate:", line);
+		});
+	console.log("testing freq['是'] =", freq['是']);
+	console.log("Loaded all-freqs.txt.");
 
 	loadGooglePins();
 }});
 
-// **** Load exact Google pinyins which depends on rank[]:
+// **** Load exact Google pinyins which depends on freq[]:
 function loadGooglePins() {
 	$.ajax({
 	method: "GET",
@@ -171,11 +196,11 @@ function loadGooglePins() {
 				// **** Need to sort according to frequency ranking
 				var s = p2c[line.substr(i)];	// sequence to insert 'a' to
 				var j = 0;
-				ra = rank[a];
+				ra = freq[a];
 				if (ra == undefined)
 					ra = 0.0;
 				// Below, exploit the fact that 'undefined' in ANY comparison condition is ALWAYS false
-				while (rank[s.charAt(j)] > ra)
+				while (freq[s.charAt(j)] > ra)
 					++j;
 				var s2 = s.substring(0,j) + a + s.substring(j);
 				p2c[pinyin] = s2;
@@ -199,7 +224,7 @@ function loadGooglePins() {
 	}});
 }
 
-// Load distinct sounds in Cantonese, depends on p2c[] from above
+/* Load distinct sounds in Cantonese, depends on p2c[] from above
 function loadDistincts() {
 	$.ajax({
 	method: "GET",
@@ -227,6 +252,7 @@ function loadDistincts() {
 		}
 	});
 }
+*/
 
 // These are 'old' pinyins from Google Input Method
 const consonants = ['b','ch','d','dy','f','g','gw','gy','h','hm','hy','j','jy','k','kw','ky','l','ly','m','n','ng','ny','p','s','sy','t','ty','w','y'];
@@ -322,7 +348,7 @@ $("#white-box").keydown(function (e) {
 		chars = yky[current_pinyin];
 		if (chars != undefined) {
 			// **** sort by frequency rank:
-			cs = chars.split('').sort(rankcompare);
+			cs = chars.split('').sort(freqcompare);
 			showChars();
 
 			// match 到了字, display any words with the char
@@ -388,10 +414,10 @@ function sendChar(i) {
 	}
 
 function sendWord(i) {
-	var w = ws[i];
+	var w = word_list[i];
 
 	var c = white_box.value[white_box.selectionStart - 1];
-	if (simplify_char(c) === w[0])
+	if (c === w[0] || simplify_char(c) === w[0])
 		w = w.slice(1);
 
 	if (i <= 9)
@@ -405,9 +431,9 @@ function sendWord(i) {
 // Javascript's sort order: from small to big
 // Our ranking requires: from big to small
 // so the order relation is REVERSED.
-function rankcompare(a, b) {
-	ra = rank[a];
-	rb = rank[b];
+function freqcompare(a, b) {
+	ra = freq[a];
+	rb = freq[b];
 	// undefined behaves like 0
 	if (ra == undefined)
 		return 1;		// 0 > b = always false
@@ -455,7 +481,7 @@ function add_to_caret(s, remove=0) {
 	}
 
 // Event handler for single-click of a suggested word
-function char_SingleClick() {
+function char_SingleClick(ev) {
 	const c = cs[this.number];
 
 	const audio = new Audio("sending.ogg");

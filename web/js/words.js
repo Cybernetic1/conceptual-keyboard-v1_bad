@@ -31,7 +31,7 @@ var driver = neo4j.driver(
   'neo4j://localhost',
   neo4j.auth.basic('neo4j', 'l0wsecurity') );
 
-var ws = [];
+var word_list = [];
 
 async function findWords_pinyins(p1, p2) {
 	const session = driver.session();
@@ -41,15 +41,15 @@ async function findWords_pinyins(p1, p2) {
 			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
 			{p1 : p1, p2 : p2} );
 		console.log("match pinyins:", result.records.length);
-		ws = [];
+		word_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
 			const word = node.properties.chars;
-			ws.push(word);
+			word_list.push(word);
 			});
 
 		// default Javascript sort order = 1,2,3...
-		ws.sort(function(a, b) {
+		word_list.sort(function(a, b) {
 			if (a.length > b.length)
 				return 1;
 			else if (a.length < b.length)
@@ -77,15 +77,15 @@ async function findWords_char(ch) {
 			"MATCH (c:Char {char: $char}) -[:In]-> (w) RETURN (w)",
 			{char: c} );
 		console.log("match char:", result.records.length);
-		ws = [];
+		word_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
 			const word = node.properties.chars;
-			ws.push(word);
+			word_list.push(word);
 			});
 
 		// default Javascript sort order = 1,2,3...
-		ws.sort(function(a, b) {
+		word_list.sort(function(a, b) {
 			if (a.length > b.length)
 				return 1;
 			else if (a.length < b.length)
@@ -98,9 +98,16 @@ async function findWords_char(ch) {
 		}
 	}
 
+function add_to_list(newList) {
+	all_list += word_list;
+	
+	var bigList = $("#upperLevels > span").get();
+	}
+
+// New behavior: add words to existing list
 function display_words() {
 	//upperLevels.innerHTML = "";		// clear the contents first
-	ws.forEach(function(w, i) {
+	word_list.forEach(function(w, i) {
 		var num = i.toString() + ' ';
 		textNode = document.createElement('span');
 		textNode.appendChild(document.createTextNode(num + w));
