@@ -31,7 +31,7 @@ var driver = neo4j.driver(
   'neo4j://localhost',
   neo4j.auth.basic('neo4j', 'l0wsecurity') );
 
-var word_list = [];
+var main_list = [];
 
 async function findWords_pinyins(p1, p2) {
 	const session = driver.session();
@@ -40,29 +40,15 @@ async function findWords_pinyins(p1, p2) {
 		const result = await session.run(
 			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
 			{p1 : p1, p2 : p2} );
-		console.log("match pinyins:", result.records.length);
-		word_list = [];
+		console.log("match pinyins:", p1, p2, result.records.length);
+		new_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
 			const word = node.properties.chars;
-			word_list.push(word);
+			new_list.push(word);
 			});
 
-		// default Javascript sort order = 1,2,3...
-		word_list.sort(function(a, b) {
-			if (a.length > b.length)
-				return 1;
-			else if (a.length < b.length)
-				return -1;
-			else if (a[0] in cs)
-				return -1;
-			else if (b[0] in cs)
-				return 1;
-			else
-				return 0;
-			});
-
-		display_words();
+		add_to_list(new_list);
 		} finally {
 		await session.close()
 		}
@@ -71,59 +57,59 @@ async function findWords_pinyins(p1, p2) {
 async function findWords_char(ch) {
 	const session = driver.session();
 
-	const c = simplify_char(ch);
+	const char = simplify_char(ch);
 	try {
 		const result = await session.run(
 			"MATCH (c:Char {char: $char}) -[:In]-> (w) RETURN (w)",
-			{char: c} );
-		console.log("match char:", result.records.length);
-		word_list = [];
+			{char: char} );
+		console.log("match char:", char, result.records.length);
+		new_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
 			const word = node.properties.chars;
-			word_list.push(word);
+			new_list.push(word);
 			});
 
-		// default Javascript sort order = 1,2,3...
-		word_list.sort(function(a, b) {
-			if (a.length > b.length)
-				return 1;
-			else if (a.length < b.length)
-				return -1;
-			});
-
-		display_words();
+		add_to_list(new_list);
 		} finally {
 		await session.close()
 		}
 	}
 
-function add_to_list(newList) {
-	all_list += word_list;
-	
-	var bigList = $("#upperLevels > span").get();
+function add_to_list(new_list) {
+	// **** each time, truncate the previous list to 400
+	if (main_list.length > 400)
+		main_list = main_list.slice(0, 400);
+
+	// **** merge the 2 lists and sort them
+	var new_list2 = new_list.map(x => [x, freq0(x)] );
+	// 'amortization' of main_list elements:
+	main_list = main_list.map(z => [z[0], z[1] / 2.0]);
+	let results = [...main_list, ...new_list2];
+	main_list = results.sort((a, b) => a[1] > b[1] ? -1 : 1 );
+
+	regenerate_list();
 	}
 
-// New behavior: add words to existing list
-function display_words() {
-	//upperLevels.innerHTML = "";		// clear the contents first
-	word_list.forEach(function(w, i) {
+function regenerate_list() {
+	upperLevels.innerHTML = "";		// clear the contents first
+
+	main_list.forEach(function(z, i) {
 		var num = i.toString() + ' ';
 		textNode = document.createElement('span');
-		textNode.appendChild(document.createTextNode(num + w));
+		textNode.appendChild(document.createTextNode(num + z[0]));
 		textNode.number = i;
-		textNode.className = "W";
+		if (z[0].length > 1)
+			textNode.className = "W";
+		else
+			textNode.className = "C";
 		upperLevels.appendChild(textNode);
-		// console.log(node.properties.chars);
+		textNode.onclick = charword_SingleClick;
 		});
-
-	// **** on-click HTML "span" element:
-	$("#upperLevels span").on('click', word_SingleClick);
-		// .dblclick(word_DoubleClick);
 	}
 
 // Event handler for single-click of a suggested word
-function word_SingleClick(ev) {
+function charword_SingleClick(ev) {
 	var i = this.number;
 
 	const audio = new Audio("sending.ogg");

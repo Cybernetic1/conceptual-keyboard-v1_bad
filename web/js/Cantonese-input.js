@@ -153,11 +153,12 @@ success: function(data) {
 	var lines = data.split("\n");
 	lines.forEach(function(line) {
 		// format: 字字... (space) freq \n
-		var c = line.charAt(0);					// Chinese character
-		var f = parseFloat(line.substr(1));		// freq
+		items = line.split(' ');
+		var w = items[0];					// char or word
+		var f = parseFloat(items[1]);		// freq
 
-		if (freq[c] == undefined)
-			freq[c] = f;
+		if (freq[w] === undefined)
+			freq[w] = f;
 		else
 			console.log("all-freqs.txt duplicate:", line);
 		});
@@ -166,6 +167,13 @@ success: function(data) {
 
 	loadGooglePins();
 }});
+
+function freq0(w) {
+	if (freq[w] === undefined)
+		return 0.0;
+	else
+		return freq[w];
+	}
 
 // **** Load exact Google pinyins which depends on freq[]:
 function loadGooglePins() {
@@ -282,7 +290,7 @@ var current_num = 0;
 var current_Wnum = 0;
 var last_Wlength = 0;
 var chars = "";
-var cs = [];
+var char_list = [];
 var state = 'A';		// state = A: alpha, 0: numeric
 var chin_or_eng = 0		// 0 = Chinese, 1 = English
 
@@ -314,6 +322,8 @@ $("#white-box").keydown(function (e) {
 
 	if (key === "Escape") {						// Escape
 		current_pinyin = "";
+		pinyin_bar.innerText = "";
+		upperLevels.innerHTML = "";
 		current_num = 0;
 		e.preventDefault();
 		}
@@ -347,12 +357,11 @@ $("#white-box").keydown(function (e) {
 		// **** display chars
 		chars = yky[current_pinyin];
 		if (chars != undefined) {
-			// **** sort by frequency rank:
-			cs = chars.split('').sort(freqcompare);
-			showChars();
+			char_list = chars.split('').sort(freqcompare);
+			add_to_list(char_list);
 
 			// match 到了字, display any words with the char
-			findWords_char(cs[0]);
+			findWords_char(char_list[0]);
 			}
 		else {
 			// 可能有词语
@@ -371,7 +380,7 @@ $("#white-box").keydown(function (e) {
 		if (!e.altKey) {
 			// choose chars
 			current_num = current_num * 10 + (code - 48);
-			if (current_num > cs.length)
+			if (current_num > char_list.length)
 				current_num = code - 48;
 			sendChar(current_num);
 			// current_pinyin += '●';
@@ -397,8 +406,17 @@ $("#white-box").keydown(function (e) {
 	pinyin_bar.innerHTML = current_pinyin;
 	});
 
+// Javascript's sort order: from small to big
+// Our ranking requires: from big to small
+// so the order relation is REVERSED.
+function freqcompare(a, b) {
+	ra = freq0(a);
+	rb = freq0(b);
+	return ra > rb ? -1 : 1;
+	}
+
 function sendChar(i) {
-	const c = cs[i];
+	const c = main_list[i][0];
 	
 	if (i < 0) {						// send plain char as -i（暂时唔知有乜用）
 		white_box.value += String.fromCharCode(-i);
@@ -413,9 +431,10 @@ function sendChar(i) {
 	findWords_char(c);	// I have chosen char c, should display words with c
 	}
 
-function sendWord(i) {
-	var w = word_list[i];
+function sendWord(i, remove=0) {
+	var w = main_list[i][0];
 
+	// If the word's beginning is already in input line:
 	var c = white_box.value[white_box.selectionStart - 1];
 	if (c === w[0] || simplify_char(c) === w[0])
 		w = w.slice(1);
@@ -428,24 +447,10 @@ function sendWord(i) {
 	last_Wlength = w.length;
 	}
 
-// Javascript's sort order: from small to big
-// Our ranking requires: from big to small
-// so the order relation is REVERSED.
-function freqcompare(a, b) {
-	ra = freq[a];
-	rb = freq[b];
-	// undefined behaves like 0
-	if (ra == undefined)
-		return 1;		// 0 > b = always false
-	if (rb == undefined)
-		return -1;		// a > 0 = always true
-	return ra > rb ? -1 : 1;
-	}
-
 function showChars() {
 	upperLevels.innerHTML = "";		// clear the contents first
 
-	cs.forEach(function(c, i) {
+	char_list.forEach(function(c, i) {
 		// var c = chars.charAt(i);
 		// upperLevels.appendChild(document.createTextNode(nums[i] + '.'));
 		var num = i.toString();
@@ -482,7 +487,7 @@ function add_to_caret(s, remove=0) {
 
 // Event handler for single-click of a suggested word
 function char_SingleClick(ev) {
-	const c = cs[this.number];
+	const c = char_list[this.number];
 
 	const audio = new Audio("sending.ogg");
 	audio.play();

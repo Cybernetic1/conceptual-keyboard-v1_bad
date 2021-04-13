@@ -62,7 +62,7 @@ function replaceYKY(str) {
 
 	// Big comma but only if the previous char is Chinese
 	str = str.replace(/(?![^\x00-\x7F])\,/g,"，");		// big comma
-	str = str.replace(/(?![^\x00-\x7F])\:/g,"：");		// big colon
+	str = str.replace(/(?![^\x00-\x7F])\:[^\)]/g,"：");		// big colon
 	// big period only if previous char is Chinese and next char is not '.' also
 	str = str.replace(/(?![\x00-\x7F])\.(?![\.])/g,"。");	// **** NOT WORKING!!
 	return str;

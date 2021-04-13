@@ -143,6 +143,10 @@ document.getElementById("clear-white").addEventListener("click", function() {
 	document.getElementById("pinyin-box").innerHTML = "";
 	white_box.value = "";
 	white_box.focus();
+	upperLevels.innerHTML = ""
+	main_list = [];
+	current_pinyin = "";
+	pinyin_bar.innerText = "";
 	history_view_index = -1;		// No longer in history mode
 }, false);
 
