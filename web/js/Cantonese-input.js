@@ -14,6 +14,10 @@
 
 // To do (sorted by priority)
 // ==========================
+// * back to 2 columns but use single-number choosing?
+// * words: if 1st char != char-to-match, word should have lower ranking
+// * choose char by 2-digit num -> 1st char get words -> change contents too fast
+// * hcutf8 complexify: handle ">" directions
 // * use 1 column instead of 2, stop using Alt-number-keys to choose words
 //	- but how to rank them?  perhaps in a fixed ratio?
 // * send-words buggy
@@ -87,13 +91,12 @@ const status = document.getElementById("chin-or-eng");
 // or just {}
 var p2c = new Object();		// from pinyin look up char
 var c2p = new Object();		// from char look up pinyin
-var yky = new Object();		// from char look up pinyin
-var approx = new Object();
+var yky = new Object();		// from char look up YKY-custom pinyin
 
 // **** Load YKY custom pinyins ****
 $.ajax({
 	method: "GET",
-	url: "/loadDatabase/YKY-custom-pinyins",		// Note: use filename without extension
+	url: "/loadDatabase/YKY-custom-pinyins-ZH",		// Note: use filename without extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
@@ -105,7 +108,7 @@ $.ajax({
 			else
 				yky[line.substr(1)] += line[0];
 			});
-		console.log("Loaded YKY-custom-pinyins.txt\n");
+		console.log("Loaded:", this.url + '\n');
 }});
 
 var freq = new Object();
@@ -147,13 +150,13 @@ success: function(data) {
 $.ajax({
 method: "GET",
 // url: "/loadDatabase/char-rel-freq",
-url: "/loadDatabase/merged-freqs",		// Note: use filename without extension
+url: "/loadDatabase/all-freqs",		// Note: use filename without extension
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
 	lines.forEach(function(line) {
-		// format: 字字... (space) freq \n
-		items = line.split(' ');
+		// format: 字 (space) freq \n
+		var items = line.split(' ');
 		var w = items[0];					// char or word
 		var f = parseFloat(items[1]);		// freq
 
@@ -163,7 +166,7 @@ success: function(data) {
 			console.log("all-freqs.txt duplicate:", line);
 		});
 	console.log("testing freq['是'] =", freq['是']);
-	console.log("Loaded all-freqs.txt.");
+	console.log("Loaded:", this.url);
 
 	loadGooglePins();
 }});
@@ -226,7 +229,7 @@ function loadGooglePins() {
 				}
 			}
 			});
-		console.log("Loaded exact-Google-pinyins.txt.");
+		console.log("Loaded:", this.url);
 
 		// loadDistincts();
 	}});
@@ -356,8 +359,10 @@ $("#white-box").keydown(function (e) {
 	if (displayChars) {
 		// **** display chars
 		chars = yky[current_pinyin];
+		console.log("chars=", chars);
 		if (chars != undefined) {
 			char_list = chars.split('').sort(freqcompare);
+			console.log("char_list=", char_list);
 			add_to_list(char_list);
 
 			// match 到了字, display any words with the char
@@ -408,16 +413,21 @@ $("#white-box").keydown(function (e) {
 
 // Javascript's sort order: from small to big
 // Our ranking requires: from big to small
-// so the order relation is REVERSED.
+// so the order relation should be REVERSED.
 function freqcompare(a, b) {
 	ra = freq0(a);
 	rb = freq0(b);
-	return ra > rb ? -1 : 1;
+	if (ra > rb)
+		return -1;
+	else if (ra < rb)
+		return 1;
+	else
+		return 0;
 	}
 
 function sendChar(i) {
 	const c = main_list[i][0];
-	
+
 	if (i < 0) {						// send plain char as -i（暂时唔知有乜用）
 		white_box.value += String.fromCharCode(-i);
 		return;

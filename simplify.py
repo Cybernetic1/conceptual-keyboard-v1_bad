@@ -12,22 +12,29 @@ dict = {}
 for i, line in enumerate(f0):
 	if line[0] == '/':
 		continue
-	if line[0] == '>':			# unidirectional change
-		line = line[1:]
-	elif line[0] == '-':		# necessary change
-		line = line[1:]
+	if line[0] == '>':			# unidirectional change (typical example: 麵面)
+		ch = line[1]
+		ch2 = line[2]
+	elif line[0] == '-':		# YKY prefers no change in usual usage (eg 迴回)
+		continue
+	else:
+		ch = line[0]
+		ch2 = line[1]
 
-	if line[0] in dict:
-		print(i + 1, line[0], "in dict!", line)
-	if line[0] == line[1]:
+	if ch in dict:
+		print(i + 1, ch, "in dict!", line)
+	if ch == ch2:
 		print(i + 1, "duplicate!", line)
-	dict[line[0]] = line[1]
+	
+	dict[ch] = ch2
 f0.close()
 
 f1 = open("web/YKY-custom-pinyins.txt", "r")
+#f1 = open("web/char-rel-freq.txt", "r")
 # format: "字pinyin\n"
 
 fo = open("web/YKY-custom-pinyins-ZH.txt", "w")
+#fo = open("web/char-rel-freq-ZH.txt", "w")
 
 for line in f1:
 	c = line[0]

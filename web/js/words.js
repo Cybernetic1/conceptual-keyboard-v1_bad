@@ -40,7 +40,7 @@ async function findWords_pinyins(p1, p2) {
 		const result = await session.run(
 			"MATCH (p1:Pinyin {pinyin: $p1}) -[:P2C]-> (c1:Char) -[:In]-> (w) <-[:In]- (c2:Char) <-[:P2C]- (p2:Pinyin {pinyin: $p2}) RETURN (w)",
 			{p1 : p1, p2 : p2} );
-		console.log("match pinyins:", p1, p2, result.records.length);
+		console.log("matched pinyins:", p1, p2, result.records.length);
 		new_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);
@@ -62,7 +62,7 @@ async function findWords_char(ch) {
 		const result = await session.run(
 			"MATCH (c:Char {char: $char}) -[:In]-> (w) RETURN (w)",
 			{char: char} );
-		console.log("match char:", char, result.records.length);
+		console.log("matched char:", char, result.records.length);
 		new_list = [];
 		result.records.forEach(function(r) {
 			const node = r.get(0);

@@ -15879,7 +15879,7 @@
 舝hat
 舝hud
 䚂hak
-系hai
+係hai
 开hoi
 喺hai
 系hai
@@ -18174,7 +18174,7 @@
 颖wing
 锅wo
 窝wo
-回wui
+迴wui
 咏wing
 缓wun
 祸wo
@@ -20010,7 +20010,7 @@
 裛yap
 湇yap
 唈yap
-只jek
+隻jek
 席jek
 席jik
 啫jek
@@ -20500,11 +20500,11 @@
 超chiu
 焦jiu
 赵jiu
-着juk
-着ju
-着chu
-着juk
-着jeuk
+著juk
+著ju
+著chu
+著juk
+著jeuk
 追jui
 要yiu
 椒jiu

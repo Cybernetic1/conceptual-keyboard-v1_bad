@@ -23,6 +23,10 @@ function traditionalize(str) {
 
 	for (i = 0; i < str.length; ++i) {
 		c = str[i];
+
+		if (h_exceptions.includes(c))
+			continue;
+
 		// convert character to traditional
 		var c2 = undefined;
 		for (var x in h)
@@ -132,6 +136,7 @@ function display_pinyin(str) {
 // **** Read hcutf8.txt into buffer ****
 // the file "hcutf8.txt" is from /chinese/zhcode
 var h = new Object(); // or just {}
+var h_exceptions = new Array();
 
 $.ajax({
 method: "GET",
@@ -140,8 +145,18 @@ cache: false,
 success: function(data) {
 	var lines = data.split("\n");
 	lines.forEach(function(line) {
-		if (line[0] != '/')				// comments
-			h[line.substr(0,1)] = line.substr(1);
+		if (line[0] == '/')				// comments
+			return;
+		if (line[0] == '-')	{			// YKY prefers no change in usual usage
+			return						// just return for now
+			}
+		if (line[0] == '>') {			// unidirectional change only
+			h[line[1]] = line.substr(2);
+			h_exceptions.push(line[1]);
+			}
+		else {
+			h[line[0]] = line.substr(1);
+			}
 	});
 	console.log("Loaded hcutf8-YKY.txt into h[].");
 }});

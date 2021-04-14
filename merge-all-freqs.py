@@ -25,11 +25,10 @@ for i, line in enumerate(f0):
 	items = line.split(' ')
 
 	w = items[0]
-	if len(w) == 1:
-		dict[w] = float(items[1])		# note items[1] has '\n'
+	dict[w] = float(items[1])		# note items[1] has '\n'
 f0.close()
 
-f0 = open("web/char-rel-freq.txt", "r")
+f0 = open("web/char-rel-freq-ZH.txt", "r")
 # format: "字 , freq \n"	 with no possibility of > 1 chars
 
 j = 0
@@ -44,13 +43,13 @@ for i, line in enumerate(f0):
 		j += 1
 		dict[c] = (dict[c] * size1 + freq * size2 ) / (size1 + size2)
 	else:
-		dict[c] = freq
+		dict[c] = (0 + freq * size2) / (size1 + size2)
 f0.close()
 
-print(len(dict), "unique chars")
+print(len(dict), "unique chars / words")
 print(j, "common chars found")
 
 fo = open("web/all-freqs.txt", "w")
 for c in sorted(dict, key=dict.get, reverse=True):
-	fo.write(c + str(dict[c]) + '\n')
+	fo.write(c + " " + str(dict[c]) + '\n')
 fo.close()
