@@ -63,6 +63,69 @@
 				// margin: 5px 5px;
 			}
 
+			#columnA {
+				width: 54%;
+				height:120px;
+				overflow-y: auto;
+				float: left;
+				font-family: "Courier New", Courier, monospace;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				line-height: 1.2;
+				// border: 2px solid #007700;
+			}
+
+			#columnB {
+				width: 44%;
+				height:120px;
+				overflow-y: auto;
+				overflow: auto;
+				float: right;
+				margin-left: 0px
+				margin-right: 0px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+				// padding: 5px 5px;
+				line-height: 1.2;
+				// border: 2px solid #7777bb;
+			}
+
+			#columnA span {
+				display:inline-block;
+				background: #606060;
+				padding-top: 5px;
+				padding-right: 3px;
+				padding-bottom: 1px;
+				padding-left: 1px;
+				// border: 1px solid #606060;
+				border: none;
+				border-radius: 5px;
+				margin: 5px 5px;
+			}
+
+			#columnB span {
+				display:inline-block;
+				background: #275D80;
+				padding-top: 1px;
+				padding-right: 1px;
+				padding-bottom: 1px;
+				padding-left: 1px;
+				// border: 1px solid #9999bb;
+				border: None;
+				border-radius: 5px;
+				margin: 5px 5px;
+			}
+
+			#columnA span:hover,
+			#columnB span:hover,
+			#column2 span:hover {
+				background: #ff0000;
+				color: #000000;
+				}
+
+
 			#upperLevels {
 				height:120px;
 				overflow: auto;
@@ -221,6 +284,13 @@
 		</div>
 
 		<div id="upperLevels">
+			<div id="columnA">&nbsp;
+			</div>
+
+			<div id="columnB">&nbsp;
+			</div>
+
+		  <br style="clear:both;"/>
 		</div>
 
 		<div id="mid-levels">

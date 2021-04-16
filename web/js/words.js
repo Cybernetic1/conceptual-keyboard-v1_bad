@@ -125,7 +125,7 @@ function charword_SingleClick(ev) {
 // How about using regular expressions?
 function decompose_pinyin(s) {
 	// regex = ( (?:k) (?:n) ){2}
-	let regex = /((?:b|ch|d|f|gw|gy|g|hm|h|j|kw|k|l|m|ng|n|p|s|ty|t|w|y|)(?:aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|ang|an|ao|ap|at|au|a|ei|ek|eng|eung|eun|eui|euk|eut|eu|e|ik|im|ing|in|ip|it|iu|i|oi|ok|ong|on|ot|ou|o|uen|ud|ue|ui|uk|ung|un|ut|u|yun|yut|yu))/g;
+	let regex = /((?:b|ch|d|f|gw|gy|g|hm|h|j|kw|k|l|m|ng|n|p|sh|s|ty|t|w|y|)(?:aai|aak|aam|aan|aang|aap|aat|aau|ai|ak|am|ang|an|ao|ap|at|au|a|ei|ek|eng|eung|eun|eui|euk|eut|eu|e|ik|im|ing|in|ip|it|iu|i|oi|ok|ong|on|ot|ou|o|uen|ud|ue|ui|uk|ung|un|ut|u|yun|yut|yu))/g;
 
 	const results = [...s.matchAll(regex)];
 	// const results = s.match(regex);

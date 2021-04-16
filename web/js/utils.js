@@ -24,9 +24,6 @@ function traditionalize(str) {
 	for (i = 0; i < str.length; ++i) {
 		c = str[i];
 
-		if (h_exceptions.includes(c))
-			continue;
-
 		// convert character to traditional
 		var c2 = undefined;
 		for (var x in h)
@@ -37,10 +34,13 @@ function traditionalize(str) {
 				break;
 				}
 			}
-		if (c2 != undefined)
-			str2 += c2;
-		else
+		// but there are exceptions:
+		if (c2 === undefined)
 			str2 += c;
+		else if (h_exceptions.includes(c2))
+			str2 += c;
+		else
+			str2 += c2;
 	}
 	return str2;
 }
