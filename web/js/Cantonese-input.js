@@ -14,6 +14,7 @@
 
 // To do (sorted by priority)
 // ==========================
+// * words like 干擾 which should not traditionalize to 幹
 // * back to 2 columns but use single-number choosing?
 // * words: if 1st char != char-to-match, word should have lower ranking
 // * choose char by 2-digit num -> 1st char get words -> change contents too fast

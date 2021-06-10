@@ -303,7 +303,7 @@ document.getElementById("do-Google").addEventListener("click", function() {
 document.getElementById("do-Mandarin").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		// Copy to Red Box
-		document.getElementById("red-box").value = str;
+		//document.getElementById("pinyin-box").value = str;
 		$.ajax({
 			method: "POST",
 			url: "./speakMandarin",
