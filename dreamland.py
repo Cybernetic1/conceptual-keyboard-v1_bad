@@ -31,7 +31,7 @@ driver.find_element_by_xpath('//*[@id="mlogin"]/form/div/span').click()
 
 print("Entered Dreamland")
 
-time.sleep(6)
+time.sleep(6)	# in seconds
 print("Wait for frame exited")
 
 #driver.get("http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=26MH_TK_CXKd")
@@ -64,23 +64,36 @@ def callback(s):
 t = threading.Thread(target=consume)
 t.start()
 
+driver.switch_to.frame("marow")
+print("Switched to frame 'marow'")
+chats = driver.find_element_by_name("main")
+print("Found main chat window:", chats)
+
+# html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
+# this is the <div> element containing the rows:
+# chatWin = html.children[1].children[7];         // sometimes it's [1][7], or [3][7]
+# number of lines in chat win:
+# lastIndex = chatWin.childElementCount - 1;
+# if ((chatWin != null) && (lastIndex > lastIp131Index)) {
+
 # Loop to record chat log:
 while True:
-	time.sleep(10)	# in seconds
+	time.sleep(5)	# in seconds
 	print("waiting...")
 
 driver.close()
 exit(0)
 
-""" Old code:
+"""
+# ********** Process events in a blocking manner:
 for msg in eventStream:
 	s = msg.data
 	if s:
 		inbox.send_keys(s)
 		sendbutt.click()
 		# Wish to get rid of mysterious blank lines in the output....
-		# if s[0] != "\n":
-		#	print("fire.data:", s)
+		if s[0] != "\n":
+			print("fire.data:", s)
 """
 
 """
