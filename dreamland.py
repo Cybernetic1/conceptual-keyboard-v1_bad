@@ -76,7 +76,7 @@ driver.switch_to_default_content()
 driver.switch_to.frame("ma")
 print("Switched to frame 'ma'")
 lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
-print("Found last chat line:", lastChatLine.text)
+print("Testing: last chat line:", lastChatLine.text, end="\n\n")
 
 # html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
 # this is the <div> element containing the rows:
