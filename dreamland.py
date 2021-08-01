@@ -14,6 +14,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from sseclient import SSEClient
+import threading
 import time
 
 eventStream = SSEClient('http://localhost:8484/dreamstream',
@@ -48,16 +49,39 @@ inbox = driver.find_element_by_name("says_temp")
 sendbutt = driver.find_element_by_xpath("//input[@value='送出']");
 print("Acquired buttons")
 
+def consume():
+	print("Event handling thread started...")
+	for msg in eventStream:
+		s = msg.data
+		if s and s[0] != '\n':
+			callback(s)
+
+def callback(s):
+	print("fire.data:", s)
+	inbox.send_keys(s)
+	sendbutt.click()
+
+t = threading.Thread(target=consume)
+t.start()
+
+# Loop to record chat log:
+while True:
+	time.sleep(10)	# in seconds
+	print("waiting...")
+
+driver.close()
+exit(0)
+
+""" Old code:
 for msg in eventStream:
 	s = msg.data
 	if s:
 		inbox.send_keys(s)
 		sendbutt.click()
-		if s[0] != "\n":
-			print("fire.data:", s)
-
-driver.close()
-exit(0)
+		# Wish to get rid of mysterious blank lines in the output....
+		# if s[0] != "\n":
+		#	print("fire.data:", s)
+"""
 
 """
 # ********* SSE client to print messages from localhost:8484
