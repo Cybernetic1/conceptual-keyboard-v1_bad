@@ -87,36 +87,55 @@ print("Found last chat line:", lastChatLine.text)
 
 # Loop to record chat log:
 previous = ""
+fontElement = None
+sexColor = ""
 while True:
 	time.sleep(0.1)	# in seconds
 	with lock:
 		driver.switch_to_default_content()
 		driver.switch_to.frame("ma")
-		lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
-		# /html/body/div[7]/div[last()]/p/font
-		# /html/body/div[7]/div[9]/p/font/a/font
-		if "進入1k情色皇朝聊天室" in lastChatLine.text:
-			try:
-				fontElement = lastChatLine.find_element_by_xpath("./p/font/a/font")
-				sexColor = fontElement.get_attribute("color")
-			except NoSuchElementException:
-				sexColor = ""
-		else:
-			fontElement = None
-	if lastChatLine.text != previous:
-		# Chat window has new content, log to file:
-		print(lastChatLine.text)
-		# Alert if talk directly at me:
-		if "對 訪客_Cybernetic1" in lastChatLine.text:
-			playsound("dreamland-talk-to-me.wav")
-		# Alert if new comer joins chat:
-		if fontElement:
-			#print("********* New comer joined")
-			#print("fondElement =", fontElement)
-			print("sexColor =", sexColor)
-			if sexColor == "#FF88FF":
-				playsound("dreamland-new-joiner.wav")
-		previous = lastChatLine.text
+		# lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
+		# Finding the last() element is faulty;
+		# Should find the last(N) instead.
+		lastLines = driver.find_elements_by_xpath("/html/body/div[7]/div[position()>=last()-5]")
+		newLines = []
+		for i, line in enumerate(reversed(lastLines)):
+			if line.text == previous:
+				break
+			if len(line.text.strip()) == 0:
+				break
+			# We need PREPEND here:
+			newLines = [line] + newLines
+			# print("****", i, line.text)
+		# This fixes the problem of wrong order of lines:
+		for line in newLines:
+			# /html/body/div[7]/div[last()]/p/font
+			# /html/body/div[7]/div[9]/p/font/a/font
+			if "進入1k情色皇朝聊天室" in line.text:
+				try:
+					fontElement = line.find_element_by_xpath("./p/font/a/font")
+					sexColor = fontElement.get_attribute("color")
+				except NoSuchElementException:
+					sexColor = ""
+			else:
+				fontElement = None
+				sexColor = None
+			# Alert if talk directly at me:
+			if "對 訪客_Cybernetic1" in line.text:
+				playsound("dreamland-talk-to-me.wav")
+			# Alert if new comer joins chat:
+			if fontElement:
+				#print("********* New comer joined")
+				#print("fondElement =", fontElement)
+				if sexColor == "#FF88FF":
+					print("【女】", end='')
+					playsound("dreamland-new-joiner.wav")
+				else:
+					print("【男】", end='')
+			# Chat window has new content, log to file:
+			print(line.text)
+			if len(line.text.strip()) > 0:
+				previous = line.text
 
 driver.close()
 exit(0)
