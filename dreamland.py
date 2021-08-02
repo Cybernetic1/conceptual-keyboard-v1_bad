@@ -4,6 +4,7 @@
 #	pip3 install sseclient
 #	download geckodriver linux64, untar
 #	move binary to /usr/local/bin/
+#	pip3 install playsound
 # Now you're ready to enjoy this program.
 
 #encoding: utf-8
@@ -20,6 +21,7 @@ lock = threading.Lock()
 
 import time
 from playsound import playsound
+from datetime import date
 
 eventStream = SSEClient('http://localhost:8484/dreamstream',
 	headers={'Content-type': 'text/plain; charset=utf-8'})
@@ -36,7 +38,7 @@ driver.find_element_by_xpath('//*[@id="mlogin"]/form/div/span').click()
 print("Entered Dreamland")
 
 time.sleep(6)	# in seconds
-print("Wait for frame exited")
+print("Wait for frame finished")
 
 #driver.get("http://ip131.ek21.com/type_area?roomid=oaca_1&cserial=26MH_TK_CXKd")
 #print("Got sub-URL")
@@ -53,6 +55,11 @@ inbox = driver.find_element_by_name("says_temp")
 sendbutt = driver.find_element_by_xpath("//input[@value='送出']");
 print("Acquired buttons")
 
+# Log file, name format:  log-name.dd-mm-yyyy(hh:mm).txt
+timestamp = date.today().strftime("%d/%m/%Y(%H:%M)")
+log_file = open("log-name." + timestamp + ".txt", "a")
+print("Log file opened")
+
 def consume():
 	print("Event handling thread started...")
 	for msg in eventStream:
@@ -62,7 +69,9 @@ def consume():
 
 def callback(s):
 	global inbox, sendbutt
-	print("fire.data:", s)
+	print(">>", s)
+	log_file.write(">> " + s + '\n')
+	log_file.flush()
 	with lock:
 		driver.switch_to_default_content()
 		driver.switch_to.frame("ta")
@@ -76,7 +85,7 @@ driver.switch_to_default_content()
 driver.switch_to.frame("ma")
 print("Switched to frame 'ma'")
 lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
-print("Testing: last chat line:", lastChatLine.text, end="\n\n")
+print("Testing: last chat line:", lastChatLine.text)
 
 # html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
 # this is the <div> element containing the rows:
@@ -123,6 +132,7 @@ while True:
 			# Alert if talk directly at me:
 			if "對 訪客_Cybernetic1" in line.text:
 				playsound("dreamland-talk-to-me.wav")
+				log_file.write(line.text + '\n')
 			# Alert if new comer joins chat:
 			if fontElement:
 				#print("********* New comer joined")
@@ -134,9 +144,10 @@ while True:
 					print("【男】", end='')
 			# Chat window has new content, log to file:
 			print(line.text)
-			if len(line.text.strip()) > 0:
-				previous = line.text
+			# if len(line.text.strip()) > 0:
+			previous = line.text
 
+log_file.close()
 driver.close()
 exit(0)
 
