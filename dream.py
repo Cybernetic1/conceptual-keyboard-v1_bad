@@ -13,7 +13,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, UnexpectedAlertPresentException
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from sseclient import SSEClient
 import threading
@@ -26,8 +27,12 @@ from datetime import date
 eventStream = SSEClient('http://localhost:8484/dreamstream',
 	headers={'Content-type': 'text/plain; charset=utf-8'})
 
+# This handles alerts such as "請勿重覆發言!":
+caps = DesiredCapabilities.FIREFOX
+caps["unexpectedAlertBehaviour"] = "accept"
+
 # driver = webdriver.Chrome('/home/yky/Downloads/chromedriver')
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(desired_capabilities=caps)
 
 driver.get('http://ip131.ek21.com/oaca_1/?ot=1')
 
@@ -56,9 +61,9 @@ sendbutt = driver.find_element_by_xpath("//input[@value='送出']");
 print("Acquired buttons")
 
 # Log file, name format:  log-name.dd-mm-yyyy(hh:mm).txt
-timestamp = date.today().strftime("%d/%m/%Y(%H:%M)")
-log_file = open("log-name." + timestamp + ".txt", "a")
-print("Log file opened")
+timestamp = date.today().strftime("%d-%m-%Y(%H:%M)")
+log_file = open("log-name." + timestamp + ".txt", "a+")
+print("Log file opened:", timestamp)
 
 def consume():
 	print("Event handling thread started...")
@@ -72,11 +77,16 @@ def callback(s):
 	print(">>", s)
 	log_file.write(">> " + s + '\n')
 	log_file.flush()
-	with lock:
-		driver.switch_to_default_content()
-		driver.switch_to.frame("ta")
-		inbox.send_keys(s)
-		sendbutt.click()
+	while True:
+		with lock:
+			try:
+				driver.switch_to_default_content()
+				driver.switch_to.frame("ta")
+				inbox.send_keys(s)
+				sendbutt.click()
+				break
+			except NoSuchElementException:
+				continue
 
 t = threading.Thread(target=consume)
 t.start()
@@ -100,52 +110,61 @@ fontElement = None
 sexColor = ""
 while True:
 	time.sleep(0.1)	# in seconds
-	with lock:
-		driver.switch_to_default_content()
-		driver.switch_to.frame("ma")
-		# lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
-		# Finding the last() element is faulty;
-		# Should find the last(N) instead.
-		lastLines = driver.find_elements_by_xpath("/html/body/div[7]/div[position()>=last()-5]")
-		newLines = []
-		for i, line in enumerate(reversed(lastLines)):
-			if line.text == previous:
-				break
-			if len(line.text.strip()) == 0:
-				break
-			# We need PREPEND here:
-			newLines = [line] + newLines
-			# print("****", i, line.text)
-		# This fixes the problem of wrong order of lines:
-		for line in newLines:
-			# /html/body/div[7]/div[last()]/p/font
-			# /html/body/div[7]/div[9]/p/font/a/font
-			if "進入1k情色皇朝聊天室" in line.text:
-				try:
-					fontElement = line.find_element_by_xpath("./p/font/a/font")
-					sexColor = fontElement.get_attribute("color")
-				except NoSuchElementException:
-					sexColor = ""
-			else:
-				fontElement = None
-				sexColor = None
-			# Alert if talk directly at me:
-			if "對 訪客_Cybernetic1" in line.text:
-				playsound("dreamland-talk-to-me.wav")
-				log_file.write(line.text + '\n')
-			# Alert if new comer joins chat:
-			if fontElement:
-				#print("********* New comer joined")
-				#print("fondElement =", fontElement)
-				if sexColor == "#FF88FF":
-					print("【女】", end='')
-					playsound("dreamland-new-joiner.wav")
+	with lock:		# This lock is against python threads
+		try:
+			driver.switch_to_default_content()
+			driver.switch_to.frame("ma")
+			# lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
+			# Finding the last() element is faulty;
+			# Should find the last(N) instead.
+			lastLines = driver.find_elements_by_xpath("/html/body/div[7]/div[position()>=last()-5]")
+			newLines = []
+			for i, line in enumerate(reversed(lastLines)):
+				# sometimes line is None due to alert message popping out in the midst of execution
+				if line is None or line.text == previous:
+					break
+				if len(line.text.strip()) == 0:
+					break
+				# We need PREPEND here:
+				newLines = [line] + newLines
+				# print("****", i, line.text)
+			# This fixes the problem of wrong order of lines:
+			for line in newLines:
+				# /html/body/div[7]/div[last()]/p/font
+				# /html/body/div[7]/div[9]/p/font/a/font
+				if "進入1k情色皇朝聊天室" in line.text:
+					try:
+						fontElement = line.find_element_by_xpath("./p/font/a/font")
+						sexColor = fontElement.get_attribute("color")
+					except NoSuchElementException:
+						sexColor = ""
 				else:
-					print("【男】", end='')
-			# Chat window has new content, log to file:
-			print(line.text)
-			# if len(line.text.strip()) > 0:
-			previous = line.text
+					fontElement = None
+					sexColor = None
+				# Alert if talk directly at me:
+				if "對 訪客_Cybernetic1" in line.text:
+					playsound("dreamland-talk-to-me.wav")
+					log_file.write(line.text + '\n')
+				# Alert if new comer joins chat:
+				if fontElement:
+					#print("********* New comer joined")
+					#print("fondElement =", fontElement)
+					if sexColor == "#FF88FF":
+						print("【女】", end='')
+						playsound("dreamland-new-joiner.wav")
+					else:
+						print("【男】", end='')
+				# Chat window has new content, log to file:
+				print(line.text)
+				# if len(line.text.strip()) > 0:
+				previous = line.text
+		except (UnexpectedAlertPresentException,
+				WebDriverException):
+			# obj = driver.switch_to.alert
+			# obj.accept()
+			time.sleep(2)
+			print("Alert skipped")
+			continue
 
 log_file.close()
 driver.close()
