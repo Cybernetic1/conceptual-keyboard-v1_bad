@@ -80,7 +80,7 @@ def callback(s):
 	while True:
 		with lock:
 			try:
-				driver.switch_to_default_content()
+				driver.switch_to.default_content()
 				driver.switch_to.frame("ta")
 				inbox.send_keys(s)
 				sendbutt.click()
@@ -112,7 +112,7 @@ while True:
 	time.sleep(0.1)	# in seconds
 	with lock:		# This lock is against python threads
 		try:
-			driver.switch_to_default_content()
+			driver.switch_to.default_content()
 			driver.switch_to.frame("ma")
 			# lastChatLine = driver.find_element_by_xpath("/html/body/div[7]/div[last()]")
 			# Finding the last() element is faulty;
