@@ -1,10 +1,10 @@
 # Installation
 # ============
-#	pip3 install selenium
-#	pip3 install sseclient
+#	pip install selenium		# make sure pip is for python 3.6
+#	pip install sseclient
 #	download geckodriver linux64, untar
 #	move binary to /usr/local/bin/
-#	pip3 install playsound
+#	pip install playsound
 # Now you're ready to enjoy this program.
 
 #encoding: utf-8
@@ -158,12 +158,15 @@ while True:
 				print(line.text)
 				# if len(line.text.strip()) > 0:
 				previous = line.text
-		except (UnexpectedAlertPresentException,
-				WebDriverException):
-			# obj = driver.switch_to.alert
-			# obj.accept()
+		except UnexpectedAlertPresentException:
+			alert = driver.switch_to.alert
+			alert.accept()
+			print("Alert skipped:", alert.text)
 			time.sleep(2)
-			print("Alert skipped")
+			continue
+		except WebDriverException:
+			time.sleep(2)
+			print("Some exception caught")
 			continue
 
 log_file.close()
