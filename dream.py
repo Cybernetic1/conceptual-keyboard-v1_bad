@@ -159,12 +159,14 @@ while True:
 				# if len(line.text.strip()) > 0:
 				previous = line.text
 		except UnexpectedAlertPresentException:
-			alert = driver.switch_to.alert
-			alert.accept()
-			print("Alert skipped:", alert.text)
+			# **** We cannot use unexpectedAlertBehaviour = "accept" and process the alert too
+			# alert = driver.switch_to.alert
+			# alert.accept()
+			# print("Alert skipped:", alert.text)
+			print("Alert skipped, message unknown")
 			time.sleep(2)
 			continue
-		except WebDriverException:
+		except (WebDriverException, NoAlertPresentException):
 			time.sleep(2)
 			print("Some exception caught")
 			continue
