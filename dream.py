@@ -13,7 +13,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import WebDriverException, NoSuchElementException, UnexpectedAlertPresentException
+from selenium.common.exceptions import WebDriverException, NoSuchElementException, UnexpectedAlertPresentException,NoAlertPresentException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from sseclient import SSEClient
@@ -22,7 +22,7 @@ lock = threading.Lock()
 
 import time
 from playsound import playsound
-from datetime import date
+from datetime import datetime
 
 eventStream = SSEClient('http://localhost:8484/dreamstream',
 	headers={'Content-type': 'text/plain; charset=utf-8'})
@@ -61,7 +61,7 @@ sendbutt = driver.find_element_by_xpath("//input[@value='送出']");
 print("Acquired buttons")
 
 # Log file, name format:  log-name.dd-mm-yyyy(hh:mm).txt
-timestamp = date.today().strftime("%d-%m-%Y(%H:%M)")
+timestamp = datetime.now().strftime("%d-%m-%Y(%H:%M)")
 log_file = open("log-name." + timestamp + ".txt", "a+")
 print("Log file opened:", timestamp)
 
