@@ -62,7 +62,7 @@ print("Acquired buttons")
 
 # Log file, name format:  log-name.dd-mm-yyyy(hh:mm).txt
 timestamp = datetime.now().strftime("%d-%m-%Y(%H:%M)")
-log_file = open("log-name." + timestamp + ".txt", "a+")
+log_file = open("logs/log-name." + timestamp + ".txt", "a+")
 print("Log file opened:", timestamp)
 
 def consume():
