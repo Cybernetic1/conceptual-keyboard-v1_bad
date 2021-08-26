@@ -62,7 +62,7 @@ print("Acquired buttons")
 
 # Log file, name format:  log-name.dd-mm-yyyy(hh:mm).txt
 timestamp = datetime.now().strftime("%d-%m-%Y(%H:%M)")
-log_file = open("logs/log-name." + timestamp + ".txt", "a+")
+log_file = open("logs/log-name.dream." + timestamp + ".txt", "a+")
 print("Log file opened:", timestamp)
 
 def consume():
@@ -154,7 +154,7 @@ while True:
 						playsound("dreamland-new-joiner.wav")
 					else:
 						print("【男】", end='')
-				# Chat window has new content, log to file:
+				# Chat window has new content, display in console:
 				print(line.text)
 				# if len(line.text.strip()) > 0:
 				previous = line.text
