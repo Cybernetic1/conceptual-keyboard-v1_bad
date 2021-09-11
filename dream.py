@@ -24,6 +24,10 @@ import time
 from playsound import playsound
 from datetime import datetime
 
+my_nick = "Cybernetic1"
+print("Default nick =", my_nick)
+my_nick = input("Change nick to: ") or my_nick
+
 eventStream = SSEClient('http://localhost:8484/dreamstream',
 	headers={'Content-type': 'text/plain; charset=utf-8'})
 
@@ -36,7 +40,7 @@ driver = webdriver.Firefox(desired_capabilities=caps)
 
 driver.get('http://ip131.ek21.com/oaca_1/?ot=1')
 
-WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mlogin"]/form/ul/li[1]/input'))).send_keys("Cybernetic1")
+WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mlogin"]/form/ul/li[1]/input'))).send_keys(my_nick)
 
 driver.find_element_by_xpath('//*[@id="mlogin"]/form/div/span').click()
 
@@ -86,6 +90,7 @@ def callback(s):
 				sendbutt.click()
 				break
 			except NoSuchElementException:
+				time.sleep(1)
 				continue
 
 t = threading.Thread(target=consume)
@@ -109,7 +114,7 @@ previous = ""
 fontElement = None
 sexColor = ""
 while True:
-	time.sleep(0.1)	# in seconds
+	time.sleep(0.5)	# in seconds
 	with lock:		# This lock is against python threads
 		try:
 			driver.switch_to.default_content()
@@ -142,7 +147,7 @@ while True:
 					fontElement = None
 					sexColor = None
 				# Alert if talk directly at me:
-				if "對 訪客_Cybernetic1" in line.text:
+				if ("對 訪客_" + my_nick) in line.text:
 					playsound("dreamland-talk-to-me.wav")
 					log_file.write(line.text + '\n')
 				# Alert if new comer joins chat:
