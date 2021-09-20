@@ -78,9 +78,9 @@ def consume():
 
 def callback(s):
 	global inbox, sendbutt
-	print(">>", s)
-	log_file.write(">> " + s + '\n')
-	log_file.flush()
+	print("\x1b[30;45m>>", s, end="\x1b[0m\n")
+	#log_file.write(">> " + s + '\n')
+	#og_file.flush()
 	while True:
 		with lock:
 			try:
@@ -110,9 +110,10 @@ print("Testing: last chat line:", lastChatLine.text)
 # if ((chatWin != null) && (lastIndex > lastIp131Index)) {
 
 # Loop to record chat log:
-previous = ""
+previous = ''
 fontElement = None
-sexColor = ""
+sexColor = ''
+prefix = ''
 while True:
 	time.sleep(0.5)	# in seconds
 	with lock:		# This lock is against python threads
@@ -150,17 +151,25 @@ while True:
 				if ("對 訪客_" + my_nick) in line.text:
 					playsound("dreamland-talk-to-me.wav")
 					log_file.write(line.text + '\n')
+					log_file.flush()
+					prefix = '\x1b[36m'
+				# Self talk to someone:
+				if ("訪客_" + my_nick + " 只對") in line.text:
+					log_file.write(line.text + '\n')
+					log_file.flush()
+					prefix = '\x1b[35m'
 				# Alert if new comer joins chat:
 				if fontElement:
 					#print("********* New comer joined")
 					#print("fondElement =", fontElement)
 					if sexColor == "#FF88FF":
-						print("【女】", end='')
 						playsound("dreamland-new-joiner.wav")
+						prefix = '\x1b[32m【女】'
 					else:
-						print("【男】", end='')
+						prefix = '【男】'
 				# Chat window has new content, display in console:
-				print(line.text)
+				print(prefix + line.text, end='\x1b[0m\n')
+				prefix = ''
 				# if len(line.text.strip()) > 0:
 				previous = line.text
 		except UnexpectedAlertPresentException:
@@ -168,12 +177,12 @@ while True:
 			# alert = driver.switch_to.alert
 			# alert.accept()
 			# print("Alert skipped:", alert.text)
-			print("Alert skipped, message unknown")
+			print("\x1b[31mAlert skipped, message unknown\x1b[0m")
 			time.sleep(2)
 			continue
 		except (WebDriverException, NoAlertPresentException):
 			time.sleep(2)
-			print("Some exception caught")
+			print("\x1b[31mSome exception caught\x1b[0m")
 			continue
 
 log_file.close()
