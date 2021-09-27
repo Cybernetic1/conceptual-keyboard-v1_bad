@@ -1,5 +1,6 @@
 // var app = chrome.runtime.getBackgroundPage();
 
+// **** These commands are processed in background.js ****
 let myPort = browser.runtime.connect({name:"PORT-popup"});
 
 // test sound
@@ -30,7 +31,7 @@ function onClickButt3() {
 
 // Reset event stream
 function onClickButt4() {
-	myPort.postMessage({resetEventStream: "?"});
+	myPort.postMessage({showHistory: "?"});
 	// browser.runtime.sendMessage({resetEventStream: "?"});
 	setTimeout(function() {
 		window.close();
@@ -56,6 +57,15 @@ function onClickButt6() {
 		}, 500);
 	}
 
+// Reset event stream (?) -- seems not needed anymore
+function onClickButt7() {
+	myPort.postMessage({resetEventStream: "?"});
+	// browser.runtime.sendMessage({resetEventStream: "?"});
+	setTimeout(function() {
+		window.close();
+		}, 500);
+	}
+
 // select nickname
 function onSelectNickname() {
 	myPort.postMessage({alert: "boing"});
@@ -74,5 +84,6 @@ document.getElementById('butt3').addEventListener('click', onClickButt3);
 document.getElementById('butt4').addEventListener('click', onClickButt4);
 document.getElementById('butt5').addEventListener('click', onClickButt5);
 document.getElementById('butt6').addEventListener('click', onClickButt6);
+document.getElementById('butt7').addEventListener('click', onClickButt6);
 
 document.getElementById('Nickname').addEventListener('change', onSelectNickname);

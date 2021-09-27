@@ -109,7 +109,7 @@ function backListener(request) {
 
 	// Request to play an alert sound (must be done thru background page)
 	if (request.alert != null) {
-
+		console.log("Boing!!")
 		var audio = new Audio(request.alert + ".ogg");
 		audio.play();
 
@@ -122,12 +122,13 @@ function backListener(request) {
 
 	// save log:
 	if (request.saveLog != null) {
+		console.log("!log + filename command issued");
 
 		browser.tabs.query({
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			port_ip131.postMessage({sendtext: "!log " + request.saveLog});
+			// port_ip131.postMessage({sendtext: "!log " + request.saveLog});
 			port_roomHK.postMessage({sendtext: "!log " + request.saveLog});
 			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + request.saveLog });
 		});
