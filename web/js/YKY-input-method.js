@@ -16,19 +16,6 @@ function cantonize(str) {
 	});
 }
 
-// Key pressed on White-Box
-white_box.onkeypress = function(e) {
-	if (!e)
-		e = window.event;
-
-	var keyCode = e.keyCode || e.which;
-
-	if (keyCode === 13) {						// enter key = 13
-		quicksend();
-		return false;
-	}
-};
-
 var punctRE = /[\u2000-\u206F\u2E00-\u2E7F\u3000-\u303F\uFF00-\uFFFF\\'!"#$%&()*+,\-.\/:;<=>?@\[\]^_`{|}~]/g;
 var spaceRE = /\s+/g;
 var oldWhite = '';		// Previous white-box content

@@ -1,5 +1,24 @@
 // ******************************* Menu buttons ********************************
 
+// * Already defined:
+// const white_box = document.getElementById("white-box");
+
+// Key pressed on White-Box
+white_box.onkeypress = function(e) {
+	if (!e)
+		e = window.event;
+
+	var keyCode = e.keyCode || e.which;
+
+	// console.log("Ctrl=", e.ctrlKey);
+	// console.log("keyCode=", keyCode);
+	if (keyCode === 13 || keyCode === 10) {		// enter key = 13 or 10
+		// Don't know why but enter = 13, ctrl + enter = 10
+		quicksend(e.ctrlKey);
+		return false;
+	}
+};
+
 function send2Chat(str) {
 	// **** Now this is to Chatroom.HK only
 	var str2 = str.replace(/\//g, "|");
@@ -15,8 +34,25 @@ function send2Chat(str) {
 	});
 }
 
+function send2Dream(str) {
+	// **** Send to 寻梦园 only
+	if (str == last_dream)
+		str = "..." + str;
+	last_dream = str;
+	
+	// send to dreamland.py
+	$.ajax({
+		method: "POST",
+		url: "./dreamland",
+		data: str,
+		success: function(resp) {
+		// nothing
+		}
+	});
+}
+
 // ************* This is used when 'enter' is pressed or '↵' button is clicked:
-function quicksend() {
+function quicksend(dream = false) {
 	str = document.getElementById("white-box").value;
 
 	// **** If input ends with 'gg' ---> go to Google search
@@ -68,7 +104,10 @@ function quicksend() {
 	}
 	*****/
 
-	send2Chat(str);
+	if (dream)
+		send2Dream(str);
+	else
+		send2Chat(str);
 
 	// clear input box
 	document.getElementById("white-box").value = "";
@@ -201,28 +240,7 @@ butt3.addEventListener("click", function() {
 
 // Send message to DreamLand
 var last_dream = ""
-document.getElementById("to-dream").addEventListener("click", function() {
-	str = document.getElementById("white-box").value;
-	str = simplify(str);
-	str = replaceYKY(str);
-	recordHistory(str);
-	if (str == last_dream)
-		str = "..." + str;
-	last_dream = str;
-
-	// send to dreamland.py
-	$.ajax({
-		method: "POST",
-		url: "./dreamland",
-		data: str,
-		success: function(resp) {
-		// nothing
-		}
-	});
-
-	// clear input box
-	document.getElementById("white-box").value = "";
-}, false);
+document.getElementById("to-dream").addEventListener("click", quicksend.bind(null, true), false);
 
 // ==== For dealing with Drop-down menu ====
 
