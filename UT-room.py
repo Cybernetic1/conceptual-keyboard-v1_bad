@@ -5,6 +5,7 @@
 #	download geckodriver linux64, untar
 #	move binary to /usr/local/bin/
 #	pip install playsound
+#	pip install pyperclip
 # Now you're ready to enjoy this program.
 
 #encoding: utf-8
@@ -24,6 +25,21 @@ import time
 from playsound import playsound
 from datetime import datetime
 import pyperclip	# access clipboard
+from bs4 import BeautifulSoup
+
+import signal
+print("Press Ctrl-C to pause and execute your own Python code\n")
+command = None
+
+def ctrl_C_handler(sig, frame):
+	# global model_name
+	global command
+	print("\n **** program paused ****")
+	print("Enter your code (! to exit)")
+	command = input(">>> ")
+	# Other commands will be executed in the main loop, see below
+
+signal.signal(signal.SIGINT, ctrl_C_handler)
 
 my_nick = "Cybernetic1"
 print("Default nick =", my_nick)
@@ -37,7 +53,9 @@ caps = DesiredCapabilities.FIREFOX
 caps["unexpectedAlertBehaviour"] = "accept"
 
 # driver = webdriver.Chrome('/home/yky/Downloads/chromedriver')
-driver = webdriver.Firefox(desired_capabilities=caps)
+# driver = webdriver.Firefox(desired_capabilities=caps)
+# * Need to use "Remote" here so that Ctrl-C will not close the driver
+driver = webdriver.Remote("http://127.0.0.1:4444", desired_capabilities=caps)
 
 print("Open URL: UT网际空间 rooms list")
 driver.get('http://chat.f1.com.tw/?p=chat_sort_show')
@@ -52,7 +70,7 @@ driver.find_element_by_xpath('/html/body/table[6]/tbody/tr/td/table/tbody/tr[2]/
 
 print("Logged into UT网际空间 聊天二房")
 
-time.sleep(2)	# in seconds
+time.sleep(5)	# in seconds
 print("Wait for loading finished")
 
 parent_h = driver.current_window_handle
@@ -121,28 +139,12 @@ def callback(s):
 t = threading.Thread(target=consume)
 t.start()
 
-import signal
-print("Press Ctrl-C to pause and execute your own Python code\n")
-command = None
-
-def ctrl_C_handler(sig, frame):
-	# global model_name
-	global command
-	print("\n **** program paused ****")
-	print("Enter your code (! to exit)")
-	command = input(">>> ")
-	if command == '!':
-		exit(0)
-	# Other commands will be executed in the main loop, see below
-
-signal.signal(signal.SIGINT, ctrl_C_handler)
-
 driver.switch_to_default_content()
 driver.switch_to.frame("m")
 print("Switched to frame 'm'")
 
-stuff = driver.find_element_by_xpath("/html/body/p")
-print("*** Test: <p>.text =", stuff.text)
+stuff = driver.find_element_by_xpath("/html/body/p").get_attribute("innerHTML")
+print("*** Test: <p>.text =", stuff)
 
 # inp = 'rows = driver.find_elements_by_xpath("/html/body/p/table")'
 # while True:
@@ -159,25 +161,45 @@ prefix = ''
 while True:
 	time.sleep(0.5)	# in seconds
 
-	if command:
-	try:
-		exec(command)
-	except Exception as e:
-		print("Exception:")
-		print(e)
-	finally:
-		command = None
+	if command:		# **** execute commands from ctrl-C
+		if command == '!':
+			break
+		try:
+			exec(command)
+		except Exception as e:
+			print("Exception:")
+			print(e)
+		finally:
+			command = None
 
 	with lock:		# This lock is against python threads
 		try:
 			driver.switch_to.default_content()
 			driver.switch_to.frame("m")
-			# Element "p" contains <table> rows
-			rows = driver.find_elements_by_xpath("/html/body/p/table")
+			# Element "p" may contain various tags such as: <table> <a> <font> <br>
+			html = driver.find_element_by_xpath("/html/body/p").get_attribute("innerHTML")
+			soup = BeautifulSoup(html, 'lxml').find('body')
+			if soup == None:
+				continue
+			# body = soup.body
+			# break HTML block into lines
+			rows = []
+			line = ""
+			for element in soup.childGenerator():
+				if element.name == "table":
+					rows.append(element.get_text())
+				elif element.name == "font":
+					line += element.get_text().strip()
+				elif element.name == "a":
+					line += element.get_text().strip()
+				elif element.name == None:
+					line += element.string.strip()
+				elif element.name == "br":
+					rows.append(line)
+					line = ""
 			# find the last line in rows[] starting from the end
 			newRows = []
-			for row in reversed(rows):
-				line = row.text
+			for line in reversed(rows):
 				# print("****", line)
 				# sometimes line is None due to alert message popping out in the midst of execution
 				if line == previous:
@@ -187,40 +209,23 @@ while True:
 				if len(line.strip()) == 0:
 					continue
 				# We need PREPEND here:
-				newRows = [row] + newRows
+				newRows = [line] + newRows
 				# print("****", i, line)
 			# This fixes the problem of wrong order of lines:
-			for row in newRows:
-				line = row.text
+			for line in newRows:
 				if "我們有位朋友" in line:
-					try:
-						fontElement = row.find_element_by_xpath("./font")
-						sexColor = fontElement.get_attribute("color")
-					except NoSuchElementException:
-						sexColor = ""
-				else:
-					fontElement = None
-					sexColor = None
+					continue
 				# Alert if talk directly at me:
-				if ("給 [" + my_nick + "] 的密語") in line:
+				if ("給[" + my_nick + "]的密語") in line:
 					playsound("dreamland-talk-to-me.wav")
 					log_file.write(line + '\n')
 					log_file.flush()
 					prefix = '\x1b[36m'
 				# Self talk to someone:
-				if ("] 的密語 " + my_nick + " 說：") in line:
+				if ("]的密語" + my_nick + "說：") in line:
 					log_file.write(line + '\n')
 					log_file.flush()
 					prefix = '\x1b[35m'
-				# Alert if new comer joins chat:
-				if fontElement:
-					#print("********* New comer joined")
-					#print("fondElement =", fontElement)
-					if sexColor == "#FF88FF":
-						playsound("dreamland-new-joiner.wav")
-						prefix = '\x1b[32m【女】'
-					else:
-						prefix = '【男】'
 				# Chat window has new content, display in console:
 				print(prefix + line, end='\x1b[0m\n')
 				prefix = ''
@@ -240,5 +245,5 @@ while True:
 			continue
 
 log_file.close()
-driver.close()
+driver.quit()
 exit(0)
