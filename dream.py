@@ -38,13 +38,13 @@ caps["unexpectedAlertBehaviour"] = "accept"
 # driver = webdriver.Chrome('/home/yky/Downloads/chromedriver')
 driver = webdriver.Firefox(desired_capabilities=caps)
 
+print("Web site = 寻梦园 情色聊天室")
 driver.get('http://ip131.ek21.com/oaca_1/?ot=1')
 
 WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="mlogin"]/form/ul/li[1]/input'))).send_keys(my_nick)
 
 driver.find_element_by_xpath('//*[@id="mlogin"]/form/div/span').click()
-
-print("Entered Dreamland")
+print("Logged into Dreamland")
 
 time.sleep(6)	# in seconds
 print("Wait for frame finished")
@@ -130,7 +130,7 @@ while True:
 				if line is None or line.text == previous:
 					break
 				if len(line.text.strip()) == 0:
-					break
+					continue
 				# We need PREPEND here:
 				newLines = [line] + newLines
 				# print("****", i, line.text)
