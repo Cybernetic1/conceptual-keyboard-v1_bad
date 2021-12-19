@@ -187,7 +187,7 @@ while True:
 			line = ""
 			for element in soup.childGenerator():
 				if element.name == "table":
-					rows.append(element.get_text())
+					rows.append(element.get_text().replace('\n', ''))
 				elif element.name == "font":
 					line += element.get_text().strip()
 				elif element.name == "a":
@@ -216,7 +216,7 @@ while True:
 				if "我們有位朋友" in line:
 					continue
 				# Alert if talk directly at me:
-				if ("給[" + my_nick + "]的密語") in line:
+				if ("給 [" + my_nick + "]  的密語") in line:
 					playsound("dreamland-talk-to-me.wav")
 					log_file.write(line + '\n')
 					log_file.flush()
