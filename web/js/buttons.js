@@ -116,7 +116,7 @@ function quicksend(dream = false) {
 	audio.play();
 }
 
-document.getElementById("send-white").addEventListener("click", quicksend, false);
+document.getElementById("send-white").addEventListener("click", quicksend.bind(null, false), false);
 
 document.getElementById("quick-simplify").addEventListener("click", function() {
 	var whiteBox = document.getElementById("white-box");
