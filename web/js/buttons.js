@@ -1,3 +1,5 @@
+// TODO: 'gg' record in history also
+
 // ******************************* Menu buttons ********************************
 
 // * Already defined:
@@ -337,15 +339,17 @@ document.getElementById("do-Mandarin").addEventListener("click", function() {
 document.getElementById("do-Cantonese").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		// Copy to Pink Box
-		document.getElementById("pink-box").value = str;
+		// document.getElementById("pink-box").value = str;
 		// cantonize(str);
 		// Pronunciate it
 		$.ajax({
 			method: "POST",
-			url: "/speakCantonese/",
+			url: "/speakCantonese",
+			contentType: "application/json; charset=utf-8",
+			processData: false,
 			data: str,
 			success: function(resp) {
-				// nothing
+				console.log("Mandarin: " + str);
 				}
 		});
 }, false);

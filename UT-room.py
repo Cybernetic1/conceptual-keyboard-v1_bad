@@ -52,6 +52,45 @@ eventStream = SSEClient('http://localhost:8484/dreamstream',
 caps = DesiredCapabilities.FIREFOX
 caps["unexpectedAlertBehaviour"] = "accept"
 
+# options = webdriver.FirefoxOptions()
+# options.add_argument('log-level=3')
+# options.log.level = 3
+
+import logging
+print("The following modules are logged:")
+for key in logging.Logger.manager.loggerDict:
+    print(key)
+
+# Set the threshold for selenium to WARNING
+# from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
+# seleniumLogger.setLevel(logging.WARNING)
+# Set the threshold for urllib3 to WARNING
+# from urllib3.connectionpool import log as urllibLogger
+# urllibLogger.setLevel(logging.WARNING)
+
+# logging.getLogger('urllib3.util.retry').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.util').setLevel(logging.FATAL)
+# logging.getLogger('urllib3').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.connection').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.response').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.connectionpool').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.poolmanager').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver.remote.utils').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver.remote').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver').setLevel(logging.FATAL)
+# logging.getLogger('selenium').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver.remote.remote_connection').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver.firefox.extension_connection').setLevel(logging.FATAL)
+# logging.getLogger('selenium.webdriver.firefox').setLevel(logging.FATAL)
+# logging.getLogger('pyasn1').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.contrib.pyopenssl').setLevel(logging.FATAL)
+# logging.getLogger('urllib3.contrib').setLevel(logging.FATAL)
+# logging.getLogger('requests').setLevel(logging.FATAL)
+# logging.getLogger('playsound').setLevel(logging.FATAL)
+
+# from selenium.webdriver.remote.remote_connection import LOGGER as seleniumLogger
+# seleniumLogger.setLevel(logging.FATAL)
+
 # driver = webdriver.Chrome('/home/yky/Downloads/chromedriver')
 # driver = webdriver.Firefox(desired_capabilities=caps)
 # * Need to use "Remote" here so that Ctrl-C will not close the driver
