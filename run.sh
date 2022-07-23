@@ -17,13 +17,13 @@ Conkey_PID=$!
 echo $Conkey_PID > conkey_PID.txt
 sleep 1.5
 ##### start chrome browser
-# vivaldi --app=http://localhost:8484/index.html
-chromium-browser --app=http://localhost:8484/Cantonese-input.html
-# if google-chrome --version >/dev/null; then
+if chromium-browser --version >/dev/null; then
+	chromium-browser --app=http://localhost:8484/Cantonese-input.html
+else
     # google-chrome --new-window http://localhost:8484/index.html
-# else
-#    chromium-browser --app=http://localhost:8484/index.html
-# fi
+	# vivaldi --app=http://localhost:8484/index.html
+    browser --app=http://localhost:8484/Cantonese-input.html
+fi
 sleep 2.5
 ##### set size and flags of Conkey broswer window
 wmctrl -r "iCant" -b remove,maximized_horz,maximized_vert
