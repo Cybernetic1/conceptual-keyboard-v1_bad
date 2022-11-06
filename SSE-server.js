@@ -48,20 +48,18 @@ async function startNeo4j() {
 startNeo4j();
 */
 
-var exec = require('child_process').exec;
-var cmd = "beep";
-exec(cmd, function(err, stdout, stderr) {});
-
 var http = require("http");
 var fs = require("fs");
 var url = require("url");
 var path = require("path");
 
-var sse_res = null;
+var sse_res = null;			// for SSE = Server-Side Events
 var sse_res2 = null;
 
 function reqHandler(req, res) {
 
+	// SSE handler:  this allows server to *respond* to events, as opposed to
+	// a plain server which can only be read from / written to.
 	if (req.headers.accept && req.headers.accept == 'text/event-stream') {
 		if (req.url == '/stream') {
 			res.writeHead(200, {
@@ -100,13 +98,11 @@ function reqHandler(req, res) {
 		return;
 	}
 
-	var fileName = "";
 	var interval;
 
-	if (req.url === "/")
+	var fileName = req.url;
+	if (fileName === "/")
 		fileName = "/index.html";
-	else
-		fileName = req.url;
 
 	// **** This is the route to send to firefox content script
 	if (fileName === "/fireFox") {
@@ -319,123 +315,36 @@ function reqHandler(req, res) {
 
 	fileName = "./web" + fileName;
 
-	if (fileName.endsWith(".html") || fileName.endsWith(".htm")
-		|| fileName.endsWith(".js")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						if (fileName.endsWith(".js"))
-							res.writeHead(200, {"Content-Type":"application/javascript"});
-						else
-							res.writeHead(200, {"Content-Type":"text/html"});
-						res.end(content, "utf-8");
-					}
-				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
+	fileTypes = {
+		".html" : ["text/html"				, "utf-8"],
+		".js"   : ["application/javascript" , "utf-8"],
+		".ogg"  : ["audio/ogg"				, "base64"],
+		".ico"  : ["image/x-icon"			, "base64"],
+		".jpg"  : ["image/jpg"				, "base64"],
+		".png"  : ["image/png"				, "base64"],
+		".gif"  : ["image/gif"				, "base64"],
+		};
 
-	if (fileName.endsWith(".ogg")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, 'base64', function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						res.writeHead(200, {"Content-Type":"audio/ogg"});
-						res.end(content, "base64");
+	for (var ext in fileTypes) {
+		if (fileName.endsWith(ext)) {
+			fs.exists(fileName, function(exists) {
+				if (exists) {
+					fs.readFile(fileName, fileTypes[ext][1], function(error, content) {
+						if (error) {
+							res.writeHead(500);
+							res.end();
+						} else {
+							res.writeHead(200, {"Content-Type": fileTypes[ext][0]});
+							res.end(content, fileTypes[ext][1]);
+							}
+						});
+				} else {
+					res.writeHead(404);
+					res.end();
 					}
 				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
-
-	if (fileName.endsWith(".ico")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, 'base64', function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						res.writeHead(200, {"Content-Type":"image/x-icon"});
-						res.end(content, "base64");
-					}
-				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
-
-	if (fileName.endsWith(".jpg")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, 'base64', function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						res.writeHead(200, {"Content-Type":"image/jpg"});
-						res.end(content, "base64");
-					}
-				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
-
-	if (fileName.endsWith(".png")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, 'base64', function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						res.writeHead(200, {"Content-Type":"image/png"});
-						res.end(content, "base64");
-					}
-				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
-
-	if (fileName.endsWith(".gif")) {
-		fs.exists(fileName, function(exists) {
-			if (exists) {
-				fs.readFile(fileName, 'base64', function(error, content) {
-					if (error) {
-						res.writeHead(500);
-						res.end();
-					} else {
-						res.writeHead(200, {"Content-Type":"image/gif"});
-						res.end(content, "base64");
-					}
-				});
-			} else {
-				res.writeHead(404);
-				res.end();
-			}
-		});
-		return; }
+			return; }
+		}
 
 	// All failed:
 	res.writeHead(404);
@@ -445,7 +354,11 @@ function reqHandler(req, res) {
 var s = http.createServer(reqHandler);
 s.listen(8484, "127.0.0.1");
 
-var s2 = http.createServer(reqHandler);
+var s2 = http.createServer(reqHandler);		// Seems redundant??
 s2.listen(8585, "127.0.0.1");
+
+// Beep sound to signify server is being started
+var shell = require('child_process').exec;
+shell("beep", function(err, stdout, stderr) {});
 
 console.log("Servers running at http://127.0.0.1:8484/ and :8585/");
