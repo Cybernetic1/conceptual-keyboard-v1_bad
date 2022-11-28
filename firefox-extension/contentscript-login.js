@@ -10,7 +10,7 @@ function handleResponse(message) {
 }
 
 function handleError(error) {
-	console.log(`LOGIN script rrror: ${error}`);
+	console.log(`LOGIN script error: ${error}`);
 }
 
 var sending = browser.runtime.sendMessage({askNickname: "who?"});
@@ -20,8 +20,13 @@ sending.then(handleResponse, handleError);
 setTimeout(function() {
 	// ****** 寻梦园, fill in password
 	if (document.URL.indexOf("ip131.ek21.com\/oaca") >= 0) {
+		var nick = sessionStorage.getItem("YKYNickName");
+		if (nick != null) {
+			console.log("Found nickname:", nick);
+			nickname = nick;
+			}
 		document.getElementsByClassName("nameform 12")[0].value = nickname;
-		document.getElementsByClassName("mainenter")[0].click();
+		// document.getElementsByClassName("mainenter")[0].click();
 	}
 
 	// ****** chatroom.HK, fill in password
