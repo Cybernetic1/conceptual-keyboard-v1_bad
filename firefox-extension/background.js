@@ -45,7 +45,7 @@ function connected(p) {
 	if (url.indexOf("ip131") >= 0)
 		port_ip131 = p;
 	else if ((url.indexOf("ip4") >= 0) ||
-			 (url.indexOf("ip69") >= 0)
+			 (url.indexOf("ip69") >= 0) ||
 			 (url.indexOf("ip203") >= 0))
 		port_ipX = p;
 	else if (url.indexOf("chatroom.hk") >= 0)
@@ -190,7 +190,7 @@ function backListener(request) {
 // End of message-listener
 }
 
-console.log("Background Script.js (29-Nov-2022) RE/LOADED");
+console.log("Background Script.js (05-Dec-2022) RE/LOADED");
 
 /*
 querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});

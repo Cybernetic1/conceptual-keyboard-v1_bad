@@ -15,6 +15,7 @@
 
 var roomHKSentText = "";
 var ip131SentText = "";
+var ipXSentText = "";
 
 var logName = "log.txt";					// Name of the log file, to be filled
 
@@ -179,8 +180,9 @@ myPort.onMessage.addListener(function(request) {
 			(document.URL.indexOf("ip69") >= 0) ||
 			(document.URL.indexOf("ip203") >= 0))
 			{
-			// (Skip some pleasantries for this room...)
-			console.log("Sending message...");
+			if (ipXSentText == str)	// DreamLand does not allow to send duplicate messages
+				str = "..." + str;
+			ipXSentText = str;
 
 			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
 			// console.log("DOM element: " + inputBox);

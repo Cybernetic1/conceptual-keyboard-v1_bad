@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Conkey",
-    "version": "5.0",
+    "version": "6.0",
     "description": "allow communication between Conkey and chatroom pages",
 
     "icons": {
@@ -25,6 +25,9 @@
 
 		{"matches": [
 			"*://ip131.ek21.com/oaca_1/*",
+			"*://ip4.ek21.com/ofi_11/*",
+			"*://ip69.ek21.com/ofi_1/*",
+			"*://ip203.ek21.com/ofi_1/*",
 			"*://chatroom.hk/"
 			],
 		"js": ["contentscript-login.js"],
