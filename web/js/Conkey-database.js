@@ -352,7 +352,7 @@ function loadDB(dbname)
 
 	$.ajax({
 	method: "GET",
-	url: "/loadDatabase/" + dbname,		// Note: name without extension
+	url: "/loadDatabase/" + dbname,		// Note: name with extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
@@ -416,6 +416,12 @@ function loadDB(dbname)
 
 		fillDirs();			// update web-page panels according to new database
 		console.log("Loaded Conkey database.");
+		},
+	error: function(XMLHttpRequest, textStatus, errorThrown) {
+		console.log("Load Conkey database error.");
+		console.log("Status: " + textStatus);
+		console.log("Error: " + errorThrown);
+		alert("Load Conkey database error");
 		}
 	});
 }
@@ -522,7 +528,7 @@ document.getElementById("add-child").addEventListener("click", function() {
 }, false);
 
 document.getElementById("loadDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
+	var dbname = prompt("Enter DB name (.txt)","database_default.txt");
 	// In Vivaldi app mode, 'prompt' function does not work and always returns null
 	if (dbname == null)
 		dbname = document.getElementById("pink-box").value;
@@ -532,7 +538,7 @@ document.getElementById("loadDB").addEventListener("click", function() {
 }, false);
 
 document.getElementById("saveDB").addEventListener("click", function() {
-	var dbname = prompt("Enter DB name (without extension .txt)","database_default");
+	var dbname = prompt("Enter DB name (.txt)","database_default.txt");
 	// In Vivaldi app mode, 'prompt' function does not work and always returns null
 	if (dbname == null)
 		dbname = document.getElementById("red-box").value;
@@ -543,4 +549,4 @@ document.getElementById("saveDB").addEventListener("click", function() {
 
 // *********************** Initialize by loading database **********************
 
-loadDB("database_default");
+loadDB("database_default.txt");
