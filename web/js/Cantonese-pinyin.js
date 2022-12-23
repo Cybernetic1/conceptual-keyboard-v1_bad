@@ -296,7 +296,7 @@ var last_Wlength = 0;
 var chars = "";
 var char_list = [];
 var state = 'A';		// state = A: alpha, 0: numeric
-var chin_or_eng = 0		// 0 = Chinese, 1 = English
+var chin_or_eng = 1		// 0 = Chinese, 1 = English
 
 // **** Intercept keys:
 $("#white-box").keydown(function (e) {

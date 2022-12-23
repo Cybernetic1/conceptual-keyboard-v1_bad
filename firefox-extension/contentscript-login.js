@@ -20,9 +20,9 @@ sending.then(handleResponse, handleError);
 setTimeout(function() {
 	// ****** 寻梦园, fill in password
 	if ((document.URL.indexOf("ip131.ek21.com\/oaca") >= 0) ||
-		(document.URL.indexOf("ip69.ek21.com") >= 0) ||
-		(document.URL.indexOf("ip203.ek21.com") >= 0) ||
-		(document.URL.indexOf("ip4.ek21.com") >= 0))
+		(document.URL.indexOf("ip69.ek21.com\/ofi") >= 0) ||
+		(document.URL.indexOf("ip203.ek21.com\/ofi") >= 0) ||
+		(document.URL.indexOf("ip4.ek21.com\/ofi") >= 0))
 		{
 		var nick = sessionStorage.getItem("YKYNickName");
 		if (nick != null) {
