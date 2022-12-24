@@ -1,4 +1,6 @@
-﻿// This script is no longer needed.  Conkey must be run in Chrome, because we need Google Input
+﻿// NOTE:  This script is not used even in Firefox version
+
+// This script is no longer needed.  Conkey must be run in Chrome, because we need Google Input
 //	Method.  The Chrome .js code interacts with background.js via "event stream".
 
 // This script runs in Firefox

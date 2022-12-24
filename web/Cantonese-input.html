@@ -266,6 +266,7 @@
 			<button type="button" id="do-log">log</button>
 			<button type="button" id="do-history">show history</button>
 			<button type="button" id="do-URL-escape">URL un-escape</button>
+			<button type="button" id="do-HTML-escape">HTML un-escape</button>
 			<button type="button" id="do-Google">Google</button>
 			<button type="button" id="do-traditionalize">繁</button>
 			<button type="button" id="do-Mandarin">国语</button>
@@ -279,7 +280,7 @@
 		<button type="button" id="paste2">2</button>
 		<button type="button" id="paste3">3</button>
 
-		<button type="button" id="chin-or-eng" style="color:white; background-color:#AA5555;">中</button>
+		<button type="button" id="chin-or-eng" style="color:white; background-color:green;">En</button>
 		</div>
 		<span id="pinyin-box" style="width:100%; color:#8888ff">abc</span>
 
@@ -320,22 +321,22 @@
 			<br>
 			<button type="button" id="loadDB">load</button>
 			<button type="button" id="saveDB">save</button>
-			&nbsp; <a href="javascript:loadDB('synonym_forest')">同義詞詞林</a>
-			&nbsp; <a href="javascript:loadDB('rogets_thesaurus')">Roget's</a>
+			&nbsp; <a href="javascript:loadDB('synonym_forest.txt')">同義詞詞林</a>
+			&nbsp; <a href="javascript:loadDB('rogets_thesaurus.txt')">Roget's</a>
 			&nbsp; <button type="button" id="flush-typings">typings</button>
 		</div>
 
 		<!-- dummy variables: -->
 		<span id="pinyin-box" style="display:none;"></span>
 
-		<script src="js/jquery-1.10.1.min.js"></script>
-		<script src="js/neo4j-web.min.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/Cantonese-input.js"></script>
+		<script src="js/min/jquery-1.10.1.min.js"></script>
+		<script src="js/min/neo4j-web.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/Cantonese-pinyin.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/history.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/words.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/utils.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/buttons.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/Conkey-menu.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/phrases.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/text-n-char-utils.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/misc-buttons.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/Conkey-database.js"></script>
 
 	</body>
 </html>
