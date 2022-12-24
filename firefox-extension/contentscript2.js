@@ -3,16 +3,19 @@
 // Multiple copies of this script talks to background.js
 
 // To-do:
+// * Log all Ip? rooms
 // * What is meant by "reset event stream"?  
 // * 来客发声
 // * detect when stream is broken
 
 // Done:
+// * Be able to speak in various 寻梦园 rooms (ip4, ip69, ip203)
 // * record whom I am speaking to
 // * recover from send-fail
 
 var roomHKSentText = "";
 var ip131SentText = "";
+var ipXSentText = "";
 
 var logName = "log.txt";					// Name of the log file, to be filled
 
@@ -55,6 +58,10 @@ document.addEventListener("mouseover", function(){
 		myPort.postMessage({chatroom: "ip131"});
 	if (document.URL.indexOf("ip4") >= 0)
 		myPort.postMessage({chatroom: "ip4"});
+	if (document.URL.indexOf("ip69") >= 0)
+		myPort.postMessage({chatroom: "ip69"});
+	if (document.URL.indexOf("ip203") >= 0)
+		myPort.postMessage({chatroom: "ip203"});
 	if (document.URL.indexOf("chatroom.hk") >= 0)
 		myPort.postMessage({chatroom: "roomHK"});
 
@@ -168,10 +175,14 @@ myPort.onMessage.addListener(function(request) {
 			chat_history[chat_history.length] = str + "\n";
 			}
 
-		/* This one is for: 寻梦园 长直发／忘年之戀
-		if (document.URL.indexOf("ip4") >= 0)
+		/* This one is for: 寻梦园 长直发／忘年之戀 */
+		if ((document.URL.indexOf("ip4") >= 0) ||
+			(document.URL.indexOf("ip69") >= 0) ||
+			(document.URL.indexOf("ip203") >= 0))
 			{
-			// (Skip some pleasantries for this room...)
+			if (ipXSentText == str)	// DreamLand does not allow to send duplicate messages
+				str = "..." + str;
+			ipXSentText = str;
 
 			var inputBox = document.getElementsByName("ta")[0].contentWindow.document.getElementsByName("says_temp")[0];
 			// console.log("DOM element: " + inputBox);
@@ -184,7 +195,6 @@ myPort.onMessage.addListener(function(request) {
 			// because own messages appear as broken pieces on their page
 			chat_history[chat_history.length] = "me: " + str + "\n";
 			}
-		*/
 
 		// **** for chatroom.HK
 		if (document.URL.indexOf("chatroom.hk") >= 0)
@@ -323,6 +333,8 @@ var lastRoomHKIndex = 1;
 var lastRoomHKLine = "";
 var lastIp4Index = 1;
 var lastIp69Index = 1;
+var lastIpXIndex = 1;
+var lastIpXLine = "";
 
 // After spoken, wait for 10 secs to check if really spoken, if not, re-send
 // New method checks for existence of spoken text in last 5 lines of log
@@ -457,7 +469,9 @@ setInterval( function() {
 	}
 
 	// ******** 寻梦园 长直发／忘年之戀 **************
-	if (document.URL.indexOf("ip4") >= 0) {
+	if ((document.URL.indexOf("ip4") >= 0) ||
+		(document.URL.indexOf("ip203") >= 0)
+		(document.URL.indexOf("ip69") >= 0)) {
 		// this gives us an HTML element of the public chat area:
 		html = document.getElementById("marow").childNodes[3].childNodes[3].contentDocument.childNodes[0];
 		// this is the <div> element containing the rows:
@@ -466,7 +480,7 @@ setInterval( function() {
 		lastIndex = chatWin.childElementCount - 1;
 		if ((chatWin != null) && (lastIndex > lastIp4Index)) {
 			var alert = false;
-			for (i = lastIndex; i > lastIp4Index; i--) {
+			for (i = lastIndex; i > lastIpXIndex; i--) {
 				stuff = chatWin.children[i].innerText;
 				if (stuff.indexOf("對 訪客_Cybernetic2") > -1 ||
 					stuff.indexOf("對 訪客_Cybernetic1") > -1) {
@@ -481,7 +495,7 @@ setInterval( function() {
 				myPort.postMessage({alert: "ip4"});
 				// browser.runtime.sendMessage({alert: "ip69"});
 		}
-		lastIp4Index = lastIndex;
+		lastIpXIndex = lastIndex;
 	}
 
 	/*
@@ -730,7 +744,7 @@ setTimeout(function() {
 2000);
 
 // This seems to be run only once, as each "Chatroom" page is loaded.
-console.log("Content script #2 (Nov 2019) RE/LOADED....");
+console.log("Content script #2 (29 Nov 2022) RE/LOADED....");
 
 /* *******************************************************************************
 

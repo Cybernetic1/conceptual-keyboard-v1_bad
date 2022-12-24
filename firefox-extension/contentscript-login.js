@@ -10,7 +10,7 @@ function handleResponse(message) {
 }
 
 function handleError(error) {
-	console.log(`LOGIN script rrror: ${error}`);
+	console.log(`LOGIN script error: ${error}`);
 }
 
 var sending = browser.runtime.sendMessage({askNickname: "who?"});
@@ -19,7 +19,16 @@ sending.then(handleResponse, handleError);
 // ******** Execute only once, at start of page-load **********
 setTimeout(function() {
 	// ****** 寻梦园, fill in password
-	if (document.URL.indexOf("ip131.ek21.com\/oaca") >= 0) {
+	if ((document.URL.indexOf("ip131.ek21.com\/oaca") >= 0) ||
+		(document.URL.indexOf("ip69.ek21.com\/ofi") >= 0) ||
+		(document.URL.indexOf("ip203.ek21.com\/ofi") >= 0) ||
+		(document.URL.indexOf("ip4.ek21.com\/ofi") >= 0))
+		{
+		var nick = sessionStorage.getItem("YKYNickName");
+		if (nick != null) {
+			console.log("Found nickname:", nick);
+			nickname = nick;
+			}
 		document.getElementsByClassName("nameform 12")[0].value = nickname;
 		document.getElementsByClassName("mainenter")[0].click();
 	}
@@ -36,4 +45,4 @@ setTimeout(function() {
 3000);
 
 // This runs only once, as "login" page is loaded
-console.log("Content script #3 = LOGIN (21 Sept 2018) loaded....");
+console.log("Content script #3 = LOGIN (05 Dec 2022) loaded....");

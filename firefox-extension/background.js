@@ -4,21 +4,24 @@
 var theNickname = "Cybernetic1";
 var whoIsActive = "roomHK";
 
-var port_roomHK;
-var port_ip131;
-var port_ip4;
-var port_popup;
+var port_roomHK = null;
+var port_ip131 = null;
+// collectively for ip4, ip69, ip203 (assuming only one is open)
+var port_ipX = null;
+var port_popup = null;
 
 function streamEventHandler(e) {
 	// Directly output to chatroom
 	if (whoIsActive == "ip131")
 		port_ip131.postMessage({sendtext: e.data});
-//	else if (whoIsActive == "ip4")
-//		port_ip4.postMessage({sendtext: e.data});
+	else if ((whoIsActive == "ip4") ||
+			 (whoIsActive == "ip69") ||
+			 (whoIsActive == "ip203"))
+		port_ipX.postMessage({sendtext: e.data});
 	else if (whoIsActive == "roomHK")
 		port_roomHK.postMessage({sendtext: e.data});
 	console.log("Event: " + e.data);
-}	
+}
 
 var evtSource = null;
 function initEventSource() {
@@ -41,8 +44,10 @@ function connected(p) {
 	console.log("CONNECTED to tab:", url);
 	if (url.indexOf("ip131") >= 0)
 		port_ip131 = p;
-//	else if (url.indexOf("ip4") >= 0)
-//		port_ip4 = p;
+	else if ((url.indexOf("ip4") >= 0) ||
+			 (url.indexOf("ip69") >= 0) ||
+			 (url.indexOf("ip203") >= 0))
+		port_ipX = p;
 	else if (url.indexOf("chatroom.hk") >= 0)
 		port_roomHK = p;
 	else if (url.indexOf("popup.html") >= 0)
@@ -64,9 +69,12 @@ function backListener(request) {
 
 	if (request.selectNickname != null) {
 		theNickname = request.selectNickname;
+		sessionStorage.setItem("YKYNickName", theNickname);
+		console.log("Changed nickname in sessionStorage");
 		}
 
 	if (request.askNickname != null) {
+		// port_ipX.postMessage({response: theNickname});
 		port_ip131.postMessage({response: theNickname});
 		port_roomHK.postMessage({response: theNickname});		
 		}
@@ -128,8 +136,12 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			// port_ip131.postMessage({sendtext: "!log " + request.saveLog});
-			port_roomHK.postMessage({sendtext: "!log " + request.saveLog});
+			if (port_ip131 != null)
+				port_ip131.postMessage({sendtext: "!log " + request.saveLog});
+			if (port_ipX != null)
+				port_ipX.postMessage({sendtext: "!log " + request.saveLog});
+			if (port_roomHK != null)
+				port_roomHK.postMessage({sendtext: "!log " + request.saveLog});
 			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!log " + request.saveLog });
 		});
 
@@ -144,8 +156,10 @@ function backListener(request) {
 			"active": true,
 			"currentWindow": true
 		}, function (tabs) {
-			port_ip131.postMessage({sendtext: "!clear"});
-			port_roomHK.postMessage({sendtext: "!clear"});
+			if (port_ip131 != null)
+				port_ip131.postMessage({sendtext: "!clear"});
+			if (port_roomHK != null)
+				port_roomHK.postMessage({sendtext: "!clear"});
 			// browser.tabs.sendMessage(tabs[0].id, { sendtext: "!clear" });
 		});
 
@@ -176,7 +190,7 @@ function backListener(request) {
 // End of message-listener
 }
 
-console.log("Background Script.js (21-Nov-2019) RE/LOADED");
+console.log("Background Script.js (05-Dec-2022) RE/LOADED");
 
 /*
 querying = browser.tabs.query({url: "http://ip131.ek21.com/*"});

@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 # Installation
 # ============
 #	pip install selenium		# make sure pip is for python 3.6
@@ -8,7 +10,12 @@
 #	pip install pyperclip
 # Now you're ready to enjoy this program.
 
-#encoding: utf-8
+# Running
+# =======
+# start geckodriver, listening port 4444
+# start SSE-server.js, listening ports 8484, 8585
+# run  python UT-room.py
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -101,11 +108,11 @@ driver.get('http://chat.f1.com.tw/?p=chat_sort_show')
 
 time.sleep(1)	# in seconds
 
-driver.find_element_by_xpath('/html/body/form/table/tbody/tr/td[2]/input').send_keys(my_nick)
-Select(driver.find_element_by_xpath('/html/body/form/table/tbody/tr/td[4]/select')).select_by_index(0) # male
-Select(driver.find_element_by_xpath('/html/body/form/table/tbody/tr/td[8]/select')).select_by_index(21) # Hong Kong
-Select(driver.find_element_by_xpath('/html/body/form/table/tbody/tr/td[10]/select')).select_by_index(50-17) # age = 50
-driver.find_element_by_xpath('/html/body/table[6]/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td[1]/a').click()
+driver.find_element('xpath', '/html/body/form/table/tbody/tr/td[2]/input').send_keys(my_nick)
+Select(driver.find_element('xpath', '/html/body/form/table/tbody/tr/td[4]/select')).select_by_index(0) # male
+Select(driver.find_element('xpath', '/html/body/form/table/tbody/tr/td[8]/select')).select_by_index(21) # Hong Kong
+Select(driver.find_element('xpath', '/html/body/form/table/tbody/tr/td[10]/select')).select_by_index(50-17) # age = 50
+driver.find_element('xpath', '/html/body/table[6]/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr[2]/td[1]/a').click()
 
 print("Logged into UT网际空间 聊天二房")
 
@@ -117,15 +124,15 @@ parent_h = driver.current_window_handle
 handles = driver.window_handles # before the pop-up window closes
 handles.remove(parent_h)
 theWindow = handles.pop()
-driver.switch_to_window(theWindow)
+driver.switch_to.window(theWindow)
 # do stuff in the popup
 # popup window closes
-# browser.switch_to_window(parent_h)
+# browser.switch_to.window(parent_h)
 # and you're back
 
 while True:
 	try:
-		driver.switch_to_default_content()
+		driver.switch_to.default_content()
 		#driver.switch_to.frame(driver.find_element_by_css_selector("frame[name='c']"))
 		#driver.switch_to.frame(driver.find_element_by_name("ta"))
 		driver.switch_to.frame("c")
@@ -133,8 +140,8 @@ while True:
 		#driver.switch_to.frame(0);
 		print("Switched to frame 'c'")
 
-		inbox = driver.find_element_by_name("SAYS")
-		sendbutt = driver.find_element_by_xpath("//input[@value='發言']");
+		inbox = driver.find_element('name', "SAYS")
+		sendbutt = driver.find_element('xpath', "//input[@value='發言']");
 		print("Acquired buttons")
 		break
 	except UnexpectedAlertPresentException:
@@ -178,11 +185,11 @@ def callback(s):
 t = threading.Thread(target=consume)
 t.start()
 
-driver.switch_to_default_content()
+driver.switch_to.default_content()
 driver.switch_to.frame("m")
 print("Switched to frame 'm'")
 
-stuff = driver.find_element_by_xpath("/html/body/p").get_attribute("innerHTML")
+stuff = driver.find_element('xpath', "/html/body/p").get_attribute("innerHTML")
 print("*** Test: <p>.text =", stuff)
 
 # inp = 'rows = driver.find_elements_by_xpath("/html/body/p/table")'
@@ -216,7 +223,7 @@ while True:
 			driver.switch_to.default_content()
 			driver.switch_to.frame("m")
 			# Element "p" may contain various tags such as: <table> <a> <font> <br>
-			html = driver.find_element_by_xpath("/html/body/p").get_attribute("innerHTML")
+			html = driver.find_element('xpath', "/html/body/p").get_attribute("innerHTML")
 			soup = BeautifulSoup(html, 'lxml').find('body')
 			if soup == None:
 				continue

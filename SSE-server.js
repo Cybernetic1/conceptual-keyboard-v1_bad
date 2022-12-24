@@ -283,9 +283,12 @@ function reqHandler(req, res) {
 			});
 
 		fs = require('fs');
-		fs.readFile("./web/" + dbName + ".txt", "utf-8", function (err, data) {
+		fs.readFile("./web/" + dbName, "utf-8", function (err, data) {
 			if (err) {
-				return console.log(err);
+				console.log(err)
+				res.writeHead(404);
+				res.end();
+				return;
 			}
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.end(data, "utf-8");

@@ -46,8 +46,8 @@
 		<div style="float:right;">
 		char code = &nbsp; <span id="code" style="font-size:170%;">0</span>
 		<br><br>
-		Filename:  (without .txt extension) <br>
-		<input id="filename" type="text" style="width:39ch;" value="YKY-custom-pinyins-ZH"></input>
+		Filename: (.txt)<br>
+		<input id="filename" type="text" style="width:39ch;" value="YKY-custom-pinyins-ZH.txt"></input>
 		<br>
 		<button id="read">Read</button>
 		<br>
@@ -68,9 +68,15 @@
 		<br>
 		<input type="range" id="range" style="width:100%;" value="1" max="24934">
 		<br>
+		<p>
+		NOTE: This file should be opened via eg:
+		<pre>http://localhost:8484/test-chars.html</pre>
+		Otherwise you may get a CORS cross-origin error.
+		</p>
 
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		<script charset="utf-8" src="js/test-chars.js"></script>
+		<script src="js/min/jquery-1.10.1.min.js"></script>
+		<!--script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script-->
+		<script type="text/javascript" charset="utf-8" src="js/test-chars.js"></script>
 
 	</body>
 </html>

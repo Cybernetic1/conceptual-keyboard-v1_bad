@@ -62,7 +62,7 @@ function read_chars() {
 	fname = document.getElementById("filename").value;
 	$.ajax({
 	method: "GET",
-	url: "/loadDatabase/" + fname,		// Note: use filename without extension
+	url: "/loadDatabase/" + fname,		// Note: use filename with extension
 	cache: false,
 	success: function(data) {
 		var lines = data.split("\n");
@@ -71,7 +71,7 @@ function read_chars() {
 				return;
 			chars.push(line[0]);
 			});
-		console.log("Loaded", fname +".txt");
+		console.log("Loaded", fname);
 		document.getElementById("total").innerText = "/" + (chars.length -1).toString();
 		const audio = new Audio("sending.ogg");
 		audio.play();

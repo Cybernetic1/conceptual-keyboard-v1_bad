@@ -1,3 +1,5 @@
+// ***************** Text and Character utils *****************
+
 // ********** convert traditional Chinese chars to simplified
 function simplify(str, forcing=false) {
 	var c = c2 = '', str2 = "";
@@ -140,7 +142,7 @@ var h_exceptions = new Array();
 
 $.ajax({
 method: "GET",
-url: "/loadDatabase/hcutf8-YKY",		// Note: name without extension
+url: "/loadDatabase/hcutf8-YKY.txt",		// Note: name with extension
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
@@ -166,7 +168,7 @@ var pin = new Object(); // or just {}
 
 $.ajax({
 method: "GET",
-url: "/loadDatabase/pinyins",		// Note: name without extension
+url: "/loadDatabase/pinyins.txt",		// Note: name with extension
 cache: false,
 success: function(data) {
 	var lines = data.split("\n");
