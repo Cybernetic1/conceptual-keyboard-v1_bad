@@ -58,7 +58,7 @@ for i, word in enumerate(f):
 	w = word[:-1]
 	for c in w:
 		with driver.session() as session:
-			session.write_transaction(create_rel, c, w)
+			session.execute_write(create_rel, c, w)
 		print(c, ord(c), end='.')
 	print()
 

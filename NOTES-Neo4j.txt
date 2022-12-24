@@ -1,26 +1,67 @@
 Install Neo4j
 =============
-Install Neo4j python driver:
-	pip3 install neo4j
-Install Neo4j desktop on Ubuntu, follow instructions from this link:
-	https://neo4j.com/docs/operations-manual/current/installation/linux/debian
-		/#debian-installation
-Set password:
-	sudo neo4j-admin set-initial-password l0wsecurity --require-password-change
-Open Neo4j browser:
+
+Download Neo4j Desktop version AppImage from Neo4j website.
+	chmod a+x neo4j-desktop-1.5.0-x86_64.AppImage
+Execute the AppImage.  Wait for it to initialize.
+
+Add a new DBMS instance.  Use default the name, set a password.
+Then click button to 'Start' the DBMS.  Wait for it to start.
+
+On left menu, go to "Graph Apps" then fire up "Neo4j Browser".
+If all goes well you'd see notice saying you're connected as user 'neo4j'
+	with connection: bolt://localhost:7687
+
+ (Alternatively, Neo4j Browser can be opened in local browser via this URL:
 	http://localhost:7474/browser/
-First time use password: neo4j / neo4j
-Change password in browser.
-Now you're ready to run this program.
+ Then within the browser, log into
+	neo4j://localhost:7687
+ using the new password you entered for the DBMS. )
 
-Stop database and save a copy
-=============================
-command line:
-	> sudo neo4j stop
-	> service neo4j stop  (this is needed!!)
-	> sudo neo4j-admin dump --to=graph-database-0.db 
+ (From older versions, there is a first-time password: neo4j / neo4j.
+ Seems no longer needed. )
 
-Restore previously saved database
-=================================
-	> sudo neo4j-admin load --from=graph-database-0.db --database=neo4j --force
+Now you're ready to use the Neo4j graph DB server.
+Refer to NOTES-Cyphers.txt for frequently used Cypher commands.
 
+Useful Cyphers
+==============
+
+Delete all nodes and relationships:
+	MATCH (n:Type) DETACH DELETE n
+
+Delete all relationships:
+	match ()-[r]->() delete r;
+
+Return all relationships:
+	Match (n)-[r]->(m) Return n,r,m
+
+Return all nodes and relationships, including singleton nodes:
+	MATCH (n) OPTIONAL MATCH (n)-[r]-() RETURN n, r;
+
+Create relationship:
+	MATCH (a:Char), (b:Char) WHERE ID(a) - ID(b) = 1
+	CREATE (a)-[r:Smaller]->(b)
+
+
+**** OLD STUFF, NO LONGER APPLIES TO NEW VERSION ****
+
+	Install Neo4j python driver:
+		pip3 install neo4j
+	Install Neo4j desktop on Ubuntu, follow instructions from this link:
+		https://neo4j.com/docs/operations-manual/current/installation/linux/debian/#debian-installation
+	Set password:
+		sudo neo4j-admin set-initial-password l0wsecurity --require-password-change
+	Open Neo4j browser:
+		http://localhost:7474/browser/
+
+	Stop database and save a copy
+	=============================
+	command line:
+		> sudo neo4j stop
+		> service neo4j stop  (this is needed!!)
+		> sudo neo4j-admin dump --to=graph-database-0.db 
+
+	Restore previously saved database
+	=================================
+		> sudo neo4j-admin load --from=graph-database-0.db --database=neo4j --force
