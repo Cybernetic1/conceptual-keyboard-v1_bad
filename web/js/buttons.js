@@ -308,6 +308,13 @@ document.getElementById("do-URL-escape").addEventListener("click", function() {
 		document.getElementById("white-box").value = str2;
 }, false);
 
+document.getElementById("do-HTML-escape").addEventListener("click", function() {
+		str = document.getElementById("white-box").value;
+		var doc = new DOMParser().parseFromString(str, "text/html");
+		str2 = doc.documentElement.textContent;
+		document.getElementById("white-box").value = str2;
+}, false);
+
 document.getElementById("do-traditionalize").addEventListener("click", function() {
 		str = document.getElementById("white-box").value;
 		str2 = traditionalize(str);
